@@ -1,11 +1,47 @@
 import React from 'react';
+import Modal from 'react-modal';
+import {promiseFlixpress, Flixpress} from './imports';
 
 var SoundPicker = React.createClass({
+  getInitialState: function () {
+    return {modalIsOpen: false};
+  },
+  
+  openModal: function () {
+    this.setState({modalIsOpen: true})
+  },
+  
+  closeModal: function () {
+    this.setState({modalIsOpen: false})
+  },
+
+  handleOnAfterOpenModal: function () {
+    // good place to start making server requests
+    if (this.state.audioOptions === undefined || true) {
+      //define it.
+      promiseFlixpress.done(function () {
+        Flixpress().td.getAudioOptions(this.props.username).done(function(result){
+          this.setState({audioOptions: result});
+        }.bind(this))
+      }.bind(this));
+    }
+  },
+  
   render: function () {
     return (
       <div>
-        <div>{this.props.audioInfo.name}</div>
+        <div>{this.props.audioInfo.name} <a onClick={this.openModal}>Open</a></div>
         <ReactAudioPlayer src={this.props.audioInfo.audioUrl}/>
+        <Modal
+          ref="modal"
+          closeTimeoutMS={150}
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.handleOnAfterOpenModal}
+          onRequestClose={this.handleModalCloseRequest}>
+          
+          <a onClick={this.closeModal}>close</a>
+          <h1>Choose Your Audio</h1>
+        </Modal>
       </div>
     )
   }

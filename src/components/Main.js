@@ -206,7 +206,7 @@ var EditorUserInterface = React.createClass({
     }
     var soundUi = (<span></span>);
     if (this.state.audioInfo !== undefined) {
-      soundUi = (<SoundPicker audioInfo={this.state.audioInfo}/>);
+      soundUi = (<SoundPicker audioInfo={this.state.audioInfo} username={this.props.userSettingsData.username}/>);
     }
     return (
       <div>
