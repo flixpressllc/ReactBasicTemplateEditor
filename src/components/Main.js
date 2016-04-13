@@ -3,7 +3,8 @@ import React from 'react';
 import {CheckBox, clone, Flixpress, promiseFlixpress} from './imports';
 import fakeTemplateInfo from '../stores/fakeTemplateInfo';
 
-import {Errors, checkResult, SubmitRender, ResolutionPicker, SoundPicker, EditingUi} from './everythingElse'
+import {Errors, checkResult, SubmitRender, ResolutionPicker, EditingUi} from './everythingElse';
+import SoundPicker from './SoundPicker';
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
