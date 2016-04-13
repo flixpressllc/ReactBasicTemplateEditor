@@ -171,4 +171,24 @@ const RadioGroup = React.createClass({
 });
 
 
-export {clone, RadioGroup, CheckBox};
+var flixpressLocation = false;
+var promiseFlixpress = $.Deferred();
+if (window.Flixpress) {
+  flixpressLocation = window;
+  promiseFlixpress.resolve()
+} else if (window.parent.Flixpress) {
+  flixpressLocation = window.parent;
+  promiseFlixpress.resolve();
+} else {
+  $.getScript('/Scripts/flixpress-js/flixpress.js').done(function() {
+    flixpressLocation = window;
+    promiseFlixpress.resolve();
+  });
+}
+var Flixpress = function () {
+  return flixpressLocation.Flixpress;
+}
+
+
+
+export {clone, RadioGroup, CheckBox, promiseFlixpress, Flixpress};
