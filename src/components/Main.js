@@ -208,21 +208,17 @@ var EditorUserInterface = React.createClass({
         />
       );
     }
-    var soundUi = (<span></span>);
-    if (this.state.audioInfo !== undefined) {
-      soundUi = (<SoundPicker
-        audioInfo={this.state.audioInfo}
-        username={this.props.userSettingsData.username}
-        onChooseSong={this.handleChooseSong}
-        />
-      );
-    }
+
     return (
       <div>
         <h1>Editing Template {this.props.userSettingsData.templateId}</h1>
         <Errors caughtErrors={this.state.caughtErrors}/>
         {editingUi}
-        {soundUi}
+        <SoundPicker
+          audioInfo={this.state.audioInfo}
+          username={this.props.userSettingsData.username}
+          onChooseSong={this.handleChooseSong}
+        />
         {resolutionPicker}
         <CheckBox onChange={this.handlePreviewChange} checked={this.state.isPreview}>Preview</CheckBox>
         <SubmitRender isPreview={this.state.isPreview}/>

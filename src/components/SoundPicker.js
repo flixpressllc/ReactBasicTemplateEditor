@@ -3,9 +3,26 @@ import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from 'react-tabs';
 import {promiseFlixpress, Flixpress} from './imports';
 
+const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
+const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
+
 var SoundPicker = React.createClass({
   getInitialState: function () {
     return {modalIsOpen: false};
+  },
+  
+  blankAudioInfo: {
+    audioType: "NoAudio",
+    audioUrl: "",
+    id: 0,
+    length: 0,
+    name: ""
+  },
+  
+  componentWillMount: function () {
+    if (this.props.audioOptions === undefined) {
+      this.props.onChooseSong(this.blankAudioInfo);
+    }
   },
   
   openModal: function () {
@@ -31,21 +48,15 @@ var SoundPicker = React.createClass({
   handleChooseSong: function (song, type) {
     var audioInfo;
     if (song === undefined) {
-      audioInfo = {
-        audioType: "NoAudio",
-        audioUrl: "",
-        id: 0,
-        length: 0,
-        name: ""
-      };
+      audioInfo = this.blankAudioInfo;
     } else {
       var url;
       if (type === 'custom') {
         type = 'CustomAudio';
-        url = 'https://files.flixpress.com/CustomAudio/';
+        url = CUSTOM_URL;
       } else {
         type = 'StockAudio';
-        url = 'https://fpsound.s3.amazonaws.com/';
+        url = STOCK_URL;
       }
       audioInfo = {
         audioType: type,
@@ -108,10 +119,14 @@ var SoundPicker = React.createClass({
       }
     }
     
+    var hasAudio =  (this.props.audioInfo !== undefined) ? true : false ;
+    var name = hasAudio ? this.props.audioInfo.name : 'None' ;
+    var url = hasAudio ? this.props.audioInfo.audioUrl : '' ;
+    
     return (
       <div>
-        <div>{this.props.audioInfo.name} <button type="button" onClick={this.openModal}>Change Audio</button></div>
-        <ReactAudioPlayer src={this.props.audioInfo.audioUrl}/>
+        <div>{name} <button type="button" onClick={this.openModal}>Change Audio</button></div>
+        <ReactAudioPlayer src={url} preload="none" />
         <Modal
           ref="modal"
           closeTimeoutMS={150}
@@ -135,14 +150,22 @@ var SoundPicker = React.createClass({
 
 var Song = React.createClass({
   handleClick: function () {
-    this.props.onChooseSong(this.props.song, this.props.type)
+    this.props.onChooseSong(this.props.song, this.props.type);
   },
   
   render: function () {
-    return <div onClick={this.handleClick}>{this.props.song.Name}</div>;
+    var url = (this.props.type === 'custom') ? CUSTOM_URL : STOCK_URL ;
+    url += this.props.song.Id + '.mp3';
+    return (
+      <div>
+        <button type="button" onClick={this.handleClick}>Choose</button>
+        {this.props.song.Name}: <ReactAudioPlayer preload="none" src={url}/>
+      </div>
+    );
   }
 })
 
+const DEFAULT_LISTEN_INTERVAL = 1000;
 var ReactAudioPlayer = React.createClass({
   componentDidMount() {
     const audio = this.refs.audio;
@@ -225,7 +248,7 @@ var ReactAudioPlayer = React.createClass({
    * Set an interval to call props.onListen every props.listenInterval time period
    */
   setListenTrack(currentTime) {
-    if (!this.listenTracker) {
+    if (!this.listenTracker && this.props.onListen !== undefined) {
       const listenInterval = this.props.listenInterval || DEFAULT_LISTEN_INTERVAL;
       this.listenTracker = setInterval(() => {
         this.props.onListen(this.refs.audio.currentTime);
