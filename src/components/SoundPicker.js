@@ -34,6 +34,9 @@ var SoundPicker = React.createClass({
   },
 
   handleOnAfterOpenModal: function () {
+    
+    this.stopPlaying();
+    
     // good place to start making server requests
     if (this.state.audioOptions === undefined) {
       //define it.
@@ -67,6 +70,17 @@ var SoundPicker = React.createClass({
       };
     }
     this.props.onChooseSong(audioInfo);
+    this.setState({modalIsOpen: false});
+  },
+  
+  handlePlay: function (e) {
+    this.stopPlaying();
+    this.currentAudioElement = e.srcElement;
+  },
+  
+  stopPlaying: function () {
+    if (this.currentAudioElement !== undefined)
+    this.currentAudioElement.pause();
   },
   
   render: function () {
@@ -89,7 +103,7 @@ var SoundPicker = React.createClass({
           for (let i = 0; i < this.state.audioOptions.categories[key].songs.length; i++) {
             let song = this.state.audioOptions.categories[key].songs[i];
             songs.push(
-              <Song song={song} type="stock" onChooseSong={this.handleChooseSong}/>
+              <Song song={song} type="stock" onChooseSong={this.handleChooseSong} onPlay={this.handlePlay}/>
             );
           }
           
@@ -126,7 +140,7 @@ var SoundPicker = React.createClass({
     return (
       <div>
         <div>{name} <button type="button" onClick={this.openModal}>Change Audio</button></div>
-        <ReactAudioPlayer src={url} preload="none" />
+        <ReactAudioPlayer src={url} preload="none" ref="mainAudio" onPlay={this.handlePlay}/>
         <Modal
           ref="modal"
           closeTimeoutMS={150}
@@ -159,7 +173,7 @@ var Song = React.createClass({
     return (
       <div>
         <button type="button" onClick={this.handleClick}>Choose</button>
-        {this.props.song.Name}: <ReactAudioPlayer preload="none" src={url}/>
+        {this.props.song.Name}: <ReactAudioPlayer preload="none" src={url} onPlay={this.props.onPlay}/>
       </div>
     );
   }
