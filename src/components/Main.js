@@ -181,6 +181,10 @@ var EditorUserInterface = React.createClass({
     }.bind(this));
   },
   
+  handleChooseSong: function (audioInfo) {
+    this.setState({audioInfo: audioInfo})
+  },
+  
   render: function() {
     var resolutionPicker = (<span></span>);
     if (this.state.defaultResolutionId !== undefined) {
@@ -206,7 +210,12 @@ var EditorUserInterface = React.createClass({
     }
     var soundUi = (<span></span>);
     if (this.state.audioInfo !== undefined) {
-      soundUi = (<SoundPicker audioInfo={this.state.audioInfo} username={this.props.userSettingsData.username}/>);
+      soundUi = (<SoundPicker
+        audioInfo={this.state.audioInfo}
+        username={this.props.userSettingsData.username}
+        onChooseSong={this.handleChooseSong}
+        />
+      );
     }
     return (
       <div>

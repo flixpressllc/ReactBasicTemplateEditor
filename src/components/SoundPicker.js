@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import {Tabs, TabList, Tab, TabPanel} from 'react-tabs';
 import {promiseFlixpress, Flixpress} from './imports';
 
 var SoundPicker = React.createClass({
@@ -17,7 +18,7 @@ var SoundPicker = React.createClass({
 
   handleOnAfterOpenModal: function () {
     // good place to start making server requests
-    if (this.state.audioOptions === undefined || true) {
+    if (this.state.audioOptions === undefined) {
       //define it.
       promiseFlixpress.done(function () {
         Flixpress().td.getAudioOptions(this.props.username).done(function(result){
@@ -27,10 +28,89 @@ var SoundPicker = React.createClass({
     }
   },
   
+  handleChooseSong: function (song, type) {
+    var audioInfo;
+    if (song === undefined) {
+      audioInfo = {
+        audioType: "NoAudio",
+        audioUrl: "",
+        id: 0,
+        length: 0,
+        name: ""
+      };
+    } else {
+      var url;
+      if (type === 'custom') {
+        type = 'CustomAudio';
+        url = 'https://files.flixpress.com/CustomAudio/';
+      } else {
+        type = 'StockAudio';
+        url = 'https://fpsound.s3.amazonaws.com/';
+      }
+      audioInfo = {
+        audioType: type,
+        audioUrl: url + song.Id + '.mp3',
+        id: song.Id,
+        length: song.Length,
+        name: song.Name
+      };
+    }
+    this.props.onChooseSong(audioInfo);
+  },
+  
   render: function () {
+    var stockAudioItems = [];
+    var customAudioItems = [];
+    var tabNames = [];
+    var tabPanels = [];
+    
+    if (this.state.audioOptions !== undefined) {
+      if (this.state.audioOptions.categories !== undefined) {
+        
+        let categories = [];
+        let panels = [];
+        for (let key in this.state.audioOptions.categories) {
+          categories.push(
+            <Tab>{key}</Tab>
+          );
+          
+          let songs = [];
+          for (let i = 0; i < this.state.audioOptions.categories[key].songs.length; i++) {
+            let song = this.state.audioOptions.categories[key].songs[i];
+            songs.push(
+              <Song song={song} type="stock" onChooseSong={this.handleChooseSong}/>
+            );
+          }
+          
+          panels.push(<TabPanel>{songs}</TabPanel>);
+        }
+        stockAudioItems.push(<Tabs><TabList>{categories}</TabList>{panels}</Tabs>)
+      }
+      
+      
+      if (stockAudioItems.length > 0) {
+        tabNames.push(<Tab>Stock Audio</Tab>);
+        tabPanels.push(
+          <TabPanel>
+            <h2>Stock Audio</h2>
+            {stockAudioItems}
+          </TabPanel>
+        );
+      }
+      if (customAudioItems.length > 0) {
+        tabNames.push(<Tab>Custom Audio</Tab>);
+        tabPanels.push(
+          <TabPanel>
+            <h2>Custom Audio</h2>
+            {customAudioItems}
+          </TabPanel>
+        );
+      }
+    }
+    
     return (
       <div>
-        <div>{this.props.audioInfo.name} <a onClick={this.openModal}>Open</a></div>
+        <div>{this.props.audioInfo.name} <button type="button" onClick={this.openModal}>Change Audio</button></div>
         <ReactAudioPlayer src={this.props.audioInfo.audioUrl}/>
         <Modal
           ref="modal"
@@ -39,13 +119,29 @@ var SoundPicker = React.createClass({
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           
-          <a onClick={this.closeModal}>close</a>
+          <button type="button" onClick={this.closeModal}>close</button>
           <h1>Choose Your Audio</h1>
+          <Tabs>
+            <TabList>
+              {tabNames}
+            </TabList>
+            {tabPanels}
+          </Tabs>
         </Modal>
       </div>
     )
   }
 });
+
+var Song = React.createClass({
+  handleClick: function () {
+    this.props.onChooseSong(this.props.song, this.props.type)
+  },
+  
+  render: function () {
+    return <div onClick={this.handleClick}>{this.props.song.Name}</div>;
+  }
+})
 
 var ReactAudioPlayer = React.createClass({
   componentDidMount() {
