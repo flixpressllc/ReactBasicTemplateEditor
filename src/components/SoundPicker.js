@@ -112,6 +112,17 @@ var SoundPicker = React.createClass({
         stockAudioItems.push(<Tabs><TabList>{categories}</TabList>{panels}</Tabs>)
       }
       
+      if (this.state.audioOptions.customAudio !== undefined) {
+        
+        for (let i = 0; i < this.state.audioOptions.customAudio.length; i++) {
+          let song = this.state.audioOptions.customAudio[i];
+          customAudioItems.push(
+            <Song song={song} type="custom" onChooseSong={this.handleChooseSong} onPlay={this.handlePlay}/>
+          );
+        }
+
+      }
+      
       
       if (stockAudioItems.length > 0) {
         tabNames.push(<Tab>Stock Audio</Tab>);
