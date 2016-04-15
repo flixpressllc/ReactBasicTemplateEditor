@@ -7,6 +7,7 @@ import {Errors, checkResult, SubmitRender, ResolutionPicker, EditingUi} from './
 import SoundPicker from './SoundPicker';
 
 require('reset.css');
+require('../styles/App.css');
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
