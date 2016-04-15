@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress} from './imports';
+import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -22,6 +23,7 @@ var SoundPicker = React.createClass({
   componentWillMount: function () {
     if (this.props.audioOptions === undefined) {
       this.props.onChooseSong(this.blankAudioInfo);
+      Modal.setAppElement('#' + CONTAINING_ELEMENT_ID);
     }
   },
   
