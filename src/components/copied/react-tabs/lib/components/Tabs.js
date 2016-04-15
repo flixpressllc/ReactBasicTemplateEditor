@@ -300,15 +300,31 @@ module.exports = React.createClass({
         )}
         onClick={this.handleClick}
         onKeyDown={this.handleKeyDown}
+        role="tabs"
       >
         {this.getChildren()}
       </div>
     );
   },
 
-  // Determine if a node from event.target is a Tab element
+  // Determine if a node from event.target is a Tab element for the current Tabs container.
   isTabNode(node) {
-    return node.nodeName === 'LI' && node.getAttribute('role') === 'tab' && node.parentElement.parentElement === findDOMNode(this);
+    // return immediately off this simple check.
+    if ((node.nodeName === 'LI' && node.getAttribute('role') === 'tab') === false) {
+      return false;
+    }
+    
+    let nodeAncestor = node.parentElement;
+    let lastAncestor = node;
+    do {
+      if (nodeAncestor === findDOMNode(this)) {
+        return true;
+      }
+      lastAncestor = nodeAncestor;
+      nodeAncestor = nodeAncestor.parentElement;
+    } while (lastAncestor.getAttribute('role') !== 'tabs');
+    
+    return false;
   },
 
   // This is an anti-pattern, so sue me
