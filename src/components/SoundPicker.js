@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import {Tabs, TabList, Tab, TabPanel} from 'react-tabs';
+import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress, Flixpress} from './imports';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
