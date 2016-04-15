@@ -75,12 +75,13 @@ var SoundPicker = React.createClass({
   
   handlePlay: function (e) {
     this.stopPlaying();
-    this.currentAudioElement = e.srcElement;
+    this.currentAudioElement = e.target;
   },
   
   stopPlaying: function () {
-    if (this.currentAudioElement !== undefined)
-    this.currentAudioElement.pause();
+    if (this.currentAudioElement !== undefined) {
+      this.currentAudioElement.pause();
+    }
   },
   
   render: function () {
