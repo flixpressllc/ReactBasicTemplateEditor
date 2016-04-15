@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CheckBox, clone, Flixpress, promiseFlixpress} from './imports';
+import {CheckBox, clone, promiseFlixpress} from './imports';
 import fakeTemplateInfo from '../stores/fakeTemplateInfo';
 
 import {Errors, checkResult, SubmitRender, ResolutionPicker, EditingUi} from './everythingElse';
@@ -26,8 +26,8 @@ var EditorUserInterface = React.createClass({
   },
   
   getStartingData: function () {
-    promiseFlixpress.done(function(){
-      var startingPoint = Flixpress().td.getReactStartingData();
+    promiseFlixpress.done(function(Flixpress){
+      var startingPoint = Flixpress.td.getReactStartingData();
       var currentState = clone(this.state);
       var stateToMerge = clone(startingPoint);
 
@@ -167,7 +167,14 @@ var EditorUserInterface = React.createClass({
       }
     }
     
-    var orderPromise = Flixpress().td.updateXmlForOrder(order);
+    var orderPromise = $.Deferred();
+    
+    promiseFlixpress.done(function(Flixpress) {
+      Flixpress.td.updateXmlForOrder(order)
+        .always(function(failureReason){
+          orderPromise.resolve(failureReason)
+        })
+    });
     
     orderPromise.done(function(){
       this.setState({allowSubmit: true}, function () {

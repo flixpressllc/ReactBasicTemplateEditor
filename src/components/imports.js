@@ -175,20 +175,16 @@ var flixpressLocation = false;
 var promiseFlixpress = $.Deferred();
 if (window.Flixpress) {
   flixpressLocation = window;
-  promiseFlixpress.resolve()
+  promiseFlixpress.resolve(flixpressLocation.Flixpress)
 } else if (window.parent.Flixpress) {
   flixpressLocation = window.parent;
-  promiseFlixpress.resolve();
+  promiseFlixpress.resolve(flixpressLocation.Flixpress);
 } else {
   $.getScript('/Scripts/flixpress-js/flixpress.js').done(function() {
     flixpressLocation = window;
-    promiseFlixpress.resolve();
+    promiseFlixpress.resolve(flixpressLocation.Flixpress);
   });
 }
-var Flixpress = function () {
-  return flixpressLocation.Flixpress;
-}
 
 
-
-export {clone, RadioGroup, CheckBox, promiseFlixpress, Flixpress};
+export {clone, RadioGroup, CheckBox, promiseFlixpress};

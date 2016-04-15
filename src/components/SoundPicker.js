@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
-import {promiseFlixpress, Flixpress} from './imports';
+import {promiseFlixpress} from './imports';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -40,8 +40,8 @@ var SoundPicker = React.createClass({
     // good place to start making server requests
     if (this.state.audioOptions === undefined) {
       //define it.
-      promiseFlixpress.done(function () {
-        Flixpress().td.getAudioOptions(this.props.username).done(function(result){
+      promiseFlixpress.done(function (Flixpress) {
+        Flixpress.td.getAudioOptions(this.props.username).done(function(result){
           this.setState({audioOptions: result});
         }.bind(this))
       }.bind(this));

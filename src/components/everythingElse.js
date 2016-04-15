@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CheckBox, RadioGroup, clone, Flixpress, promiseFlixpress} from './imports';
+import {CheckBox, RadioGroup, clone} from './imports';
 import {styleVars, styles} from '../styles/styles.js';
 
 var TextField = React.createClass({
