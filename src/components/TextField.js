@@ -1,5 +1,4 @@
 import React from 'react';
-import {styles} from '../styles/styles.js';
 
 export default React.createClass({
   handleTextEdit: function(event){
@@ -15,8 +14,10 @@ export default React.createClass({
   
   render: function(){
     return(
-      <label style={styles.label} htmlFor={this.props.fieldName}>
-        {this.props.fieldName}:
+      <div className="text-field-component">
+        <label htmlFor={this.props.fieldName}>
+          {this.props.fieldName}:
+        </label>
         <input 
           type="text"
           name={this.props.fieldName}
@@ -24,7 +25,7 @@ export default React.createClass({
           onChange={this.handleTextEdit}
           onFocus={this.handleFocus}
         />
-      </label>
+      </div>
     )
   }
 });
