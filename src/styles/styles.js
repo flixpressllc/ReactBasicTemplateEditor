@@ -1,12 +1,8 @@
 var styleVars = {
-  multiplier: 12
+  multiplier: 14
 };
 
 var styles = {
-  label: {
-    display: 'block',
-    marginTop: '0.5em'
-  },
   previewImage: {
     border: '1px solid black',
     margin: '1em',
@@ -20,7 +16,6 @@ var styles = {
     backgroundSize: 'contain'
   },
   messages: {
-    backgroundColor: 'green',
     error: {
       color: 'red'
     }
