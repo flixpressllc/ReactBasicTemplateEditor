@@ -105,7 +105,24 @@ var EditorUserInterface = React.createClass({
       // !!!! ---- TESTING ONLY 
       // !!!! ---- TESTING ONLY 
       if (fakeTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
-        this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData)
+        
+        this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
+        
+        var doStyleSwap = function () {
+          var oldStyle = $('head').find('[href="https://files.digital-edge.biz/templates/Styles/editor.css"]');
+          $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />')
+          oldStyle.remove();
+        };
+        doStyleSwap();
+        
+        var swapTimer;
+        window.styleSwap = function (int) {
+          if (int !== undefined){
+            swapTimer = window.setInterval(doStyleSwap, int);
+          } else {
+            clearInterval(swapTimer);
+          }
+        }
       }
       // !!!! ---- TESTING ONLY 
       // !!!! ---- TESTING ONLY 
