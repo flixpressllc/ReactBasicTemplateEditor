@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {CheckBox, RadioGroup} from './imports';
-import {styleVars, styles} from '../styles/styles.js';
+import {styles} from '../styles/styles.js';
 
 var Message = React.createClass({
   render: function () {

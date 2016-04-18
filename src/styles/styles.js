@@ -38,4 +38,4 @@ var m = function () {
   return res;
 };
 
-export {styleVars, styles, m};
+export {styles, m};
