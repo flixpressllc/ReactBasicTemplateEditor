@@ -2,10 +2,26 @@ import React from 'react';
 import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress} from './imports';
+import {m} from '../styles/styles';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
+
+Tabs.setUseDefaultStyles(false);
+
+const styles = {
+  outerTab: {
+    border: '1px solid #444',
+    borderBottom: 'none',
+    display: 'inline-block',
+    margin: 'auto 12px',
+    padding: '12px',
+    borderRadius: '12px/7px',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  }
+};
 
 var SoundPicker = React.createClass({
   getInitialState: function () {
@@ -149,7 +165,7 @@ var SoundPicker = React.createClass({
       
       
       if (stockAudioItems.length > 0) {
-        tabNames.push(<Tab>Stock Audio</Tab>);
+        tabNames.push(<Tab style={m(styles.outerTab)}>Stock Audio</Tab>);
         tabPanels.push(
           <TabPanel>
             <h2>Stock Audio</h2>
@@ -158,7 +174,7 @@ var SoundPicker = React.createClass({
         );
       }
       if (customAudioItems.length > 0) {
-        tabNames.push(<Tab>Custom Audio</Tab>);
+        tabNames.push(<Tab style={m(styles.outerTab)}>Custom Audio</Tab>);
         tabPanels.push(
           <TabPanel>
             <h2>Custom Audio</h2>
