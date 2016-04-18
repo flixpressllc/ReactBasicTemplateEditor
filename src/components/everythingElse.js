@@ -34,22 +34,6 @@ var Errors = React.createClass({
   }
 });
 
-// Returns true if it passes, or an array of strings describing
-// why it didn't pass.
-function checkResult (results, userSettingsData) {
-  var messages = [];
-  // Template Id's match?
-  if (results.templateId !== userSettingsData.templateId) {
-    messages.push(`Template IDs do not match. This page reports: ${userSettingsData.templateId}, JSON file reports: ${results.templateId}`);
-  }
-  
-  if (messages.length === 0){
-    return true;
-  } else {
-    return messages;
-  }
-}
-
 var SubmitRender = React.createClass({
   componentWillMount: function () {
     // Remove old submit button
@@ -104,4 +88,4 @@ var ResolutionPicker = React.createClass({
 
 
 
-export {Message, Errors, checkResult, SubmitRender, ResolutionPicker};
+export {Message, Errors, SubmitRender, ResolutionPicker};

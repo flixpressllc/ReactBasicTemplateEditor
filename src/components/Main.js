@@ -3,7 +3,7 @@ import React from 'react';
 import {CheckBox, clone, promiseFlixpress} from './imports';
 import fakeTemplateInfo from '../stores/fakeTemplateInfo';
 
-import {Errors, checkResult, SubmitRender, ResolutionPicker} from './everythingElse';
+import {Errors, SubmitRender, ResolutionPicker} from './everythingElse';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 
@@ -62,9 +62,26 @@ var EditorUserInterface = React.createClass({
     }.bind(this));
   },
   
+  // Returns true if it passes, or an array of strings describing
+  // why it didn't pass.
+  checkResult: function (results) {
+    var messages = [];
+    var userSettingsData = this.props.userSettingsData;
+    // Template Id's match?
+    if (results.templateId !== userSettingsData.templateId) {
+      messages.push(`Template IDs do not match. This page reports: ${userSettingsData.templateId}, JSON file reports: ${results.templateId}`);
+    }
+    
+    if (messages.length === 0){
+      return true;
+    } else {
+      return messages;
+    }
+  },
+  
   componentDidMount: function () {
     this.serverRequest = $.getJSON(this.props.uiSettingsJsonUrl, function (result) {
-      var checkedResults = checkResult(result, this.props.userSettingsData);
+      var checkedResults = this.checkResult(result);
       if (checkedResults === true) {
         this.setState(result, this.getStartingData);
       } else {
