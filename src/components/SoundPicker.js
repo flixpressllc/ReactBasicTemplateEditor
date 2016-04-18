@@ -20,6 +20,22 @@ var SoundPicker = React.createClass({
     name: ""
   },
   
+  audioPlayerStyle: {
+    visibility: 'visible'
+  },
+  
+  setPlayerVisibility: function () {
+    if (this.audioIsChosen()) {
+      this.audioPlayerStyle.visibility = 'visible';
+    } else {
+      this.audioPlayerStyle.visibility = 'hidden';
+    }
+  },
+  
+  audioIsChosen: function () {
+    return this.props.audioInfo !== undefined && this.props.audioInfo.audioType !== 'NoAudio';
+  },
+  
   componentWillMount: function () {
     if (this.props.audioOptions === undefined) {
       this.props.onChooseSong(this.blankAudioInfo);
@@ -72,6 +88,11 @@ var SoundPicker = React.createClass({
       };
     }
     this.props.onChooseSong(audioInfo);
+    this.setState({modalIsOpen: false});
+  },
+  
+  handleRemoveAudio: function () {
+    this.props.onChooseSong(this.blankAudioInfo);
     this.setState({modalIsOpen: false});
   },
   
@@ -147,14 +168,22 @@ var SoundPicker = React.createClass({
       }
     }
     
+    this.setPlayerVisibility();
+    
     var hasAudio =  (this.props.audioInfo !== undefined) ? true : false ;
     var name = hasAudio ? this.props.audioInfo.name : 'None' ;
     var url = hasAudio ? this.props.audioInfo.audioUrl : '' ;
+    var buttonText = this.audioIsChosen() ? 'Change Audio' : 'Add Audio';
+    var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
       <div>
-        <div>{name} <button type="button" onClick={this.openModal}>Change Audio</button></div>
-        <ReactAudioPlayer src={url} preload="none" ref="mainAudio" onPlay={this.handlePlay}/>
+        <div>{name}</div>
+        <div style={this.audioPlayerStyle}>
+          <ReactAudioPlayer src={url} preload="none" ref="mainAudio" onPlay={this.handlePlay}/>
+        </div>
+        <button type="button" onClick={this.openModal}>{buttonText}</button>
+        {removeAudio}
         <Modal
           ref="modal"
           closeTimeoutMS={150}
