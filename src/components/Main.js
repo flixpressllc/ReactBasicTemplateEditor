@@ -3,7 +3,8 @@ import React from 'react';
 import {CheckBox, clone, promiseFlixpress} from './imports';
 import fakeTemplateInfo from '../stores/fakeTemplateInfo';
 
-import {Errors, checkResult, SubmitRender, ResolutionPicker, EditingUi} from './everythingElse';
+import {Errors, checkResult, SubmitRender, ResolutionPicker} from './everythingElse';
+import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 
 require('reset.css');
