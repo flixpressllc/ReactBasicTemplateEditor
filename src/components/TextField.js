@@ -18,7 +18,7 @@ export default React.createClass({
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}:
         </label>
-        <input 
+        <input
           type="text"
           name={this.props.fieldName}
           value={this.props.userText}

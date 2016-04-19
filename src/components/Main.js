@@ -15,7 +15,7 @@ var EditorUserInterface = React.createClass({
     return {
       allowSubmit: false,
       textFields: {},
-      caughtErrors: [],
+      caughtErrors: []
     };
   },
 
@@ -101,9 +101,9 @@ var EditorUserInterface = React.createClass({
       this.setState({
         caughtErrors: [{message: 'could not load template data'}]
       });
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
       if (fakeTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
         
         this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
@@ -124,9 +124,9 @@ var EditorUserInterface = React.createClass({
           }
         }
       }
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
     }.bind(this));
   },
   
@@ -238,7 +238,7 @@ var EditorUserInterface = React.createClass({
     var resolutionPicker = (<span></span>);
     if (this.state.defaultResolutionId !== undefined) {
       resolutionPicker = (
-        <ResolutionPicker 
+        <ResolutionPicker
           resolutionOptions={this.state.resolutions}
           resolutionIdChange={this.handleResolutionIdChange}
           chosen={this.state.resolutionId}

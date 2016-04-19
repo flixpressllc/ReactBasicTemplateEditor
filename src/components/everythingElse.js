@@ -68,7 +68,7 @@ var ResolutionPicker = React.createClass({
     };
     return (
       <div>
-        <RadioGroup 
+        <RadioGroup
           options={options}
           value={checked}
           valueName="id"

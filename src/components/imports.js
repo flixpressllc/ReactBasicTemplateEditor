@@ -18,17 +18,17 @@ const CheckBox = React.createClass({
         onChange: React.PropTypes.func,
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
-        className: React.PropTypes.string,
+        className: React.PropTypes.string
     },
     getInitialState() {
         return {
-            checked:this.props.checked, 
+            checked:this.props.checked
         };
     },
 
     getDefaultProps() {
         return {
-            className: '',
+            className: ''
         };
     },
 
@@ -44,9 +44,9 @@ const CheckBox = React.createClass({
         let {disabled, style, className, children} = this.props;
         if (disabled) className = `${className} _disabled`;
         const {checked} = this.props;
-        return ( 
+        return (
             <label style={style} className={`ui checkbox ${className}`}>
-                <input type="checkbox" disabled={disabled} 
+                <input type="checkbox" disabled={disabled}
                     checked={checked} onChange={this.checkedChange}/>
                 {children}
             </label>
@@ -61,12 +61,12 @@ const Radio = React.createClass({
         checked: React.PropTypes.bool,
         disabled: React.PropTypes.bool,
         value: React.PropTypes.string,
-        className: React.PropTypes.string,
+        className: React.PropTypes.string
     },
 
     getDefaultProps() {
         return {
-            className: '',
+            className: ''
         };
     },
 
@@ -96,7 +96,7 @@ const RadioGroup = React.createClass({
         labelName: React.PropTypes.string,
         valueName: React.PropTypes.string,
         onChange: React.PropTypes.func,
-        defaultChecked: React.PropTypes.bool,
+        defaultChecked: React.PropTypes.bool
     },
     getInitialState() {
         const {options, value} = this.props;
@@ -107,7 +107,7 @@ const RadioGroup = React.createClass({
         return {
             labelName: 'name',
             valueName: 'value',
-            options: [],
+            options: []
         };
     },
     
@@ -122,7 +122,7 @@ const RadioGroup = React.createClass({
         const {value, options} = this.state;
         if (defaultChecked && !value && options.length > 0){
             this.setState({
-                value: options[0][valueName] 
+                value: options[0][valueName]
             });
         }
     },
