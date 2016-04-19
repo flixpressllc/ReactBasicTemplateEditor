@@ -181,7 +181,9 @@ if (window.Flixpress) {
 } else {
   $.getScript('/Scripts/flixpress-js/flixpress.js').done(function() {
     flixpressLocation = window;
-    promiseFlixpress.resolve(flixpressLocation.Flixpress);
+    $('body').on('flixpressJsLoaded', function() {
+      promiseFlixpress.resolve(flixpressLocation.Flixpress);
+    });
   });
 }
 
