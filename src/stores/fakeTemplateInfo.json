@@ -1,4 +1,4 @@
-var fakeTemplateInfo = {
+{
   "83": {
     "templateId": 83,
     "textFields": {
@@ -330,7 +330,7 @@ var fakeTemplateInfo = {
             "name": "YouTube", 
             "value": "youtube", 
             "previewImage": "79_youtube.jpg"
-          },
+          }
         ]
       },
       "Background": {
@@ -599,5 +599,3 @@ var fakeTemplateInfo = {
     ]
   }
 }
-
-export default fakeTemplateInfo;

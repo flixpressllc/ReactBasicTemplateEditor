@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {CheckBox, clone, promiseFlixpress} from './imports';
-import fakeTemplateInfo from '../stores/fakeTemplateInfo';
+var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
 import {Errors, SubmitRender, ResolutionPicker} from './everythingElse';
 import EditingUi from './EditingUi';
