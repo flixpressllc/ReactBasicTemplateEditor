@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {CheckBox, clone, promiseFlixpress} from './imports';
-import fakeTemplateInfo from '../stores/fakeTemplateInfo';
+var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
 import {Errors, SubmitRender, ResolutionPicker} from './everythingElse';
 import EditingUi from './EditingUi';
@@ -15,7 +15,7 @@ var EditorUserInterface = React.createClass({
     return {
       allowSubmit: false,
       textFields: {},
-      caughtErrors: [],
+      caughtErrors: []
     };
   },
 
@@ -101,9 +101,9 @@ var EditorUserInterface = React.createClass({
       this.setState({
         caughtErrors: [{message: 'could not load template data'}]
       });
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
       if (fakeTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
         
         this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
@@ -124,9 +124,9 @@ var EditorUserInterface = React.createClass({
           }
         }
       }
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
-      // !!!! ---- TESTING ONLY 
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
+      // !!!! ---- TESTING ONLY
     }.bind(this));
   },
   
@@ -221,8 +221,12 @@ var EditorUserInterface = React.createClass({
           {message: 'Order Failed.'}
         ]
       })
-      console.log('Sent Object:',order);
-      console.error('Order Failure: ' + failureReason);
+      
+      // This method of calling console (essentially) tells the build
+      // script that this is an intentional call, meant for production
+      var c = console;
+      c.log('Sent Object:',order);
+      c.error('Order Failure: ' + failureReason);
     }.bind(this));
   },
   
@@ -234,7 +238,7 @@ var EditorUserInterface = React.createClass({
     var resolutionPicker = (<span></span>);
     if (this.state.defaultResolutionId !== undefined) {
       resolutionPicker = (
-        <ResolutionPicker 
+        <ResolutionPicker
           resolutionOptions={this.state.resolutions}
           resolutionIdChange={this.handleResolutionIdChange}
           chosen={this.state.resolutionId}

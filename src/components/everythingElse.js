@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CheckBox, RadioGroup} from './imports';
+import {RadioGroup} from './imports';
 import {styles} from '../styles/styles.js';
 
 var Message = React.createClass({
@@ -68,7 +68,7 @@ var ResolutionPicker = React.createClass({
     };
     return (
       <div>
-        <RadioGroup 
+        <RadioGroup
           options={options}
           value={checked}
           valueName="id"

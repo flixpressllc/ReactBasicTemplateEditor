@@ -29,11 +29,11 @@ var SoundPicker = React.createClass({
   },
   
   blankAudioInfo: {
-    audioType: "NoAudio",
-    audioUrl: "",
+    audioType: 'NoAudio',
+    audioUrl: '',
     id: 0,
     length: 0,
-    name: ""
+    name: ''
   },
   
   audioPlayerStyle: {
@@ -320,7 +320,7 @@ var ReactAudioPlayer = React.createClass({
   /**
    * Set an interval to call props.onListen every props.listenInterval time period
    */
-  setListenTrack(currentTime) {
+  setListenTrack() {
     if (!this.listenTracker && this.props.onListen !== undefined) {
       const listenInterval = this.props.listenInterval || DEFAULT_LISTEN_INTERVAL;
       this.listenTracker = setInterval(() => {
@@ -334,7 +334,7 @@ var ReactAudioPlayer = React.createClass({
    */
   clearListenTrack() {
     clearInterval(this.listenTracker);
-  },
+  }
 });
 
 export default SoundPicker;

@@ -55,7 +55,7 @@ var EditingUi = React.createClass({
     for (var i = 0; i < object.options.length; i++) {
       var option = object.options[i]
       options.push(
-        <option 
+        <option
           key={`${safeName}-option-${option.value}`}
           value={option.value}
         >
