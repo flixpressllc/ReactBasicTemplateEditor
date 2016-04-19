@@ -3,7 +3,9 @@ import React from 'react';
 import {CheckBox, clone, promiseFlixpress} from './imports';
 var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
-import {Errors, SubmitRender, ResolutionPicker} from './everythingElse';
+import Messages from './UserMessages';
+import SubmitRender from './SubmitRender';
+import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 
@@ -262,7 +264,7 @@ var EditorUserInterface = React.createClass({
     return (
       <div>
         <h1>Editing Template {this.props.userSettingsData.templateId}</h1>
-        <Errors caughtErrors={this.state.caughtErrors}/>
+        <Messages caughtErrors={this.state.caughtErrors}/>
         {editingUi}
         <SoundPicker
           audioInfo={this.state.audioInfo}
