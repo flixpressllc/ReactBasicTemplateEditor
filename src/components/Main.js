@@ -221,8 +221,12 @@ var EditorUserInterface = React.createClass({
           {message: 'Order Failed.'}
         ]
       })
-      console.log('Sent Object:',order);
-      console.error('Order Failure: ' + failureReason);
+      
+      // This method of calling console (essentially) tells the build
+      // script that this is an intentional call, meant for production
+      var c = console;
+      c.log('Sent Object:',order);
+      c.error('Order Failure: ' + failureReason);
     }.bind(this));
   },
   

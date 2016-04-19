@@ -1,6 +1,5 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 function clone(obj) {
   var target = {};
@@ -125,7 +124,7 @@ const RadioGroup = React.createClass({
             this.setState({
                 value: options[0][valueName] 
             });
-        };
+        }
     },
 
     render() {
