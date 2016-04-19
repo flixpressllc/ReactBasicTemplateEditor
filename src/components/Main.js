@@ -111,7 +111,7 @@ var EditorUserInterface = React.createClass({
         var doStyleSwap = function () {
           var oldStyle = $('head').find('[href="https://files.digital-edge.biz/templates/Styles/editor.css"]');
           $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />')
-          oldStyle.remove();
+          setTimeout(oldStyle.remove, 100);
         };
         doStyleSwap();
         
@@ -121,6 +121,7 @@ var EditorUserInterface = React.createClass({
             swapTimer = window.setInterval(doStyleSwap, int);
           } else {
             clearInterval(swapTimer);
+            doStyleSwap();
           }
         }
       }
