@@ -17,9 +17,6 @@ export default React.createClass({
         name: resObj.name
       };
     })
-    var messageStyle = {
-      visibility: (this.props.disabled ? 'visible' : 'hidden')
-    };
     return (
       <div>
         <RadioGroup
@@ -29,12 +26,6 @@ export default React.createClass({
           labelName="name"
           onChange={this.handleResolutionChange}
         />
-        <div style={messageStyle}>
-          Previews render at 360p with a watermark.
-          Choosing a resolution for a preview will allow you
-          to order your desired resolution right from the
-          Previews tab of the My Account page.
-        </div>
       </div>
     );
   }
