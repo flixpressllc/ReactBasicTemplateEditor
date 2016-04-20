@@ -2,26 +2,12 @@ import React from 'react';
 import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress} from './imports';
-import {m} from '../styles/styles';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
 
 Tabs.setUseDefaultStyles(false);
-
-const styles = {
-  outerTab: {
-    border: '1px solid #444',
-    borderBottom: 'none',
-    display: 'inline-block',
-    margin: 'auto 12px',
-    padding: '12px',
-    borderRadius: '12px/7px',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
-  }
-};
 
 var SoundPicker = React.createClass({
   getInitialState: function () {
@@ -165,7 +151,7 @@ var SoundPicker = React.createClass({
       
       
       if (stockAudioItems.length > 0) {
-        tabNames.push(<Tab style={m(styles.outerTab)}>Stock Audio</Tab>);
+        tabNames.push(<Tab>Stock Audio</Tab>);
         tabPanels.push(
           <TabPanel>
             <h2>Stock Audio</h2>
@@ -174,7 +160,7 @@ var SoundPicker = React.createClass({
         );
       }
       if (customAudioItems.length > 0) {
-        tabNames.push(<Tab style={m(styles.outerTab)}>Custom Audio</Tab>);
+        tabNames.push(<Tab>Custom Audio</Tab>);
         tabPanels.push(
           <TabPanel>
             <h2>Custom Audio</h2>
@@ -193,9 +179,9 @@ var SoundPicker = React.createClass({
     var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
-      <div>
-        <div>{name}</div>
-        <div style={this.audioPlayerStyle}>
+      <div className="sound-picker component">
+        <div className="chosen-audio-title">{name}</div>
+        <div className="chosen-audio-player-wrapper" style={this.audioPlayerStyle}>
           <ReactAudioPlayer src={url} preload="none" ref="mainAudio" onPlay={this.handlePlay}/>
         </div>
         <button type="button" onClick={this.openModal}>{buttonText}</button>
@@ -204,15 +190,18 @@ var SoundPicker = React.createClass({
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
+          className="sound-picker-modal modal"
+          overlayClassName="sound-picker-modal-overlay overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           
-          <button type="button" onClick={this.closeModal}>close</button>
-          <h1>Choose Your Audio</h1>
           <Tabs>
-            <TabList>
-              {tabNames}
-            </TabList>
+            <div className="picker-header">
+              <button className="cancel" type="button" onClick={this.closeModal}>cancel</button>
+              <TabList>
+                {tabNames}
+              </TabList>
+            </div>
             {tabPanels}
           </Tabs>
         </Modal>

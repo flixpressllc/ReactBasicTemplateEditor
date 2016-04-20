@@ -35,6 +35,7 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<TextField
       fieldName={name}
+      className="input-item"
       userText={object.value}
       onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
@@ -65,7 +66,8 @@ var EditingUi = React.createClass({
     }
     
     return (
-      <label> {name}:
+      <div className="drop-down component input-item">
+        <label>{name}:</label>
         <select
           key={`drop-down-${safeName}`}
           ref={`select-${safeName}`}
@@ -76,7 +78,7 @@ var EditingUi = React.createClass({
         >
          {options}
         </select>
-      </label>
+      </div>
     )
   },
   
@@ -105,7 +107,7 @@ var EditingUi = React.createClass({
       }
     }
     return (
-      <div>
+      <div id="editing-ui" className="editing-ui component">
         {sections}
         <PreviewImage image={this.state.previewImage} />
       </div>
