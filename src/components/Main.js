@@ -3,7 +3,9 @@ import React from 'react';
 import {CheckBox, clone, promiseFlixpress} from './imports';
 var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
-import {Errors, SubmitRender, ResolutionPicker} from './everythingElse';
+import Messages from './UserMessages';
+import SubmitRender from './SubmitRender';
+import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 
@@ -111,7 +113,7 @@ var EditorUserInterface = React.createClass({
         var doStyleSwap = function () {
           var oldStyle = $('head').find('[href="https://files.digital-edge.biz/templates/Styles/editor.css"]');
           $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />')
-          oldStyle.remove();
+          setTimeout(oldStyle.remove, 100);
         };
         doStyleSwap();
         
@@ -121,6 +123,7 @@ var EditorUserInterface = React.createClass({
             swapTimer = window.setInterval(doStyleSwap, int);
           } else {
             clearInterval(swapTimer);
+            doStyleSwap();
           }
         }
       }
@@ -259,9 +262,9 @@ var EditorUserInterface = React.createClass({
     }
 
     return (
-      <div>
-        <h1>Editing Template {this.props.userSettingsData.templateId}</h1>
-        <Errors caughtErrors={this.state.caughtErrors}/>
+      <div id="editor">
+        <h1 className="editor-title">Editing Template {this.props.userSettingsData.templateId}</h1>
+        <Messages caughtErrors={this.state.caughtErrors}/>
         {editingUi}
         <SoundPicker
           audioInfo={this.state.audioInfo}
