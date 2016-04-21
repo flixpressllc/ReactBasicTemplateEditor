@@ -120,7 +120,7 @@ var SoundPicker = React.createClass({
       this.loadPlayer(url);
       this.setState({loadedSong: `${songType}-${songId}`})
     } else {
-      this.player.play();
+      this.startPlayer();
     }
   },
   
