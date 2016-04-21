@@ -270,7 +270,9 @@ var EditorUserInterface = React.createClass({
 
     return (
       <div id="editor">
-        <h1 className="editor-title">Editing Template {this.props.userSettingsData.templateId}</h1>
+        <h1 className="editor-title">
+          <span>Editing Template {this.props.userSettingsData.templateId}</span>
+        </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
         {editingUi}
         <SoundPicker
