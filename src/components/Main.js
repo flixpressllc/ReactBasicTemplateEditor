@@ -126,6 +126,13 @@ var EditorUserInterface = React.createClass({
             doStyleSwap();
           }
         }
+        this.setState({
+          caughtErrors: [{
+            message: `Can\'t access template data at <code>${this.props.uiSettingsJsonUrl}</code>. Falling back to locally defined testing data.`,
+            htmlSafe: true,
+            type: 'bad'
+          }]
+        });
       }
       // !!!! ---- TESTING ONLY
       // !!!! ---- TESTING ONLY
