@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CheckBox, clone, promiseFlixpress} from './imports';
+import {clone, promiseFlixpress} from './imports';
 var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
 import Messages from './UserMessages';
@@ -260,9 +260,6 @@ var EditorUserInterface = React.createClass({
         />
       );
     }
-    var messageStyle = {
-      visibility: (this.state.isPreview ? 'visible' : 'hidden')
-    };
 
     return (
       <div id="editor">
@@ -275,14 +272,7 @@ var EditorUserInterface = React.createClass({
           onChooseSong={this.handleChooseSong}
         />
         {resolutionPicker}
-        <CheckBox onChange={this.handlePreviewChange} checked={this.state.isPreview}>Preview</CheckBox>
-        <SubmitRender isPreview={this.state.isPreview}/>
-        <div className="explain" style={messageStyle}>
-          Previews render at 360p with a watermark.
-          Choosing a resolution for a preview will allow you
-          to order your desired resolution right from the
-          Previews tab of the My Account page.
-        </div>
+        <SubmitRender isPreview={this.state.isPreview} onChange={this.handlePreviewChange}/>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import {CheckBox} from './imports';
 
 export default React.createClass({
   componentWillMount: function () {
@@ -8,7 +9,10 @@ export default React.createClass({
   render: function () {
     var text = (this.props.isPreview) ? 'Render Preview' : 'Submit Order'
     return (
-      <input name="Submit_BT" value={text} type="submit" id="Submit_BT" />
+      <div className="submit-render-component component">
+        <CheckBox onChange={this.props.onChange} checked={this.props.isPreview}>Preview</CheckBox>
+        <input name="Submit_BT" value={text} type="submit" id="Submit_BT" />
+      </div>
     )
   }
 });
