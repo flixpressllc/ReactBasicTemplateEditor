@@ -16,8 +16,14 @@ var EditingUi = React.createClass({
       return this.props.allTextFields[identifier].previewImage
     
     } else if (type === 'DropDown') {
+      let defaultValue = this.props.allDropDowns[identifier].default
       for (var i = this.props.allDropDowns[identifier].options.length - 1; i >= 0; i--) {
-        if (this.props.allDropDowns[identifier].options[i].value === this.refs[`select-${safeName}`].value) {
+        let value = this.props.allDropDowns[identifier].options[i].value;
+        let isMounted = this.refs[`select-${safeName}`] !== undefined;
+        let mountedValue = isMounted ? this.refs[`select-${safeName}`].value : -1 ;
+        // If the component is mounted and values match, that's the one
+        // If the component is NOT mounted, and the value matches the default, that's the one
+        if ((isMounted && value === mountedValue) || (!isMounted && defaultValue === value)) {
           return this.props.allDropDowns[identifier].options[i].previewImage;
         }
       }
@@ -82,11 +88,20 @@ var EditingUi = React.createClass({
     )
   },
   
+  findFirstPreviewImage: function (fieldType, fieldName) {
+    if (this.state.foundFirstPreviewImage === true) return;
+    var image = this.getPreviewImage(fieldType, fieldName);
+    if (image !== '') {
+      this.setState({previewImage: image, foundFirstPreviewImage: true});
+    }
+  },
+  
   createSection: function (sectionName, inputArray) {
     var components = [];
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
       var object = this.props['all' + inputArray[i].type + 's'][name];
+      this.findFirstPreviewImage(inputArray[i].type, name);
       components.push(this['create' + inputArray[i].type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
