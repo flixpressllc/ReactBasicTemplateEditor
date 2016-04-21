@@ -18,7 +18,12 @@ export default React.createClass({
       };
     })
     return (
-      <div>
+      <div className="resolution-picker-component component">
+        <h3>Resolution Options</h3>
+        Choose the resoution for your final order.
+        <div className="explain">
+          Previews always render at 360p with a watermark.
+        </div>
         <RadioGroup
           options={options}
           value={checked}
