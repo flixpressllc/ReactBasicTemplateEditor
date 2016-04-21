@@ -24,14 +24,14 @@ var SoundPicker = React.createClass({
   },
   
   audioPlayerStyle: {
-    visibility: 'visible'
+    display: 'block'
   },
   
   setPlayerVisibility: function () {
     if (this.audioIsChosen()) {
-      this.audioPlayerStyle.visibility = 'visible';
+      this.audioPlayerStyle.display = 'block';
     } else {
-      this.audioPlayerStyle.visibility = 'hidden';
+      this.audioPlayerStyle.display = 'none';
     }
   },
   
@@ -228,7 +228,8 @@ var SoundPicker = React.createClass({
     var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
-      <div className="sound-picker component">
+      <div className="sound-picker-component component">
+        <h3>Choose Your Audio</h3>
         <div className="chosen-audio-title">{name}</div>
         <div className="chosen-audio-player-wrapper" style={this.audioPlayerStyle}>
           <audio src={url} controls ref="frontPlayer">
