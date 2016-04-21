@@ -247,13 +247,11 @@ var SoundPicker = React.createClass({
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           
+          <button className="cancel" type="button" onClick={this.closeModal}>cancel</button>
           <Tabs>
-            <div className="picker-header">
-              <button className="cancel" type="button" onClick={this.closeModal}>cancel</button>
-              <TabList>
-                {tabNames}
-              </TabList>
-            </div>
+            <TabList className="picker-header">
+              {tabNames}
+            </TabList>
             {tabPanels}
           </Tabs>
         </Modal>
