@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress} from './imports';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
+import cx from 'classnames';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -11,7 +12,7 @@ Tabs.setUseDefaultStyles(false);
 
 var SoundPicker = React.createClass({
   getInitialState: function () {
-    return {modalIsOpen: false};
+    return {modalIsOpen: false, isPlaying: false};
   },
   
   blankAudioInfo: {
@@ -53,10 +54,14 @@ var SoundPicker = React.createClass({
     this.setState({modalIsOpen: false})
   },
 
+  componentWillUpdate: function (newProps, newState) {
+    if (newState.modalIsOpen !== this.state.modalIsOpen) {
+      this.stopFrontPlayer();
+      this.stopPlayer();
+    }
+  },
+  
   handleOnAfterOpenModal: function () {
-    
-    this.stopPlaying();
-    
     // good place to start making server requests
     if (this.state.audioOptions === undefined) {
       //define it.
@@ -90,6 +95,7 @@ var SoundPicker = React.createClass({
       };
     }
     this.props.onChooseSong(audioInfo);
+    this.stopPlayer();
     this.setState({modalIsOpen: false});
   },
   
@@ -98,15 +104,40 @@ var SoundPicker = React.createClass({
     this.setState({modalIsOpen: false});
   },
   
-  handlePlay: function (e) {
-    this.stopPlaying();
-    this.currentAudioElement = e.target;
+  stopFrontPlayer: function () {
+    if (this.refs.frontPlayer.pause !== undefined){
+      this.refs.frontPlayer.pause();
+    }
   },
   
-  stopPlaying: function () {
-    if (this.currentAudioElement !== undefined) {
-      this.currentAudioElement.pause();
+  player: new Audio(),
+  
+  handlePlaySong: function (songType, songId) {
+    var url = (songType === 'custom') ? CUSTOM_URL : STOCK_URL ;
+    url += songId + '.mp3';
+    
+    if (url !== this.player.src) {
+      this.loadPlayer(url);
+      this.setState({loadedSong: `${songType}-${songId}`})
+    } else {
+      this.player.play();
     }
+  },
+  
+  loadPlayer: function (songUrl) {
+    this.player.pause();
+    this.player.src = songUrl;
+    this.startPlayer();
+  },
+  
+  startPlayer: function () {
+    this.player.play();
+    this.setState({isPlaying: true})
+  },
+  
+  stopPlayer: function () {
+    this.player.pause();
+    this.setState({isPlaying: false})
   },
   
   render: function () {
@@ -128,8 +159,17 @@ var SoundPicker = React.createClass({
           let songs = [];
           for (let i = 0; i < this.state.audioOptions.categories[key].songs.length; i++) {
             let song = this.state.audioOptions.categories[key].songs[i];
+            let isPlaying = false;
+            if (this.state.isPlaying && this.state.loadedSong === 'stock-' + song.Id){
+              isPlaying = true;
+            }
             songs.push(
-              <Song song={song} type="stock" onChooseSong={this.handleChooseSong} onPlay={this.handlePlay}/>
+              <Song type="stock"
+                isPlaying={isPlaying}
+                song={song}
+                onChooseSong={this.handleChooseSong}
+                stop={this.stopPlayer}
+                playSong={this.handlePlaySong}/>
             );
           }
           
@@ -142,8 +182,17 @@ var SoundPicker = React.createClass({
         
         for (let i = 0; i < this.state.audioOptions.customAudio.length; i++) {
           let song = this.state.audioOptions.customAudio[i];
+          let isPlaying = false;
+          if (this.state.isPlaying && this.loadedSong === 'custom-' + song.Id){
+            isPlaying = true;
+          }
           customAudioItems.push(
-            <Song song={song} type="custom" onChooseSong={this.handleChooseSong} onPlay={this.handlePlay}/>
+            <Song type="custom"
+              isPlaying={isPlaying}
+              song={song}
+              onChooseSong={this.handleChooseSong}
+              stop={this.stopPlayer}
+              playSong={this.handlePlaySong}/>
           );
         }
 
@@ -182,7 +231,9 @@ var SoundPicker = React.createClass({
       <div className="sound-picker component">
         <div className="chosen-audio-title">{name}</div>
         <div className="chosen-audio-player-wrapper" style={this.audioPlayerStyle}>
-          <ReactAudioPlayer src={url} preload="none" ref="mainAudio" onPlay={this.handlePlay}/>
+          <audio src={url} controls ref="frontPlayer">
+            <p>Your browser does not support the <code>audio</code> element.</p>
+          </audio>
         </div>
         <button type="button" onClick={this.openModal}>{buttonText}</button>
         {removeAudio}
@@ -211,119 +262,40 @@ var SoundPicker = React.createClass({
 });
 
 var Song = React.createClass({
-  handleClick: function () {
+  getInitialState: function () {
+    return {playing: false}
+  },
+  
+  choose: function () {
     this.props.onChooseSong(this.props.song, this.props.type);
   },
   
+  togglePlay: function () {
+    if (this.props.isPlaying){
+      this.stop();
+    } else {
+      this.play();
+    }
+  },
+  
+  play: function () {
+    this.props.playSong(this.props.type, this.props.song.Id);
+  },
+  
+  stop: function () {
+    this.props.stop();
+  },
+  
   render: function () {
-    var url = (this.props.type === 'custom') ? CUSTOM_URL : STOCK_URL ;
-    url += this.props.song.Id + '.mp3';
+    var toggleBtn = this.props.isPlaying ? 'Stop' : 'Listen' ;
     return (
-      <div>
-        <button type="button" onClick={this.handleClick}>Choose</button>
-        {this.props.song.Name}: <ReactAudioPlayer preload="none" src={url} onPlay={this.props.onPlay}/>
+      <div className={cx('song-item',{playing: this.props.isPlaying})}>
+        <button type="button" className="play-toggle" onClick={this.togglePlay}>{toggleBtn}</button>
+        <button type="button" onClick={this.choose}>Choose</button>
+        <span className="song-name">{this.props.song.Name}</span>
       </div>
     );
   }
 })
-
-const DEFAULT_LISTEN_INTERVAL = 1000;
-var ReactAudioPlayer = React.createClass({
-  componentDidMount() {
-    const audio = this.refs.audio;
-
-    audio.addEventListener('error', (e) => {
-      this.props.onError && this.props.onError(e);
-    });
-
-    // When enough of the file has downloaded to start playing
-    audio.addEventListener('canplay', (e) => {
-      this.props.onCanPlay && this.props.onCanPlay(e);
-    });
-
-    // When enough of the file has downloaded to play the entire file
-    audio.addEventListener('canplaythrough', (e) => {
-      this.props.onCanPlayThrough && this.props.onCanPlayThrough(e);
-    });
-
-    // When audio play starts
-    audio.addEventListener('play', (e) => {
-      this.setListenTrack();
-      this.props.onPlay && this.props.onPlay(e);
-    });
-
-    // When unloading the audio player (switching to another src)
-    audio.addEventListener('abort', (e) => {
-      this.clearListenTrack();
-      this.props.onAbort && this.props.onAbort(e);
-    });
-
-    // When the file has finished playing to the end
-    audio.addEventListener('ended', (e) => {
-      this.clearListenTrack();
-      this.props.onEnd && this.props.onEnd(e);
-    });
-
-    // When the user pauses playback
-    audio.addEventListener('pause', (e) => {
-      this.clearListenTrack();
-      this.props.onPause && this.props.onPause(e);
-    });
-
-    // When the user drags the time indicator to a new time
-    audio.addEventListener('seeked', (e) => {
-      this.clearListenTrack();
-      this.props.onSeeked && this.props.onSeeked(e);
-    });
-  },
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedPlayerEvent) {
-      const audio = this.refs.audio;
-
-      audio.currentTime = nextProps.selectedPlayerEvent.playTime;
-      audio.play();
-    }
-  },
-
-  render() {
-    const incompatibilityMessage = this.props.children || (
-      <p>Your browser does not support the <code>audio</code> element.</p>
-    );
-
-    return (
-      <audio
-        className="react-audio-player"
-        src={this.props.src}
-        autoPlay={this.props.autoPlay}
-        preload={this.props.preload}
-        controls
-        ref="audio"
-        onPlay={this.onPlay}
-      >
-        {incompatibilityMessage}
-      </audio>
-    );
-  },
-
-  /**
-   * Set an interval to call props.onListen every props.listenInterval time period
-   */
-  setListenTrack() {
-    if (!this.listenTracker && this.props.onListen !== undefined) {
-      const listenInterval = this.props.listenInterval || DEFAULT_LISTEN_INTERVAL;
-      this.listenTracker = setInterval(() => {
-        this.props.onListen(this.refs.audio.currentTime);
-      }, listenInterval);
-    }
-  },
-
-  /**
-   * Clear the onListen interval
-   */
-  clearListenTrack() {
-    clearInterval(this.listenTracker);
-  }
-});
 
 export default SoundPicker;
