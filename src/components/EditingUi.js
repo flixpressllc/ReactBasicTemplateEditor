@@ -73,7 +73,7 @@ var EditingUi = React.createClass({
     
     return (
       <div className="drop-down component input-item">
-        <label>{name}:</label>
+        <label>{name}</label>
         <select
           key={`drop-down-${safeName}`}
           ref={`select-${safeName}`}

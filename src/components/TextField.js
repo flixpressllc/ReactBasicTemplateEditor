@@ -17,7 +17,7 @@ export default React.createClass({
     return(
       <div className={cx(this.props.className,'text-field','component')}>
         <label htmlFor={this.props.fieldName}>
-          {this.props.fieldName}:
+          {this.props.fieldName}
         </label>
         <input
           type="text"
