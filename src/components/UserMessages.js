@@ -2,7 +2,21 @@ import React from 'react';
 import cx from 'classnames';
 
 var Message = React.createClass({
+  raw: function (m) {
+    return {__html: m};
+  },
+  
   render: function () {
+    var className = 'user-message ' + this.props.type;
+    if (this.props.htmlSafe === true){
+      return (
+        <div
+          className={className}
+          dangerouslySetInnerHTML={this.raw(this.props.message)}
+        />
+      )
+    }
+    
     return (
       <div className={className}>
         {this.props.message}
@@ -15,17 +29,21 @@ export default React.createClass({
   emptyStyle: {display: 'none'},
   
   render: function () {
-    var caughtErrorsArr = this.props.caughtErrors;
-    var errors = [];
+    var messagesObjArr = this.props.messages;
+    var messages = [];
 
-    for (var i = 0; i < caughtErrorsArr.length; i++) {
-      errors.push(
-        <Message key={i} message={caughtErrorsArr[i].message} type="error" />
+    for (var i = 0; i < messagesObjArr.length; i++) {
+      var type = messagesObjArr[i].type;
+      if (typeof this.props.typeOverride === 'string'){
+        type = this.props.typeOverride;
+      }
+      messages.push(
+        <Message key={i} message={messagesObjArr[i].message} htmlSafe={messagesObjArr[i].htmlSafe} type={type} />
       );
     }
 
-    if (errors.length !== 0) {
-      return (<div className={cx(this.props.className,'user-messages','component')}>{errors}</div>)
+    if (messages.length !== 0) {
+      return (<div className={cx(this.props.className,'user-messages','component')}>{messages}</div>)
     } else {
       return (<div style={this.emptyStyle}></div>);
     }
