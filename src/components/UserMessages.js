@@ -1,18 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
 
-var styles = {
- messages: {
-    error: {
-      color: 'red'
-    }
-  }
-}
-
 var Message = React.createClass({
   render: function () {
     return (
-      <div style={styles.messages[this.props.type]}>
+      <div className={className}>
         {this.props.message}
       </div>
     )
