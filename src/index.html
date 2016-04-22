@@ -6,11 +6,47 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://s3.amazonaws.com/FlixSamples/development_files/Scripts/flixpress-js/flixpress.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://files.digital-edge.biz/templates/Styles/modifiers.css">
+  <link rel="stylesheet" type="text/css" href="https://files.digital-edge.biz/templates/Styles/containers.css">
+  <link rel="stylesheet" type="text/css" href="https://files.digital-edge.biz/templates/Styles/templates.css">
 </head>
 <body>
-  <div id="app">APPLICATION CONTENT</div>
+  <div id="Template_FlashContent_Div" style="padding: 0px; margin: 0px;"></div>
+
 
   <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
   <script type="text/javascript" src="./assets/app.js"></script>
+  <script type="text/javascript">
+    // the module just automatically exports to window.EditorUserInterface for now... ugh.
+    //import EditorUserInterface from 'https://dl.dropboxusercontent.com/u/20859562/flixreact/TextOnly';
+    function tryReact () {
+      if (window.EditorUserInterface === undefined){
+        console.log('trying again');
+        setTimeout(tryReact, 1000);
+      } else {
+        ReactDOM.render(
+          React.createElement(EditorUserInterface, {
+            uiSettingsJsonUrl: "/templates/Template79.js",
+            userSettingsData: {
+              templateType: "text",
+              username: 'DonDenton',
+              templateId: 79,
+              minutesRemainingInContract: 170.2819,
+              minimumTemplateDuration: 0.1667,
+              mode: 'Add',
+              previewVideoUrl: '',
+              isChargePerOrder: 'False',
+              renderCost: 8
+            }
+          }),
+          document.getElementById('Template_FlashContent_Div')
+          );
+      }
+    }
+    tryReact();
+  </script>
+
 </body>
 </html>

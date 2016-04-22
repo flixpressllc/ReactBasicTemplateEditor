@@ -115,7 +115,11 @@ var EditorUserInterface = React.createClass({
           $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />')
           setTimeout(oldStyle.remove, 100);
         };
-        doStyleSwap();
+        if (window.location.href.indexOf('localhost') !== -1) {
+          require('../styles/editor.css');
+        } else {
+          doStyleSwap();
+        }
         
         var swapTimer;
         window.styleSwap = function (int) {

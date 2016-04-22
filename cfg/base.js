@@ -25,7 +25,13 @@ module.exports = {
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
-    noInfo: false
+    noInfo: false,
+    proxy: {
+      '/templates/*': {
+        target: 'https://flixpress.com',
+        // secure: true,
+      }
+    },
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
