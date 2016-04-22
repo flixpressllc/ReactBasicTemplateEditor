@@ -274,14 +274,16 @@ var EditorUserInterface = React.createClass({
           <span>Editing Template {this.props.userSettingsData.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
-        {editingUi}
-        <SoundPicker
-          audioInfo={this.state.audioInfo}
-          username={this.props.userSettingsData.username}
-          onChooseSong={this.handleChooseSong}
-        />
-        {resolutionPicker}
-        <SubmitRender isPreview={this.state.isPreview} onChange={this.handlePreviewChange}/>
+        <div className="main-interaction-area">
+          {editingUi}
+          <SoundPicker
+            audioInfo={this.state.audioInfo}
+            username={this.props.userSettingsData.username}
+            onChooseSong={this.handleChooseSong}
+          />
+          {resolutionPicker}
+          <SubmitRender isPreview={this.state.isPreview} onChange={this.handlePreviewChange}/>
+        </div>
       </div>
     );
   }
