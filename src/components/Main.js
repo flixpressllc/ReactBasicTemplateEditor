@@ -8,7 +8,6 @@ import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
-import confirm from '../utils/confirm';
 
 require('reset.css');
 require('../styles/App.css');
@@ -22,13 +21,6 @@ var EditorUserInterface = React.createClass({
     };
   },
 
-  componentWillMount: function () {
-    var _this = this;
-    $('form').on('submit', function(e){
-      _this.handleSubmit(e);
-    });
-  },
-  
   getStartingData: function () {
     promiseFlixpress.done(function(Flixpress){
       var startingPoint = Flixpress.td.getReactStartingData();
@@ -149,7 +141,6 @@ var EditorUserInterface = React.createClass({
     this.serverRequest.abort();
   },
   
-  
   handleFieldsChange: function (fieldName, userText) {
     var fields = this.state.textFields;
     fields[fieldName].value = userText;
@@ -168,38 +159,13 @@ var EditorUserInterface = React.createClass({
     })
   },
 
-  handleSubmit: function (e) {
-    if (this.state.allowSubmit === false){
-      e.preventDefault();
-      this.confirmOrder();
-    }
-  },
-
   handlePreviewChange: function (e) {
     this.setState({
       isPreview: e.target.checked
     })
   },
 
-  confirmOrder: function () {
-    var message = '';
-    const orderMessage = 'You are about to place an order. All orders are final.\n\nIf you would like to create a preview instead, check the preview checkbox. \n\nAre you sure you want to place an order?';
-    // const previewMessage = 'You used the enter key to submit a preview. Did you mean to do that?';
-    
-    if (this.state.isPreview !== true) {
-      message = orderMessage;
-      confirm(message).then(() => {
-        // proceed
-        this.placeOrder();
-      }, () => {
-        // cancel
-      });
-    } else {
-      this.placeOrder();
-    }
-  },
-  
-  placeOrder: function () {
+  handlePlaceOrder: function () {
     var order = {};
     
     // add necessaries
@@ -295,7 +261,12 @@ var EditorUserInterface = React.createClass({
             onChooseSong={this.handleChooseSong}
           />
           {resolutionPicker}
-          <SubmitRender isPreview={this.state.isPreview} onChange={this.handlePreviewChange}/>
+          <SubmitRender
+            isPreview={this.state.isPreview}
+            onChange={this.handlePreviewChange}
+            placeOrder={this.handlePlaceOrder}
+            allowSubmit={this.state.allowSubmit}
+            />
         </div>
       </div>
     );
