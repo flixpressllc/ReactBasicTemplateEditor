@@ -8,6 +8,7 @@ import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
+import confirm from '../utils/confirm';
 
 require('reset.css');
 require('../styles/App.css');
@@ -181,10 +182,18 @@ var EditorUserInterface = React.createClass({
   },
 
   confirmOrder: function () {
+    var message = '';
+    const orderMessage = 'You are about to place an order. All orders are final.\n\nIf you would like to create a preview instead, check the preview checkbox. \n\nAre you sure you want to place an order?';
+    // const previewMessage = 'You used the enter key to submit a preview. Did you mean to do that?';
+    
     if (this.state.isPreview !== true) {
-      if (confirm('Would you like to submit the order? This action will use your render minutes.')){
+      message = orderMessage;
+      confirm(message).then(() => {
+        // proceed
         this.placeOrder();
-      }
+      }, () => {
+        // cancel
+      });
     } else {
       this.placeOrder();
     }
