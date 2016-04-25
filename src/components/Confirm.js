@@ -20,10 +20,10 @@ class Confirmation extends React.Component {
     } = this.props;
 
     const actions = [
-      <button type="button" className="cancel" onClick={cancel}>
+      <button key="cancel" type="button" className="cancel" onClick={cancel}>
         {cancelLabel}
       </button>,
-      <button type="button" className="confirm" onClick={proceed}>
+      <button key="confirm" type="button" className="confirm" onClick={proceed}>
         {okLabel}
       </button>
     ];
