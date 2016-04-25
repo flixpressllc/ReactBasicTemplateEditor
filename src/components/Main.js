@@ -205,7 +205,7 @@ var EditorUserInterface = React.createClass({
     
     orderPromise.done(function(){
       this.setState({allowSubmit: true}, function () {
-        $('form').submit();
+        setTimeout(function(){$('form input[type="submit"]').eq(0).click();},100);
       })
     }.bind(this)).fail(function(failureReason){
       var message = 'Order Failed.';
