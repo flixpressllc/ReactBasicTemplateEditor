@@ -195,8 +195,11 @@ var EditorUserInterface = React.createClass({
     
     promiseFlixpress.done(function(Flixpress) {
       Flixpress.td.updateXmlForOrder(order)
-        .always(function(failureReason){
-          orderPromise.resolve(failureReason)
+        .done(function(){
+          orderPromise.resolve()
+        })
+        .fail(function(failureReason){
+          orderPromise.reject(failureReason)
         })
     });
     
@@ -205,9 +208,13 @@ var EditorUserInterface = React.createClass({
         $('form').submit();
       })
     }.bind(this)).fail(function(failureReason){
+      var message = 'Order Failed.';
+      if (failureReason !== undefined){
+        message += ` The given reason was "${failureReason}"`;
+      }
       this.setState({
         caughtErrors: [
-          {message: 'Order Failed.'}
+          {message: message}
         ]
       })
       
