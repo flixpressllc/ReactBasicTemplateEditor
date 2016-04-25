@@ -8,6 +8,7 @@ import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
+import Modal from 'react-modal';
 
 require('reset.css');
 require('../styles/App.css');
@@ -275,6 +276,13 @@ var EditorUserInterface = React.createClass({
             allowSubmit={this.state.allowSubmit}
             />
         </div>
+        <Modal
+          isOpen={this.state.allowSubmit}
+          className="confirm-modal modal"
+          overlayClassName="confirm-modal-overlay overlay"
+        >
+          Your order is being submitted.
+        </Modal>
       </div>
     );
   }
