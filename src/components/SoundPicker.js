@@ -23,15 +23,11 @@ var SoundPicker = React.createClass({
     name: ''
   },
   
-  audioPlayerStyle: {
-    display: 'block'
-  },
-  
-  setPlayerVisibility: function () {
-    if (this.audioIsChosen()) {
-      this.audioPlayerStyle.display = 'block';
+  getPlayerStyle: function () {
+    if (this.audioIsChosen()){
+      return {display: 'block'};
     } else {
-      this.audioPlayerStyle.display = 'none';
+      return {display: 'none'};
     }
   },
   
@@ -219,7 +215,7 @@ var SoundPicker = React.createClass({
       }
     }
     
-    this.setPlayerVisibility();
+    var playerStyle = this.getPlayerStyle();
     
     var hasAudio =  (this.props.audioInfo !== undefined) ? true : false ;
     var name = hasAudio ? this.props.audioInfo.name : 'None' ;
@@ -231,7 +227,7 @@ var SoundPicker = React.createClass({
       <div className="sound-picker-component component">
         <h3>Choose Your Audio</h3>
         <div className="chosen-audio-title">{name}</div>
-        <div className="chosen-audio-player-wrapper" style={this.audioPlayerStyle}>
+        <div className="chosen-audio-player-wrapper" style={playerStyle}>
           <audio src={url} controls ref="frontPlayer">
             <p>Your browser does not support the <code>audio</code> element.</p>
           </audio>
