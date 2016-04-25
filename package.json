@@ -18,7 +18,8 @@
     "start": "node server.js --env=dev",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
-    "dev": "webpack --env=flix --watch"
+    "dev": "webpack --env=flix-dev --watch",
+    "dev-build": "webpack --env=flix-build --watch"
   },
   "repository": "",
   "keywords": [],
