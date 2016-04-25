@@ -9,6 +9,10 @@ var EditingUi = React.createClass({
       previewImage: ''
     };
   },
+  
+  componentDidMount: function () {
+    this.findFirstPreviewImage();
+  },
 
   getPreviewImage: function (type, identifier) {
     var safeName = identifier.replace(' ','-');
@@ -88,11 +92,20 @@ var EditingUi = React.createClass({
     )
   },
   
-  findFirstPreviewImage: function (fieldType, fieldName) {
-    if (this.state.foundFirstPreviewImage === true) return;
-    var image = this.getPreviewImage(fieldType, fieldName);
-    if (image !== '') {
-      this.setState({previewImage: image, foundFirstPreviewImage: true});
+  findFirstPreviewImage: function () {
+    let uiSections = this.props.uiSections;
+    for (let i = 0; i < uiSections.length; i++) {
+      for (let sectionName in uiSections[i]){
+        let inputArray = uiSections[i][sectionName]
+
+        for (let i = 0; i < inputArray.length; i++) {
+          let image = this.getPreviewImage(inputArray[i].type, inputArray[i].name);
+          if (image !== '') {
+            this.setState({previewImage: image});
+            return;
+          }
+        }
+      }
     }
   },
   
@@ -101,7 +114,6 @@ var EditingUi = React.createClass({
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
       var object = this.props['all' + inputArray[i].type + 's'][name];
-      this.findFirstPreviewImage(inputArray[i].type, name);
       components.push(this['create' + inputArray[i].type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
