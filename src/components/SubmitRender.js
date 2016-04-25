@@ -4,11 +4,6 @@ import confirm from '../utils/confirm';
 
 export default React.createClass({
   componentWillMount: function () {
-    // Remove old submit button
-    $('input[name="Submit_BT"]').remove();
-  },
-  
-  componentDidMount: function () {
     $('form').on('submit', (e)=>{
       this.handleSubmit(e);
     });
