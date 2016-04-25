@@ -274,6 +274,7 @@ var EditorUserInterface = React.createClass({
             onChange={this.handlePreviewChange}
             placeOrder={this.handlePlaceOrder}
             allowSubmit={this.state.allowSubmit}
+            userSettingsData={this.props.userSettingsData}
             />
         </div>
         <Modal

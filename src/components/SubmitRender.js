@@ -1,6 +1,7 @@
 import React from 'react';
 import {CheckBox} from './imports';
 import confirm from '../utils/confirm';
+import {round} from '../utils/helper-functions';
 
 export default React.createClass({
   componentWillMount: function () {
@@ -18,12 +19,28 @@ export default React.createClass({
   },
   
   confirmOrder: function () {
-    var message = '';
-    const orderMessage = 'You are about to place an order. All orders are final.\n\nIf you would like to create a preview instead, check the preview checkbox. \n\nAre you sure you want to place an order?';
+    var sd = this.props.userSettingsData;
+    // .NET normalize
+    var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
+    
+    var depletionMessage, balanceMessage, resultingBalance, balanceType;
+    
+    if (isChargePerOrder) {
+      balanceType = 'credits';
+      depletionMessage = `cost ${sd.renderCost} ${balanceType}`;
+      balanceMessage = `??? ${balanceType}`;
+      resultingBalance = `??? ${balanceType}`;
+    } else {
+      balanceType = 'minutes';
+      depletionMessage = `render ${round(sd.minimumTemplateDuration)} ${balanceType} of video`;
+      balanceMessage = `${round(sd.minutesRemainingInContract)} ${balanceType}`;
+      resultingBalance = `${round(sd.minutesRemainingInContract - sd.minimumTemplateDuration)} ${balanceType}`;
+    }
+    
+    var message = `You are about to place an order which would ${depletionMessage}. You currently have ${balanceMessage} in your account right now, and if you place an order, you'd have ${resultingBalance} remaining. All orders are final.\n\nIf you would like to create a preview instead, check the preview checkbox. \n\nAre you sure you want to place an order?`;
     // const previewMessage = 'You used the enter key to submit a preview. Did you mean to do that?';
     
     if (this.props.isPreview !== true) {
-      message = orderMessage;
       confirm(message).then(() => {
         // proceed
         this.props.placeOrder();
