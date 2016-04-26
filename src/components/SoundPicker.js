@@ -148,8 +148,9 @@ var SoundPicker = React.createClass({
         let categories = [];
         let panels = [];
         for (let key in this.state.audioOptions.categories) {
+          let categorySafeName = key.replace(' ','-');
           categories.push(
-            <Tab>{key}</Tab>
+            <Tab key={`tab-${categorySafeName}`}>{key}</Tab>
           );
           
           let songs = [];
@@ -161,6 +162,7 @@ var SoundPicker = React.createClass({
             }
             songs.push(
               <Song type="stock"
+                key={`song-stock-${song.Id}`}
                 isPlaying={isPlaying}
                 song={song}
                 onChooseSong={this.handleChooseSong}
@@ -169,9 +171,9 @@ var SoundPicker = React.createClass({
             );
           }
           
-          panels.push(<TabPanel>{songs}</TabPanel>);
+          panels.push(<TabPanel key={`tab-panel-${categorySafeName}`}>{songs}</TabPanel>);
         }
-        stockAudioItems.push(<Tabs><TabList>{categories}</TabList>{panels}</Tabs>)
+        stockAudioItems.push(<Tabs key="stock-audio-tabs"><TabList>{categories}</TabList>{panels}</Tabs>)
       }
       
       if (this.state.audioOptions.customAudio !== undefined) {
@@ -184,6 +186,7 @@ var SoundPicker = React.createClass({
           }
           customAudioItems.push(
             <Song type="custom"
+              key={`song-custom-${song.Id}`}
               isPlaying={isPlaying}
               song={song}
               onChooseSong={this.handleChooseSong}
@@ -196,18 +199,18 @@ var SoundPicker = React.createClass({
       
       
       if (stockAudioItems.length > 0) {
-        tabNames.push(<Tab>Stock Audio</Tab>);
+        tabNames.push(<Tab key="stock-audio-tab">Stock Audio</Tab>);
         tabPanels.push(
-          <TabPanel>
+          <TabPanel key="stock-audio-panel">
             <h2>Stock Audio</h2>
             {stockAudioItems}
           </TabPanel>
         );
       }
       if (customAudioItems.length > 0) {
-        tabNames.push(<Tab>Custom Audio</Tab>);
+        tabNames.push(<Tab key="custom-audio-tab">Custom Audio</Tab>);
         tabPanels.push(
-          <TabPanel>
+          <TabPanel key="custom-audio-panel">
             <h2>Custom Audio</h2>
             {customAudioItems}
           </TabPanel>
