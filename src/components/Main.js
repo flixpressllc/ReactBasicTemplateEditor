@@ -262,20 +262,24 @@ var EditorUserInterface = React.createClass({
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
         <div className="main-interaction-area">
-          {editingUi}
-          <SoundPicker
-            audioInfo={this.state.audioInfo}
-            username={this.props.userSettingsData.username}
-            onChooseSong={this.handleChooseSong}
-          />
-          {resolutionPicker}
-          <SubmitRender
-            isPreview={this.state.isPreview}
-            onChange={this.handlePreviewChange}
-            placeOrder={this.handlePlaceOrder}
-            allowSubmit={this.state.allowSubmit}
-            userSettingsData={this.props.userSettingsData}
+            <div className="column">
+            {editingUi}
+            <SoundPicker
+              audioInfo={this.state.audioInfo}
+              username={this.props.userSettingsData.username}
+              onChooseSong={this.handleChooseSong}
             />
+          </div>
+          <div className="column">
+            {resolutionPicker}
+            <SubmitRender
+              isPreview={this.state.isPreview}
+              onChange={this.handlePreviewChange}
+              placeOrder={this.handlePlaceOrder}
+              allowSubmit={this.state.allowSubmit}
+              userSettingsData={this.props.userSettingsData}
+            />
+          </div>
         </div>
         <Modal
           isOpen={this.state.allowSubmit}
