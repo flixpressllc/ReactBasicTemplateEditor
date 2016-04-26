@@ -10,8 +10,10 @@ class Confirmation extends React.Component {
     const {
       // title,
       // modal,
-      okLabel = 'OK',
+      proceedLabel = 'OK',
       cancelLabel = 'Cancel',
+      otherActionLabel = 'Option 3',
+      otherAction,
       confirmation,
       show,
       proceed,
@@ -19,14 +21,22 @@ class Confirmation extends React.Component {
       cancel
     } = this.props;
 
-    const actions = [
+    var actions = [
       <button key="cancel" type="button" className="cancel" onClick={cancel}>
         {cancelLabel}
       </button>,
       <button key="confirm" type="button" className="confirm" onClick={proceed}>
-        {okLabel}
+        {proceedLabel}
       </button>
     ];
+    
+    if (otherAction) {
+      actions.push(
+        <button key="preview" type="button" className="confirm confirm-preview" onClick={otherAction}>
+          {otherActionLabel}
+        </button>
+      );
+    }
 
     return (
       <Dialog
@@ -34,8 +44,6 @@ class Confirmation extends React.Component {
         onRequestClose={dismiss}
         className="confirm-modal modal"
         overlayClassName="confirm-modal-overlay overlay"
-        //title={title}
-        //modal={modal}
       >
         <div>
           {confirmation}

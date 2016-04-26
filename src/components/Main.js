@@ -22,6 +22,12 @@ var EditorUserInterface = React.createClass({
     };
   },
 
+  handlePlacePreviewOrder: function () {
+    this.setState({isPreview: true},function () {
+      this.handlePlaceOrder();
+    });
+  },
+
   getStartingData: function () {
     promiseFlixpress.done(function(Flixpress){
       var startingPoint = Flixpress.td.getReactStartingData();
@@ -278,6 +284,7 @@ var EditorUserInterface = React.createClass({
               placeOrder={this.handlePlaceOrder}
               allowSubmit={this.state.allowSubmit}
               userSettingsData={this.props.userSettingsData}
+              placePreviewOrder={this.handlePlacePreviewOrder}
             />
           </div>
         </div>
