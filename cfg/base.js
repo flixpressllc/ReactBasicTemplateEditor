@@ -28,7 +28,7 @@ module.exports = {
     publicPath: defaultSettings.publicPath,
     noInfo: false,
     proxy: {
-      '/templates/*': {
+      '/templates/images/*': {
         target: 'https://flixpress.com'
       }
     }
