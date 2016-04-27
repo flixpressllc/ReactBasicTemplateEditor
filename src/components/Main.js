@@ -107,26 +107,6 @@ var EditorUserInterface = React.createClass({
         
         this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
         
-        var doStyleSwap = function () {
-          var oldStyle = $('head').find('[href="https://files.digital-edge.biz/templates/Styles/editor.css"]');
-          $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />')
-          setTimeout(oldStyle.remove, 100);
-        };
-        if (window.location.href.indexOf('localhost') !== -1) {
-          //require('../styles/editor.css');
-        } else {
-          doStyleSwap();
-        }
-        
-        var swapTimer;
-        window.styleSwap = function (int) {
-          if (int !== undefined){
-            swapTimer = window.setInterval(doStyleSwap, int);
-          } else {
-            clearInterval(swapTimer);
-            doStyleSwap();
-          }
-        }
         this.setState({
           caughtErrors: [{
             message: `Can\'t access template data at <code>${this.props.uiSettingsJsonUrl}</code>. Falling back to locally defined testing data.`,
