@@ -12,7 +12,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: {
-    app: path.join(__dirname, '../src/index')
+    templateEditor: path.join(__dirname, '../src/index')
   },
   cache: false,
   devtool: 'sourcemap',

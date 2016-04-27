@@ -55,7 +55,7 @@ let config = Object.assign({}, baseConfig, {
   ],
   output: {
     path: outputPath,
-    filename: 'TextOnlyCompiled.js',
+    filename: 'templateEditor.js',
     publicPath: '.'
   },
   module: defaultSettings.getDefaultModules()
