@@ -14,20 +14,13 @@ var EditingUi = React.createClass({
     this.findFirstPreviewImage();
   },
 
-  getPreviewImage: function (type, identifier) {
-    var safeName = identifier.replace(' ','-');
+  getPreviewImage: function (type, identifier, value) {
     if (type === 'TextField') {
       return this.props.allTextFields[identifier].previewImage
     
     } else if (type === 'DropDown') {
-      let defaultValue = this.props.allDropDowns[identifier].default
       for (var i = this.props.allDropDowns[identifier].options.length - 1; i >= 0; i--) {
-        let value = this.props.allDropDowns[identifier].options[i].value;
-        let isMounted = this.refs[`select-${safeName}`] !== undefined;
-        let mountedValue = isMounted ? this.refs[`select-${safeName}`].value : -1 ;
-        // If the component is mounted and values match, that's the one
-        // If the component is NOT mounted, and the value matches the default, that's the one
-        if ((isMounted && value === mountedValue) || (!isMounted && defaultValue === value)) {
+        if (this.props.allDropDowns[identifier].options[i].value === value) {
           return this.props.allDropDowns[identifier].options[i].previewImage;
         }
       }
@@ -61,7 +54,7 @@ var EditingUi = React.createClass({
     
     var onDropDownChange = function () {
       this.props.onDropDownChange(_thisDD, name);
-      this.setState({previewImage: this.getPreviewImage('DropDown', name)})
+      this.setState({previewImage: this.getPreviewImage('DropDown', name, _thisDD.value)})
     }.bind(this);
     
     
@@ -118,6 +111,9 @@ var EditingUi = React.createClass({
         }
       }
     }
+    // probably the first inner component with a preview image
+    // hasn't mounted yet. This is a hack, but we'll call again...
+    setTimeout(this.findFirstPreviewImage,500);
   },
   
   createSection: function (sectionName, inputArray) {
