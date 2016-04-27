@@ -57,11 +57,23 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     var options = [];
     var theDefault = object.default;
+    var _thisDD; // will be set after the component mounts.
     
     var onDropDownChange = function () {
-      this.props.onDropDownChange(this.refs[`select-${safeName}`], name);
+      this.props.onDropDownChange(_thisDD, name);
       this.setState({previewImage: this.getPreviewImage('DropDown', name)})
     }.bind(this);
+    
+    
+    var _thisDDMounted = (ref) => {
+      // set our local static variable to start...
+      _thisDD = ref;
+      // if there is no value chosen for the dropdown yet...
+      if (this.props.allDropDowns[name].value === undefined) {
+        // ...tell props that we've chosen the default to start
+        this.props.onDropDownChange(_thisDD, name);
+      }
+    };
     
     for (var i = 0; i < object.options.length; i++) {
       var option = object.options[i]
@@ -79,7 +91,7 @@ var EditingUi = React.createClass({
       <div className="drop-down component input-item" key={`drop-down-${safeName}`}>
         <label>{name}</label>
         <select
-          ref={`select-${safeName}`}
+          ref={_thisDDMounted}
           onChange={onDropDownChange}
           onFocus={onDropDownChange}
           defaultValue={theDefault}
