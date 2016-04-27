@@ -16,7 +16,8 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: path.join(__dirname, '/../dist/assets'),
-    filename: 'app.js',
+    filename: '[name].js',
+    chunkFilename: '[id].js',
     publicPath: `.${defaultSettings.publicPath}`
   },
   devServer: {
@@ -28,10 +29,9 @@ module.exports = {
     noInfo: false,
     proxy: {
       '/templates/*': {
-        target: 'https://flixpress.com',
-        // secure: true,
+        target: 'https://flixpress.com'
       }
-    },
+    }
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],

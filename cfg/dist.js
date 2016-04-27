@@ -7,10 +7,13 @@ let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 
 // Add needed plugins here
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/index'),
+  entry: {
+    templateEditor: path.join(__dirname, '../src/index')
+  },
   cache: false,
   devtool: 'sourcemap',
   plugins: [
@@ -21,7 +24,7 @@ let config = Object.assign({}, baseConfig, {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin('editor.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()

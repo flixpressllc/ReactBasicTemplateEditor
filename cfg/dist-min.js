@@ -6,11 +6,16 @@ let webpack = require('webpack');
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/index'),
+  entry: {
+    'templateEditor.min': path.join(__dirname, '../src/index')
+    //app: path.join(__dirname, '../src/index')
+  },
   cache: false,
   devtool: 'sourcemap',
   plugins: [
@@ -21,16 +26,12 @@ let config = Object.assign({}, baseConfig, {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    //new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({minimize: true, include: /\.min\.js$/}),
+    new ExtractTextPlugin('editor.min.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
   ],
-  output: {
-    path: '/Users/Don/Dropbox/Public/flixreact',
-    filename: 'TextOnlyCompiled.js',
-    publicPath: '.'
-  },
   module: defaultSettings.getDefaultModules()
 });
 

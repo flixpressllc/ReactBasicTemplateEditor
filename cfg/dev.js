@@ -23,7 +23,7 @@ let config = Object.assign({}, baseConfig, {
       searchResolveModulesDirectories: false
     })
   ],
-  module: defaultSettings.getDefaultModules()
+  module: defaultSettings.getDefaultModules({hot:true})
 });
 
 // Add needed loaders to the defaults here
