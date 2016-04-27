@@ -72,6 +72,7 @@ module.exports = {
   publicPath: '/',
   port: dfltPort,
   getDefaultModules: getDefaultModules,
+  devOutputPath: '/Users/Don/Dropbox/Public/flixreact/',
   postcss: function () {
     return [];
   }
