@@ -10,9 +10,6 @@ import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 
-require('reset.css');
-require('../styles/App.css');
-
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
@@ -116,7 +113,7 @@ var EditorUserInterface = React.createClass({
           setTimeout(oldStyle.remove, 100);
         };
         if (window.location.href.indexOf('localhost') !== -1) {
-          require('../styles/editor.css');
+          //require('../styles/editor.css');
         } else {
           doStyleSwap();
         }

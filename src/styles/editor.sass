@@ -1,0 +1,369 @@
+@import 'base-includes'
+
+// override breakpoints
+$lg: 1000px
+$md: 670px
+$sm: 400px
+$xs-only: (0 399px)
+
+// Image sizes
+$xs-image: 7
+$sm-image: 9
+$md-image: 14
+$lg-image: 17
+
+@function iW($multiplier)
+  @return 16px * $multiplier
+
+@function iH($multiplier)
+  @return 9px * $multiplier
+
+=sides($num)
+  top: $num
+  bottom: $num
+  left: $num
+  right: $num
+
+// Many variables...
+$tinyPad: 3px
+$medPad: 8px
+$bigPad: 12px
+$viewportPad: $medPad
+$line-height: 1.3
+$fluid-radius: 0.3em
+$button-padding: 0.2em 0.5em
+$major-button-padding: 0.5em 1em
+
+$bg-color: white
+
+$sm-title-font-size: 24px
+$md-title-font-size: $sm-title-font-size
+$lg-title-font-size: $md-title-font-size
+
+.ReactModalPortal
+  display: none
+
+#editor, .ReactModalPortal
+  font-size: $base-font-size
+  line-height: $line-height
+  padding: $viewportPad
+  padding-top: iH($xs-image)
+  overflow-x: hidden
+  +breakpoint($sm)
+    padding-top: iH($sm-image)
+  +breakpoint($md)
+    padding-top: ($md-title-font-size * $line-height) + ($medPad * 2)
+  
+  .component
+    h1, h2, h3, h4, h5, h6
+      margin: $bigPad auto
+      +fw-bars
+
+  .editor-title
+    position: fixed
+    display: flex
+    flex-direction: column
+    justify-content: center
+    top: 0
+    left: 0
+    right: 0
+    padding: $medPad
+    padding-right: iW($xs-image) + 8
+    min-height: iH($xs-image)
+    background-color: $flixpress-blue
+    z-index: 1
+    
+    +breakpoint($sm)
+      font-size: $sm-title-font-size
+      font-weight: bold
+      padding-right: iW($sm-image) + 8
+      min-height: iH($sm-image)
+    
+    +breakpoint($md)
+      min-height: 0
+      padding-right: $medPad
+
+  .input-item
+    margin-top: $medPad
+    label:after
+      content: ':'
+    
+    +breakpoint($sm)
+      max-width: 400px
+      margin: $bigPad auto
+      +pie-clearfix
+      %parts
+        width: 49%
+        display: block
+      label
+        @extend %parts
+        margin-right: 0.5%
+        float: left
+        &:after
+          content: ''
+      input, select
+        @extend %parts
+        float: right
+        margin-left: 0.5%
+    
+  button, input[type="submit"]
+    font-size: inherit
+    padding: $major-button-padding
+    background-color: $flixpress-blue
+    color: white
+    border: none
+    border-radius: $fluid-radius
+    cursor: pointer
+    margin: $tinyPad $tinyPad 0 0
+    
+    &:hover
+      background-color: darken($flixpress-blue, 10)
+      
+    &.cancel
+      background-color: #999
+      &:hover
+        background-color: darken(#999, 10)
+    
+  input[type="submit"]
+    background-color: $flixpress-red
+    &:hover
+      background-color: darken($flixpress-red, 10)
+  
+  input[type="text"], select
+    vertical-align: text-bottom
+
+  label
+    margin-right: 1em
+
+  .preview-image
+    position: fixed
+    top: 0
+    right: 0
+    z-index: 2
+    // float: left
+    width: iW($xs-image)
+    height: iH($xs-image)
+    // text-align: center
+    // font-size: 1.6px * $md-image
+    text-align: center
+    -webkit-font-smoothing: antialiased
+    cursor: pointer
+    padding: $tinyPad
+    
+    &.missing
+      display: flex
+      flex-direction: column
+      justify-content: center
+      background-color: darken($flixpress-blue, 10)
+      span, &:hover span
+        color: white
+    
+    span
+      text-align: center
+      color: white
+      text-shadow: 0 0 2px black
+      font-size: iW($sm-image) * 0.09
+    &:hover span
+      color: $flixpress-blue
+      
+    +breakpoint($sm)
+      width: iW($sm-image)
+      height: iH($sm-image)
+    
+    +breakpoint($md)
+      position: absolute
+      width: iW($md-image)
+      height: iH($md-image)
+      +sides(auto)
+      top: $bigPad
+      right: 25%
+      transform: translateX(50%)
+      z-index: 0
+      
+  
+  +breakpoint($md)
+    .main-interaction-area
+      position: relative
+      max-width: 850px //magic number
+      margin-left: auto
+      margin-right: auto
+      +pie-clearfix
+    h3:before, h3:after
+      display: none
+    .column
+      width: 50%
+      float: left
+      &:first-child
+        padding-right: $viewportPad / 2
+      &:last-child
+        padding-left: $viewportPad / 2
+        // Make room for image
+        margin-top: $bigPad * 2 + iH($md-image)
+    
+.sound-picker-component, .resolution-picker-component, .submit-render-component
+  margin: 1em auto
+  text-align: center
+
+.submit-render-component
+  background-color: #ddd
+  border: $medPad solid $bg-color
+  padding: $medPad
+  #Submit_BT
+    width: 10em
+
+
+.account-balance-component
+  +pie-clearfix
+  > div
+    float: left
+    width: 50%
+    padding: $medPad
+
+.user-messages
+  margin-left: 0 - $viewportPad
+  margin-right: 0 - $viewportPad
+  .user-message.bad
+    font-size: 0.85em
+    
+code
+  font-family: monospace
+  background-color: rgba(0,0,0,0.3)
+  padding: $button-padding
+  border-radius: $fluid-radius
+
+.ReactModalPortal
+  .overlay
+    position: fixed
+    +sides(0)
+    background-color: rgba(255, 255, 255, 0.75)
+    z-index: 100
+  .modal
+    position: absolute
+    +sides(0)
+    // border: 1px solid #ccc
+    background: $bg-color
+    overflow-y: auto
+    overflow-x: hidden
+    -webkit-overflow-scrolling: touch
+    outline: none
+    padding: $medPad
+    z-index: 101
+    box-shadow: 0 0 24px #555
+    
+    
+    +breakpoint($md)
+      position: fixed
+      +sides($bigPad * 2)
+
+  .confirm-modal
+    box-shadow: 0 0 24px #000
+    .buttons
+      text-align: center
+      button
+        margin: ($bigPad * 2) $medPad
+        
+    
+    +breakpoint($sm)
+      +sides($bigPad)
+    +breakpoint($md)
+      +sides($bigPad * 4)
+      padding: $bigPad * 4
+  .confirm-modal-overlay
+    background-color: rgba(0,0,0,0.5)
+
+  .sound-picker-modal
+    .ReactTabs .ReactTabs .ReactTabs__TabList
+      margin-top: $bigPad
+      margin-bottom: $bigPad
+    .cancel
+      float: right
+      padding: $button-padding
+    .react-tabs .react-tabs
+      padding-top: 0
+    .picker-header
+      border: 1px solid $flixpress-blue
+      display: inline-block
+      border-radius: $fluid-radius
+      overflow: hidden
+      margin-bottom: $medPad
+      li
+        margin: 0
+        border-radius: 0
+        border: none
+    
+  .preview-image-modal
+    button
+      margin-left: auto
+      margin-right: auto
+      display: block
+    .explain
+      text-align: center
+    img
+      display: block
+      margin-left: auto
+      margin-right: auto
+      max-width: 100%
+
+body.ReactModal__Body--open
+  overflow: hidden
+  .ReactModalPortal
+    display: block
+
+.ReactTabs
+  .ReactTabs__Tab
+    border: 1px solid $flixpress-blue
+    background-color: transparent
+    display: inline-block
+    margin: $tinyPad
+    padding: $button-padding
+    border-radius: $fluid-radius
+    cursor: pointer
+    color: $flixpress-blue
+    
+    &.ReactTabs__Tab--selected, &:hover
+      background-color: $flixpress-blue
+      color: white
+    
+  h2
+    +fw-bars
+    
+.explain
+  color: #888
+  font-size: 0.9em
+  
+.song-item
+  padding: $tinyPad
+  margin: $tinyPad auto
+  overflow: hidden
+  background-color: #333
+  color: white
+  font-size: $base-font-size * 0.875
+  
+  .song-name
+    margin-left: 1em
+    display: block
+    float: left
+  
+  button
+    font-size: $base-font-size * 0.875
+    padding: $button-padding
+    margin: 0 $tinyPad 0 0
+    width: 4.6em // magic number
+    float: left
+    
+  &.playing
+    button.play-toggle
+      background-color: $flixpress-red
+  
+  +breakpoint($sm)
+    width: 49%
+    margin: $tinyPad 0.5%
+    float: left
+    text-align: center
+    padding: $medPad
+    
+    .song-name, button
+      float: none
+    .song-name
+      margin: $medPad 0 0 0
+
