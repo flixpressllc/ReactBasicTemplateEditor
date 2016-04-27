@@ -8,6 +8,7 @@ let defaultSettings = require('./defaults');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const args = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
@@ -48,7 +49,7 @@ let config = Object.assign({}, baseConfig, {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    //new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin('editor.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
