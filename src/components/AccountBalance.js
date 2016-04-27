@@ -2,25 +2,46 @@ import React from 'react';
 import cx from 'classnames';
 import {round} from '../utils/helper-functions';
 
+const minToTime = function (min) {
+  var sec_num = Math.floor(min * 60);
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  if (hours > 0) {hours = hours + 'hr ';} else {hours = '';}
+  if (hours > 0 && minutes < 10 && minutes > 0) {minutes = '0'+minutes;}
+  if (minutes > 0) {minutes = minutes + 'min ';} else {minutes = '';}
+  if (seconds < 10) {seconds = '0'+seconds;}
+  if (seconds > 0) {seconds += 'sec';}
+  var time    = hours + minutes + seconds;
+  return time;
+};
+
 export default React.createClass({
   render: function () {
     var sd = this.props.userSettingsData;
+    
     // .NET normalize
-    var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
-    var cost, balance, type;
+    var isChargePerOrder = (sd.isChargePerOrder === true || sd.isChargePerOrder === 'True') ? true : false;
+    
+    var cost, balance, rawCost, rawBalance, type;
     if (isChargePerOrder) {
-      cost = sd.renderCost;
-      balance = sd.creditRemaining;
+      cost = rawCost = sd.renderCost;
+      balance = rawBalance = sd.creditRemaining;
       type = 'credits';
     } else {
-      cost = round(sd.minimumTemplateDuration);
-      balance = round(sd.minutesRemainingInContract);
-      type = 'minutes';
+      rawCost = round(sd.minimumTemplateDuration);
+      rawBalance = round(sd.minutesRemainingInContract);
+      cost = minToTime(rawCost);
+      balance = minToTime(rawBalance);
+      type = 'monthly time';
     }
+    
     var balanceData = {
-      insufficient: (!this.props.isPreview && cost > balance),
-      sufficient: (!this.props.isPreview && cost <= balance)
+      insufficient: (!this.props.isPreview && rawCost > rawBalance),
+      sufficient: (!this.props.isPreview && rawCost <= rawBalance)
     }
+    
     var tCost;
     if (this.props.isPreview) {
       tCost = (
@@ -32,6 +53,7 @@ export default React.createClass({
         <div key="2" className="type">{type}</div>
       ];
     }
+    
     return(
       <div className={cx('account-balance-component', 'component', {preview: this.props.isPreview})}>
         <div className="template-cost">
