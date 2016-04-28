@@ -15,7 +15,7 @@ module.exports = {
   debug: true,
   devtool: 'eval',
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
+    path: path.join(__dirname, '/../dist'),
     filename: '[name].js',
     chunkFilename: '[id].js',
     publicPath: `.${defaultSettings.publicPath}`
@@ -41,6 +41,7 @@ module.exports = {
       sources: `${defaultSettings.srcPath}/sources/`,
       stores: `${defaultSettings.srcPath}/stores/`,
       styles: `${defaultSettings.srcPath}/styles/`,
+      utils: `${defaultSettings.srcPath}/utils/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }
   },
