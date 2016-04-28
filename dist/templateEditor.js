@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./assets/";
+/******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -11565,23 +11565,81 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var minToTime = function minToTime(min) {
+	  var sec_num = Math.floor(min * 60);
+	  var hours = Math.floor(sec_num / 3600);
+	  var minutes = Math.floor((sec_num - hours * 3600) / 60);
+	  var seconds = sec_num - hours * 3600 - minutes * 60;
+	
+	  if (hours > 0) {
+	    hours = hours + 'hr ';
+	  } else {
+	    hours = '';
+	  }
+	  if (hours > 0 && minutes < 10 && minutes > 0) {
+	    minutes = '0' + minutes;
+	  }
+	  if (minutes > 0) {
+	    minutes = minutes + 'min ';
+	  } else {
+	    minutes = '';
+	  }
+	  if (seconds < 10) {
+	    seconds = '0' + seconds;
+	  }
+	  if (seconds > 0) {
+	    seconds += 'sec';
+	  }
+	  var time = hours + minutes + seconds;
+	  return time;
+	};
+	
 	exports.default = _react2.default.createClass({
 	  displayName: 'AccountBalance',
 	
 	  render: function render() {
 	    var sd = this.props.userSettingsData;
+	
 	    // .NET normalize
-	    var isChargePerOrder = sd.isChargePerOrder === false || sd.isChargePerOrder === 'False' ? false : true;
-	    var cost, balance, type;
+	    var isChargePerOrder = sd.isChargePerOrder === true || sd.isChargePerOrder === 'True' ? true : false;
+	
+	    var cost, balance, rawCost, rawBalance, type;
 	    if (isChargePerOrder) {
-	      cost = sd.renderCost;
-	      balance = sd.creditRemaining;
+	      cost = rawCost = sd.renderCost;
+	      balance = rawBalance = sd.creditRemaining;
 	      type = 'credits';
 	    } else {
-	      cost = (0, _helperFunctions.round)(sd.minimumTemplateDuration);
-	      balance = (0, _helperFunctions.round)(sd.minutesRemainingInContract);
-	      type = 'minutes';
+	      rawCost = (0, _helperFunctions.round)(sd.minimumTemplateDuration);
+	      rawBalance = (0, _helperFunctions.round)(sd.minutesRemainingInContract);
+	      cost = minToTime(rawCost);
+	      balance = minToTime(rawBalance);
+	      type = 'monthly time';
 	    }
+	
+	    var balanceData = {
+	      insufficient: !this.props.isPreview && rawCost > rawBalance,
+	      sufficient: !this.props.isPreview && rawCost <= rawBalance
+	    };
+	
+	    var tCost;
+	    if (this.props.isPreview) {
+	      tCost = _react2.default.createElement(
+	        'div',
+	        { className: 'amount no-cost' },
+	        'Free Preview'
+	      );
+	    } else {
+	      tCost = [_react2.default.createElement(
+	        'div',
+	        { key: '1', className: 'amount' },
+	        cost
+	      ), _react2.default.createElement(
+	        'div',
+	        { key: '2', className: 'type' },
+	        type
+	      )];
+	    }
+	
 	    return _react2.default.createElement(
 	      'div',
 	      { className: (0, _classnames2.default)('account-balance-component', 'component', { preview: this.props.isPreview }) },
@@ -11593,20 +11651,11 @@
 	          { className: 'label' },
 	          'Template Cost'
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'amount' },
-	          cost
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'type' },
-	          type
-	        )
+	        tCost
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'account-balance' },
+	        { className: (0, _classnames2.default)('account-balance', balanceData) },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'label' },
@@ -11774,19 +11823,12 @@
 	    this.findFirstPreviewImage();
 	  },
 	
-	  getPreviewImage: function getPreviewImage(type, identifier) {
-	    var safeName = identifier.replace(' ', '-');
+	  getPreviewImage: function getPreviewImage(type, identifier, value) {
 	    if (type === 'TextField') {
 	      return this.props.allTextFields[identifier].previewImage;
 	    } else if (type === 'DropDown') {
-	      var defaultValue = this.props.allDropDowns[identifier].default;
 	      for (var i = this.props.allDropDowns[identifier].options.length - 1; i >= 0; i--) {
-	        var value = this.props.allDropDowns[identifier].options[i].value;
-	        var isMounted = this.refs['select-' + safeName] !== undefined;
-	        var mountedValue = isMounted ? this.refs['select-' + safeName].value : -1;
-	        // If the component is mounted and values match, that's the one
-	        // If the component is NOT mounted, and the value matches the default, that's the one
-	        if (isMounted && value === mountedValue || !isMounted && defaultValue === value) {
+	        if (this.props.allDropDowns[identifier].options[i].value === value) {
 	          return this.props.allDropDowns[identifier].options[i].previewImage;
 	        }
 	      }
@@ -11813,14 +11855,27 @@
 	  },
 	
 	  createDropDown: function createDropDown(name, object) {
+	    var _this = this;
+	
 	    var safeName = name.replace(' ', '-');
 	    var options = [];
 	    var theDefault = object.default;
+	    var _thisDD; // will be set after the component mounts.
 	
 	    var onDropDownChange = function () {
-	      this.props.onDropDownChange(this.refs['select-' + safeName], name);
-	      this.setState({ previewImage: this.getPreviewImage('DropDown', name) });
+	      this.props.onDropDownChange(_thisDD, name);
+	      this.setState({ previewImage: this.getPreviewImage('DropDown', name, _thisDD.value) });
 	    }.bind(this);
+	
+	    var _thisDDMounted = function _thisDDMounted(ref) {
+	      // set our local static variable to start...
+	      _thisDD = ref;
+	      // if there is no value chosen for the dropdown yet...
+	      if (_this.props.allDropDowns[name].value === undefined) {
+	        // ...tell props that we've chosen the default to start
+	        _this.props.onDropDownChange(_thisDD, name);
+	      }
+	    };
 	
 	    for (var i = 0; i < object.options.length; i++) {
 	      var option = object.options[i];
@@ -11845,7 +11900,7 @@
 	      _react2.default.createElement(
 	        'select',
 	        {
-	          ref: 'select-' + safeName,
+	          ref: _thisDDMounted,
 	          onChange: onDropDownChange,
 	          onFocus: onDropDownChange,
 	          defaultValue: theDefault,
@@ -11871,6 +11926,9 @@
 	        }
 	      }
 	    }
+	    // probably the first inner component with a preview image
+	    // hasn't mounted yet. This is a hack, but we'll call again...
+	    setTimeout(this.findFirstPreviewImage, 500);
 	  },
 	
 	  createSection: function createSection(sectionName, inputArray) {
@@ -11954,8 +12012,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var fakeTemplateInfo = __webpack_require__(171);
-	
 	var EditorUserInterface = _react2.default.createClass({
 	  displayName: 'EditorUserInterface',
 	
@@ -12027,6 +12083,8 @@
 	  },
 	
 	  componentDidMount: function componentDidMount() {
+	    var _this = this;
+	
 	    this.serverRequest = $.getJSON(this.props.uiSettingsJsonUrl, function (result) {
 	      var checkedResults = this.checkResult(result);
 	      if (checkedResults === true) {
@@ -12044,48 +12102,30 @@
 	        });
 	      }
 	    }.bind(this)).fail(function () {
-	      this.setState({
+	      _this.setState({
 	        caughtErrors: [{ message: 'could not load template data' }]
 	      });
-	      // !!!! ---- TESTING ONLY
-	      // !!!! ---- TESTING ONLY
-	      // !!!! ---- TESTING ONLY
-	      if (fakeTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()) {
-	
-	        this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
-	
-	        var doStyleSwap = function doStyleSwap() {
-	          var oldStyle = $('head').find('[href="https://files.digital-edge.biz/templates/Styles/editor.css"]');
-	          $('head').append('<link rel="stylesheet" href="https://files.digital-edge.biz/templates/Styles/editor.css" type="text/css" />');
-	          setTimeout(oldStyle.remove, 100);
-	        };
-	        if (window.location.href.indexOf('localhost') !== -1) {
-	          //require('../styles/editor.css');
-	        } else {
-	            doStyleSwap();
-	          }
-	
-	        var swapTimer;
-	        window.styleSwap = function (int) {
-	          if (int !== undefined) {
-	            swapTimer = window.setInterval(doStyleSwap, int);
-	          } else {
-	            clearInterval(swapTimer);
-	            doStyleSwap();
-	          }
-	        };
-	        this.setState({
-	          caughtErrors: [{
-	            message: 'Can\'t access template data at <code>' + this.props.uiSettingsJsonUrl + '</code>. Falling back to locally defined testing data.',
-	            htmlSafe: true,
-	            type: 'bad'
-	          }]
-	        });
+	      // If the script we are in dev mode via query params...
+	      var testing = false;
+	      if (window.location.search.indexOf('dev=1') !== -1) {
+	        testing = true;
 	      }
-	      // !!!! ---- TESTING ONLY
-	      // !!!! ---- TESTING ONLY
-	      // !!!! ---- TESTING ONLY
-	    }.bind(this));
+	      if (testing) {
+	        var devTemplateInfo = __webpack_require__(171);
+	        if (devTemplateInfo.hasOwnProperty(_this.props.userSettingsData.templateId).toString()) {
+	
+	          _this.setState(devTemplateInfo[_this.props.userSettingsData.templateId], _this.getStartingData);
+	
+	          _this.setState({
+	            caughtErrors: [{
+	              message: 'Can\'t access template data at <code>' + _this.props.uiSettingsJsonUrl + '</code>. Falling back to locally defined testing data.',
+	              htmlSafe: true,
+	              type: 'bad'
+	            }]
+	          });
+	        }
+	      }
+	    });
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -25253,4 +25293,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=templateEditor.js.map
