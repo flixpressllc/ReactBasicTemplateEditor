@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import EditorUserInterface from './components/Main';
 
 require('reset.css');
-require('./styles/editor.sass');
+require('./styles/editor.scss');
 
 // someday:
 // export default EditorUserInterface;
