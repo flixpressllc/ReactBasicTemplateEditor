@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {clone, promiseFlixpress} from './imports';
-var fakeTemplateInfo = require('../stores/fakeTemplateInfo.json');
 
 import Messages from './UserMessages';
 import SubmitRender from './SubmitRender';
@@ -96,29 +95,31 @@ var EditorUserInterface = React.createClass({
         })
       }
     }.bind(this))
-    .fail(function(){
+    .fail(()=>{
       this.setState({
         caughtErrors: [{message: 'could not load template data'}]
       });
-      // !!!! ---- TESTING ONLY
-      // !!!! ---- TESTING ONLY
-      // !!!! ---- TESTING ONLY
-      if (fakeTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
-        
-        this.setState(fakeTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
-        
-        this.setState({
-          caughtErrors: [{
-            message: `Can\'t access template data at <code>${this.props.uiSettingsJsonUrl}</code>. Falling back to locally defined testing data.`,
-            htmlSafe: true,
-            type: 'bad'
-          }]
-        });
+      // If the script we are in dev mode via query params...
+      var testing = false;
+      if (window.location.search.indexOf('dev=1') !== -1){
+        testing = true;
       }
-      // !!!! ---- TESTING ONLY
-      // !!!! ---- TESTING ONLY
-      // !!!! ---- TESTING ONLY
-    }.bind(this));
+      if (testing) {
+        var devTemplateInfo = require('../stores/devTemplateInfo.json');
+        if (devTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
+          
+          this.setState(devTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
+          
+          this.setState({
+            caughtErrors: [{
+              message: `Can\'t access template data at <code>${this.props.uiSettingsJsonUrl}</code>. Falling back to locally defined testing data.`,
+              htmlSafe: true,
+              type: 'bad'
+            }]
+          });
+        }
+      }
+    });
   },
   
   componentWillUnmount: function () {
