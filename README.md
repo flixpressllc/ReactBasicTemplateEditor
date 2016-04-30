@@ -4,7 +4,7 @@ If you don't work at Flixpress, this document won't be much help to you. Of cour
 
 ## Installation
 
-To develop on a local machine, install Node.js and Git, clone this repo, and then run the following command in the root directory of the cloned repo:
+To develop on a local machine, install [Node.js](http://nodejs.org) and [Git](https://git-scm.com/), clone this repo, and then run the following command in the root directory of the cloned repo:
 
 ```
 npm install
@@ -16,7 +16,7 @@ git checkout develop
 
 Alternatively, you could use some kind of GUI Git program, like the one offered at GitHub to switch to the development branch.
 
-From there, you can start making changes to the javascript (`src/components` for the most part) and the css (`src/styles/editor.scss`). Please be sure to check out the development branch of the repo, and not the master branch. The master branch ought to be reserved for code that all works and can readily be run in production. Of course, to see what your changes are actually doing, it is best to do one of the following below...
+From there, you can start making changes to the javascript (`src/components` for the most part) and the css (`src/styles/editor.scss`). Please be sure to check out the development branch of the repo, and not the master branch. (If you are unfamiliar with Git, [this 15 minute starter](https://try.github.io/levels/1/challenges/1) is good.) The master branch ought to be reserved for code that all works and can readily be run in production. Of course, to see what your changes are actually doing, it is best to do one of the following below...
 
 ## Develop Live
 
@@ -74,4 +74,4 @@ Incidentally, you can only get the css separately when building to production li
 
 # Working with CSS
 
-The editor.scss file is written using [SASS](sass-lang.org) which supports style nesting and variables. Regular, old css will work just fine inside this file, and I'd suggest putting any changes at the bottom until you are familiar with Sass. Running any of the commands described above will transpile the file into regular old css.
+The editor.scss file is written using [SASS](http://sass-lang.com) which supports style nesting and variables. Regular, old css will work just fine inside this file, and I'd suggest putting any changes at the bottom until you are familiar with Sass. Running any of the commands described above will transpile the file into regular old css.
