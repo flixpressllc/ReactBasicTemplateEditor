@@ -75,3 +75,54 @@ Incidentally, you can only get the css separately when building to production li
 # Working with CSS
 
 The editor.scss file is written using [SASS](http://sass-lang.com) which supports style nesting and variables. Regular, old css will work just fine inside this file, and I'd suggest putting any changes at the bottom until you are familiar with Sass. Running any of the commands described above will transpile the file into regular old css.
+
+# Implementation
+
+Below is the bare minimum needed on the page.
+
+```html
+<head>
+  
+  ...
+  
+  <!-- required -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="path/to/jquery.min.js"></script>
+  <script src="path/to/flixpress.js"></script>
+  <!-- the script in question -->
+  <script type="text/javascript" src="path/to/templateEditor.js"></script>
+  <!-- after all other styles -->
+  <link rel="stylesheet" type="text/css" href="Styles/editor.css">
+</head>
+
+...
+
+<div class="MainDiv">
+  <div id="Template_FlashContent_Div"></div>
+</div>
+
+...
+
+<!-- below are many variables that are already in use in the old, SetupRndTemplateFlash script. -->
+<script type="text/javascript">
+  ReactDOM.render(
+    React.createElement(EditorUserInterface, {
+      uiSettingsJsonUrl: "/templates/Template79.js", 
+      userSettingsData: {
+        templateType: "text", // Always 'text' for now
+        username: 'DonDenton',
+        templateId: 79,
+        minutesRemainingInContract: 170.2819,
+        minimumTemplateDuration: 0.1667,
+        mode: 'Add',
+        previewVideoUrl: '',
+        isChargePerOrder: 'False',
+        renderCost: 8,
+        creditRemaining: 8 // This one is new, but Izzy knows how to generate it.
+      }
+    }),
+    document.getElementById('Template_FlashContent_Div')
+  );
+</script>
+
+```
