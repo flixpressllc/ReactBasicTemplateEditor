@@ -1,0 +1,27 @@
+{
+  "templateId": 91,
+  "textFields": {
+    "Top Line": {
+      "value": "",
+      "previewImage": "t91_1.jpg"
+    },
+    "Bottom Line": {
+      "value": "",
+      "previewImage": "t91_1.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "TextField",
+          "name": "Top Line"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Line"
+        }
+      ]
+    }
+  ]
+}
