@@ -181,7 +181,17 @@ if (window.Flixpress) {
 } else {
   $.getScript('/Scripts/flixpress-js/flixpress.js').done(function() {
     flixpressLocation = window;
-    $('body').on('flixpressJsLoaded', function() {
+    (function () {
+      if (window.$flixpressJsLoaded == undefined) {
+        window.$flixpressJsLoaded = $.Deferred();
+      }
+      if (window.Flixpress !== undefined) {
+        window.Flixpress.loaded.done(function(){window.$flixpressJsLoaded.resolve();});
+      } else {
+        $('body').on('flixpressJsLoaded', function(){window.$flixpressJsLoaded.resolve();});
+      }
+    })();
+    window.$flixpressJsLoaded.done(function() {
       promiseFlixpress.resolve(flixpressLocation.Flixpress);
     });
   });
