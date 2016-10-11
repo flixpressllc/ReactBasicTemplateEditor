@@ -77,8 +77,10 @@ var EditorUserInterface = React.createClass({
     }
   },
   
-  componentDidMount: function () {
+  tryJsonFile: function () {
+    var $returnPromise = $.Deferred();
     this.serverRequest = $.getJSON(this.props.uiSettingsJsonUrl, function (result) {
+      $returnPromise.resolve(); // The file exists. Below we check for bad data.
       var checkedResults = this.checkResult(result);
       if (checkedResults === true) {
         this.setState(result, this.getStartingData);
@@ -95,30 +97,18 @@ var EditorUserInterface = React.createClass({
         })
       }
     }.bind(this))
+    .fail(function(){
+      $returnPromise.reject();
+    });
+    return $returnPromise;
+  },
+  
+  componentDidMount: function () {
+    this.tryJsonFile()
     .fail(()=>{
       this.setState({
-        caughtErrors: [{message: 'could not load template data'}]
+        caughtErrors: [{message: 'Could not load template data.'}]
       });
-      // If the script we are in dev mode via query params...
-      var testing = false;
-      if (window.location.search.indexOf('dev=1') !== -1){
-        testing = true;
-      }
-      if (testing) {
-        var devTemplateInfo = require('../stores/devTemplateInfo.json');
-        if (devTemplateInfo.hasOwnProperty(this.props.userSettingsData.templateId).toString()){
-          
-          this.setState(devTemplateInfo[this.props.userSettingsData.templateId], this.getStartingData);
-          
-          this.setState({
-            caughtErrors: [{
-              message: `Can\'t access template data at <code>${this.props.uiSettingsJsonUrl}</code>. Falling back to locally defined testing data.`,
-              htmlSafe: true,
-              type: 'bad'
-            }]
-          });
-        }
-      }
     });
   },
   
