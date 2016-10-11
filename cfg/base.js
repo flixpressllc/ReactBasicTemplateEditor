@@ -29,7 +29,8 @@ module.exports = {
     noInfo: false,
     proxy: {
       '/templates/images/*': {
-        target: 'https://flixpress.com'
+        target: 'https://flixpress.com',
+        changeOrigin: true,
       }
     }
   },
