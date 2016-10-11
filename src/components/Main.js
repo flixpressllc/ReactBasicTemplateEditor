@@ -66,7 +66,7 @@ var EditorUserInterface = React.createClass({
     var messages = [];
     var userSettingsData = this.props.userSettingsData;
     // Template Id's match?
-    if (results.templateId !== userSettingsData.templateId) {
+    if (results.templateId.toString() !== userSettingsData.templateId.toString()) {
       messages.push(`Template IDs do not match. This page reports: ${userSettingsData.templateId}, JSON file reports: ${results.templateId}`);
     }
     
