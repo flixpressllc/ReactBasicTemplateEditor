@@ -12,6 +12,10 @@
   <link rel="stylesheet" type="text/css" href="https://flixpress.com/templates/Styles/containers.css">
   <link rel="stylesheet" type="text/css" href="https://flixpress.com/templates/Styles/templates.css">
   <link rel="stylesheet" href="https://flixpress.com/Portals/_default/Skins/Fusion/css/font-awesome.css" />
+  <script type="text/javascript">
+    var tid = window.location.search.match(/tid=([0-9]+)/i)[1];
+    tid = tid ? tid : 79;
+  </script>
 </head>
 <body>
   
@@ -52,11 +56,11 @@
       } else {
         ReactDOM.render(
           React.createElement(EditorUserInterface, {
-            uiSettingsJsonUrl: "/templates/Template79.js",
+            uiSettingsJsonUrl: `/templates/Template${tid}.json`,
             userSettingsData: {
               templateType: "text",
               username: 'DonDenton',
-              templateId: 79,
+              templateId: tid,
               minutesRemainingInContract: 170.2819,
               minimumTemplateDuration: 0.1667,
               mode: 'Add',
