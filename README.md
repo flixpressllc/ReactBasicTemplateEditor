@@ -58,6 +58,20 @@ npm run start
 
 This will spin up a local server and will not do much interaction with Flixpress. Right now it is hard coded to think it is on template 79, since that one has the most stuff in it of all the templates I've already moved over. Making changes to the code here will not require you to refresh the browser page. It'll just hot swap the code and the styles. Pretty nice.
 
+To open a specific browser, use the `openWith` option:
+
+```
+npm run start -- --openWith "google chrome"
+```
+
+If your browser doesn't open, then you specified a name that the script didn't recognize. For example, "chrome" would not work on macOS. It must be "google chrome". I do not know where these strings are defined, so a little experimentation may be required to get it right on your machine. Leaving the option out entirely will always work by opening your system default.
+
+There is also a convenience command that will automatically run the command above:
+
+```
+npm run chrome
+```
+
 ## Build for Production
 
 When you are all done testing via one of the methods above, kill the Terminal/Command Prompt process that is watching the files. Push your changes to GitHub via a Pull Request so that we can all see them and we don't either duplicate or clobber each other's work. I'll handle pulling things into the Master Branch until you are all familiar with the process. For now, just worry about pushing to the development branch.

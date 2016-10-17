@@ -5,13 +5,20 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
+const args = require('minimist')(process.argv.slice(2));
 
 new WebpackDevServer(webpack(config), config.devServer)
 .listen(config.port, 'localhost', (err) => {
   if (err) {
     console.log(err);
   }
+  var href = 'http://localhost:' + config.port + '/webpack-dev-server/';
   console.log('Listening at localhost:' + config.port);
-  console.log('Opening your system browser...');
-  open('http://localhost:' + config.port + '/webpack-dev-server/');
+  if (args.openWith === undefined) {
+    console.log('Opening your system browser...');
+    open(href);
+  } else {
+    console.log('Opening with ' + args.openWith);
+    open(href, args.openWith);
+  }
 });
