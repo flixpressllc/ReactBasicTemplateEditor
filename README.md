@@ -46,7 +46,7 @@ In either case, the final folder is the one that `TextOnlyNoFlash.aspx` is using
 
 Of course, you can set this script source to anything you like. Ultimately, it will be set to a local file and We'll have a `TextOnlyNoFlashDev.aspx` that will call out to a dev file. (More on that below)
 
-Changes you make while the Terminal/Command Prompt is watching the files will be compiled (not compresed) and loaded into the diretory you specified. Since I used Dropbox, I just had to then wait for the file to be uploaded to the cloud. This is the best way for us all to work on the file from remote locations right now.
+Changes you make while the Terminal/Command Prompt is watching the files will be compiled (not compressed) and loaded into the directory you specified. Since I used Dropbox, I just had to then wait for the file to be uploaded to the cloud. This is the best way for us all to work on the file from remote locations right now.
 
 ## Develop Locally
 
@@ -82,9 +82,9 @@ Finally, at any time you are ready for a production build, run the following com
 npm run dist
 ```
 
-This will build all the files you need into the `dist` folder. Just move those to the server and you should be set. Please note that the files that are created here are truly for production. They surpress all the helpful warnings that are not showstopping bugs and they pull the css out into it's own file. They also offer compressed version of the script and css files that will save BIG TIME on bandwidth.
+This will build all the files you need into the `dist` folder. Just move those to the server and you should be set. Please note that the files that are created here are truly for production. They suppress all the helpful warnings that are not show-stopping bugs and they pull the css out into it's own file. They also offer compressed version of the script and css files that will save BIG TIME on bandwidth.
 
-Incidentally, you can only get the css separately when building to production like this. If you use the development methods above this section, the css is actually embeded in the Javascript. This is a convenince for development and should not really be used in production.
+Incidentally, you can only get the css separately when building to production like this. If you use the development methods above this section, the css is actually embedded in the Javascript. This is a convenience for development and should not really be used in production.
 
 # Working with CSS
 
