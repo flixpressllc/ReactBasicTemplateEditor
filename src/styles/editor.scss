@@ -107,6 +107,11 @@ $lg-title-font-size: $md-title-font-size;
   
   .input-item {
     margin-top: $medPad;
+    font-size: 16px;
+    
+    input, select, textarea {
+      font-size: 16px;
+    }
     
     label:after {
       content: ':';
