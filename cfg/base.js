@@ -30,7 +30,11 @@ module.exports = {
     proxy: {
       '/templates/images/*': {
         target: 'https://flixpress.com',
-        changeOrigin: true,
+        changeOrigin: true
+      },
+      '/Scripts/flixpress-js/*': {
+        target: 'https://s3.amazonaws.com/FlixSamples/development_files',
+        changeOrigin: true
       }
     }
   },
