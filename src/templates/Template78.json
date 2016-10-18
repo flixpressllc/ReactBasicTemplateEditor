@@ -1,0 +1,73 @@
+{
+  "templateId": 78,
+  "textBoxes": {
+    "Question": {
+      "value": "",
+      "previewImage": "t78_1.jpg"
+    },
+    "Answer1": {
+      "value": "",
+      "previewImage": "t78_2.jpg"
+    },
+    "Answer2": {
+      "value": "",
+      "previewImage": "t78_3.jpg"
+    }
+  },
+  "textFields": {
+    "Main Title": {
+      "value": "",
+      "previewImage": "t78_4.jpg"
+    },
+    "Text 1": {
+      "value": "",
+      "previewImage": "t78_5.jpg"
+    },
+    "Text 2": {
+      "value": "",
+      "previewImage": "t78_6.jpg"
+    },
+    "Text 3": {
+      "value": "",
+      "previewImage": "t78_6.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Question and Answers": [
+        {
+          "type": "TextBox",
+          "name": "Question"
+        },
+        {
+          "type": "TextBox",
+          "name": "Answer1"
+        },
+        {
+          "type": "TextBox",
+          "name": "Answer2"
+        },
+      ]
+    },
+    {
+      "Final Screen": [
+        {
+          "type": "TextField",
+          "name": "Main Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Text 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Text 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Text 3"
+        }
+      ]
+    }
+  ]
+}
