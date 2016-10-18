@@ -15,6 +15,8 @@ jxon.config({
   parseValues: true
 });
 
+// The next comment line will tell JSHint to ignore double quotes for a bit
+/* eslint-disable quotes */
 var startingPoint = {
   OrderRequestOfTextOnlyRndTemplate: {
     "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
@@ -33,12 +35,13 @@ var startingPoint = {
         Length: "0",
         AudioType: "NoAudio",
         Id: "0",
-        AudioUrl: null,
+        AudioUrl: null
       }
     },
     IsPreview: false
   }
 };
+/* eslint-enable quotes */
 
 var xmlContainerDiv = function () {return $('#RndTemplate_HF')[0]; };
 
@@ -81,7 +84,7 @@ function changePropsInitialCase (obj, whichCase) {
 }
 
 function clone(obj) {
-  return target = JSON.parse(JSON.stringify(obj));
+  return JSON.parse(JSON.stringify(obj));
 }
 
 
@@ -229,10 +232,10 @@ var getAudioOptions = function (username) {
   var customUrl = 'https://ws.flixpress.com/CustomAudioWebService.asmx/GetCustomAudio';
   
   function whenAll(arrayOfPromises) {
-    return jQuery.when.apply(jQuery, arrayOfPromises).then(function() {
+    return $.when.apply($, arrayOfPromises).then(function() {
       return Array.prototype.slice.call(arguments, 0);
     });
-  };
+  }
 
   var categoriesObj = {};
   var customAudioArr = [];
@@ -243,7 +246,9 @@ var getAudioOptions = function (username) {
     url: categoryUrl,
     dataType: 'xml',
     type: 'GET'
-  }).done(function(result){
+  });
+  
+  getCats.done(function(result){
     var getAllCats = [];
     var categories = jxon.xmlToJs(result).ArrayOfCategory.Category.SubCategories.Category;
 
@@ -267,7 +272,9 @@ var getAudioOptions = function (username) {
     dataType: 'xml',
     type: 'GET',
     data: {username: username, page:1, pageSize: 1000}
-  }).done(function (result) {
+  });
+  
+  getCustom.done(function (result) {
     var songs = jxon.xmlToJs(result).ResultSetOfCustomAudio.Records.CustomAudio;
     for (var i = 0; i < songs.length; i++) {
       customAudioArr.push(songs[i]);
