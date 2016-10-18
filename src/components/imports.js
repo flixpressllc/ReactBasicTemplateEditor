@@ -170,32 +170,6 @@ const RadioGroup = React.createClass({
 });
 
 
-var flixpressLocation = false;
-var promiseFlixpress = $.Deferred();
-if (window.Flixpress) {
-  flixpressLocation = window;
-  promiseFlixpress.resolve(flixpressLocation.Flixpress)
-} else if (window.parent.Flixpress) {
-  flixpressLocation = window.parent;
-  promiseFlixpress.resolve(flixpressLocation.Flixpress);
-} else {
-  $.getScript('/Scripts/flixpress-js/flixpress.js').done(function() {
-    flixpressLocation = window;
-    (function () {
-      if (window.$flixpressJsLoaded == undefined) {
-        window.$flixpressJsLoaded = $.Deferred();
-      }
-      if (window.Flixpress !== undefined) {
-        window.Flixpress.loaded.done(function(){window.$flixpressJsLoaded.resolve();});
-      } else {
-        $('body').on('flixpressJsLoaded', function(){window.$flixpressJsLoaded.resolve();});
-      }
-    })();
-    window.$flixpressJsLoaded.done(function() {
-      promiseFlixpress.resolve(flixpressLocation.Flixpress);
-    });
-  });
-}
-
+var promiseFlixpress = $.Deferred().resolve();
 
 export {clone, RadioGroup, CheckBox, promiseFlixpress};

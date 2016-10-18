@@ -4,6 +4,7 @@ import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {promiseFlixpress} from './imports';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
+import xmlParser from '../utils/xml-parser';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -62,7 +63,7 @@ var SoundPicker = React.createClass({
     if (this.state.audioOptions === undefined) {
       //define it.
       promiseFlixpress.done(function (Flixpress) {
-        Flixpress.td.getAudioOptions(this.props.username).done(function(result){
+        xmlParser.getAudioOptions(this.props.username).done(function(result){
           this.setState({audioOptions: result});
         }.bind(this))
       }.bind(this));

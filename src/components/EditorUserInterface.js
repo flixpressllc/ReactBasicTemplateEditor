@@ -8,6 +8,7 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
+import xmlParser from '../utils/xml-parser';
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -26,7 +27,7 @@ var EditorUserInterface = React.createClass({
 
   getStartingData: function () {
     promiseFlixpress.done(function(Flixpress){
-      var startingPoint = Flixpress.td.getReactStartingData();
+      var startingPoint = xmlParser.getReactStartingData();
       var currentState = clone(this.state);
       var stateToMerge = clone(startingPoint);
 
@@ -169,7 +170,7 @@ var EditorUserInterface = React.createClass({
     var orderPromise = $.Deferred();
     
     promiseFlixpress.done(function(Flixpress) {
-      Flixpress.td.updateXmlForOrder(order)
+      xmlParser.updateXmlForOrder(order)
         .done(function(){
           orderPromise.resolve()
         })
