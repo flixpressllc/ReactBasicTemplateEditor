@@ -1,7 +1,7 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EditorUserInterface from './components/Main';
+import EditorUserInterface from './components/EditorUserInterface';
 
 require('reset.css');
 require('./styles/editor.scss');
