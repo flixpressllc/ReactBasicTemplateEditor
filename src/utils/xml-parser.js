@@ -3,16 +3,6 @@ import jsb from 'js-beautify';
 
 const developmentMode = true; // TODO: find a better development switch
 
-//function( Flixpress, frameContext, menu, jxon /*d-> , jsb <-d*/ ) {
-
-var context = function(){
-  try{
-    return frameContext();
-  } catch (e) {
-    return window;
-  }
-}
-
 var prettyXml = function (str) {
   if (developmentMode) {
     return jsb.html(str);
@@ -24,66 +14,6 @@ var prettyXml = function (str) {
 jxon.config({
   parseValues: true
 });
-
-// Monkey patch to fix for a change in JXON at 2.0.0
-// (the v2.0.0 branch adds an errant 'xmlns' property as 'undefined')
-// jxon.jsToString2 = jxon.jsToString;
-// jxon.jsToString = function (jsObj) {
-//   return jxon.jsToString2(jsObj).replace('xmlns="undefined" ','');
-// }
-
-var exampleWorkingOrderTemplate83 = {
-  OrderRequestOfTextOnlyRndTemplate: {
-    "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
-    "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    ResolutionOptions: {
-      ListItemViewModel: [
-        {
-          Name: "720p",
-          Id: 5
-        },{
-          Name: "1080p",
-          Id: 3
-        },{
-          Name: "4K",
-          Id: 4
-        }
-      ]
-    },
-    ResolutionId: "5",
-    RenderedData: {
-      Specs: {
-        $name: "Specs",
-        $val: "",
-        SpCx: {
-          CSp: {
-            $name: "Properties",
-            $val: "CD|Properties|",
-            SpCx: {
-              Sp: [
-                {
-                  $name: "Top Line",
-                  $val: "Is Working?"
-                },{
-                  $name: "Bottom Line",
-                  $val: ""
-                }
-              ]
-            }
-          }
-        }
-      },
-      AudioInfo: {
-        Name: "",
-        Length: "0",
-        AudioType: "NoAudio",
-        Id: "0",
-        AudioUrl: "",
-      }
-    },
-    IsPreview: false
-  }
-};
 
 var startingPoint = {
   OrderRequestOfTextOnlyRndTemplate: {
@@ -110,7 +40,7 @@ var startingPoint = {
   }
 };
 
-var xmlContainerDiv = function () {return context().$('#RndTemplate_HF')[0];};
+var xmlContainerDiv = function () {return $('#RndTemplate_HF')[0]; };
 
 var getLoadedXmlAsString = function () {
   return prettyXml(xmlContainerDiv().value);
@@ -118,14 +48,6 @@ var getLoadedXmlAsString = function () {
 
 var getLoadedXmlAsObject = function () {
   return jxon.stringToJs(getLoadedXmlAsString(xmlContainerDiv().value));
-};
-
-var getEditorTemplateSettings = function () {
-  return context().editorTemplateSettings;
-};
-
-var getTemplateId = function () {
-  return getEditorTemplateSettings().templateId;
 };
 
 var getTopLevelXmlName = function () {
@@ -222,18 +144,6 @@ var getReactStartingData = function () {
 
   return result;
 };
-
-var promiseTemplateUIConfigObject = function(){
-  var prom = $.getJSON('/templates/Template' + getTemplateId() + '.js');
-  prom.done(function(data){
-    console.log(data);
-  })
-  return prom;
-};
-
-function xmlToObject (xmlString) {
-  return jxon.stringToJs(xmlString);
-}
 
 function objectToXml (object) {
   return '<?xml version="1.0" encoding="utf-16"?>\n' + prettyXml(jxon.jsToString(object));
@@ -375,9 +285,7 @@ var getAudioOptions = function (username) {
 export default {
   getLoadedXmlAsString,
   getLoadedXmlAsObject,
-  xmlToObject,
   objectToXml,
-  promiseTemplateUIConfigObject,
   xmlContainerDiv,
   getReactStartingData,
   updateXmlForOrder,
