@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {clone, promiseFlixpress} from './imports';
+import {clone} from './imports';
 
 import Messages from './UserMessages';
 import SubmitRender from './SubmitRender';
@@ -26,39 +26,37 @@ var EditorUserInterface = React.createClass({
   },
 
   getStartingData: function () {
-    promiseFlixpress.done(function(Flixpress){
-      var startingPoint = xmlParser.getReactStartingData();
-      var currentState = clone(this.state);
-      var stateToMerge = clone(startingPoint);
+    var startingPoint = xmlParser.getReactStartingData();
+    var currentState = clone(this.state);
+    var stateToMerge = clone(startingPoint);
 
-      stateToMerge.defaultResolutionId = startingPoint.resolutionId;
-      
-      if (startingPoint.nameValuePairs !== undefined) {
-        var dataTypeContainers = ['textFields', 'dropDowns'];
-        var confirmedContainers = [];
-        for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
-          if (currentState.hasOwnProperty(dataTypeContainers[i])) {
-            stateToMerge[dataTypeContainers[i]] = clone(currentState[dataTypeContainers[i]]);
-            confirmedContainers.push(dataTypeContainers[i]);
-          }
-        }
-        
-        for (var i = 0; i < startingPoint.nameValuePairs.length; i++) {
-          var name = startingPoint.nameValuePairs[i].name;
-          var value = startingPoint.nameValuePairs[i].value;
-          for (var j = confirmedContainers.length - 1; j >= 0; j--) {
-            if(stateToMerge[confirmedContainers[j]].hasOwnProperty(name)){
-              stateToMerge[confirmedContainers[j]][name].value = value;
-            }
-          }
+    stateToMerge.defaultResolutionId = startingPoint.resolutionId;
+    
+    if (startingPoint.nameValuePairs !== undefined) {
+      var dataTypeContainers = ['textFields', 'dropDowns'];
+      var confirmedContainers = [];
+      for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
+        if (currentState.hasOwnProperty(dataTypeContainers[i])) {
+          stateToMerge[dataTypeContainers[i]] = clone(currentState[dataTypeContainers[i]]);
+          confirmedContainers.push(dataTypeContainers[i]);
         }
       }
       
-      // done with this now
-      delete stateToMerge.nameValuePairs;
-      
-      this.setState(stateToMerge);
-    }.bind(this));
+      for (var i = 0; i < startingPoint.nameValuePairs.length; i++) {
+        var name = startingPoint.nameValuePairs[i].name;
+        var value = startingPoint.nameValuePairs[i].value;
+        for (var j = confirmedContainers.length - 1; j >= 0; j--) {
+          if(stateToMerge[confirmedContainers[j]].hasOwnProperty(name)){
+            stateToMerge[confirmedContainers[j]][name].value = value;
+          }
+        }
+      }
+    }
+    
+    // done with this now
+    delete stateToMerge.nameValuePairs;
+    
+    this.setState(stateToMerge);
   },
   
   // Returns true if it passes, or an array of strings describing
@@ -169,15 +167,13 @@ var EditorUserInterface = React.createClass({
     
     var orderPromise = $.Deferred();
     
-    promiseFlixpress.done(function(Flixpress) {
-      xmlParser.updateXmlForOrder(order)
-        .done(function(){
-          orderPromise.resolve()
-        })
-        .fail(function(failureReason){
-          orderPromise.reject(failureReason)
-        })
-    });
+    xmlParser.updateXmlForOrder(order)
+      .done(function(){
+        orderPromise.resolve()
+      })
+      .fail(function(failureReason){
+        orderPromise.reject(failureReason)
+      })
     
     orderPromise.done(function(){
       this.setState({allowSubmit: true}, function () {

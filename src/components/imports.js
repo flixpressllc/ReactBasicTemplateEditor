@@ -169,7 +169,4 @@ const RadioGroup = React.createClass({
     }
 });
 
-
-var promiseFlixpress = $.Deferred().resolve();
-
-export {clone, RadioGroup, CheckBox, promiseFlixpress};
+export {clone, RadioGroup, CheckBox};
