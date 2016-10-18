@@ -20,6 +20,17 @@ export default React.createClass({
     };
   },
   
+  setMissingViaResponse: function (jqXHR) {
+    let isMissing = true;
+    let fileIsImage = jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
+    if (jqXHR.status === 200 && fileIsImage) {
+      isMissing = false;
+    }
+    this.setState({
+      missing: isMissing
+    });
+  },
+  
   componentWillReceiveProps: function(newProps) {
     if (newProps.image != this.props.image && newProps.image !== '') {
       if (this.currentCheck) this.currentCheck.abort();
@@ -33,14 +44,10 @@ export default React.createClass({
       this.currentCheck = $.ajax({
         url: urlPartial + newProps.image,
         type: 'HEAD'
-      }).always((obj1, status, obj2)=>{
-        if (status === 'abort') return;
-        let xhr = status === 'success' ? obj2 : obj1;
-        if (xhr.getResponseHeader('Content-Type').indexOf('image') === -1) {
-          this.setState({
-            missing: true
-          })
-        }
+      }).done((data, status, jqXHR)=>{
+        this.setMissingViaResponse(jqXHR);
+      }).fail((jqXHR /*, status, error */)=>{
+        this.setMissingViaResponse(jqXHR);
       });
     }
   },
