@@ -46,7 +46,7 @@
         {
           "type": "TextBox",
           "name": "Answer2"
-        },
+        }
       ]
     },
     {
