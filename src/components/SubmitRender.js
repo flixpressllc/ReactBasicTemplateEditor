@@ -63,7 +63,7 @@ export default React.createClass({
     return (
       <div className="submit-render-component component">
         <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={this.props.isPreview}/>
-        <CheckBox onChange={this.props.onChange} checked={this.props.isPreview}>Preview</CheckBox>
+        <CheckBox onChange={this.props.onChange} checked={!!this.props.isPreview}>Preview</CheckBox>
         <input name="Submit_BT" value={text} type="submit" id="Submit_BT" />
       </div>
     )
