@@ -96,17 +96,20 @@ var EditorUserInterface = React.createClass({
         })
       }
     }.bind(this))
-    .fail(function(){
-      $returnPromise.reject();
+    .fail(function(a,b,error){
+      $returnPromise.reject(`${error.name}: ${error.message}`);
     });
     return $returnPromise;
   },
   
   componentDidMount: function () {
     this.tryJsonFile()
-    .fail(()=>{
+    .fail((possibleReason)=>{
+      let errors = this.state.caughtErrors || [];
+      errors.push({message: 'Could not load template data.'});
+      if (possibleReason) { errors.push({message: possibleReason}); }
       this.setState({
-        caughtErrors: [{message: 'Could not load template data.'}]
+        caughtErrors: errors
       });
     });
   },
