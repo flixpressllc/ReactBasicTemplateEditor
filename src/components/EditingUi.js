@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from './TextField';
+import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 
 var EditingUi = React.createClass({
@@ -18,6 +19,9 @@ var EditingUi = React.createClass({
     if (type === 'TextField') {
       return this.props.allTextFields[identifier].previewImage
     
+    }else if (type === 'TextBox') {
+        return this.props.allTextBoxes[identifier].previewImage
+      
     } else if (type === 'DropDown') {
       for (var i = this.props.allDropDowns[identifier].options.length - 1; i >= 0; i--) {
         if (this.props.allDropDowns[identifier].options[i].value === value) {
@@ -34,6 +38,11 @@ var EditingUi = React.createClass({
     this.setState({lastTextFocus: fieldName, previewImage: img});
   },
   
+  handleTextBoxFocus: function (fieldName) {
+    var img = this.getPreviewImage('TextBox', fieldName);
+    this.setState({lastTextBoxFocus: fieldName, previewImage: img});
+  },
+  
   createTextField: function (name, object) {
     var safeName = name.replace(' ','-');
     return (<TextField
@@ -43,6 +52,18 @@ var EditingUi = React.createClass({
       onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
+    />);
+  },
+  
+  createTextBox: function (name, object) {
+    var safeName = name.replace(' ','-');
+    return (<TextBox
+      fieldName={name}
+      className="input-item"
+      userText={object.value}
+      onUserInput={this.props.onTextBoxesChange}
+      onTextBoxFocus={this.handleTextBoxFocus}
+      key={`text-box-${safeName}`}
     />);
   },
   

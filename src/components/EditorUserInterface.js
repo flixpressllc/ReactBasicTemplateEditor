@@ -124,6 +124,12 @@ var EditorUserInterface = React.createClass({
     this.setState({textFields: fields});
   },
 
+  handleTextBoxesChange: function (fieldName, userText) {
+    var textBoxes = this.state.textBoxes;
+    textBoxes[fieldName].value = userText;
+    this.setState({textBoxes: textBoxes});
+  },
+
   handleDropDownChange: function (selectElement, ddName) {
     var ddState = this.state.dropDowns;
     ddState[ddName].value = selectElement.value;
@@ -223,8 +229,10 @@ var EditorUserInterface = React.createClass({
       editingUi = (
         <EditingUi uiSections={this.state.ui}
           allTextFields={this.state.textFields}
+          allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
           onFieldsChange={this.handleFieldsChange}
+          onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
         />
       );
