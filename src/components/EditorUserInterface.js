@@ -161,6 +161,7 @@ var EditorUserInterface = React.createClass({
             
             // convert things like 'TextField' to 'textFields'
             type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
+            type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
             
             order.ui[i][key][j].value = this.state[type][name].value;
           }

@@ -120,7 +120,10 @@ var EditingUi = React.createClass({
     var components = [];
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
-      var object = this.props['all' + inputArray[i].type + 's'][name];
+      var type = inputArray[i].type;
+      var container = 'all' + type + 's';
+      container = (container == 'allTextBoxs') ? 'allTextBoxes' : container; // TODO: fix this hack
+      var object = this.props[container][name];
       components.push(this['create' + inputArray[i].type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
