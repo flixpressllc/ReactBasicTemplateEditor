@@ -34,15 +34,19 @@
   },
   "ui": [
     {
-      "Question and Answers": [
+      "Question": [
         {
           "type": "TextBox",
           "name": "Question"
-        },
+        }
+      ],
+      "Answer1": [
         {
           "type": "TextBox",
           "name": "Answer1"
-        },
+        }
+      ],
+      "Answer2": [
         {
           "type": "TextBox",
           "name": "Answer2"
