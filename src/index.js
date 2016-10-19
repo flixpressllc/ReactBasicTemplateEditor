@@ -6,9 +6,29 @@ import EditorUserInterface from './components/EditorUserInterface';
 require('reset.css');
 require('./styles/editor.scss');
 
-// someday:
-// export default EditorUserInterface;
-// for now:
-window.React = React;
-window.ReactDOM = ReactDOM;
-window.EditorUserInterface = EditorUserInterface;
+let reactPromise = $.Deferred();
+// In the future, React Engine may be loaded separately...
+function tryReact () {
+  if (React === undefined || ReactDOM === undefined) {
+    setTimeout(tryReact, 1000);
+  } else {
+    reactPromise.resolve();
+  }
+}
+
+function initializeTemplateEditor (options) {
+  let settings = {
+    uiSettingsJsonUrl: options.uiSettingsJsonUrl,
+    userSettingsData: options.userSettingsData
+  };
+  reactPromise.done(function () {
+    ReactDOM.render(
+      React.createElement(EditorUserInterface, settings),
+      document.getElementById(options.divToReplaceId)
+    );
+  });
+}
+
+tryReact();
+
+window.initializeTemplateEditor = initializeTemplateEditor;

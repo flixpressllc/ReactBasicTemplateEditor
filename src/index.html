@@ -44,34 +44,22 @@
   <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
   <script type="text/javascript" src="./main.js"></script>
   <script type="text/javascript">
-    // the module just automatically exports to window.EditorUserInterface for now... ugh.
-    //import EditorUserInterface from 'https://dl.dropboxusercontent.com/u/20859562/flixreact/TextOnly';
-    function tryReact () {
-      if (window.EditorUserInterface === undefined){
-        console.log('trying again');
-        setTimeout(tryReact, 1000);
-      } else {
-        ReactDOM.render(
-          React.createElement(EditorUserInterface, {
-            uiSettingsJsonUrl: `/templates/Template${tid}.json`,
-            userSettingsData: {
-              templateType: "text",
-              username: 'DonDenton',
-              templateId: tid,
-              minutesRemainingInContract: 170.2819,
-              minimumTemplateDuration: 0.1667,
-              mode: 'Add',
-              previewVideoUrl: '',
-              isChargePerOrder: 'False',
-              renderCost: 8,
-              creditRemaining: 8
-            }
-          }),
-          document.getElementById('Template_FlashContent_Div')
-          );
+    initializeTemplateEditor({
+      divToReplaceId: 'Template_FlashContent_Div',
+      uiSettingsJsonUrl: `/templates/Template${tid}.json`,
+      userSettingsData: {
+        templateType: "text",
+        username: 'DonDenton',
+        templateId: tid,
+        minutesRemainingInContract: 170.2819,
+        minimumTemplateDuration: 0.1667,
+        mode: 'Add',
+        previewVideoUrl: '',
+        isChargePerOrder: 'False',
+        renderCost: 8,
+        creditRemaining: 8
       }
-    }
-    tryReact();
+    });
   </script>
 
 </body>
