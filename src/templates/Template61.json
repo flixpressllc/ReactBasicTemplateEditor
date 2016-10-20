@@ -273,7 +273,7 @@
   },
   "ui": [
     {
-      "Industry and Color": [
+      "Industry And Color": [
         {
           "type": "DropDown",
           "name": "Industry"
