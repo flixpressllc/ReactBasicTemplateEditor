@@ -6,27 +6,27 @@
       "options": [
         {
           "name": "Blue",
-          "value": "blue",
+          "value": "Blue",
           "previewImage": "t33_1.jpg"
         },
         {
           "name": "Green",
-          "value": "green",
+          "value": "Green",
           "previewImage": "t33_1.jpg"
         },
         {
           "name": "Red",
-          "value": "red",
+          "value": "Red",
           "previewImage": "t33_1.jpg"
         },
         {
           "name": "Purple",
-          "value": "purple",
+          "value": "Purple",
           "previewImage": "t33_1.jpg"
         },
         {
           "name": "Yellow",
-          "value": "yellow",
+          "value": "Yellow",
           "previewImage": "t33_1.jpg"
         }
       ]
