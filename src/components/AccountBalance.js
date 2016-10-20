@@ -26,9 +26,10 @@ export default React.createClass({
     
     var cost, balance, rawCost, rawBalance, type;
     if (isChargePerOrder) {
-      cost = rawCost = sd.renderCost;
+      rawCost = sd.renderCost;
+      cost = '$' + rawCost;
       balance = rawBalance = sd.creditRemaining;
-      type = 'credits';
+      type = '(USD)';
     } else {
       rawCost = round(sd.minimumTemplateDuration);
       rawBalance = round(sd.minutesRemainingInContract);
@@ -53,18 +54,25 @@ export default React.createClass({
         <div key="2" className="type">{type}</div>
       ];
     }
-    
-    return(
-      <div className={cx('account-balance-component', 'component', {preview: this.props.isPreview})}>
-        <div className="template-cost">
-          <div className="label">Template Cost</div>
-          {tCost}
-        </div>
+    var accountBalanceDisplay;
+    if (isChargePerOrder){
+      accountBalanceDisplay = [];
+    } else {
+      accountBalanceDisplay = (
         <div className={cx('account-balance', balanceData)}>
           <div className="label">Account Balance</div>
           <div className="amount">{balance}</div>
           <div className="type">{type}</div>
         </div>
+      );
+    }
+    return(
+      <div className={cx('account-balance-component', 'component', {preview: this.props.isPreview, 'is-payg-user': isChargePerOrder})}>
+        <div className="template-cost">
+          <div className="label">Template Cost</div>
+          {tCost}
+        </div>
+        {accountBalanceDisplay}
       </div>
     );
   }

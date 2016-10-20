@@ -290,6 +290,12 @@ $lg-title-font-size: $md-title-font-size;
     padding: $medPad;
   }
   
+  &.is-payg-user {
+    > div {
+      width: 100%;
+    }
+  }
+  
   .template-cost .amount {}
   
   .account-balance {
