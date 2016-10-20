@@ -1,0 +1,51 @@
+{
+  "templateId": 42,
+  "textFields": {
+    "Final Title": {
+      "value": "",
+      "previewImage": "t42_2.jpg"
+    },
+    "Word 1": {
+      "value": "",
+      "previewImage": "t42_1.jpg"
+    },
+    "Word 2": {
+      "value": "",
+      "previewImage": "t42_1.jpg"
+    },
+    "Word 3": {
+      "value": "",
+      "previewImage": "t42_1.jpg"
+    },
+    "Word 4": {
+      "value": "",
+      "previewImage": "t42_1.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "TextField",
+          "name": "Word 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 3"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 4"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Title"
+        }
+      ]
+    }
+  ]
+}

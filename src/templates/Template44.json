@@ -1,0 +1,43 @@
+{
+  "templateId": 44,
+  "textFields": {
+    "Top Line 1": {
+      "value": "",
+      "previewImage": "t44_1.jpg"
+    },
+    "Subtitle 1": {
+      "value": "",
+      "previewImage": "t44_1.jpg"
+    },
+    "Top Line 2": {
+      "value": "",
+      "previewImage": "t44_2.jpg"
+    },
+    "Subtitle 2": {
+      "value": "",
+      "previewImage": "t44_2.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "TextField",
+          "name": "Top Line 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Top Line 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle 2"
+        }
+      ]
+    }
+  ]
+}

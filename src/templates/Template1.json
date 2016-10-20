@@ -1,0 +1,59 @@
+{
+  "templateId": 1,
+  "textFields": {
+    "Line1": {
+      "value": "",
+      "previewImage": "t1_1.jpg"
+    },
+    "Line2": {
+      "value": "",
+      "previewImage": "t1_2.jpg"
+    },
+    "Line3": {
+      "value": "",
+      "previewImage": "t1_3.jpg"
+    },
+    "Line4": {
+      "value": "",
+      "previewImage": "t1_4.jpg"
+    },
+    "Final Title": {
+      "value": "",
+      "previewImage": "t1_5.jpg"
+    },
+    "Final Subtitle": {
+      "value": "",
+      "previewImage": "t1_5.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "TextField",
+          "name": "Line1"
+        },
+        {
+          "type": "TextField",
+          "name": "Line2"
+        },
+        {
+          "type": "TextField",
+          "name": "Line3"
+        },
+        {
+          "type": "TextField",
+          "name": "Line4"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Subtitle"
+        }
+      ]
+    }
+  ]
+}

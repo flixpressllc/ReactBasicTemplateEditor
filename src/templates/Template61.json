@@ -1,0 +1,336 @@
+{
+  "templateId": 61,
+  "dropDowns": {
+    "Industry": {
+      "default": "accountant",
+      "options": [
+        {
+          "name": "Accountant",
+          "value": "accountant",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Business Consultant",
+          "value": "business consultant",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Car Dealer",
+          "value": "car dealer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Catering Service",
+          "value": "catering service",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Chiropractor",
+          "value": "chiropractor",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Counselor",
+          "value": "counselor",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Dentist",
+          "value": "dentist",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Designer",
+          "value": "designer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Dietitian",
+          "value": "dietitian",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Dj",
+          "value": "dj",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Doctor",
+          "value": "doctor",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Electrician",
+          "value": "electrician",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Event Planner",
+          "value": "event planner",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Financial Advisor",
+          "value": "financial advisor",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Fitness Instructor",
+          "value": "fitness instructor",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Florist",
+          "value": "florist",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Hospital",
+          "value": "hospital",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Insurance Provider",
+          "value": "insurance provider",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Interior Designer",
+          "value": "interior designer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "IT Consultant",
+          "value": "it consultant",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Jeweler",
+          "value": "jeweler",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Landscaping Service",
+          "value": "landscaping service",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Lawyer",
+          "value": "lawyer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Marketing Service",
+          "value": "marketing service",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Pediatrician",
+          "value": "pediatrician",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Photographer",
+          "value": "photographer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Plumber",
+          "value": "plumber",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Programmer",
+          "value": "programmer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Real estate broker",
+          "value": "real estate broker",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "School",
+          "value": "school",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Seo Service",
+          "value": "seo service",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Tax Consultant",
+          "value": "tax consultant",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Travel Agent",
+          "value": "travel agent",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Veterinarian",
+          "value": "veterinarian",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Videographer",
+          "value": "videographer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Web Developer",
+          "value": "web developer",
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Wedding Planner",
+          "value": "wedding planner",
+          "previewImage": "t61_1.jpg"
+        }
+      ]
+    },
+    "Color": {
+      "default": "blue",
+      "options": [
+        {
+          "name": "Blue",  
+          "value": "blue", 
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Cyan",  
+          "value": "cyan", 
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Green",  
+          "value": "green", 
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Orange",  
+          "value": "orange", 
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Puprle",  
+          "value": "puprle", 
+          "previewImage": "t61_1.jpg"
+        },
+        {
+          "name": "Silver",  
+          "value": "silver", 
+          "previewImage": "t61_1.jpg"
+        }
+      ]
+    }
+  },
+  "textFields": {
+    "Feature 1": {
+      "value": "",
+      "previewImage": "t61_1.jpg"
+    },
+    "Feature 2": {
+      "value": "",
+      "previewImage": "t61_1.jpg"
+    },
+    "Feature 3": {
+      "value": "",
+      "previewImage": "t61_1.jpg"
+    },
+    "Feature 4": {
+      "value": "",
+      "previewImage": "t61_1.jpg"
+    },
+    "Feature 5": {
+      "value": "",
+      "previewImage": "t61_1.jpg"
+    },
+    "Top Line": {
+      "value": "",
+      "previewImage": "t61_2.jpg"
+    },
+    "Bottom Line": {
+      "value": "",
+      "previewImage": "t61_2.jpg"
+    },
+    "Phone Number": {
+      "value": "",
+      "previewImage": "t61_2.jpg"
+    },
+    "Website": {
+      "value": "",
+      "previewImage": "t61_2.jpg"
+    }
+  },
+  "textBoxes": {
+    "Optional Info": {
+      "value": "",
+      "previewImage": "t61_2.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Industry and Color": [
+        {
+          "type": "DropDown",
+          "name": "Industry"
+        },
+        {
+          "type": "DropDown",
+          "name": "Color"
+        }
+      ]
+    },
+    {
+      "Services or Features": [
+        {
+          "type": "TextField",
+          "name": "Feature 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Feature 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Feature 3"
+        },
+        {
+          "type": "TextField",
+          "name": "Feature 4"
+        },
+        {
+          "type": "TextField",
+          "name": "Feature 5"
+        }
+      ]
+    },
+    {
+      "Name Info": [
+        {
+          "type": "TextField",
+          "name": "Top Line"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Line"
+        },
+        {
+          "type": "TextField",
+          "name": "Phone Number"
+        },
+        {
+          "type": "TextField",
+          "name": "Website"
+        },
+        {
+          "type": "TextBox",
+          "name": "Optional Info"
+        }
+      ]
+    }
+  ]
+}

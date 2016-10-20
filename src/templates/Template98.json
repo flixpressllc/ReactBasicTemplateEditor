@@ -1,0 +1,27 @@
+{
+  "templateId": 98,
+  "textFields": {
+    "One Word": {
+      "value": "",
+      "previewImage": "t98_1.jpg"
+    },
+    "Bottom Line": {
+      "value": "",
+      "previewImage": "t98_1.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "TextField",
+          "name": "One Word"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Line"
+        }
+      ]
+    }
+  ]
+}

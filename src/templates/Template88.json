@@ -1,0 +1,73 @@
+{
+  "templateId": 88,
+  "dropDowns": {
+    "Color": {
+      "default": "red",
+      "options": [
+        {
+          "name": "Blue",
+          "value": "blue",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Red",
+          "value": "red",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Purple",
+          "value": "purple",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Teal",
+          "value": "teal",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Orange",
+          "value": "orange",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Pink",
+          "value": "pink",
+          "previewImage": "t88_1.jpg"
+        },
+        {
+          "name": "Yellow",
+          "value": "yellow",
+          "previewImage": "t88_1.jpg"
+        }
+      ]
+    }
+  },
+  "textFields": {
+    "Top Line": {
+      "value": "",
+      "previewImage": "t88_1.jpg"
+    },
+    "Bottom Line": {
+      "value": "",
+      "previewImage": "t88_1.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "DropDown",
+          "name": "Color"
+        },
+        {
+          "type": "TextField",
+          "name": "Top Line"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Line"
+        }
+      ]
+    }
+  ]
+}
