@@ -2,7 +2,7 @@
   "templateId": 33,
   "dropDowns": {
     "Choose Color": {
-      "default": "blue",
+      "default": "Blue",
       "options": [
         {
           "name": "Blue",
