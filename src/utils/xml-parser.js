@@ -134,6 +134,12 @@ var getReactStartingData = function () {
   var result = convertSpecsToReactData(obj[topLvlName]);
 
   var givenResolutions = obj[topLvlName].ResolutionOptions.ListItemViewModel;
+  if (givenResolutions == false) {throw new Error('No resolutions available')}
+  if (givenResolutions.length === undefined) {
+    // jxon will only create an array if there is more than one value.
+    // We want an array every time.
+    givenResolutions = [givenResolutions];
+  }
   // Eventual refactor for arrays of Objects?
   var resolutions = []
   for (var i=0; i < givenResolutions.length; i++) {
