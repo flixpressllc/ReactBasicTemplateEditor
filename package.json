@@ -22,9 +22,9 @@
     "dev": "webpack --env=flix-dev --watch",
     "dev-build": "webpack --env=flix-build --watch"
   },
-  "repository": "",
+  "repository": "https://github.com/flixpressllc/ReactBasicTemplateEditor",
   "keywords": [],
-  "author": "Your name here",
+  "author": "Don Denton",
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
