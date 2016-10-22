@@ -7,8 +7,28 @@ let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 
 // Add needed plugins here
-let BowerWebpackPlugin = require('bower-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let BowerWebpackPlugin = require('bower-webpack-plugin');
+
+let config = Object.assign({}, baseConfig, {
+  entry: {
+    templateEditor: path.join(__dirname, '../src/index')
+  },
+  cache: false,
+  devtool: 'sourcemap',
+  plugins: require('./plugins').devPlugins,
+  module: defaultSettings.getDefaultModules()
+});
+
+// Add needed loaders to the defaults here
+config.module.loaders.push({
+  test: /\.(js|jsx)$/,
+  loader: 'babel',
+  include: [].concat(
+    config.additionalPaths,
+    [ path.join(__dirname, '/../src') ]
+  )
+});
 
 const args = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
@@ -38,38 +58,7 @@ try {
   process.exit();
 }
 
+config.output.path = outputPath;
 console.log('Building into ' + outputPath);
-
-let config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/index'),
-  cache: false,
-  devtool: 'sourcemap',
-  plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new BowerWebpackPlugin({
-      searchResolveModulesDirectories: false
-    }),
-    new ExtractTextPlugin('editor.css', {allChunks: true}),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
-  output: {
-    path: outputPath,
-    filename: 'templateEditor.js',
-    publicPath: '.'
-  },
-  module: defaultSettings.getDefaultModules()
-});
-
-// Add needed loaders to the defaults here
-config.module.loaders.push({
-  test: /\.(js|jsx)$/,
-  loader: 'babel',
-  include: [].concat(
-    config.additionalPaths,
-    [ path.join(__dirname, '/../src') ]
-  )
-});
 
 module.exports = config;

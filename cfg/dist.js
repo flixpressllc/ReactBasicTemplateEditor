@@ -16,19 +16,7 @@ let config = Object.assign({}, baseConfig, {
   },
   cache: false,
   devtool: 'sourcemap',
-  plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
-    new BowerWebpackPlugin({
-      searchResolveModulesDirectories: false
-    }),
-    new ExtractTextPlugin('editor.css', {allChunks: true}),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+  plugins: require('./plugins').distPlugins,
   module: defaultSettings.getDefaultModules()
 });
 
