@@ -3,7 +3,7 @@
 let distConfig = require('./dist');
 
 let config = Object.assign({}, distConfig, {
-  plugins: require('./plugins').minPlugins,
+  plugins: require('./common/plugins').minPlugins,
 });
 
 config.output.filename = '[name].min.js';

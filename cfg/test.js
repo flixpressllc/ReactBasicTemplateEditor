@@ -3,7 +3,7 @@
 let path = require('path');
 let srcPath = path.join(__dirname, '/../src/');
 
-let baseConfig = require('./base');
+let baseConfig = require('./common/base');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');

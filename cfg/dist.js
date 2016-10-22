@@ -1,9 +1,9 @@
 'use strict';
 
-let buildConfig = require('./build');
+let buildConfig = require('./common/build');
 
 let config = Object.assign({}, buildConfig, {
-  plugins: require('./plugins').distPlugins,
+  plugins: require('./common/plugins').distPlugins,
 });
 
 module.exports = config;
