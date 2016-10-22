@@ -1,33 +1,9 @@
 'use strict';
 
-let path = require('path');
-let webpack = require('webpack');
+let buildConfig = require('./build');
 
-let baseConfig = require('./base');
-let defaultSettings = require('./defaults');
-
-// Add needed plugins here
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let BowerWebpackPlugin = require('bower-webpack-plugin');
-
-let config = Object.assign({}, baseConfig, {
-  entry: {
-    templateEditor: path.join(__dirname, '../src/index')
-  },
-  cache: false,
-  devtool: 'sourcemap',
+let config = Object.assign({}, buildConfig, {
   plugins: require('./plugins').distPlugins,
-  module: defaultSettings.getDefaultModules()
-});
-
-// Add needed loaders to the defaults here
-config.module.loaders.push({
-  test: /\.(js|jsx)$/,
-  loader: 'babel',
-  include: [].concat(
-    config.additionalPaths,
-    [ path.join(__dirname, '/../src') ]
-  )
 });
 
 module.exports = config;
