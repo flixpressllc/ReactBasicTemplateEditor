@@ -1,7 +1,6 @@
 'use strict';
 
 let webpack = require('webpack');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
@@ -10,7 +9,6 @@ module.exports = {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    new ExtractTextPlugin('editor.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
@@ -24,7 +22,6 @@ module.exports = {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    new ExtractTextPlugin('editor.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
@@ -39,7 +36,6 @@ module.exports = {
       searchResolveModulesDirectories: false
     }),
     new webpack.optimize.UglifyJsPlugin({minimize: true, include: /\.min\.js$/}),
-    new ExtractTextPlugin('editor.min.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
