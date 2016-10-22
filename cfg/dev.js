@@ -2,8 +2,8 @@
 
 let path = require('path');
 let webpack = require('webpack');
-let baseConfig = require('./base');
-let defaultSettings = require('./defaults');
+let baseConfig = require('./common/base');
+let defaultSettings = require('./common/defaults');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');

@@ -19,8 +19,7 @@
     "chrome": "node server.js --env=dev --openWith='google chrome'",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
-    "dev": "webpack --env=flix-dev --watch",
-    "dev-build": "webpack --env=flix-build --watch"
+    "dev": "webpack --env=flix-dev --watch"
   },
   "repository": "https://github.com/flixpressllc/ReactBasicTemplateEditor",
   "keywords": [],
