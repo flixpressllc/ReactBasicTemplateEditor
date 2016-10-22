@@ -25,7 +25,7 @@ config.module.loaders.push({
   )
 });
 
-config.output.path = pathFinder(config.output.path, '../../');
+config.output.path = pathFinder(config.output.path, process.cwd());
 console.log('Building into ' + config.output.path);
 
 module.exports = config;
