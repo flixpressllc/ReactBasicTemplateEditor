@@ -7,7 +7,7 @@ let defaultSettings = require('./defaults');
 
 let config = Object.assign({}, baseConfig, {
   entry: {
-    templateEditor: path.join(__dirname, '../src/index')
+    templateEditor: path.join(__dirname, '../../src/index')
   },
   cache: false,
   devtool: 'sourcemap',
@@ -20,7 +20,7 @@ config.module.loaders.push({
   loader: 'babel',
   include: [].concat(
     config.additionalPaths,
-    [ path.join(__dirname, '/../src') ]
+    [ path.join(__dirname, '/../../src') ]
   )
 });
 
@@ -29,7 +29,7 @@ const fs = require('fs');
 
 var outputPath = baseConfig.output.path;
 if (args.location !== undefined) {
-  outputPath = path.isAbsolute(args.location) ? args.location : path.join(__dirname, '../', args.location);
+  outputPath = path.isAbsolute(args.location) ? args.location : path.join(__dirname, '../../', args.location);
   // Let's make sure the user input is good...
   try {
     if (fs.statSync(outputPath).isDirectory() === false) {
