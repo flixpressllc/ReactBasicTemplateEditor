@@ -33,7 +33,7 @@ var EditorUserInterface = React.createClass({
     stateToMerge.defaultResolutionId = startingPoint.resolutionId;
     
     if (startingPoint.nameValuePairs !== undefined) {
-      var dataTypeContainers = ['textFields', 'dropDowns'];
+      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes'];
       var confirmedContainers = [];
       for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
         if (currentState.hasOwnProperty(dataTypeContainers[i])) {
