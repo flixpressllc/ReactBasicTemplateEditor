@@ -3,10 +3,14 @@
 require('core-js/fn/object/assign');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config');
+let config = require('./webpack.config');
 const open = require('open');
 const args = require('minimist')(process.argv.slice(2));
 const host = '0.0.0.0';
+
+// Hot Module replacement is broken at the moment...
+// uncomment the following to re-enable and debug
+config.devServer.hot = false;
 
 new WebpackDevServer(webpack(config), config.devServer)
 .listen(config.port, host, (err) => {
