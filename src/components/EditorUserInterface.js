@@ -33,7 +33,7 @@ var EditorUserInterface = React.createClass({
     stateToMerge.defaultResolutionId = startingPoint.resolutionId;
     
     if (startingPoint.nameValuePairs !== undefined) {
-      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes'];
+      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers'];
       var confirmedContainers = [];
       for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
         if (currentState.hasOwnProperty(dataTypeContainers[i])) {
@@ -136,6 +136,12 @@ var EditorUserInterface = React.createClass({
     this.setState({dropDowns: ddState});
   },
 
+  handleColorPickerChange: function (fieldName, userColor) {
+    var pickerState = this.state.colorPickers;
+    pickerState[fieldName].value = userColor;
+    this.setState({colorPickers: pickerState});
+  },
+
   handleResolutionIdChange: function (id) {
     this.setState({
       resolutionId: id
@@ -231,9 +237,11 @@ var EditorUserInterface = React.createClass({
           allTextFields={this.state.textFields}
           allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
+          allColorPickers={this.state.colorPickers}
           onFieldsChange={this.handleFieldsChange}
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
+          onColorPickerChange={this.handleColorPickerChange}
         />
       );
     }

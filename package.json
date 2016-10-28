@@ -82,7 +82,9 @@
     "jxon": "github:happycollision/jxon#v2.0.0-beta.1",
     "normalize.css": "^4.2.0",
     "react": "^15.3.1",
+    "react-color": "^2.4.0",
     "react-dom": "^15.3.1",
+    "reactcss": "^1.0.9",
     "reset.css": "^2.0.2"
   }
 }
