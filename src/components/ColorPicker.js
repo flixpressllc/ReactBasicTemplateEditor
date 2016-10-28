@@ -31,7 +31,7 @@ var ColorPicker = React.createClass({
   },
 
   makeString: function (rgbObject) {
-
+    return `${rgbObject.r}.${rgbObject.g}.${rgbObject.b}`;
   },
 
   color: {}, // will receive from props
@@ -42,6 +42,10 @@ var ColorPicker = React.createClass({
 
   handleClose: function () {
     this.setState({ displayColorPicker: false })
+    this.props.onColorChange(
+      this.props.fieldName,
+      this.makeString(this.state.color)
+    );
   },
 
   handleColorChange: function (color) {
@@ -86,7 +90,7 @@ var ColorPicker = React.createClass({
         },
         safeZone: {
           zIndex: '3',
-          position: 'relative',
+          position: 'relative'
         }
       }
     });
