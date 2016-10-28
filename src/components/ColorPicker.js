@@ -83,6 +83,10 @@ var ColorPicker = React.createClass({
           right: '0px',
           bottom: '0px',
           left: '0px'
+        },
+        safeZone: {
+          zIndex: '3',
+          position: 'relative',
         }
       }
     });
@@ -98,10 +102,12 @@ var ColorPicker = React.createClass({
           </div>
           { this.state.displayColorPicker ? <div style={ styles.popover }>
             <div style={ styles.cover } onClick={ this.handleClose } />
-            <SketchPicker
-              disableAlpha={true}
-              color={ this.state.color }
-              onChange={ this.handleColorChange } />
+            <div style={ styles.safeZone } >
+              <SketchPicker
+                disableAlpha={true}
+                color={ this.state.color }
+                onChange={ this.handleColorChange } />
+            </div>
           </div> : null }
 
         </div>
