@@ -4,24 +4,10 @@ import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
 
 var ColorPicker = React.createClass({
-  // handleColorChange: function(color){
-  //   var rgbString = `${color.rgb.r}.${color.rgb.g}.${color.rgb.b}`
-  //   this.props.onColorChange(
-  //     this.props.fieldName,
-  //     rgbString
-  //   );
-  // },
-  
   getInitialState: function () {
-    // this.makeColor(this.props.color);
     return {
       displayColorPicker: false,
-      color: {
-        r: '241',
-        g: '112',
-        b: '19',
-        a: '1'
-      }
+      color: this.makeColor(this.props.color)
     };
   },
 
@@ -31,14 +17,21 @@ var ColorPicker = React.createClass({
   //   this.makeColor(nextProps.color);
   // },
 
-  makeColor: function (color) {
-    var defaults = {
-      r: '241',
-      g: '112',
-      b: '19',
-      a: '1'
-    };
-    this.color = Object.assign({}, defaults, color);
+  // expects a string like '100.93.45'
+  // returns an object of those values, along with alpha, if not provided
+  makeColor: function (rgbaString) {
+    var rgbArr = rgbaString.split('.');
+    var rgbObject = {
+      r: rgbArr[0],
+      g: rgbArr[1],
+      b: rgbArr[2],
+      a: rgbArr[3] || 1
+    }
+    return rgbObject;
+  },
+
+  makeString: function (rgbObject) {
+
   },
 
   color: {}, // will receive from props
@@ -55,6 +48,14 @@ var ColorPicker = React.createClass({
     this.setState({ color: color.rgb })
   },
 
+  // handleColorChange: function(color){
+  //   var rgbString = `${color.rgb.r}.${color.rgb.g}.${color.rgb.b}`
+  //   this.props.onColorChange(
+  //     this.props.fieldName,
+  //     rgbString
+  //   );
+  // },
+  
   render: function(){
     const styles = reactCSS({
       'default': {
