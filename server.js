@@ -17,7 +17,8 @@ new WebpackDevServer(webpack(config), config.devServer)
   if (err) {
     console.log(err);
   }
-  var href = 'http://' + host + ':' + config.port + '/webpack-dev-server/';
+  var domain = host === '0.0.0.0' ? 'localhost' : host;
+  var href = 'http://' + domain + ':' + config.port + '/webpack-dev-server/';
   console.log('Listening at ' + host + ':' + config.port);
   if (args.openWith === undefined) {
     console.log('Opening your system browser...');
