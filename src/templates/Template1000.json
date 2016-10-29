@@ -468,6 +468,9 @@
   "colorPickers": {
     "Main Text Color": {
       "value": "0.0.0"
+    },
+    "Subtitle Text Color": {
+      "value": "256.100.100.50"
     }
   },
   "ui": [
@@ -498,7 +501,7 @@
           "name": "Main Text Color"
         },
         {
-          "type": "DropDown",
+          "type": "ColorPicker",
           "name": "Subtitle Text Color"
         }
       ]

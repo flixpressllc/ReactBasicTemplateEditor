@@ -6,8 +6,20 @@ import reactCSS from 'reactcss';
 var ColorPicker = React.createClass({
   getInitialState: function () {
     return {
-      displayColorPicker: false
+      displayColorPicker: false,
+      allowsAlpha: this.containsAlpha(this.props.color)
     };
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    var containsAlpha = this.containsAlpha(nextProps.color);
+    if (this.props.allowsAlpha !== containsAlpha) {
+      this.setState({allowsAlpha: containsAlpha});
+    }
+  },
+
+  containsAlpha: function (color) {
+    return color.split('.').length === 4;
   },
 
   // expects a string like '100.93.45'
@@ -18,13 +30,17 @@ var ColorPicker = React.createClass({
       r: rgbArr[0],
       g: rgbArr[1],
       b: rgbArr[2],
-      a: rgbArr[3] || 1
+      a: rgbArr[3]/100 || 1
     }
     return rgbObject;
   },
 
   makeString: function (rgbObject) {
-    return `${rgbObject.r}.${rgbObject.g}.${rgbObject.b}`;
+    var rgbString = `${rgbObject.r}.${rgbObject.g}.${rgbObject.b}`;
+    if (this.state.allowsAlpha) {
+      return rgbString + `.${Math.round(rgbObject.a * 100)}`
+    }
+    return rgbString;
   },
 
   color: function () {
@@ -95,7 +111,7 @@ var ColorPicker = React.createClass({
             <div style={ styles.cover } onClick={ this.handleClose } />
             <div style={ styles.safeZone } >
               <SketchPicker
-                disableAlpha={true}
+                disableAlpha={ !this.state.allowsAlpha }
                 color={ color }
                 onChange={ this.handleColorChange } />
             </div>
