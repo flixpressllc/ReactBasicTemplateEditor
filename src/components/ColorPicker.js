@@ -68,10 +68,7 @@ var ColorPicker = React.createClass({
     const styles = reactCSS({
       'default': {
         color: {
-          width: '36px',
-          height: '14px',
-          position: 'relative',
-          borderRadius: '3px'
+          position: 'relative'
         },
         activeColor: {
           absolute: '0px 0px 0px 0px',
@@ -80,11 +77,6 @@ var ColorPicker = React.createClass({
           boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.15), inset 0 0 4px rgba(0,0,0,.25)'
         },
         swatch: {
-          padding: '5px',
-          background: '#fff',
-          borderRadius: '1px',
-          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-          display: 'inline-block',
           cursor: 'pointer'
         },
         popover: {
@@ -105,29 +97,28 @@ var ColorPicker = React.createClass({
       }
     });
     return(
-      <div className={cx(this.props.className,'text-box','component')} style={styles.root}>
+      <div className={cx(this.props.className,'color-picker','component', 'input-item')} style={styles.root}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
         
-        <div>
-          <div style={ styles.swatch } onClick={ this.handleClick }>
-            <div style={ styles.color }>
-              <Checkboard size={5} />
-              <div style={ styles.activeColor }/>
-            </div>
+        <div className='color-picker-swatch' style={ styles.swatch } onClick={ this.handleClick }>
+          <div className='color-picker-swatch-color' style={ styles.color }>
+            <Checkboard size={5} />
+            <div style={ styles.activeColor }/>
           </div>
-          { this.state.displayColorPicker ? <div style={ styles.popover }>
-            <div style={ styles.cover } onClick={ this.handleClose } />
-            <div style={ styles.safeZone } >
-              <SketchPicker
-                disableAlpha={ !this.state.allowsAlpha }
-                color={ color }
-                onChange={ this.handleColorChange } />
-            </div>
-          </div> : null }
-
         </div>
+        
+        { this.state.displayColorPicker ? <div style={ styles.popover }>
+          <div style={ styles.cover } onClick={ this.handleClose } />
+          <div style={ styles.safeZone } >
+            <SketchPicker
+              disableAlpha={ !this.state.allowsAlpha }
+              color={ color }
+              onChange={ this.handleColorChange } />
+          </div>
+        </div> : null }
+      
       </div>
     );
   }

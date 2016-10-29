@@ -140,7 +140,7 @@ $lg-title-font-size: $md-title-font-size;
         }
       }
       
-      input, select {
+      input, select, .color-picker-swatch {
         @extend %parts;
         float: right;
         margin-left: 0.5%;
@@ -508,3 +508,5 @@ body.ReactModal__Body--open {
     }
   }
 }
+
+@import 'color-picker';
