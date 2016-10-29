@@ -6,16 +6,9 @@ import reactCSS from 'reactcss';
 var ColorPicker = React.createClass({
   getInitialState: function () {
     return {
-      displayColorPicker: false,
-      color: this.makeColor(this.props.color)
+      displayColorPicker: false
     };
   },
-
-  // componentWillReceiveProps: function (nextProps) {
-  //   // we are only concerned with color changes here, for now
-  //   if (nextProps.color === this.props.color) return;
-  //   this.makeColor(nextProps.color);
-  // },
 
   // expects a string like '100.93.45'
   // returns an object of those values, along with alpha, if not provided
@@ -34,40 +27,34 @@ var ColorPicker = React.createClass({
     return `${rgbObject.r}.${rgbObject.g}.${rgbObject.b}`;
   },
 
-  color: {}, // will receive from props
+  color: function () {
+    return this.makeColor(this.props.color)
+  },
 
   handleClick: function () {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
   },
 
   handleClose: function () {
-    this.setState({ displayColorPicker: false })
+    this.setState({ displayColorPicker: false });
+  },
+
+  handleColorChange: function(color){
     this.props.onColorChange(
       this.props.fieldName,
-      this.makeString(this.state.color)
+      this.makeString(color.rgb)
     );
   },
-
-  handleColorChange: function (color) {
-    this.setState({ color: color.rgb })
-  },
-
-  // handleColorChange: function(color){
-  //   var rgbString = `${color.rgb.r}.${color.rgb.g}.${color.rgb.b}`
-  //   this.props.onColorChange(
-  //     this.props.fieldName,
-  //     rgbString
-  //   );
-  // },
   
   render: function(){
+    const color = this.color();
     const styles = reactCSS({
       'default': {
         color: {
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`
+          background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`
         },
         swatch: {
           padding: '5px',
@@ -109,7 +96,7 @@ var ColorPicker = React.createClass({
             <div style={ styles.safeZone } >
               <SketchPicker
                 disableAlpha={true}
-                color={ this.state.color }
+                color={ color }
                 onChange={ this.handleColorChange } />
             </div>
           </div> : null }
