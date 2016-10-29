@@ -70,9 +70,14 @@ var ColorPicker = React.createClass({
         color: {
           width: '36px',
           height: '14px',
+          position: 'relative',
+          borderRadius: '3px'
+        },
+        activeColor: {
+          absolute: '0px 0px 0px 0px',
           borderRadius: '2px',
-          background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`,
-          position: 'relative'
+          background: 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + color.a + ')',
+          boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.15), inset 0 0 4px rgba(0,0,0,.25)'
         },
         swatch: {
           padding: '5px',
@@ -109,6 +114,7 @@ var ColorPicker = React.createClass({
           <div style={ styles.swatch } onClick={ this.handleClick }>
             <div style={ styles.color }>
               <Checkboard size={5} />
+              <div style={ styles.activeColor }/>
             </div>
           </div>
           { this.state.displayColorPicker ? <div style={ styles.popover }>
