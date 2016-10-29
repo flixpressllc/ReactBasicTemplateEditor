@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { SketchPicker } from 'react-color';
+import { Checkboard } from 'react-color/lib/components/common';
 import reactCSS from 'reactcss';
 
 var ColorPicker = React.createClass({
@@ -70,7 +71,8 @@ var ColorPicker = React.createClass({
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`
+          background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`,
+          position: 'relative'
         },
         swatch: {
           padding: '5px',
@@ -105,7 +107,9 @@ var ColorPicker = React.createClass({
         
         <div>
           <div style={ styles.swatch } onClick={ this.handleClick }>
-            <div style={ styles.color } />
+            <div style={ styles.color }>
+              <Checkboard size={5} />
+            </div>
           </div>
           { this.state.displayColorPicker ? <div style={ styles.popover }>
             <div style={ styles.cover } onClick={ this.handleClose } />
