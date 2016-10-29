@@ -31,7 +31,7 @@ var ColorPicker = React.createClass({
       r: rgbArr[0],
       g: rgbArr[1],
       b: rgbArr[2],
-      a: rgbArr[3]/100 || 1
+      a: rgbArr[3]/100 || rgbArr[3] || 1  // First fallback value allows for zero.
     }
     return rgbObject;
   },
