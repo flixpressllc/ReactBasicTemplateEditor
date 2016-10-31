@@ -80,7 +80,11 @@ var ColorPicker = React.createClass({
           cursor: 'pointer'
         },
         popover: {
-          position: 'absolute',
+          position: 'fixed',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
           zIndex: '2'
         },
         cover: {
@@ -92,7 +96,10 @@ var ColorPicker = React.createClass({
         },
         safeZone: {
           zIndex: '3',
-          position: 'relative'
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
         }
       }
     });
