@@ -12,6 +12,18 @@ var ColorPicker = React.createClass({
     };
   },
 
+  getDefaultProps: function () {
+    return {
+      presetColors: [
+        '#D0021B', '#F5A623', '#F8E71C', 
+        '#8B572A', '#7ED321', '#417505',
+        '#BD10E0', '#9013FE', '#4A90E2',
+        '#50E3C2', '#B8E986', '#000000',
+        '#4A4A4A', '#9B9B9B', '#FFFFFF'
+      ]
+    }
+  },
+
   componentWillReceiveProps: function (nextProps) {
     var containsAlpha = this.containsAlpha(nextProps.color);
     if (this.props.allowsAlpha !== containsAlpha) {
@@ -122,6 +134,7 @@ var ColorPicker = React.createClass({
             <SketchPicker
               disableAlpha={ !this.state.allowsAlpha }
               color={ color }
+              presetColors={ this.presetColors }
               onChange={ this.handleColorChange } />
           </div>
         </div> : null }
