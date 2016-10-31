@@ -1,0 +1,15 @@
+@import "base-includes";
+
+.color-picker-swatch {
+    padding: 3px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
+    display: inline-block;
+    vertical-align: sub;
+    min-width: 36px;
+}
+
+.color-picker-swatch-color {
+    height: 1em;
+    border-radius: 3px;
+}

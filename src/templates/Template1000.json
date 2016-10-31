@@ -465,6 +465,14 @@
       "previewImage": "79_letter.jpg"
     }
   },
+  "colorPickers": {
+    "Main Text Color": {
+      "value": "0.0.0"
+    },
+    "Subtitle Text Color": {
+      "value": "256.100.100.50"
+    }
+  },
   "ui": [
     {
       "Customize Icon": [
@@ -489,11 +497,11 @@
           "name": "Icon Color"
         },
         {
-          "type": "DropDown",
+          "type": "ColorPicker",
           "name": "Main Text Color"
         },
         {
-          "type": "DropDown",
+          "type": "ColorPicker",
           "name": "Subtitle Text Color"
         }
       ]

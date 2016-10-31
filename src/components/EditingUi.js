@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from './TextField';
 import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
+import ColorPicker from './ColorPicker';
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -64,6 +65,17 @@ var EditingUi = React.createClass({
       onUserInput={this.props.onTextBoxesChange}
       onTextBoxFocus={this.handleTextBoxFocus}
       key={`text-box-${safeName}`}
+    />);
+  },
+  
+  createColorPicker: function (name, object) {
+    var safeName = name.replace(' ','-');
+    return (<ColorPicker
+      fieldName={name}
+      className="input-item color-picker"
+      color={object.value}
+      onColorChange={this.props.onColorPickerChange}
+      key={`color-picker-${safeName}`}
     />);
   },
   
