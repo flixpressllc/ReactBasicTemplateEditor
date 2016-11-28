@@ -33,7 +33,7 @@ var EditorUserInterface = React.createClass({
     stateToMerge.defaultResolutionId = startingPoint.resolutionId;
     
     if (startingPoint.nameValuePairs !== undefined) {
-      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers'];
+      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
       var confirmedContainers = [];
       for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
         if (currentState.hasOwnProperty(dataTypeContainers[i])) {
@@ -122,6 +122,12 @@ var EditorUserInterface = React.createClass({
     var fields = this.state.textFields;
     fields[fieldName].value = userText;
     this.setState({textFields: fields});
+  },
+
+  handleYouTubeLinksChange: function (fieldName, userText) {
+    var fields = this.state.youTubeLinks;
+    fields[fieldName].value = userText;
+    this.setState({youTubeLinks: fields});
   },
 
   handleTextBoxesChange: function (fieldName, userText) {
@@ -235,10 +241,12 @@ var EditorUserInterface = React.createClass({
       editingUi = (
         <EditingUi uiSections={this.state.ui}
           allTextFields={this.state.textFields}
+          allYouTubeLinks={this.state.youTubeLinks}
           allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
           allColorPickers={this.state.colorPickers}
           onFieldsChange={this.handleFieldsChange}
+          onYouTubeLinksChange={this.handleYouTubeLinksChange}
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}
