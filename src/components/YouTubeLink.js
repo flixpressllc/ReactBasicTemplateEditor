@@ -23,30 +23,44 @@ export default React.createClass({
 
 
   checkForValidity: function () {
-    // check for validity here...
+    this.setState({isCheckingValidity: true});
+    
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ this.props.userText }&key=${ YOU_TUBE_API_KEY }`;
     var _this = this;
 
-    $.getJSON(checkLink).done( function(data) {
-      if (data.pageInfo.totalResults === 0) {
+    $.getJSON(checkLink)
+      .done( function(data) {
+        if (data.pageInfo.totalResults === 0) {
+          _this.setState({
+            isCheckingValidity: false,
+            linkIsValid: false,
+            linkWasChecked: true
+          });
+        }
+        else if (data.pageInfo.totalResults === 1) {
+          _this.setState({
+            isCheckingValidity: false,
+            linkIsValid: true,
+            linkWasChecked: true
+          });
+        } else {
+          _this.setState({
+            isCheckingValidity: false,
+            linkIsValid: true,
+            linkWasChecked: false
+          })
+          throw new Error('YouTube returned an unexpected result on an id check');
+        }
+      })
+      .fail( function() {
         _this.setState({
-          linkIsValid: false,
-          linkWasChecked: true
-        });
-      }
-      else if (data.pageInfo.totalResults === 1) {
-        _this.setState({
-          linkIsValid: true,
-          linkWasChecked: true
-        });
-      } else {
-        _this.setState({
+          isCheckingValidity: false,
           linkIsValid: true,
           linkWasChecked: false
-        })
-        throw new Error('YouTube returned an unexpected result on an id check');
-      }
-    });
+        });
+        throw new Error('YouTube returned an error on an id check');
+      });
+
   },
 
   componentWillReceiveProps: function (newProps) {
@@ -64,7 +78,7 @@ export default React.createClass({
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
 
     return(
-      <div className={cx(this.props.className,'you-tube-link','component', {'invalid': (isInvalid), 'valid': (isValid) })}>
+      <div className={cx(this.props.className,'you-tube-link','component', {'invalid': (isInvalid), 'valid': (isValid), 'waiting': this.state.isCheckingValidity })}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
