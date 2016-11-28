@@ -1,12 +1,12 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import EditorUserInterface from './EditorUserInterface';
 
 it('renders without crashing', () => {
   let settings = {
-    uiSettingsJsonUrl: `/templates/Template79.json`,
+    uiSettingsJsonUrl: '/templates/Template79.json',
     userSettingsData: {
-      templateType: "text",
+      templateType: 'text',
       username: 'DonDenton',
       templateId: 79,
       minutesRemainingInContract: 170.2819,
