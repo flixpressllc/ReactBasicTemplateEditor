@@ -71,6 +71,8 @@ export default React.createClass({
     let userText = this.props.userText;
     let id, url;
 
+    if (userText === '') return;
+
     if (this.isYoutubeUrl(userText)) {
       url = userText;
       let data = this.findVideoDataFromUrl(url);
@@ -81,10 +83,10 @@ export default React.createClass({
       this.setInvalidWithError(new Error('Unknown variation on userText: ' + userText));
     }
 
-    this.checkForValidity(id);
+    this.checkYouTubeForValidity(id);
   },
 
-  checkForValidity: function (videoId) {
+  checkYouTubeForValidity: function (videoId) {
     this.setState({isCheckingValidity: true});
     
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
@@ -103,7 +105,7 @@ export default React.createClass({
       .fail( function() {
         _this.setValidWithError(new Error('YouTube returned an error on an id check'));
       });
-
+    
   },
 
   componentWillReceiveProps: function (newProps) {
