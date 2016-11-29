@@ -21,44 +21,88 @@ export default React.createClass({
     };
   },
 
+  isYoutubeUrl: function (string) {
+    const YOUTUBE_URL_MATCHER = /youtube\.com|youtu\.be/i;
+    return !!string.match(YOUTUBE_URL_MATCHER);
+  },
 
-  checkForValidity: function () {
+  isPossibleVideoId: function (string) {
+    const POSSIBLE_VIDEO_ID = /[^#?&]+$/;
+    return !!string.match(POSSIBLE_VIDEO_ID);
+  },
+
+  findVideoDataFromUrl: function (fullUserInput) {
+    // https://regex101.com/r/UGDLRS/3
+    const YOUTUBE_ID_AND_TIME_MATCHER = /.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*?(?:[?&]t=([^#&?]*))?.*/;
+    let result = fullUserInput.match(YOUTUBE_ID_AND_TIME_MATCHER);
+    return {
+      id: result[1],
+      time: result[2]
+    };
+  },
+
+  setInvalidWithError: function (e) {
+    this.setInvalid();
+    throw e;
+  },
+
+  setInvalid: function () {
+    this.setState({
+      linkIsValid: false,
+      linkWasChecked: true,
+      isCheckingValidity: false
+    })
+  },
+
+  setValidWithError: function (e) {
+    this.setValid();
+    throw e;
+  },
+
+  setValid: function () {
+    this.setState({
+      linkIsValid: true,
+      linkWasChecked: true,
+      isCheckingValidity: false
+    })
+  },
+
+  validate: function () {
+    let userText = this.props.userText;
+    let id, url, time;
+
+    if (this.isYoutubeUrl(userText)) {
+      url = userText;
+      let data = this.findVideoDataFromUrl(url);
+      time = data.time;
+      id = data.id;
+    } else if (this.isPossibleVideoId(userText)) {
+      id = userText;
+    } else {
+      this.setInvalidWithError(new Error('Unknown variation on userText: ' + userText));
+    }
+
+    this.checkForValidity(id);
+  },
+
+  checkForValidity: function (videoId) {
     this.setState({isCheckingValidity: true});
     
-    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ this.props.userText }&key=${ YOU_TUBE_API_KEY }`;
+    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
     var _this = this;
 
     $.getJSON(checkLink)
       .done( function(data) {
         if (data.pageInfo.totalResults === 0) {
-          _this.setState({
-            isCheckingValidity: false,
-            linkIsValid: false,
-            linkWasChecked: true
-          });
-        }
-        else if (data.pageInfo.totalResults === 1) {
-          _this.setState({
-            isCheckingValidity: false,
-            linkIsValid: true,
-            linkWasChecked: true
-          });
+          _this.setInvalid();
+        } else if (data.pageInfo.totalResults === 1) {
+          _this.setValid();
         } else {
-          _this.setState({
-            isCheckingValidity: false,
-            linkIsValid: true,
-            linkWasChecked: false
-          })
-          throw new Error('YouTube returned an unexpected result on an id check');
+          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'));
         }
       })
       .fail( function() {
-        _this.setState({
-          isCheckingValidity: false,
-          linkIsValid: true,
-          linkWasChecked: false
-        });
-        throw new Error('YouTube returned an error on an id check');
+        _this.setValidWithError(new Error('YouTube returned an error on an id check'));
       });
 
   },
@@ -70,7 +114,7 @@ export default React.createClass({
   },
 
   handleBlur: function () {
-    if (!this.state.linkWasChecked || !this.state.linkIsValid) this.checkForValidity();
+    if (!this.state.linkWasChecked || !this.state.linkIsValid) this.validate();
   },
   
   render: function(){
