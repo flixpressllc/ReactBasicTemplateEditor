@@ -17,7 +17,7 @@ export default React.createClass({
   getInitialState: function () {
     return {
       linkIsValid: false,
-      linkWasChecked: false,
+      linkWasChecked: false
     };
   },
 
@@ -69,12 +69,11 @@ export default React.createClass({
 
   validate: function () {
     let userText = this.props.userText;
-    let id, url, time;
+    let id, url;
 
     if (this.isYoutubeUrl(userText)) {
       url = userText;
       let data = this.findVideoDataFromUrl(url);
-      time = data.time;
       id = data.id;
     } else if (this.isPossibleVideoId(userText)) {
       id = userText;
