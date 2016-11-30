@@ -83,9 +83,9 @@ var EditorUserInterface = React.createClass({
     this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
     .then( result => {
       $returnPromise.resolve(); // The file exists. Below we check for bad data.
-      var checkedResults = this.checkResult(result);
+      var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
-        this.setState(result, this.getStartingData);
+        this.setState(result.data, this.getStartingData);
       } else {
         // Post Errors
         var errors = [];
@@ -99,7 +99,7 @@ var EditorUserInterface = React.createClass({
         })
       }
     })
-    .catch( (a, b, error) => {
+    .catch( error => {
       $returnPromise.reject(`${error.name}: ${error.message}`);
     });
     return $returnPromise;
