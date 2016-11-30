@@ -6,29 +6,29 @@ import EditorUserInterface from './components/EditorUserInterface';
 require('reset.css');
 require('./styles/editor.scss');
 
-let reactPromise = $.Deferred();
+let reactPromise = new Promise((resolve) => {
 // In the future, React Engine may be loaded separately...
-function tryReact () {
-  if (React === undefined || ReactDOM === undefined) {
-    setTimeout(tryReact, 1000);
-  } else {
-    reactPromise.resolve();
+  function tryReact () {
+    if (React === undefined || ReactDOM === undefined) {
+      setTimeout(tryReact, 1000);
+    } else {
+      resolve();
+    }
   }
-}
+  tryReact();
+});
 
 function initializeTemplateEditor (options) {
   let settings = {
     uiSettingsJsonUrl: options.uiSettingsJsonUrl,
     userSettingsData: options.userSettingsData
   };
-  reactPromise.done(function () {
+  reactPromise.then(function () {
     ReactDOM.render(
       React.createElement(EditorUserInterface, settings),
       document.getElementById(options.divToReplaceId)
     );
   });
 }
-
-tryReact();
 
 window.initializeTemplateEditor = initializeTemplateEditor;

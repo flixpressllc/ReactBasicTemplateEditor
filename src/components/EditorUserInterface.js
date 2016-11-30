@@ -78,11 +78,10 @@ var EditorUserInterface = React.createClass({
     }
   },
   
-  tryJsonFile: function () {
-    var $returnPromise = $.Deferred();
+  tryJsonFile: function () { return new Promise((resolve,reject) => {
     this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
     .then( result => {
-      $returnPromise.resolve(); // The file exists. Below we check for bad data.
+      resolve(); // The file exists. Below we check for bad data.
       var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
         this.setState(result.data, this.getStartingData);
@@ -100,14 +99,13 @@ var EditorUserInterface = React.createClass({
       }
     })
     .catch( error => {
-      $returnPromise.reject(`${error.name}: ${error.message}`);
+      reject(`${error.name}: ${error.message}`);
     });
-    return $returnPromise;
-  },
+  })},
   
   componentDidMount: function () {
     this.tryJsonFile()
-    .fail((possibleReason)=>{
+    .catch((possibleReason)=>{
       let errors = this.state.caughtErrors || [];
       errors.push({message: 'Could not load template data.'});
       if (possibleReason) { errors.push({message: possibleReason}); }
@@ -184,21 +182,22 @@ var EditorUserInterface = React.createClass({
       }
     }
     
-    var orderPromise = $.Deferred();
+    var orderPromise = new Promise((resolve,reject) => {
     
     xmlParser.updateXmlForOrder(order)
       .done(function(){
-        orderPromise.resolve()
+        resolve()
       })
       .fail(function(failureReason){
-        orderPromise.reject(failureReason)
+        reject(failureReason)
       })
+    });
     
-    orderPromise.done(function(){
+    orderPromise.then(function(){
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
       })
-    }.bind(this)).fail(function(failureReason){
+    }.bind(this)).catch(function(failureReason){
       var message = 'Order Failed.';
       if (failureReason !== undefined){
         message += ` The given reason was "${failureReason}"`;
