@@ -10,6 +10,7 @@ import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 import xmlParser from '../utils/xml-parser';
 import { getJSON } from '../utils/ajax';
+import { find } from '../utils/dom-queries';
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -195,7 +196,7 @@ var EditorUserInterface = React.createClass({
     
     orderPromise.done(function(){
       this.setState({allowSubmit: true}, function () {
-        setTimeout(function(){$('form input[type="submit"]').eq(0).click();},100);
+        setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
       })
     }.bind(this)).fail(function(failureReason){
       var message = 'Order Failed.';
