@@ -1,4 +1,4 @@
-import 'core-js/fn/object/assign';
+import '../cfg/polyfills';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import EditorUserInterface from './components/EditorUserInterface';
