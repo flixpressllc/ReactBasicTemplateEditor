@@ -9,6 +9,7 @@ import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 import xmlParser from '../utils/xml-parser';
+import { getJSON } from '../utils/ajax';
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -78,7 +79,8 @@ var EditorUserInterface = React.createClass({
   
   tryJsonFile: function () {
     var $returnPromise = $.Deferred();
-    this.serverRequest = $.getJSON(this.props.uiSettingsJsonUrl, function (result) {
+    this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
+    .then( result => {
       $returnPromise.resolve(); // The file exists. Below we check for bad data.
       var checkedResults = this.checkResult(result);
       if (checkedResults === true) {
@@ -95,8 +97,8 @@ var EditorUserInterface = React.createClass({
           caughtErrors: errors
         })
       }
-    }.bind(this))
-    .fail(function(a,b,error){
+    })
+    .catch( (a, b, error) => {
       $returnPromise.reject(`${error.name}: ${error.message}`);
     });
     return $returnPromise;
