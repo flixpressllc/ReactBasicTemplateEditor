@@ -67,7 +67,7 @@ export default React.createClass({
     })
   },
 
-  validate: function () {
+  validate: function () { return new Promise((resolve) => {
     let userText = this.props.userText;
     let id, url;
 
@@ -83,30 +83,40 @@ export default React.createClass({
       this.setInvalidWithError(new Error('Unknown variation on userText: ' + userText));
     }
 
-    this.checkYouTubeForValidity(id);
-  },
+    this.checkYouTubeForValidity(id)
+    .then(boolFromCheckYouTube => {
+      if (boolFromCheckYouTube) {
+        this.setValid();
+      } else {
+        this.setInvalid();
+      }
+      resolve(boolFromCheckYouTube);
+    })
+    .catch(errorFromCheckYouTube => {
+      this.setValidWithError(errorFromCheckYouTube);
+    });
+  })},
 
-  checkYouTubeForValidity: function (videoId) {
+  checkYouTubeForValidity: function (videoId) {return new Promise((resolve, reject) => {
     this.setState({isCheckingValidity: true});
     
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
-    var _this = this;
 
     $.getJSON(checkLink)
       .done( function(data) {
         if (data.pageInfo.totalResults === 0) {
-          _this.setInvalid();
+          resolve(false);
         } else if (data.pageInfo.totalResults === 1) {
-          _this.setValid();
+          resolve(true);
         } else {
-          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'));
+          reject(new Error('YouTube returned an unexpected result on an id check'));
         }
       })
       .fail( function() {
-        _this.setValidWithError(new Error('YouTube returned an error on an id check'));
+        reject(new Error('YouTube returned an error on an id check'));
       });
     
-  },
+  })},
 
   componentWillReceiveProps: function (newProps) {
     if (newProps.userText !== this.props.userText) {
