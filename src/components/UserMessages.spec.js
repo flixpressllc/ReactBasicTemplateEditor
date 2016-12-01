@@ -10,17 +10,18 @@ describe('UserMessages', () => {
     expect(component.text()).toContain('a message for you');
   })
 
-  it('displays messages in raw html', () => {
-    const messages = [{message:'a mess<span class="disruption"></span>age for you', htmlSafe: true}];
-    const component = mount(<UserMessages messages={ messages }/>);
+  // The htmlSafe option has been removed until it is necessary.
+  // it('displays messages in raw html', () => {
+  //   const messages = [{message:'a mess<span class="disruption"></span>age for you', htmlSafe: true}];
+  //   const component = mount(<UserMessages messages={ messages }/>);
 
-    expect(component.find('Message').text()).toContain('a message for you');
-  });
+  //   expect(component.find('Message').text()).toContain('a message for you');
+  // });
 
-  it('allows classes to be set for messages', () => {
-    const messages = [{message:'a message for you', type:'biggest-message'}];
-    const component = mount(<UserMessages messages={ messages }/>);
+  // it('allows classes to be set for messages', () => {
+  //   const messages = [{message:'a message for you', type:'biggest-message'}];
+  //   const component = mount(<UserMessages messages={ messages }/>);
 
-    expect(component.find('.biggest-message').length).toEqual(1);
-  });
+  //   expect(component.find('.biggest-message').length).toEqual(1);
+  // });
 })

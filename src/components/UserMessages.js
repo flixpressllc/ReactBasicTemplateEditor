@@ -8,14 +8,14 @@ var Message = React.createClass({
   
   render: function () {
     var className = 'user-message ' + this.props.type;
-    if (this.props.htmlSafe === true){
-      return (
-        <div
-          className={className}
-          dangerouslySetInnerHTML={this.raw(this.props.message)}
-        />
-      )
-    }
+    // if (this.props.htmlSafe === true){
+    //   return (
+    //     <div
+    //       className={className}
+    //       dangerouslySetInnerHTML={this.raw(this.props.message)}
+    //     />
+    //   )
+    // }
     
     return (
       <div className={className}>
