@@ -27,22 +27,6 @@ $lg-image: 17;
   right: $num;
 }
 
-// Many variables...
-$tinyPad: 3px;
-$medPad: 8px;
-$bigPad: 12px;
-$viewportPad: $medPad;
-$line-height: 1.3;
-$fluid-radius: 0.3em;
-$button-padding: 0.2em 0.5em;
-$major-button-padding: 0.5em 1em;
-
-$bg-color: white;
-
-$sm-title-font-size: 24px;
-$md-title-font-size: $sm-title-font-size;
-$lg-title-font-size: $md-title-font-size;
-
 .ReactModalPortal {
   display: none;
 }
