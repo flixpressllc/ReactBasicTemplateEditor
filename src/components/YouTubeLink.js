@@ -141,7 +141,11 @@ export default React.createClass({
   },
 
   removeMarker: function () {
-    this.setState({linkWasChecked:false})
+    this.setState({linkWasChecked:false}, () => {
+      if (this.inputReference) {
+        this.inputReference.focus();
+      }
+    });
   },
 
   render: function(){
@@ -157,6 +161,7 @@ export default React.createClass({
     ) : (
       <input
         className='reactBasicTemplateEditor-YouTubeLink-input'
+        ref={ el => {this.inputReference = el} }
         type="text"
         name={this.props.fieldName}
         value={this.props.userText}
