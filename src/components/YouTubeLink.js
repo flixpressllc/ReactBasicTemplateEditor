@@ -21,6 +21,10 @@ const YouTubeLink = React.createClass({
       linkWasChecked: false
     };
   },
+  
+  getDefaultProps: function () {
+    return {userText: ''};
+  },
 
   isYoutubeUrl: function (string) {
     const YOUTUBE_URL_MATCHER = /youtube\.com|youtu\.be/i;
