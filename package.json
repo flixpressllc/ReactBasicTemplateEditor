@@ -88,11 +88,11 @@
       "json"
     ],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>\\cfg\\jest\\FileStub.js",
-      "^.+\\.css$": "<rootDir>\\cfg\\jest\\CSSStub.js"
+      "^.+\/.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/cfg/jest/FileStub.js",
+      "^.+\/.css$": "<rootDir>/cfg/jest/CSSStub.js"
     },
     "setupFiles": [
-      "<rootDir>\\cfg\\polyfills.js"
+      "<rootDir>/cfg/polyfills.js"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/(build|docs|node_modules)/"
