@@ -1,2 +1,23 @@
+@import 'variables'
+
 %textbox
   border: 1px solid #bbb
+
+%button
+  font-size: inherit
+  padding: $major-button-padding
+  background-color: $flixpress-blue
+  color: white
+  border: none
+  border-radius: $fluid-radius
+  cursor: pointer
+  margin: $tinyPad $tinyPad 0 0
+
+  &:hover
+    background-color: darken($flixpress-blue, 10)
+
+  &.cancel
+    background-color: #999
+
+    &:hover
+      background-color: darken(#999, 10)
