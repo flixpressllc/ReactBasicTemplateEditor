@@ -3,6 +3,7 @@ import TextField from './TextField';
 import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
+import YouTubeLink from './YouTubeLink';
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -20,7 +21,10 @@ var EditingUi = React.createClass({
     if (type === 'TextField') {
       return this.props.allTextFields[identifier].previewImage
     
-    }else if (type === 'TextBox') {
+    } else if (type === 'YouTubeLink') {
+      return this.props.allYouTubeLinks[identifier].previewImage
+    
+    } else if (type === 'TextBox') {
         return this.props.allTextBoxes[identifier].previewImage
       
     } else if (type === 'DropDown') {
@@ -39,6 +43,11 @@ var EditingUi = React.createClass({
     this.setState({lastTextFocus: fieldName, previewImage: img});
   },
   
+  handleYouTubeLinkFocus: function (fieldName) {
+    var img = this.getPreviewImage('YouTubeLink', fieldName);
+    this.setState({lastTextFocus: fieldName, previewImage: img});
+  },
+  
   handleTextBoxFocus: function (fieldName) {
     var img = this.getPreviewImage('TextBox', fieldName);
     this.setState({lastTextBoxFocus: fieldName, previewImage: img});
@@ -53,6 +62,19 @@ var EditingUi = React.createClass({
       onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
+    />);
+  },
+  
+  createYouTubeLink: function (name, object) {
+    var safeName = name.replace(' ','-');
+    return (<YouTubeLink
+      fieldName={name}
+      className="input-item"
+      userText={object.value}
+      onUserInput={this.props.onYouTubeLinksChange}
+      onTextFieldFocus={this.handleYouTubeLinkFocus}
+      onValidVideoFound={this.props.onValidVideoFound}
+      key={`you-tube-link-${safeName}`}
     />);
   },
   
