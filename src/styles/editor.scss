@@ -119,7 +119,11 @@ $lg-title-font-size: $md-title-font-size;
     label:after {
       content: ':';
     }
-    
+
+    input[type='text'], textarea {
+      @extend %textbox;
+    }
+
     @include breakpoint($sm) {
       max-width: 400px;
       margin: $bigPad auto;
