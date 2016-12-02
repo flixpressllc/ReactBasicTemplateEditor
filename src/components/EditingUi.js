@@ -73,6 +73,7 @@ var EditingUi = React.createClass({
       userText={object.value}
       onUserInput={this.props.onYouTubeLinksChange}
       onTextFieldFocus={this.handleYouTubeLinkFocus}
+      onValidVideoFound={this.props.onValidVideoFound}
       key={`you-tube-link-${safeName}`}
     />);
   },

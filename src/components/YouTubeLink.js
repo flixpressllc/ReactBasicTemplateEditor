@@ -40,6 +40,14 @@ export default React.createClass({
       time: result[2]
     };
   },
+  
+  reportValidVideoData: function () {
+    this.props.onValidVideoFound(
+      this.props.fieldName,
+      this.state.videoId,
+      this.state.title
+    );
+  },
 
   setInvalidWithError: function (e) {
     this.setInvalid();
@@ -54,17 +62,19 @@ export default React.createClass({
     })
   },
 
-  setValidWithError: function (e) {
-    this.setValid();
+  setValidWithError: function (e, videoId, title) {
+    this.setValid(videoId, title);
     throw e;
   },
 
-  setValid: function () {
+  setValid: function (videoId, title) {
     this.setState({
       linkIsValid: true,
       linkWasChecked: true,
-      isCheckingValidity: false
-    })
+      isCheckingValidity: false,
+      videoId: videoId,
+      title: title
+    }, this.reportValidVideoData);
   },
 
   validate: function () {
@@ -89,7 +99,7 @@ export default React.createClass({
   checkYouTubeForValidity: function (videoId) {
     this.setState({isCheckingValidity: true});
     
-    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
+    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
     var _this = this;
 
     $.getJSON(checkLink)
@@ -97,13 +107,13 @@ export default React.createClass({
         if (data.pageInfo.totalResults === 0) {
           _this.setInvalid();
         } else if (data.pageInfo.totalResults === 1) {
-          _this.setValid();
+          _this.setValid(videoId,data.items[0].snippet.title);
         } else {
-          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'));
+          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'), videoId);
         }
       })
       .fail( function() {
-        _this.setValidWithError(new Error('YouTube returned an error on an id check'));
+        _this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
       });
     
   },
