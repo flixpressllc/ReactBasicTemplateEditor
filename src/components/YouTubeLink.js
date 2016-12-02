@@ -40,6 +40,14 @@ export default React.createClass({
       time: result[2]
     };
   },
+  
+  reportValidVideoData: function () {
+    this.props.onValidVideoFound(
+      this.props.fieldName,
+      this.state.videoId,
+      this.state.title
+    );
+  },
 
   setInvalidWithError: function (e) {
     this.setInvalid();
@@ -54,17 +62,19 @@ export default React.createClass({
     })
   },
 
-  setValidWithError: function (e) {
-    this.setValid();
+  setValidWithError: function (e, videoId, title) {
+    this.setValid(videoId, title);
     throw e;
   },
 
-  setValid: function () {
+  setValid: function (videoId, title) {
     this.setState({
       linkIsValid: true,
       linkWasChecked: true,
-      isCheckingValidity: false
-    })
+      isCheckingValidity: false,
+      videoId: videoId,
+      title: title
+    }, this.reportValidVideoData);
   },
 
   validate: function () { return new Promise((resolve) => {
@@ -100,20 +110,21 @@ export default React.createClass({
   checkYouTubeForValidity: function (videoId) {return new Promise((resolve, reject) => {
     this.setState({isCheckingValidity: true});
     
-    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
+    var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
+    var _this = this;
 
     $.getJSON(checkLink)
       .done( function(data) {
         if (data.pageInfo.totalResults === 0) {
           resolve(false);
         } else if (data.pageInfo.totalResults === 1) {
-          resolve(true);
+          _this.setValid(videoId,data.items[0].snippet.title);
         } else {
-          reject(new Error('YouTube returned an unexpected result on an id check'));
+          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'), videoId);
         }
       })
       .fail( function() {
-        reject(new Error('YouTube returned an error on an id check'));
+        _this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
       });
     
   })},
@@ -128,23 +139,36 @@ export default React.createClass({
     if (!this.state.linkWasChecked || !this.state.linkIsValid) this.validate();
   },
   
+  removeMarker: function () {
+    this.setState({linkWasChecked:false})
+  },
+  
   render: function(){
     var isInvalid = !this.state.linkIsValid && this.state.linkWasChecked;
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
+
+    var inputOrMarker = isValid ? (
+      <div className='someName'>
+        {this.state.title}
+        <button type='button' onClick={ this.removeMarker }> edit </button>
+      </div>
+    ) : (
+      <input
+        type="text"
+        name={this.props.fieldName}
+        value={this.props.userText}
+        onChange={this.handleTextEdit}
+        onFocus={this.handleFocus}
+        onBlur={ this.handleBlur }
+      />
+  );
 
     return(
       <div className={cx(this.props.className,'you-tube-link','component', {'invalid': (isInvalid), 'valid': (isValid), 'waiting': this.state.isCheckingValidity })}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
-        <input
-          type="text"
-          name={this.props.fieldName}
-          value={this.props.userText}
-          onChange={this.handleTextEdit}
-          onFocus={this.handleFocus}
-          onBlur={ this.handleBlur }
-        />
+        { inputOrMarker }
       </div>
     )
   }
