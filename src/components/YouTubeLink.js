@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { YOU_TUBE_API_KEY } from '../stores/app-settings';
 import './YouTubeLink.scss';
 
-export default React.createClass({
+const YouTubeLink = React.createClass({
   handleTextEdit: function(event){
     this.props.onUserInput(
       this.props.fieldName,
@@ -181,3 +181,5 @@ export default React.createClass({
     )
   }
 });
+
+export default YouTubeLink;
