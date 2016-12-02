@@ -10,7 +10,7 @@ export default React.createClass({
       event.target.value
     );
   },
-  
+
   handleFocus: function () {
     this.props.onTextFieldFocus(this.props.fieldName);
   },
@@ -41,7 +41,7 @@ export default React.createClass({
       time: result[2]
     };
   },
-  
+
   reportValidVideoData: function () {
     this.props.onValidVideoFound(
       this.props.fieldName,
@@ -108,9 +108,9 @@ export default React.createClass({
     });
   })},
 
-  checkYouTubeForValidity: function (videoId) {return new Promise((resolve, reject) => {
+  checkYouTubeForValidity: function (videoId) {return new Promise((resolve) => {
     this.setState({isCheckingValidity: true});
-    
+
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
     var _this = this;
 
@@ -127,7 +127,7 @@ export default React.createClass({
       .fail( function() {
         _this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
       });
-    
+
   })},
 
   componentWillReceiveProps: function (newProps) {
@@ -139,11 +139,11 @@ export default React.createClass({
   handleBlur: function () {
     if (!this.state.linkWasChecked || !this.state.linkIsValid) this.validate();
   },
-  
+
   removeMarker: function () {
     this.setState({linkWasChecked:false})
   },
-  
+
   render: function(){
     var isInvalid = !this.state.linkIsValid && this.state.linkWasChecked;
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
