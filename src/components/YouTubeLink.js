@@ -81,7 +81,7 @@ export default React.createClass({
     let userText = this.props.userText;
     let id, url;
 
-    if (userText === '') return;
+    if (!userText) return;
 
     if (this.isYoutubeUrl(userText)) {
       url = userText;
