@@ -128,23 +128,36 @@ export default React.createClass({
     if (!this.state.linkWasChecked || !this.state.linkIsValid) this.validate();
   },
   
+  removeMarker: function () {
+    this.setState({linkWasChecked:false})
+  },
+  
   render: function(){
     var isInvalid = !this.state.linkIsValid && this.state.linkWasChecked;
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
+
+    var inputOrMarker = isValid ? (
+      <div className='someName'>
+        {this.state.title}
+        <button type='button' onClick={ this.removeMarker }> edit </button>
+      </div>
+    ) : (
+      <input
+        type="text"
+        name={this.props.fieldName}
+        value={this.props.userText}
+        onChange={this.handleTextEdit}
+        onFocus={this.handleFocus}
+        onBlur={ this.handleBlur }
+      />
+  );
 
     return(
       <div className={cx(this.props.className,'you-tube-link','component', {'invalid': (isInvalid), 'valid': (isValid), 'waiting': this.state.isCheckingValidity })}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
-        <input
-          type="text"
-          name={this.props.fieldName}
-          value={this.props.userText}
-          onChange={this.handleTextEdit}
-          onFocus={this.handleFocus}
-          onBlur={ this.handleBlur }
-        />
+        { inputOrMarker }
       </div>
     )
   }
