@@ -272,6 +272,15 @@ $lg-title-font-size: $md-title-font-size;
   }
 }
 
+.component.you-tube-link {
+  &.valid input {
+    border-color: green !important;
+  }
+  &.invalid input {
+    border-color: red !important;
+  }
+}
+
 .sound-picker-component, .resolution-picker-component, .submit-render-component {
   margin: 1em auto;
   text-align: center;
