@@ -1,0 +1,32 @@
+.reactBasicTemplateEditor-YouTubeLink-marker {
+  color: #999;
+  font-weight: bold;
+  width: 49%;
+  float: right;
+  margin-left: 0.5%;
+  height: 22px;
+  border: 1px solid #ddd;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 51%,rgba(255,255,255,1) 80%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+  }
+}
+
+#editor button.reactBasicTemplateEditor-YouTubeLink-markerButton {
+  padding: 0 6px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  font-size: 13px
+}

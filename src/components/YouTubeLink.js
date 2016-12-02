@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { YOU_TUBE_API_KEY } from '../stores/app-settings';
+import './YouTubeLink.scss';
 
 export default React.createClass({
   handleTextEdit: function(event){
@@ -148,12 +149,14 @@ export default React.createClass({
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
 
     var inputOrMarker = isValid ? (
-      <div className='someName'>
+      <div className='reactBasicTemplateEditor-YouTubeLink-marker'>
         {this.state.title}
-        <button type='button' onClick={ this.removeMarker }> edit </button>
+        <button className='reactBasicTemplateEditor-YouTubeLink-markerButton'
+          type='button' onClick={ this.removeMarker }> Edit </button>
       </div>
     ) : (
       <input
+        className='reactBasicTemplateEditor-YouTubeLink-input'
         type="text"
         name={this.props.fieldName}
         value={this.props.userText}
