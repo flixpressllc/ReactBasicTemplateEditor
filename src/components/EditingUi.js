@@ -69,7 +69,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<YouTubeLink
       fieldName={name}
-      className="input-item"
       userText={object.value}
       onUserInput={this.props.onYouTubeLinksChange}
       onTextFieldFocus={this.handleYouTubeLinkFocus}

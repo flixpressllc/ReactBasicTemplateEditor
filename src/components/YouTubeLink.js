@@ -176,7 +176,7 @@ const YouTubeLink = React.createClass({
   );
 
     return(
-      <div className={cx(this.props.className,'you-tube-link','component', {'invalid': (isInvalid), 'valid': (isValid), 'waiting': this.state.isCheckingValidity })}>
+      <div className={cx(this.props.className,'reactBasicTemplateEditor-YouTubeLink', {'invalid': (isInvalid), 'valid': (isValid), 'waiting': this.state.isCheckingValidity })}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
