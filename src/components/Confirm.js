@@ -2,6 +2,7 @@ import React from 'react';
 import Dialog from 'react-modal';
 import { confirmable } from 'react-confirm';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
+import './Confirm.scss'
 
 Dialog.setAppElement('#' + CONTAINING_ELEMENT_ID);
 class Confirmation extends React.Component {
@@ -22,17 +23,17 @@ class Confirmation extends React.Component {
     } = this.props;
 
     var actions = [
-      <button key="cancel" type="button" className="cancel" onClick={cancel}>
+      <button key="cancel" type="button" className="reactBasicTemplateEditor-Confirm-button cancel" onClick={cancel}>
         {cancelLabel}
       </button>,
-      <button key="confirm" type="button" className="confirm" onClick={proceed}>
+      <button key="confirm" type="button" className="reactBasicTemplateEditor-Confirm-button confirm" onClick={proceed}>
         {proceedLabel}
       </button>
     ];
     
     if (otherAction) {
       actions.push(
-        <button key="preview" type="button" className="confirm confirm-preview" onClick={otherAction}>
+        <button key="preview" type="button" className="reactBasicTemplateEditor-Confirm-button confirm confirm-preview" onClick={otherAction}>
           {otherActionLabel}
         </button>
       );
