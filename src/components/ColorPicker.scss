@@ -1,12 +1,10 @@
 @import "../styles/base-includes";
 
+.reactBasicTemplateEditor-ColorPicker {
+  @extend %input-component;
+}
 .reactBasicTemplateEditor-ColorPicker-swatch {
-  // Extending %parts
-  width: 49%;
-  display: block;
-  
-  float: right;
-  margin-left: 0.5%;
+  @extend %input;
   
   padding: 3px;
   background: #fff;

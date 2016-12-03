@@ -1,7 +1,5 @@
+@import '~compass-mixins', '~breakpoint-sass'
 @import 'variables'
-
-%textbox
-  border: 1px solid #bbb
 
 %button
   font-size: inherit
@@ -21,3 +19,43 @@
 
     &:hover
       background-color: darken(#999, 10)
+
+%input-component
+  margin-top: $medPad
+  font-size: 16px
+
+  +breakpoint($sm)
+    +pie-clearfix
+    max-width: 400px
+    margin: $bigPad auto
+
+
+%textbox
+  border: 1px solid #bbb
+  font-size: 16px
+
+%input-parts
+  +breakpoint($sm)
+    width: 49%
+    margin-right: 0.5%
+    margin-left: 0.5%
+    display: block
+
+%label
+  @extend %input-parts
+  &:after
+    content: ':'
+
+  +breakpoint($sm)
+    float: left
+    margin-left: 0
+    &::after
+      content: ''
+    
+%input
+  @extend %input-parts
+  @extend %textbox
+
+  +breakpoint($sm)
+    float: right
+    margin-right: 0
