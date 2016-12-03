@@ -1,0 +1,31 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-AccountBalance {
+  @include pie-clearfix;
+  
+  &.is-payg-user {
+    > div {
+      width: 100%;
+    }
+  }
+  
+  &.preview {
+    opacity: 0.5;
+  }
+  
+  > div {
+    float: left;
+    width: 50%;
+    padding: $medPad;
+  }
+}
+
+.reactBasicTemplateEditor-AccountBalance-accountBalance {
+  &.sufficient .amount {
+    color: green;
+  }
+  
+  &.insufficient .amount {
+    color: red;
+  }
+}

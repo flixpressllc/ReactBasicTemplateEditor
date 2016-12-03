@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {round} from '../utils/helper-functions';
+import './AccountBalance.scss';
 
 const minToTime = function (min) {
   var sec_num = Math.floor(min * 60);
@@ -59,7 +60,7 @@ export default React.createClass({
       accountBalanceDisplay = [];
     } else {
       accountBalanceDisplay = (
-        <div className={cx('account-balance', balanceData)}>
+        <div className={cx('reactBasicTemplateEditor-AccountBalance-accountBalance', balanceData)}>
           <div className="label">Account Balance</div>
           <div className="amount">{balance}</div>
           <div className="type">{type}</div>
@@ -67,7 +68,7 @@ export default React.createClass({
       );
     }
     return(
-      <div className={cx('account-balance-component', 'component', {preview: this.props.isPreview, 'is-payg-user': isChargePerOrder})}>
+      <div className={cx('reactBasicTemplateEditor-AccountBalance', {preview: this.props.isPreview, 'is-payg-user': isChargePerOrder})}>
         <div className="template-cost">
           <div className="label">Template Cost</div>
           {tCost}

@@ -181,37 +181,7 @@
     width: 10em;
   }
 }
-.account-balance-component {
-  @include pie-clearfix;
-  
-  > div {
-    float: left;
-    width: 50%;
-    padding: $medPad;
-  }
-  
-  &.is-payg-user {
-    > div {
-      width: 100%;
-    }
-  }
-  
-  .template-cost .amount {}
-  
-  .account-balance {
-    &.sufficient .amount {
-      color: green;
-    }
-    
-    &.insufficient .amount {
-      color: red;
-    }
-  }
-  
-  &.preview {
-    opacity: 0.5;
-  }
-}
+
 .user-messages {
   margin-left: 0 - $viewportPad;
   margin-right: 0 - $viewportPad;
