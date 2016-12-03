@@ -1,0 +1,6 @@
+@mixin sides($num) {
+  top: $num;
+  bottom: $num;
+  left: $num;
+  right: $num;
+}

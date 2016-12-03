@@ -1,11 +1,6 @@
 @import '~compass-mixins', '~breakpoint-sass'
 @import 'common-components', 'variables'
-
-// DNN Fusion breakpoints
-$lg: 1200px
-$md: 992px
-$sm: 768px
-$xs-only: (0 767px)
+@import 'functions', 'mixins'
 
 // Helpers
 
@@ -57,6 +52,3 @@ $xs-only: (0 767px)
   &:after
     +bars-setup
     right: -9999px
-
-.group, .clearfix
-  +pie-clearfix

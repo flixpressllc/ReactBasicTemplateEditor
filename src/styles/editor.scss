@@ -1,32 +1,5 @@
 @import 'base-includes';
 
-// override breakpoints
-$lg: 1000px;
-$md: 670px;
-$sm: 400px;
-$xs-only: (0 399px);
-
-// Image sizes
-$xs-image: 7;
-$sm-image: 9;
-$md-image: 14;
-$lg-image: 17;
-
-@function iW($multiplier) {
-  @return 16px * $multiplier
-}
-
-@function iH($multiplier) {
-  @return 9px * $multiplier
-}
-
-@mixin sides($num) {
-  top: $num;
-  bottom: $num;
-  left: $num;
-  right: $num;
-}
-
 .ReactModalPortal {
   display: none;
 }
@@ -485,6 +458,10 @@ body.ReactModal__Body--open {
       margin: $medPad 0 0 0;
     }
   }
+}
+
+.group, .clearfix {
+  @include pie-clearfix;
 }
 
 @import 'color-picker';
