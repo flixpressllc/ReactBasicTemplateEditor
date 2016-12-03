@@ -1,0 +1,13 @@
+@import "../styles/_common-components";
+
+#editor .reactBasicTemplateEditor-EditingUi-dropDown {
+  @extend %input-component;
+  
+  > label {
+    @extend %label;
+  }
+  
+  > select {
+    @extend %input;
+  }
+}

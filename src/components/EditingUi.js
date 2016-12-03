@@ -4,6 +4,7 @@ import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
+import './EditingUi.scss';
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -94,7 +95,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<ColorPicker
       fieldName={name}
-      className="input-item color-picker"
       color={object.value}
       onColorChange={this.props.onColorPickerChange}
       key={`color-picker-${safeName}`}
@@ -136,7 +136,7 @@ var EditingUi = React.createClass({
     }
     
     return (
-      <div className="drop-down component input-item" key={`drop-down-${safeName}`}>
+      <div className="reactBasicTemplateEditor-EditingUi-dropDown" key={`drop-down-${safeName}`}>
         <label>{name}</label>
         <select
           ref={_thisDDMounted}
