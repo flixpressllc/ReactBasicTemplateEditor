@@ -81,7 +81,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<TextBox
       fieldName={name}
-      className="input-item"
       userText={object.value}
       onUserInput={this.props.onTextBoxesChange}
       onTextBoxFocus={this.handleTextBoxFocus}
