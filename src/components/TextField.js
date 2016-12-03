@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import './TextField.scss';
 
 export default React.createClass({
   handleTextEdit: function(event){
@@ -15,7 +16,7 @@ export default React.createClass({
   
   render: function(){
     return(
-      <div className={cx(this.props.className,'text-field','component')}>
+      <div className={cx(this.props.className,'reactBasicTemplateEditor-TextField')}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
