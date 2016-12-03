@@ -2,6 +2,10 @@
 
 .reactBasicTemplateEditor-ColorPicker {
   @extend %input-component;
+  
+  > label {
+    @extend %label;
+  }
 }
 .reactBasicTemplateEditor-ColorPicker-swatch {
   @extend %input;

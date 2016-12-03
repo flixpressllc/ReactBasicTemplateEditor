@@ -117,7 +117,7 @@ var ColorPicker = React.createClass({
       }
     });
     return(
-      <div className={cx(this.props.className,'reactBasicTemplateEditor-ColorPicker', 'input-item')} style={styles.root}>
+      <div className={cx(this.props.className,'reactBasicTemplateEditor-ColorPicker')} style={styles.root}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
