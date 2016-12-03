@@ -1,0 +1,22 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-ColorPicker-swatch {
+  // Extending %parts
+  width: 49%;
+  display: block;
+  
+  float: right;
+  margin-left: 0.5%;
+  
+  padding: 3px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.2);
+  display: inline-block;
+  vertical-align: sub;
+  min-width: 36px;
+}
+
+.reactBasicTemplateEditor-ColorPicker-swatchColor {
+  height: 1em;
+  border-radius: 3px;
+}

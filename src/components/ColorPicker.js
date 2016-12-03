@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { SketchPicker } from 'react-color';
 import { Checkboard } from 'react-color/lib/components/common';
 import reactCSS from 'reactcss';
+import './ColorPicker.scss';
 
 var ColorPicker = React.createClass({
   getInitialState: function () {
@@ -116,13 +117,13 @@ var ColorPicker = React.createClass({
       }
     });
     return(
-      <div className={cx(this.props.className,'color-picker','component', 'input-item')} style={styles.root}>
+      <div className={cx(this.props.className,'reactBasicTemplateEditor-ColorPicker', 'input-item')} style={styles.root}>
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
         
-        <div className='color-picker-swatch' style={ styles.swatch } onClick={ this.handleClick }>
-          <div className='color-picker-swatch-color' style={ styles.color }>
+        <div className='reactBasicTemplateEditor-ColorPicker-swatch' style={ styles.swatch } onClick={ this.handleClick }>
+          <div className='reactBasicTemplateEditor-ColorPicker-swatchColor' style={ styles.color }>
             <Checkboard size={5} />
             <div style={ styles.activeColor }/>
           </div>

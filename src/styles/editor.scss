@@ -101,7 +101,7 @@
         }
       }
       
-      input, select, .color-picker-swatch {
+      input, select {
         @extend %parts;
         float: right;
         margin-left: 0.5%;
@@ -362,5 +362,3 @@ body.ReactModal__Body--open {
 .group, .clearfix {
   @include pie-clearfix;
 }
-
-@import 'color-picker';
