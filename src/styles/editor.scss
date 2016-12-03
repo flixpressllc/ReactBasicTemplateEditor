@@ -129,57 +129,6 @@
     margin-right: 1em;
   }
   
-  .preview-image {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    width: iW($xs-image);
-    height: iH($xs-image);
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    cursor: pointer;
-    padding: $tinyPad;
-    
-    &.missing {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-color: darken($flixpress-blue, 10);
-      
-      span, &:hover span {
-        color: white;
-      }
-    }
-    
-    span {
-      text-align: center;
-      color: white;
-      text-shadow: 0 0 2px black;
-      font-size: iW($sm-image) * 0.09;
-    }
-    
-    &:hover span {
-      color: $flixpress-blue;
-    }
-    
-    @include breakpoint($sm) {
-      width: iW($sm-image);
-      height: iH($sm-image);
-    }
-    
-    @include breakpoint($md) {
-      position: absolute;
-      width: iW($md-image);
-      height: iH($md-image);
-      @include sides(auto);
-      top: $bigPad;
-      right: 25%;
-      transform: translateX(50%);
-      z-index: 0;
-    }
-  }
-  
   @include breakpoint($md) {
     .main-interaction-area {
       position: relative;
@@ -359,27 +308,7 @@ code {
       }
     }
   }
-  
-  .preview-image-modal {
-    button {
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
-    
-    .explain {
-      text-align: center;
-    }
-    
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 100%;
-    }
-  }
 }
-
 body.ReactModal__Body--open {
   overflow: hidden;
   
