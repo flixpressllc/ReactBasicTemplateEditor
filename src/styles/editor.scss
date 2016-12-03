@@ -62,53 +62,6 @@
     }
   }
   
-  .input-item {
-    margin-top: $medPad;
-    font-size: 16px;
-    
-    input, select, textarea {
-      font-size: 16px;
-    }
-    textarea {
-      width: 100%;
-    }
-    
-    label:after {
-      content: ':';
-    }
-
-    input[type='text'], textarea {
-      @extend %textbox;
-    }
-
-    @include breakpoint($sm) {
-      max-width: 400px;
-      margin: $bigPad auto;
-      @include pie-clearfix;
-      
-      %parts {
-        width: 49%;
-        display: block;
-      }
-      
-      label {
-        @extend %parts;
-        margin-right: 0.5%;
-        float: left;
-        
-        &:after {
-          content: '';
-        }
-      }
-      
-      input, select {
-        @extend %parts;
-        float: right;
-        margin-left: 0.5%;
-      }
-    }
-  }
-  
   button, input[type="submit"] {
     @extend %button;
   }
