@@ -74,14 +74,6 @@
     }
   }
   
-  input[type="text"], select {
-    vertical-align: text-bottom;
-  }
-  
-  label {
-    margin-right: 1em;
-  }
-  
   @include breakpoint($md) {
     .main-interaction-area {
       position: relative;
