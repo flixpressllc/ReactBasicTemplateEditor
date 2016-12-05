@@ -1,6 +1,6 @@
 @import "../styles/base-includes";
 
-#editor .reactBasicTemplateEditor-ColorPicker {
+.reactBasicTemplateEditor-ColorPicker {
   @extend %input-component;
   
   > label {

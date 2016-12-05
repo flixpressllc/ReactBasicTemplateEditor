@@ -1,6 +1,6 @@
 @import "../styles/_common-components";
 
-#editor .reactBasicTemplateEditor-TextField {
+.reactBasicTemplateEditor-TextField {
   @extend %input-component;
   
   > label {

@@ -1,0 +1,68 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-EditorUserInterface {
+  @extend %base-container-styles;
+  
+  padding-top: iH($xs-image);
+  
+  @include breakpoint($sm) {
+    padding-top: iH($sm-image);
+  }
+  
+  @include breakpoint($md) {
+    padding-top: ($md-title-font-size * $line-height) + ($medPad * 2);
+  }
+}
+
+.reactBasicTemplateEditor-EditorUserInterface-title {
+  position: fixed;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: $medPad;
+  padding-right: iW($xs-image) + 8;
+  min-height: iH($xs-image);
+  background-color: $flixpress-blue;
+  z-index: 1;
+  
+  @include breakpoint($sm) {
+    font-size: $sm-title-font-size;
+    font-weight: bold;
+    padding-right: iW($sm-image) + 8;
+    min-height: iH($sm-image);
+  }
+  
+  @include breakpoint($md) {
+    min-height: 0;
+    padding-right: $medPad;
+  }
+}
+
+@include breakpoint($md) {
+  .reactBasicTemplateEditor-EditorUserInterface-formArea {
+    position: relative;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    @include pie-clearfix;
+  }
+  
+  .reactBasicTemplateEditor-EditorUserInterface-column {
+    width: 50%;
+    float: left;
+    
+    &:first-child {
+      padding-right: $viewportPad / 2;
+    }
+    
+    &:last-child {
+      padding-left: $viewportPad / 2;
+      // Make room for image
+      margin-top: $bigPad * 2 + iH($md-image);
+    }
+  }
+}
