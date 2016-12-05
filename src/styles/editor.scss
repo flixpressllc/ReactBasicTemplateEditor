@@ -66,14 +66,6 @@
     @extend %button;
   }
   
-  input[type="submit"] {
-    background-color: $flixpress-red;
-    
-    &:hover {
-      background-color: darken($flixpress-red, 10);
-    }
-  }
-  
   @include breakpoint($md) {
     .main-interaction-area {
       position: relative;
@@ -110,20 +102,6 @@
   }
   &.invalid input {
     border-color: red !important;
-  }
-}
-
-.submit-render-component {
-  margin: 1em auto;
-  text-align: center;
-}
-.submit-render-component {
-  background-color: #ddd;
-  border: $medPad solid $bg-color;
-  padding: $medPad;
-  
-  #Submit_BT {
-    width: 10em;
   }
 }
 
