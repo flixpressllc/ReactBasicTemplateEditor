@@ -163,7 +163,7 @@ var EditingUi = React.createClass({
     var safeName = sectionName.replace(' ','-');
     return (
       <div key={`section-${safeName}`}>
-        <h3>{sectionName}</h3>
+        <h3 className="reactBasicTemplateEditor-EditingUi-sectionTitle">{sectionName}</h3>
         {components}
       </div>
     )

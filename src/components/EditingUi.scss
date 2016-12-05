@@ -11,3 +11,7 @@
     @extend %input;
   }
 }
+
+.reactBasicTemplateEditor-EditingUi-sectionTitle {
+  @extend %component-title
+}
