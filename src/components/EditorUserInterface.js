@@ -33,7 +33,7 @@ var EditorUserInterface = React.createClass({
     stateToMerge.defaultResolutionId = startingPoint.resolutionId;
     
     if (startingPoint.nameValuePairs !== undefined) {
-      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers'];
+      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
       var confirmedContainers = [];
       for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
         if (currentState.hasOwnProperty(dataTypeContainers[i])) {
@@ -47,7 +47,11 @@ var EditorUserInterface = React.createClass({
         var value = startingPoint.nameValuePairs[i].value;
         for (var j = confirmedContainers.length - 1; j >= 0; j--) {
           if(stateToMerge[confirmedContainers[j]].hasOwnProperty(name)){
-            stateToMerge[confirmedContainers[j]][name].value = value;
+            if (stateToMerge[confirmedContainers[j]] === 'youTubeLinks') {
+              stateToMerge[confirmedContainers[j]][name] = this.getYouTubeLinkData(value);
+            } else {
+              stateToMerge[confirmedContainers[j]][name].value = value;
+            }
           }
         }
       }
@@ -124,6 +128,12 @@ var EditorUserInterface = React.createClass({
     this.setState({textFields: fields});
   },
 
+  handleYouTubeLinksChange: function (fieldName, userText) {
+    var fields = this.state.youTubeLinks;
+    fields[fieldName].value = userText;
+    this.setState({youTubeLinks: fields});
+  },
+
   handleTextBoxesChange: function (fieldName, userText) {
     var textBoxes = this.state.textBoxes;
     textBoxes[fieldName].value = userText;
@@ -142,6 +152,13 @@ var EditorUserInterface = React.createClass({
     this.setState({colorPickers: pickerState});
   },
 
+  handleValidVideoFound: function (fieldName, videoId, title) {
+    var youTubeLinksState = this.state.youTubeLinks;
+    youTubeLinksState[fieldName].videoId = videoId;
+    youTubeLinksState[fieldName].title = title;
+    this.setState({youTubeLinks: youTubeLinksState});
+  },
+  
   handleResolutionIdChange: function (id) {
     this.setState({
       resolutionId: id
@@ -152,6 +169,21 @@ var EditorUserInterface = React.createClass({
     this.setState({
       isPreview: e.target.checked
     })
+  },
+
+  transformYouTubeLinkData: function (linkObj) {
+    linkObj.title = linkObj.title.replace('|',' ');
+    linkObj.time = linkObj.time || '';
+    return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
+  },
+
+  getYouTubeLinkData: function (linkObj) {
+    const parts = linkObj.value.split('|');
+    linkObj.title = parts[0];
+    linkObj.videoId = parts[1];
+    linkObj.time = parts[2];
+    linkObj.value = linkObj.title;
+    return linkObj;
   },
 
   handlePlaceOrder: function () {
@@ -175,7 +207,11 @@ var EditorUserInterface = React.createClass({
             type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
             type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
             
-            order.ui[i][key][j].value = this.state[type][name].value;
+            if (type === 'youTubeLinks') {
+              order.ui[i][key][j].value = this.transformYouTubeLinkData(clone(this.state[type][name]));
+            } else {
+              order.ui[i][key][j].value = this.state[type][name].value.toString();
+            }
           }
         }
       }
@@ -235,10 +271,13 @@ var EditorUserInterface = React.createClass({
       editingUi = (
         <EditingUi uiSections={this.state.ui}
           allTextFields={this.state.textFields}
+          allYouTubeLinks={this.state.youTubeLinks}
           allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
           allColorPickers={this.state.colorPickers}
           onFieldsChange={this.handleFieldsChange}
+          onYouTubeLinksChange={this.handleYouTubeLinksChange}
+          onValidVideoFound={this.handleValidVideoFound}
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}

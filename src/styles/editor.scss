@@ -119,6 +119,10 @@ $lg-title-font-size: $md-title-font-size;
     label:after {
       content: ':';
     }
+
+    input[type='text'], textarea {
+      border: 1px solid #bbb
+    }
     
     @include breakpoint($sm) {
       max-width: 400px;
@@ -265,6 +269,15 @@ $lg-title-font-size: $md-title-font-size;
         margin-top: $bigPad * 2 + iH($md-image);
       }
     }
+  }
+}
+
+.component.you-tube-link {
+  &.valid input {
+    border-color: green !important;
+  }
+  &.invalid input {
+    border-color: red !important;
   }
 }
 
