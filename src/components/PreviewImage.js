@@ -114,7 +114,7 @@ export default React.createClass({
           isOpen={this.state.modalIsOpen}
           className="preview-image-modal modal"
           overlayClassName="preview-image-modal-overlay overlay">
-          <img src={this.state.image} onError={() => {console.log('missing')}}/>
+          <img src={ this.state.image }/>
           <button type="button" onClick={this.closeModal}>close</button>
           <div className="explain">(This image doesn't represent your final render. It is just an example to help illustrate the last field you worked with.)</div>
         </Modal>
