@@ -113,7 +113,7 @@
   }
 }
 
-.sound-picker-component, .submit-render-component {
+.submit-render-component {
   margin: 1em auto;
   text-align: center;
 }
@@ -193,36 +193,6 @@ code {
   .confirm-modal-overlay {
     background-color: rgba(0,0,0,0.5);
   }
-  
-  .sound-picker-modal {
-    .ReactTabs .ReactTabs .ReactTabs__TabList {
-      margin-top: $bigPad;
-      margin-bottom: $bigPad;
-    }
-    
-    .cancel {
-      float: right;
-      padding: $button-padding;
-    }
-    
-    .react-tabs .react-tabs {
-      padding-top: 0;
-    }
-    
-    .picker-header {
-      border: 1px solid $flixpress-blue;
-      display: inline-block;
-      border-radius: $fluid-radius;
-      overflow: hidden;
-      margin-bottom: $medPad;
-      
-      li {
-        margin: 0;
-        border-radius: 0;
-        border: none;
-      }
-    }
-  }
 }
 body.ReactModal__Body--open {
   overflow: hidden;
@@ -251,51 +221,6 @@ body.ReactModal__Body--open {
     
   h2 {
     @include fw-bars;
-  }
-}
-
-.song-item {
-  padding: $tinyPad;
-  margin: $tinyPad auto;
-  overflow: hidden;
-  background-color: #333;
-  color: white;
-  font-size: $base-font-size * 0.875;
-  
-  .song-name {
-    margin-left: 1em;
-    display: block;
-    float: left;
-  }
-  
-  button {
-    font-size: $base-font-size * 0.875;
-    padding: $button-padding;
-    margin: 0 $tinyPad 0 0;
-    width: 4.6em;
-    float: left;
-  }
-  
-  &.playing {
-    button.play-toggle {
-      background-color: $flixpress-red;
-    }
-  }
-  
-  @include breakpoint($sm) {
-    width: 49%;
-    margin: $tinyPad 0.5%;
-    float: left;
-    text-align: center;
-    padding: $medPad;
-    
-    .song-name, button {
-      float: none;
-    }
-    
-    .song-name {
-      margin: $medPad 0 0 0;
-    }
   }
 }
 

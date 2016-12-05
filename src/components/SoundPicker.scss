@@ -1,0 +1,87 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-SoundPicker {
+  text-align: center;
+}
+
+.reactBasicTemplateEditor-SoundPicker-title {
+  @extend %component-title
+}
+
+.reactBasicTemplateEditor-SoundPicker-modalCancel {
+  @extend %button;
+  float: right;
+  padding: $button-padding;
+}
+
+.reactBasicTemplateEditor-SoundPicker-modal {
+  .ReactTabs .ReactTabs .ReactTabs__TabList {
+    margin-top: $bigPad;
+    margin-bottom: $bigPad;
+  }
+  
+  
+  .react-tabs .react-tabs {
+    padding-top: 0;
+  }
+  
+  .reactBasicTemplateEditor-SoundPicker-librarySwitch {
+    border: 1px solid $flixpress-blue;
+    display: inline-block;
+    border-radius: $fluid-radius;
+    overflow: hidden;
+    margin-bottom: $medPad;
+    
+    li {
+      margin: 0;
+      border-radius: 0;
+      border: none;
+    }
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-song {
+  padding: $tinyPad;
+  margin: $tinyPad auto;
+  overflow: hidden;
+  background-color: #333;
+  color: white;
+  font-size: $base-font-size * 0.875;
+  
+  .reactBasicTemplateEditor-SoundPicker-songName {
+    margin-left: 1em;
+    display: block;
+    float: left;
+  }
+  
+  > button {
+    @extend %button;
+    font-size: $base-font-size * 0.875;
+    padding: $button-padding;
+    margin: 0 $tinyPad 0 0;
+    width: 4.6em;
+    float: left;
+  }
+  
+  &.playing {
+    .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
+      background-color: $flixpress-red;
+    }
+  }
+  
+  @include breakpoint($sm) {
+    width: 49%;
+    margin: $tinyPad 0.5%;
+    float: left;
+    text-align: center;
+    padding: $medPad;
+    
+    .reactBasicTemplateEditor-SoundPicker-songName, button {
+      float: none;
+    }
+    
+    .reactBasicTemplateEditor-SoundPicker-songName {
+      margin: $medPad 0 0 0;
+    }
+  }
+}

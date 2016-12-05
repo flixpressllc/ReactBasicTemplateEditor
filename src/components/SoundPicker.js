@@ -4,6 +4,7 @@ import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
 import xmlParser from '../utils/xml-parser';
+import './SoundPicker.scss';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -225,8 +226,8 @@ var SoundPicker = React.createClass({
     var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
-      <div className="sound-picker-component component">
-        <h3>Choose Your Audio</h3>
+      <div className="reactBasicTemplateEditor-SoundPicker">
+        <h3 className="reactBasicTemplateEditor-SoundPicker-title">Choose Your Audio</h3>
         <div className="chosen-audio-title">{name}</div>
         <div className="chosen-audio-player-wrapper" style={playerStyle}>
           <audio src={url} controls ref="frontPlayer">
@@ -239,14 +240,14 @@ var SoundPicker = React.createClass({
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="sound-picker-modal modal"
+          className="reactBasicTemplateEditor-SoundPicker-modal modal"
           overlayClassName="sound-picker-modal-overlay overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           
-          <button className="cancel" type="button" onClick={this.closeModal}>cancel</button>
+          <button className="reactBasicTemplateEditor-SoundPicker-modalCancel cancel" type="button" onClick={this.closeModal}> Cancel </button>
           <Tabs>
-            <TabList className="picker-header">
+            <TabList className="reactBasicTemplateEditor-SoundPicker-librarySwitch">
               {tabNames}
             </TabList>
             {tabPanels}
@@ -285,10 +286,10 @@ var Song = React.createClass({
   render: function () {
     var toggleBtn = this.props.isPlaying ? 'Stop' : 'Listen' ;
     return (
-      <div className={cx('song-item',{playing: this.props.isPlaying})}>
-        <button type="button" className="play-toggle" onClick={this.togglePlay}>{toggleBtn}</button>
+      <div className={cx('reactBasicTemplateEditor-SoundPicker-song',{playing: this.props.isPlaying})}>
+        <button type="button" className="reactBasicTemplateEditor-SoundPicker-songPlayToggle" onClick={this.togglePlay}>{toggleBtn}</button>
         <button type="button" onClick={this.choose}>Choose</button>
-        <span className="song-name">{this.props.song.Name}</span>
+        <span className="reactBasicTemplateEditor-SoundPicker-songName">{this.props.song.Name}</span>
       </div>
     );
   }
