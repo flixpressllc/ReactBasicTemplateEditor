@@ -1,0 +1,47 @@
+{
+  "templateId": 1001,
+  "textFields": {
+    "Main Title": {
+      "value": "",
+      "previewImage": "t2.jpg"
+    },
+    "Subtitle": {
+      "value": "",
+      "previewImage": "t2.jpg"
+    }
+  },
+  "youTubeLinks": {
+    "First Video": {
+      "name": "Unused Name",
+      "previewImage": "79_letter.jpg"
+    },
+    "Second Video": {
+      "name": "Unused Name",
+      "previewImage": "79_letter.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Titles": [
+        {
+          "type": "TextField",
+          "name": "Main Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle"
+        }
+      ],
+      "YouTube Videos": [
+        {
+          "type": "YouTubeLink",
+          "name": "First Video"
+        },
+        {
+          "type": "YouTubeLink",
+          "name": "Second Video"
+        }
+      ]
+    }
+  ]
+}

@@ -473,6 +473,12 @@
       "value": "256.100.100.50"
     }
   },
+  "youTubeLinks": {
+    "YT1": {
+      "name": "Some YouTube Video",
+      "previewImage": "79_letter.jpg"
+    }
+  },
   "ui": [
     {
       "Customize Icon": [
@@ -489,8 +495,8 @@
     {
       "Customize Look": [
         {
-          "type": "DropDown",
-          "name": "Background"
+          "type": "YouTubeLink",
+          "name": "YT1"
         },
         {
           "type": "DropDown",
