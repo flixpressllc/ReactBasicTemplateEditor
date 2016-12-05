@@ -1,5 +1,6 @@
 import React from 'react';
 import {RadioGroup} from './imports';
+import './ResolutionPicker.scss';
 
 export default React.createClass({
   handleResolutionChange: function (value) {
@@ -18,10 +19,10 @@ export default React.createClass({
       };
     })
     return (
-      <div className="resolution-picker-component component">
-        <h3>Resolution Options</h3>
+      <div className="reactBasicTemplateEditor-ResolutionPicker">
+        <h3 className="reactBasicTemplateEditor-ResolutionPicker-title">Resolution Options</h3>
         Choose the resoution for your final order.
-        <div className="explain">
+        <div className="reactBasicTemplateEditor-ResolutionPicker-explain">
           Previews always render at 360p with a watermark.
         </div>
         <RadioGroup

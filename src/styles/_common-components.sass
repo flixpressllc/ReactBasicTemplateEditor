@@ -1,5 +1,5 @@
 @import '~compass-mixins', '~breakpoint-sass'
-@import 'variables'
+@import 'variables', 'mixins'
 
 %button
   font-size: inherit
@@ -59,3 +59,10 @@
     display: block
     float: right
     margin-right: 0
+    
+%component-title
+  margin: $bigPad auto
+  padding: $medPad 0
+  background-color: #bbb
+  text-align: center
+  +fw-bars

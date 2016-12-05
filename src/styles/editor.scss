@@ -113,7 +113,7 @@
   }
 }
 
-.sound-picker-component, .resolution-picker-component, .submit-render-component {
+.sound-picker-component, .submit-render-component {
   margin: 1em auto;
   text-align: center;
 }
@@ -252,11 +252,6 @@ body.ReactModal__Body--open {
   h2 {
     @include fw-bars;
   }
-}
-
-.explain {
-  color: #888;
-  font-size: 0.9em;
 }
 
 .song-item {
