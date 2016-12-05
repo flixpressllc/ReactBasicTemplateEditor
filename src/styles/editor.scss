@@ -96,15 +96,6 @@
   }
 }
 
-.component.you-tube-link {
-  &.valid input {
-    border-color: green !important;
-  }
-  &.invalid input {
-    border-color: red !important;
-  }
-}
-
 .ReactModalPortal {
   .overlay {
     position: fixed;
