@@ -5,7 +5,11 @@
 }
 
 .reactBasicTemplateEditor-SoundPicker-title {
-  @extend %component-title
+  @extend %component-title;
+}
+
+.reactBasicTemplateEditor-SoundPicker-addAudioButton {
+  @extend %button;
 }
 
 .reactBasicTemplateEditor-SoundPicker-modalCancel {

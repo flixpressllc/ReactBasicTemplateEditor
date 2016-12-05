@@ -62,10 +62,6 @@
     }
   }
   
-  button, input[type="submit"] {
-    @extend %button;
-  }
-  
   @include breakpoint($md) {
     .main-interaction-area {
       position: relative;
