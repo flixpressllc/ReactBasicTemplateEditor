@@ -1,0 +1,13 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-UserMessages {
+  margin-left: 0 - $viewportPad;
+  margin-right: 0 - $viewportPad;
+  
+}
+
+.reactBasicTemplateEditor-UserMessages-message {
+  // These styles are affected by https://flixpress.com/templates/Styles/common-styles.css
+  // becasuse of the .user-message class and related
+  font-size: 0.85em;
+}  

@@ -105,22 +105,6 @@
   }
 }
 
-.user-messages {
-  margin-left: 0 - $viewportPad;
-  margin-right: 0 - $viewportPad;
-  
-  .user-message.bad {
-    font-size: 0.85em;
-  }
-}
-
-code {
-  font-family: monospace;
-  background-color: rgba(0,0,0,0.3);
-  padding: $button-padding;
-  border-radius: $fluid-radius;
-}
-
 .ReactModalPortal {
   .overlay {
     position: fixed;
