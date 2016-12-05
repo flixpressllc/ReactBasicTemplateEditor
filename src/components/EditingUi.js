@@ -9,8 +9,8 @@ import './EditingUi.scss';
 var EditingUi = React.createClass({
   getInitialState: function () {
     return {
-      lastTextFocus: '',
-      previewImage: ''
+      previewImageName: '',
+      previewImageType: ''
     };
   },
   
@@ -18,40 +18,25 @@ var EditingUi = React.createClass({
     this.findFirstPreviewImage();
   },
 
-  getPreviewImage: function (type, identifier, value) {
-    if (type === 'TextField') {
-      return this.props.allTextFields[identifier].previewImage
-    
-    } else if (type === 'YouTubeLink') {
-      return this.props.allYouTubeLinks[identifier].previewImage
-    
-    } else if (type === 'TextBox') {
-        return this.props.allTextBoxes[identifier].previewImage
-      
-    } else if (type === 'DropDown') {
-      for (var i = this.props.allDropDowns[identifier].options.length - 1; i >= 0; i--) {
-        if (this.props.allDropDowns[identifier].options[i].value === value) {
-          return this.props.allDropDowns[identifier].options[i].previewImage;
-        }
-      }
-    }
-    
-    return this.state.previewImage;
-  },
-
   handleTextFocus: function (fieldName) {
-    var img = this.getPreviewImage('TextField', fieldName);
-    this.setState({lastTextFocus: fieldName, previewImage: img});
+    this.setState({previewImageName: fieldName, previewImageType: 'TextField'});
   },
   
   handleYouTubeLinkFocus: function (fieldName) {
-    var img = this.getPreviewImage('YouTubeLink', fieldName);
-    this.setState({lastTextFocus: fieldName, previewImage: img});
+    this.setState({previewImageName: fieldName, previewImageType: 'YouTubeLink'});
   },
   
   handleTextBoxFocus: function (fieldName) {
-    var img = this.getPreviewImage('TextBox', fieldName);
-    this.setState({lastTextBoxFocus: fieldName, previewImage: img});
+    this.setState({previewImageName: fieldName, previewImageType: 'TextBox'});
+  },
+  
+  getFieldsForPreviewImage: function () {
+    return {
+      dropDowns: this.props.allDropDowns,
+      textFields: this.props.allTextFields,
+      youTubeLinks: this.props.allYouTubeLinks,
+      textBoxes: this.props.allTextBoxes
+    }
   },
   
   createTextField: function (name, object) {
@@ -106,7 +91,7 @@ var EditingUi = React.createClass({
     
     var onDropDownChange = function () {
       this.props.onDropDownChange(_thisDD, name);
-      this.setState({previewImage: this.getPreviewImage('DropDown', name, _thisDD.value)})
+      this.setState({previewImageName: name, previewImageType: 'DropDown'});
     }.bind(this);
     
     
@@ -155,11 +140,8 @@ var EditingUi = React.createClass({
         let inputArray = uiSections[i][sectionName]
 
         for (let i = 0; i < inputArray.length; i++) {
-          let image = this.getPreviewImage(inputArray[i].type, inputArray[i].name);
-          if (image !== '') {
-            this.setState({previewImage: image});
-            return;
-          }
+          this.setState({previewImageName: inputArray[i].name, previewImageType: inputArray[i].type});
+          return;
         }
       }
     }
@@ -189,6 +171,7 @@ var EditingUi = React.createClass({
   
   render: function () {
     var uiSections = this.props.uiSections
+    let fieldsObj = this.getFieldsForPreviewImage();
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
       for (var sectionName in uiSections[i]){
@@ -198,7 +181,10 @@ var EditingUi = React.createClass({
     return (
       <div id="editing-ui" className="editing-ui component">
         {sections}
-        <PreviewImage image={this.state.previewImage} />
+        <PreviewImage
+          name={this.state.previewImageName}
+          type={ this.state.previewImageType }
+          fields={ fieldsObj }/>
       </div>
     );
   }

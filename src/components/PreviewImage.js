@@ -5,17 +5,17 @@ import cx from 'classnames';
 import {m} from '../styles/styles';
 import './PreviewImage.scss';
 
-const urlPartial = '/templates/images/';
+const URL_PARTIAL = '/templates/images/';
 
 export default React.createClass({
   getInitialState: function () {
     let image = '';
-    if (this.props.image){
-      image = urlPartial + this.props.image;
+    if (this.props.type && this.props.name){
+      image = this.getPreviewImage(this.props.type, this.props.name);
     }
     return {
       image: image,
-      style: {backgroundSize: 'contain'},
+      style: {backgroundSize: 'contain', backgroundImage: image},
       modalIsOpen: false,
       missing: false
     };
@@ -32,24 +32,57 @@ export default React.createClass({
     });
   },
   
-  componentWillReceiveProps: function(newProps) {
-    if (newProps.image != this.props.image && newProps.image !== '') {
+  getPreviewImage: function (type, identifier) {
+    if (type === 'TextField') {
+      return URL_PARTIAL + this.props.fields.textFields[identifier].previewImage
+    
+    } else if (type === 'YouTubeLink') {
+      let videoId = this.props.fields.youTubeLinks[identifier].videoId
+      if (videoId) {
+        return `https://img.youtube.com/vi/${ videoId }/hqdefault.jpg`;
+      }
+      return '';
+    
+    } else if (type === 'TextBox') {
+        return URL_PARTIAL + this.props.fields.textBoxes[identifier].previewImage
+      
+    } else if (type === 'DropDown') {
+      let value = this.props.fields.dropDowns[identifier].value;
+      for (var i = this.props.fields.dropDowns[identifier].options.length - 1; i >= 0; i--) {
+        if (this.props.fields.dropDowns[identifier].options[i].value === value) {
+          return URL_PARTIAL + this.props.fields.dropDowns[identifier].options[i].previewImage;
+        }
+      }
+    }
+    
+    return this.state.image;
+  },
+  
+  setImage: function (newImage) {
+    if (newImage != this.state.image && newImage !== '') {
       if (this.currentCheck) this.currentCheck.abort();
       var style = clone(this.state.style);
-      style.backgroundImage = `url("${urlPartial + newProps.image}")`;
+      style.backgroundImage = `url("${newImage}")`;
       this.setState({
         style: style,
-        image: urlPartial + newProps.image,
+        image: newImage,
         missing: false
       });
       this.currentCheck = $.ajax({
-        url: urlPartial + newProps.image,
+        url: newImage,
         type: 'HEAD'
       }).done((data, status, jqXHR)=>{
         this.setMissingViaResponse(jqXHR);
       }).fail((jqXHR /*, status, error */)=>{
         this.setMissingViaResponse(jqXHR);
       });
+    }
+  },
+  
+  componentWillReceiveProps: function(newProps) {
+    let image = this.getPreviewImage(newProps.type, newProps.name)
+    if (this.state.image !== image) {
+      this.setImage(image);
     }
   },
   
@@ -68,7 +101,7 @@ export default React.createClass({
     if (this.state.missing === true) {
       message = 'Preview unavailable. Continue editing.';
     }
-    if (this.props.image === '') {
+    if (this.state.image === '') {
       return (<div className="reactBasicTemplateEditor-PreviewImage"></div>)
     }
     let mainImageClasses = cx(
