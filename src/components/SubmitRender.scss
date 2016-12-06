@@ -1,0 +1,19 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-SubmitRender {
+  text-align: center;
+  background-color: #ddd;
+  border: $medPad solid $bg-color;
+  padding: $medPad;
+
+  // Using an ID here for DNN/legacy reasons
+  #Submit_BT {
+    @extend %button;
+    width: 10em;
+    margin-left: 6px;
+    background-color: $flixpress-red;
+    &:hover {
+      background-color: darken($flixpress-red, 10);
+    }
+  }
+}

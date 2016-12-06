@@ -459,10 +459,6 @@
     "Text Right of Icon": {
       "value": "",
       "previewImage": "79_letter.jpg"
-    },
-    "Subtitle": {
-      "value": "",
-      "previewImage": "79_letter.jpg"
     }
   },
   "colorPickers": {
@@ -476,6 +472,12 @@
   "youTubeLinks": {
     "YT1": {
       "name": "Some YouTube Video",
+      "previewImage": "79_letter.jpg"
+    }
+  },
+  "textBoxes": {
+    "Subtitle": {
+      "value": "",
       "previewImage": "79_letter.jpg"
     }
   },
@@ -523,7 +525,7 @@
           "name": "Text Right of Icon"
         },
         {
-          "type": "TextField",
+          "type": "TextBox",
           "name": "Subtitle"
         }
       ]

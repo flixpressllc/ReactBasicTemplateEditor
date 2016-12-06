@@ -4,6 +4,7 @@ import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
+import './EditingUi.scss';
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -42,7 +43,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<TextField
       fieldName={name}
-      className="input-item"
       userText={object.value}
       onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
@@ -54,7 +54,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<YouTubeLink
       fieldName={name}
-      className="input-item"
       userText={object.value}
       onUserInput={this.props.onYouTubeLinksChange}
       onTextFieldFocus={this.handleYouTubeLinkFocus}
@@ -67,7 +66,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<TextBox
       fieldName={name}
-      className="input-item"
       userText={object.value}
       onUserInput={this.props.onTextBoxesChange}
       onTextBoxFocus={this.handleTextBoxFocus}
@@ -79,7 +77,6 @@ var EditingUi = React.createClass({
     var safeName = name.replace(' ','-');
     return (<ColorPicker
       fieldName={name}
-      className="input-item color-picker"
       color={object.value}
       onColorChange={this.props.onColorPickerChange}
       key={`color-picker-${safeName}`}
@@ -121,7 +118,7 @@ var EditingUi = React.createClass({
     }
     
     return (
-      <div className="drop-down component input-item" key={`drop-down-${safeName}`}>
+      <div className="reactBasicTemplateEditor-EditingUi-dropDown" key={`drop-down-${safeName}`}>
         <label>{name}</label>
         <select
           ref={_thisDDMounted}
@@ -166,7 +163,7 @@ var EditingUi = React.createClass({
     var safeName = sectionName.replace(' ','-');
     return (
       <div key={`section-${safeName}`}>
-        <h3>{sectionName}</h3>
+        <h3 className="reactBasicTemplateEditor-EditingUi-sectionTitle">{sectionName}</h3>
         {components}
       </div>
     )

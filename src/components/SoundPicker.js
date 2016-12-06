@@ -4,6 +4,7 @@ import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
 import xmlParser from '../utils/xml-parser';
+import './SoundPicker.scss';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
 const CUSTOM_URL = 'https://files.flixpress.com/CustomAudio/';
@@ -148,7 +149,8 @@ var SoundPicker = React.createClass({
         for (let key in this.state.audioOptions.categories) {
           let categorySafeName = key.replace(' ','-');
           categories.push(
-            <Tab key={`tab-${categorySafeName}`}>{key}</Tab>
+            <Tab className="reactBasicTemplateEditor-SoundPicker-stockCategoryTab"
+              key={`tab-${categorySafeName}`}>{key}</Tab>
           );
           
           let songs = [];
@@ -171,7 +173,12 @@ var SoundPicker = React.createClass({
           
           panels.push(<TabPanel key={`tab-panel-${categorySafeName}`}>{songs}</TabPanel>);
         }
-        stockAudioItems.push(<Tabs key="stock-audio-tabs"><TabList>{categories}</TabList>{panels}</Tabs>)
+        stockAudioItems.push(
+          <Tabs key="stock-audio-tabs">
+            <TabList className="reactBasicTemplateEditor-SoundPicker-stockCategoryTabList">{categories}</TabList>
+            {panels}
+          </Tabs>
+        )
       }
       
       if (this.state.audioOptions.customAudio !== undefined) {
@@ -200,7 +207,7 @@ var SoundPicker = React.createClass({
         tabNames.push(<Tab key="stock-audio-tab">Stock Audio</Tab>);
         tabPanels.push(
           <TabPanel key="stock-audio-panel">
-            <h2>Stock Audio</h2>
+            <h2 className="reactBasicTemplateEditor-SoundPicker-audioTypeTitle">Stock Audio</h2>
             {stockAudioItems}
           </TabPanel>
         );
@@ -209,7 +216,7 @@ var SoundPicker = React.createClass({
         tabNames.push(<Tab key="custom-audio-tab">Custom Audio</Tab>);
         tabPanels.push(
           <TabPanel key="custom-audio-panel">
-            <h2>Custom Audio</h2>
+            <h2 className="reactBasicTemplateEditor-SoundPicker-audioTypeTitle">Custom Audio</h2>
             {customAudioItems}
           </TabPanel>
         );
@@ -222,31 +229,35 @@ var SoundPicker = React.createClass({
     var name = hasAudio ? this.props.audioInfo.name : 'None' ;
     var url = hasAudio ? this.props.audioInfo.audioUrl : '' ;
     var buttonText = this.audioIsChosen() ? 'Change Audio' : 'Add Audio';
-    var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
+    var removeAudio = this.audioIsChosen() ? (<button
+      className="reactBasicTemplateEditor-SoundPicker-removeAudio"
+      type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
-      <div className="sound-picker-component component">
-        <h3>Choose Your Audio</h3>
+      <div className="reactBasicTemplateEditor-SoundPicker">
+        <h3 className="reactBasicTemplateEditor-SoundPicker-title">Choose Your Audio</h3>
         <div className="chosen-audio-title">{name}</div>
         <div className="chosen-audio-player-wrapper" style={playerStyle}>
           <audio src={url} controls ref="frontPlayer">
             <p>Your browser does not support the <code>audio</code> element.</p>
           </audio>
         </div>
-        <button type="button" onClick={this.openModal}>{buttonText}</button>
+        <button className="reactBasicTemplateEditor-SoundPicker-addAudioButton" 
+          type="button"
+          onClick={this.openModal}>{buttonText}</button>
         {removeAudio}
         <Modal
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="sound-picker-modal modal"
-          overlayClassName="sound-picker-modal-overlay overlay"
+          className="reactBasicTemplateEditor-SoundPicker-modal"
+          overlayClassName="sound-picker-modal-overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           
-          <button className="cancel" type="button" onClick={this.closeModal}>cancel</button>
+          <button className="reactBasicTemplateEditor-SoundPicker-modalCancel cancel" type="button" onClick={this.closeModal}> Cancel </button>
           <Tabs>
-            <TabList className="picker-header">
+            <TabList className="reactBasicTemplateEditor-SoundPicker-librarySwitch">
               {tabNames}
             </TabList>
             {tabPanels}
@@ -285,10 +296,14 @@ var Song = React.createClass({
   render: function () {
     var toggleBtn = this.props.isPlaying ? 'Stop' : 'Listen' ;
     return (
-      <div className={cx('song-item',{playing: this.props.isPlaying})}>
-        <button type="button" className="play-toggle" onClick={this.togglePlay}>{toggleBtn}</button>
-        <button type="button" onClick={this.choose}>Choose</button>
-        <span className="song-name">{this.props.song.Name}</span>
+      <div className={cx('reactBasicTemplateEditor-SoundPicker-song',{playing: this.props.isPlaying})}>
+        <button type="button"
+          className="reactBasicTemplateEditor-SoundPicker-songPlayToggle"
+          onClick={this.togglePlay}>{toggleBtn}</button>
+        <button type="button"
+          className="reactBasicTemplateEditor-SoundPicker-songSelect"
+          onClick={this.choose}>Choose</button>
+        <span className="reactBasicTemplateEditor-SoundPicker-songName">{this.props.song.Name}</span>
       </div>
     );
   }
