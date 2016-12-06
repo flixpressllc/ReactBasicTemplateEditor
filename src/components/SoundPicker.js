@@ -201,7 +201,7 @@ var SoundPicker = React.createClass({
         tabNames.push(<Tab key="stock-audio-tab">Stock Audio</Tab>);
         tabPanels.push(
           <TabPanel key="stock-audio-panel">
-            <h2>Stock Audio</h2>
+            <h2 className="reactBasicTemplateEditor-SoundPicker-audioTypeTitle">Stock Audio</h2>
             {stockAudioItems}
           </TabPanel>
         );
@@ -210,7 +210,7 @@ var SoundPicker = React.createClass({
         tabNames.push(<Tab key="custom-audio-tab">Custom Audio</Tab>);
         tabPanels.push(
           <TabPanel key="custom-audio-panel">
-            <h2>Custom Audio</h2>
+            <h2 className="reactBasicTemplateEditor-SoundPicker-audioTypeTitle">Custom Audio</h2>
             {customAudioItems}
           </TabPanel>
         );
