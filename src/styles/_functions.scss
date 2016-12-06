@@ -1,0 +1,7 @@
+@function iW($multiplier) {
+  @return 16px * $multiplier;
+}
+
+@function iH($multiplier) {
+  @return 9px * $multiplier;
+}

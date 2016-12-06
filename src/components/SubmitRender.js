@@ -3,6 +3,7 @@ import {CheckBox} from './imports';
 import confirm from '../utils/confirm';
 import {round} from '../utils/helper-functions';
 import AccountBalance from './AccountBalance';
+import './SubmitRender.scss';
 
 export default React.createClass({
   componentWillMount: function () {
@@ -61,7 +62,7 @@ export default React.createClass({
   render: function () {
     var text = (this.props.isPreview) ? 'Render Preview' : 'Submit Order'
     return (
-      <div className="submit-render-component component">
+      <div className="reactBasicTemplateEditor-SubmitRender">
         <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={this.props.isPreview}/>
         <CheckBox onChange={this.props.onChange} checked={!!this.props.isPreview}>Preview</CheckBox>
         <input name="Submit_BT" value={text} type="submit" id="Submit_BT" />

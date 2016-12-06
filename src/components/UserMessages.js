@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import './UserMessages.scss';
 
 var Message = React.createClass({
   raw: function (m) {
@@ -7,7 +8,7 @@ var Message = React.createClass({
   },
   
   render: function () {
-    var className = 'user-message ' + this.props.type;
+    var className = 'reactBasicTemplateEditor-UserMessages-message user-message ' + this.props.type;
     // if (this.props.htmlSafe === true){
     //   return (
     //     <div
@@ -43,7 +44,7 @@ export default React.createClass({
     }
 
     if (messages.length !== 0) {
-      return (<div className={cx(this.props.className,'user-messages','component')}>{messages}</div>)
+      return (<div className={cx(this.props.className,'reactBasicTemplateEditor-UserMessages')}>{messages}</div>)
     } else {
       return (<div style={this.emptyStyle}></div>);
     }

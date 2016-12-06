@@ -1,10 +1,25 @@
+@import "../styles/_common-components";
+
+.reactBasicTemplateEditor-YouTubeLink {
+  @extend %input-component;
+
+  > label {
+    @extend %label;
+  }
+  
+  > input {
+    @extend %input;
+  }
+  
+  &.invalid > input {
+    border-color: red !important;
+  }
+}
+
 .reactBasicTemplateEditor-YouTubeLink-marker {
+  @extend %input;
   color: #999;
-  width: 49%;
-  float: right;
-  margin-left: 0.5%;
   height: 22px;
-  border: 1px solid #ddd;
   position: relative;
   white-space: nowrap;
   overflow: hidden;
@@ -21,7 +36,8 @@
   }
 }
 
-#editor button.reactBasicTemplateEditor-YouTubeLink-markerButton {
+.reactBasicTemplateEditor-YouTubeLink-markerButton {
+  @extend %button;
   padding: 0 6px;
   position: absolute;
   top: 0;
