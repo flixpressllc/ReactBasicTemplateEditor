@@ -24,16 +24,11 @@
 
 .reactBasicTemplateEditor-SoundPicker-modal {
   @extend %modal;
-  
-  .ReactTabs .ReactTabs .ReactTabs__TabList {
-    margin-top: $bigPad;
-    margin-bottom: $bigPad;
-  }
-  
-  
-  .react-tabs .react-tabs {
-    padding-top: 0;
-  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-stockCategoryTabList {
+  margin-top: $bigPad;
+  margin-bottom: $bigPad;
 }
 
 .reactBasicTemplateEditor-SoundPicker-librarySwitch {

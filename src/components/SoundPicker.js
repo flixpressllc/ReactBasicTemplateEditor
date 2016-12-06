@@ -173,7 +173,12 @@ var SoundPicker = React.createClass({
           
           panels.push(<TabPanel key={`tab-panel-${categorySafeName}`}>{songs}</TabPanel>);
         }
-        stockAudioItems.push(<Tabs key="stock-audio-tabs"><TabList>{categories}</TabList>{panels}</Tabs>)
+        stockAudioItems.push(
+          <Tabs key="stock-audio-tabs">
+            <TabList className="reactBasicTemplateEditor-SoundPicker-stockCategoryTabList">{categories}</TabList>
+            {panels}
+          </Tabs>
+        )
       }
       
       if (this.state.audioOptions.customAudio !== undefined) {
