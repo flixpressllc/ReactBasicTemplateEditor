@@ -149,7 +149,8 @@ var SoundPicker = React.createClass({
         for (let key in this.state.audioOptions.categories) {
           let categorySafeName = key.replace(' ','-');
           categories.push(
-            <Tab key={`tab-${categorySafeName}`}>{key}</Tab>
+            <Tab className="reactBasicTemplateEditor-SoundPicker-stockCategoryTab"
+              key={`tab-${categorySafeName}`}>{key}</Tab>
           );
           
           let songs = [];

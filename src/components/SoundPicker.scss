@@ -43,6 +43,7 @@
     margin-bottom: $medPad;
     
     li {
+      @extend %tab;
       margin: 0;
       border-radius: 0;
       border: none;
@@ -96,23 +97,8 @@
   }
 }
 
-.ReactTabs {
-  .ReactTabs__Tab {
-    border: 1px solid $flixpress-blue;
-    background-color: transparent;
-    display: inline-block;
-    margin: $tinyPad;
-    padding: $button-padding;
-    border-radius: $fluid-radius;
-    cursor: pointer;
-    color: $flixpress-blue;
-    
-    &.ReactTabs__Tab--selected, &:hover {
-      background-color: $flixpress-blue;
-      color: white;
-    }
-  }
-    
+.reactBasicTemplateEditor-SoundPicker-stockCategoryTab {
+  @extend %tab;
 }
 .reactBasicTemplateEditor-SoundPicker-audioTypeTitle {
   @include fw-bars;

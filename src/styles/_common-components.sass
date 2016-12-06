@@ -118,3 +118,19 @@
 %confirm-overlay
   @extend %overlay
   background-color: rgba(0,0,0,0.5)
+  
+%tab
+  border: 1px solid $flixpress-blue
+  background-color: transparent
+  display: inline-block
+  margin: $tinyPad
+  padding: $button-padding
+  border-radius: $fluid-radius
+  cursor: pointer
+  color: $flixpress-blue
+
+  &[class*="selected"],
+  &[class*="active"],
+  &:hover
+    background-color: $flixpress-blue
+    color: white
