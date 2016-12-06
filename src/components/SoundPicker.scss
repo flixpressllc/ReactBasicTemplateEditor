@@ -8,16 +8,6 @@
   @extend %component-title;
 }
 
-.reactBasicTemplateEditor-SoundPicker-addAudioButton {
-  @extend %button;
-}
-
-.reactBasicTemplateEditor-SoundPicker-modalCancel {
-  @extend %button;
-  float: right;
-  padding: $button-padding;
-}
-
 .reactBasicTemplateEditor-SoundPicker-modalOverlay {
   @extend %overlay;
 }
@@ -63,27 +53,6 @@
   }
 }
 
-.reactBasicTemplateEditor-SoundPicker-removeAudio {
-  @extend %button;
-}
-
-.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
-.reactBasicTemplateEditor-SoundPicker-songSelect {
-  @extend %button;
-  font-size: $base-font-size * 0.875;
-  padding: $button-padding;
-  margin: 0 $tinyPad 0 0;
-  width: 4.6em;
-  float: left;
-  @include breakpoint($sm) {
-    float: none;
-  }
-}
-
-.playing > .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
-  background-color: $flixpress-red;
-}
-
 .reactBasicTemplateEditor-SoundPicker-songName {
   margin-left: 1em;
   display: block;
@@ -101,4 +70,36 @@
 .reactBasicTemplateEditor-SoundPicker-audioTypeTitle {
   // This style is on an h2, which is affected by outside styles
   @include fw-bars;
+}
+
+
+// Buttons
+
+.reactBasicTemplateEditor-SoundPicker-addAudioButton,
+.reactBasicTemplateEditor-SoundPicker-removeAudio,
+.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
+.reactBasicTemplateEditor-SoundPicker-songSelect,
+.reactBasicTemplateEditor-SoundPicker-modalCancel {
+  @extend %button;
+}
+
+.reactBasicTemplateEditor-SoundPicker-modalCancel {
+  float: right;
+  padding: $button-padding;
+}
+
+.playing > .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
+  background-color: $flixpress-red;
+}
+
+.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
+.reactBasicTemplateEditor-SoundPicker-songSelect {
+  font-size: $base-font-size * 0.875;
+  padding: $button-padding;
+  margin: 0 $tinyPad 0 0;
+  width: 4.6em;
+  float: left;
+  @include breakpoint($sm) {
+    float: none;
+  }
 }
