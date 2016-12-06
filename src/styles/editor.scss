@@ -12,7 +12,3 @@ body.ReactModal__Body--open {
     display: block;
   }
 }
-
-.group, .clearfix {
-  @include pie-clearfix;
-}
