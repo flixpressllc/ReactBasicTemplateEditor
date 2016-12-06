@@ -126,7 +126,7 @@ export default React.createClass({
           overlayClassName="reactBasicTemplateEditor-PreviewImage-modalOverlay">
 
           <img
-            className="reactBasicTemplateEditor-PreviewImage-modalImage" 
+            className="reactBasicTemplateEditor-PreviewImage-modalImage"
             src={this.state.image}/>
           
           <button
