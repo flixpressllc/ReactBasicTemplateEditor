@@ -38,7 +38,7 @@
   overflow: hidden;
   margin-bottom: $medPad;
   
-  li {
+  > li {
     @extend %tab;
     margin: 0;
     border-radius: 0;
@@ -97,5 +97,6 @@
 }
 
 .reactBasicTemplateEditor-SoundPicker-audioTypeTitle {
+  // This style is on an h2, which is affected by outside styles
   @include fw-bars;
 }
