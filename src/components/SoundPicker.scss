@@ -54,12 +54,6 @@
   color: white;
   font-size: $base-font-size * 0.875;
   
-  .reactBasicTemplateEditor-SoundPicker-songName {
-    margin-left: 1em;
-    display: block;
-    float: left;
-  }
-  
   > button {
     @extend %button;
     font-size: $base-font-size * 0.875;
@@ -82,13 +76,20 @@
     text-align: center;
     padding: $medPad;
     
-    .reactBasicTemplateEditor-SoundPicker-songName, button {
+    button {
       float: none;
     }
     
-    .reactBasicTemplateEditor-SoundPicker-songName {
-      margin: $medPad 0 0 0;
-    }
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-songName {
+  margin-left: 1em;
+  display: block;
+  float: left;
+  @include breakpoint($sm) {
+    float: none;
+    margin: $medPad 0 0 0;
   }
 }
 
