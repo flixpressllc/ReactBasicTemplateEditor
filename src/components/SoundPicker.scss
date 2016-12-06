@@ -63,6 +63,10 @@
   }
 }
 
+.reactBasicTemplateEditor-SoundPicker-removeAudio {
+  @extend %button;
+}
+
 .reactBasicTemplateEditor-SoundPicker-songPlayToggle,
 .reactBasicTemplateEditor-SoundPicker-songSelect {
   @extend %button;

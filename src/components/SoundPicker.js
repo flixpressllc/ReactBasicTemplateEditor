@@ -229,7 +229,9 @@ var SoundPicker = React.createClass({
     var name = hasAudio ? this.props.audioInfo.name : 'None' ;
     var url = hasAudio ? this.props.audioInfo.audioUrl : '' ;
     var buttonText = this.audioIsChosen() ? 'Change Audio' : 'Add Audio';
-    var removeAudio = this.audioIsChosen() ? (<button type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
+    var removeAudio = this.audioIsChosen() ? (<button
+      className="reactBasicTemplateEditor-SoundPicker-removeAudio"
+      type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
     
     return (
       <div className="reactBasicTemplateEditor-SoundPicker">
