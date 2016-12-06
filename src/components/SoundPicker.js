@@ -242,8 +242,8 @@ var SoundPicker = React.createClass({
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="reactBasicTemplateEditor-SoundPicker-modal modal"
-          overlayClassName="sound-picker-modal-overlay overlay"
+          className="reactBasicTemplateEditor-SoundPicker-modal"
+          overlayClassName="sound-picker-modal-overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           

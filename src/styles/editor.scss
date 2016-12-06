@@ -3,57 +3,8 @@
 .ReactModalPortal {
   @extend %base-container-styles;
   display: none;
-  
-  .overlay {
-    position: fixed;
-    @include sides(0);
-    background-color: rgba(255, 255, 255, 0.75);
-    z-index: 100;
-  }
-  
-  .modal {
-    position: absolute;
-    @include sides(0);
-    background: $bg-color;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    outline: none;
-    padding: $medPad;
-    z-index: 101;
-    box-shadow: 0 0 24px #555;
-    
-    @include breakpoint($md) {
-      position: fixed;
-      @include sides($bigPad * 2);
-    }
-  }
-  
-  .confirm-modal {
-    box-shadow: 0 0 24px #000;
-    
-    .buttons {
-      text-align: center;
-      
-      button {
-        margin: ($bigPad * 2) $medPad;
-      }
-    }
-    
-    @include breakpoint($sm) {
-      @include sides($bigPad);
-    }
-    
-    @include breakpoint($md) {
-      @include sides($bigPad * 4);
-      padding: $bigPad * 4;
-    }
-  }
-  
-  .confirm-modal-overlay {
-    background-color: rgba(0,0,0,0.5);
-  }
 }
+
 body.ReactModal__Body--open {
   overflow: hidden;
   

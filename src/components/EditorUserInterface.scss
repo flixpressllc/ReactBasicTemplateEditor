@@ -66,3 +66,11 @@
     }
   }
 }
+
+.reactBasicTemplateEditor-EditorUserInterface-submissionModal {
+  @extend %confirm-modal;
+}
+
+.reactBasicTemplateEditor-EditorUserInterface-submissionModalOverlay {
+  @extend %confirm-overlay;
+}

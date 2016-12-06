@@ -315,8 +315,8 @@ var EditorUserInterface = React.createClass({
         </div>
         <Modal
           isOpen={this.state.allowSubmit}
-          className="confirm-modal modal"
-          overlayClassName="confirm-modal-overlay overlay"
+          className="reactBasicTemplateEditor-EditorUserInterface-submissionModal"
+          overlayClassName="reactBasicTemplateEditor-EditorUserInterface-submissionModalOverlay"
         >
           Your order is being submitted.
         </Modal>

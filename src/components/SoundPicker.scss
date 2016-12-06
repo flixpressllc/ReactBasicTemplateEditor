@@ -18,7 +18,13 @@
   padding: $button-padding;
 }
 
+.reactBasicTemplateEditor-SoundPicker-modalOverlay {
+  @extend %overlay;
+}
+
 .reactBasicTemplateEditor-SoundPicker-modal {
+  @extend %modal;
+  
   .ReactTabs .ReactTabs .ReactTabs__TabList {
     margin-top: $bigPad;
     margin-bottom: $bigPad;

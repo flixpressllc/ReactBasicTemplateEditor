@@ -43,8 +43,8 @@ class Confirmation extends React.Component {
       <Dialog
         isOpen={show}
         onRequestClose={dismiss}
-        className="confirm-modal modal"
-        overlayClassName="confirm-modal-overlay overlay"
+        className="reactBasicTemplateEditor-Confirm"
+        overlayClassName="reactBasicTemplateEditor-Confirm-overlay"
       >
         <div>
           {confirmation}

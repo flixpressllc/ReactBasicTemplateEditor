@@ -81,3 +81,40 @@
   +breakpoint($md)
     &::before, &::after
       display: none
+
+%modal
+  position: absolute
+  +sides(0)
+  background: $bg-color
+  overflow-y: auto
+  overflow-x: hidden
+  -webkit-overflow-scrolling: touch
+  outline: none
+  padding: $medPad
+  z-index: 101
+  box-shadow: 0 0 24px #555
+  
+  @include breakpoint($md)
+    position: fixed
+    +sides($bigPad * 2)
+
+%overlay
+  position: fixed
+  +sides(0)
+  background-color: rgba(255, 255, 255, 0.75)
+  z-index: 100
+
+%confirm-modal
+  @extend %modal
+  box-shadow: 0 0 24px #000
+  
+  +breakpoint($sm)
+    +sides($bigPad)
+  
+  +breakpoint($md)
+    +sides($bigPad * 4)
+    padding: $bigPad * 4
+  
+%confirm-overlay
+  @extend %overlay
+  background-color: rgba(0,0,0,0.5)

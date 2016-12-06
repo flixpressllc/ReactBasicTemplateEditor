@@ -1,5 +1,22 @@
-@import "../styles/_common-components";
+@import "../styles/common-components";
 
 .reactBasicTemplateEditor-Confirm-button {
   @extend %button;
+}
+
+.reactBasicTemplateEditor-Confirm {
+  @extend %confirm-modal;
+  
+  .buttons {
+    text-align: center;
+    
+    button {
+      margin: ($bigPad * 2) $medPad;
+    }
+  }
+  
+}
+
+.reactBasicTemplateEditor-Confirm-overlay {
+  @extend %confirm-overlay;
 }
