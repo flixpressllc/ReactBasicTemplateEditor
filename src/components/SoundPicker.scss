@@ -53,13 +53,7 @@
   background-color: #333;
   color: white;
   font-size: $base-font-size * 0.875;
-  
-  &.playing {
-    .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
-      background-color: $flixpress-red;
-    }
-  }
-  
+    
   @include breakpoint($sm) {
     width: 49%;
     margin: $tinyPad 0.5%;
@@ -69,7 +63,8 @@
   }
 }
 
-.reactBasicTemplateEditor-SoundPicker-song > button {
+.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
+.reactBasicTemplateEditor-SoundPicker-songSelect {
   @extend %button;
   font-size: $base-font-size * 0.875;
   padding: $button-padding;
@@ -79,6 +74,10 @@
   @include breakpoint($sm) {
     float: none;
   }
+}
+
+.playing > .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
+  background-color: $flixpress-red;
 }
 
 .reactBasicTemplateEditor-SoundPicker-songName {

@@ -295,8 +295,12 @@ var Song = React.createClass({
     var toggleBtn = this.props.isPlaying ? 'Stop' : 'Listen' ;
     return (
       <div className={cx('reactBasicTemplateEditor-SoundPicker-song',{playing: this.props.isPlaying})}>
-        <button type="button" className="reactBasicTemplateEditor-SoundPicker-songPlayToggle" onClick={this.togglePlay}>{toggleBtn}</button>
-        <button type="button" onClick={this.choose}>Choose</button>
+        <button type="button"
+          className="reactBasicTemplateEditor-SoundPicker-songPlayToggle"
+          onClick={this.togglePlay}>{toggleBtn}</button>
+        <button type="button"
+          className="reactBasicTemplateEditor-SoundPicker-songSelect"
+          onClick={this.choose}>Choose</button>
         <span className="reactBasicTemplateEditor-SoundPicker-songName">{this.props.song.Name}</span>
       </div>
     );
