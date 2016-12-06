@@ -1,0 +1,14 @@
+@import "../styles/_common-components";
+
+.reactBasicTemplateEditor-TextBox {
+  @extend %input-component;
+  
+  > label {
+    @extend %label;
+  }
+  
+  > textarea {
+    @extend %input;
+    width: 100%;
+  }
+}

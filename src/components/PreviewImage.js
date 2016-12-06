@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
 import { ajax } from '../utils/ajax';
+import './PreviewImage.scss';
 
 const URL_PARTIAL = '/templates/images/';
 
@@ -101,22 +102,43 @@ export default React.createClass({
       message = 'Preview unavailable. Continue editing.';
     }
     if (this.state.image === '') {
-      return (<div className="preview-image-component component"></div>)
+      return (<div className="reactBasicTemplateEditor-PreviewImage"></div>)
     }
+    let mainImageClasses = cx(
+      'reactBasicTemplateEditor-PreviewImage-mainImage',
+      {'missing': this.state.missing}
+    );
+
     return (
-      <div className="preview-image-component component">
-        <div className={cx('preview-image',{'missing': this.state.missing})} style={m({cursor: 'default'},this.state.style)} onClick={this.openModal}>
-          <span>{message}</span>
+      <div className="reactBasicTemplateEditor-PreviewImage">
+        <div className={ mainImageClasses }
+          style={m({cursor: 'default'},this.state.style)}
+          onClick={this.openModal}>
+          <span className="reactBasicTemplateEditor-PreviewImage-mainImageMessage">
+            {message}
+          </span>
         </div>
         <Modal
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="preview-image-modal modal"
-          overlayClassName="preview-image-modal-overlay overlay">
-          <img src={ this.state.image }/>
-          <button type="button" onClick={this.closeModal}>close</button>
-          <div className="explain">(This image doesn't represent your final render. It is just an example to help illustrate the last field you worked with.)</div>
+          className="reactBasicTemplateEditor-PreviewImage-modal"
+          overlayClassName="reactBasicTemplateEditor-PreviewImage-modalOverlay">
+
+          <img
+            className="reactBasicTemplateEditor-PreviewImage-modalImage"
+            src={this.state.image}/>
+          
+          <button
+            className="reactBasicTemplateEditor-PreviewImage-modalCloseButton"
+            type="button"
+            onClick={this.closeModal}>
+            Close
+          </button>
+          
+          <div className="reactBasicTemplateEditor-PreviewImage-modalExplain">
+            (This image doesn't represent your final render. It is just an example to help illustrate the last field you worked with.)
+          </div>
         </Modal>
       </div>
     );

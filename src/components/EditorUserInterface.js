@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import xmlParser from '../utils/xml-parser';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
+import './EditorUserInterface.scss';
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -288,13 +289,13 @@ var EditorUserInterface = React.createClass({
     }
 
     return (
-      <div id="editor">
-        <h1 className="editor-title">
+      <div className="reactBasicTemplateEditor-EditorUserInterface">
+        <h1 className="reactBasicTemplateEditor-EditorUserInterface-title">
           <span>Editing Template {this.props.userSettingsData.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
-        <div className="main-interaction-area">
-            <div className="column">
+        <div className="reactBasicTemplateEditor-EditorUserInterface-formArea">
+            <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {editingUi}
             <SoundPicker
               audioInfo={this.state.audioInfo}
@@ -302,7 +303,7 @@ var EditorUserInterface = React.createClass({
               onChooseSong={this.handleChooseSong}
             />
           </div>
-          <div className="column">
+          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {resolutionPicker}
             <SubmitRender
               isPreview={this.state.isPreview}
@@ -316,8 +317,8 @@ var EditorUserInterface = React.createClass({
         </div>
         <Modal
           isOpen={this.state.allowSubmit}
-          className="confirm-modal modal"
-          overlayClassName="confirm-modal-overlay overlay"
+          className="reactBasicTemplateEditor-EditorUserInterface-submissionModal"
+          overlayClassName="reactBasicTemplateEditor-EditorUserInterface-submissionModalOverlay"
         >
           Your order is being submitted.
         </Modal>

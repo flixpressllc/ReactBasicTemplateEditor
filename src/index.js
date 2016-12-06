@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import EditorUserInterface from './components/EditorUserInterface';
 
 require('reset.css');
-require('./styles/editor.scss');
 
 let reactPromise = new Promise((resolve) => {
 // In the future, React Engine may be loaded separately...

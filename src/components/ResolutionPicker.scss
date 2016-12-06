@@ -1,0 +1,14 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-ResolutionPicker {
+  text-align: center;
+}
+
+.reactBasicTemplateEditor-ResolutionPicker-title {
+  @extend %component-title
+}
+
+.reactBasicTemplateEditor-ResolutionPicker-explain {
+  color: #888;
+  font-size: 0.9em;
+}

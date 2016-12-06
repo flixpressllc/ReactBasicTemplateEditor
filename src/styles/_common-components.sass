@@ -1,0 +1,137 @@
+@import '~compass-mixins', '~breakpoint-sass'
+@import 'variables', 'mixins'
+
+%base-container-styles
+  box-sizing: border-box
+  *
+    box-sizing: border-box
+  
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-size: $base-font-size
+  line-height: $line-height
+  padding: $viewportPad
+  overflow-x: hidden
+
+%button
+  font-size: inherit
+  padding: $major-button-padding
+  background-color: $flixpress-blue
+  color: white
+  border: none
+  border-radius: $fluid-radius
+  cursor: pointer
+  margin: $tinyPad $tinyPad 0 0
+
+  &:hover
+    background-color: darken($flixpress-blue, 10)
+
+  &.cancel
+    background-color: #999
+
+    &:hover
+      background-color: darken(#999, 10)
+
+%input-component
+  margin-top: $medPad
+  font-size: 16px
+
+  +breakpoint($sm)
+    +pie-clearfix
+    max-width: 400px
+    margin: $bigPad auto
+
+
+%textbox
+  border: 1px solid #bbb
+  font-size: 16px
+
+%label
+  margin-right: 1em
+  &:after
+    content: ':'
+
+  +breakpoint($sm)
+    width: 49%
+    margin-right: 0.5%
+    margin-left: 0.5%
+    display: block
+    float: left
+    margin-left: 0
+    &::after
+      content: ''
+    
+%input
+  @extend %textbox
+
+  +breakpoint($sm)
+    width: 49%
+    margin-right: 0.5%
+    margin-left: 0.5%
+    display: block
+    float: right
+    margin-right: 0
+    
+%component-title
+  margin: $bigPad auto
+  padding: $medPad 0
+  background-color: #bbb
+  text-align: center
+  +fw-bars
+
+  +breakpoint($md)
+    &::before, &::after
+      display: none
+
+%modal
+  @extend %base-container-styles
+  position: absolute
+  +sides(0)
+  background: $bg-color
+  overflow-y: auto
+  overflow-x: hidden
+  -webkit-overflow-scrolling: touch
+  outline: none
+  padding: $medPad
+  z-index: 101
+  box-shadow: 0 0 24px #555
+  
+  @include breakpoint($md)
+    position: fixed
+    +sides($bigPad * 2)
+
+%overlay
+  position: fixed
+  +sides(0)
+  background-color: rgba(255, 255, 255, 0.75)
+  z-index: 100
+
+%confirm-modal
+  @extend %modal
+  box-shadow: 0 0 24px #000
+  
+  +breakpoint($sm)
+    +sides($bigPad)
+  
+  +breakpoint($md)
+    +sides($bigPad * 4)
+    padding: $bigPad * 4
+  
+%confirm-overlay
+  @extend %overlay
+  background-color: rgba(0,0,0,0.5)
+  
+%tab
+  border: 1px solid $flixpress-blue
+  background-color: transparent
+  display: inline-block
+  margin: $tinyPad
+  padding: $button-padding
+  border-radius: $fluid-radius
+  cursor: pointer
+  color: $flixpress-blue
+
+  &[class*="selected"],
+  &[class*="active"],
+  &:hover
+    background-color: $flixpress-blue
+    color: white
