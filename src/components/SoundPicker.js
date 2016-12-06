@@ -242,7 +242,7 @@ var SoundPicker = React.createClass({
             <p>Your browser does not support the <code>audio</code> element.</p>
           </audio>
         </div>
-        <button className="reactBasicTemplateEditor-SoundPicker-addAudioButton" 
+        <button className="reactBasicTemplateEditor-SoundPicker-addAudioButton"
           type="button"
           onClick={this.openModal}>{buttonText}</button>
         {removeAudio}
