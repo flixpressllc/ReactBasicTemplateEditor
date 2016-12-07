@@ -13,11 +13,10 @@ it('renders without crashing', () => {
       minimumTemplateDuration: 0.1667,
       mode: 'Add',
       previewVideoUrl: '',
-      isChargePerOrder: 'False',
+      isChargePerOrder: false,
       renderCost: 8
     }
   };
   
   shallow(<EditorUserInterface uiSettingsJsonUrl={ settings.uiSettingsJsonUrl } userSettingsData={ settings.userSettingsData }/>);
 });
-

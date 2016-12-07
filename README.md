@@ -125,8 +125,8 @@ Below is the bare minimum needed on the page.
         minimumTemplateDuration: 0.1667,
         mode: 'Add',
         previewVideoUrl: '',
-        isChargePerOrder: 'False', // Understands the ASP way of creating a capitalized string for Bool.toString();
-        renderCost: 8
+        isChargePerOrder: false,
+        renderCost: 8 // Only useful if isChargePerOrder is true
       }
     }),
     document.getElementById('Template_FlashContent_Div') // Just needs to point to the div to replace.
