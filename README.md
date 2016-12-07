@@ -123,7 +123,6 @@ Below is the bare minimum needed on the page.
         templateId: 79,
         minutesRemainingInContract: 170.2819,
         minimumTemplateDuration: 0.1667,
-        mode: 'Add',
         previewVideoUrl: '',
         isChargePerOrder: false,
         renderCost: 8 // Only useful if isChargePerOrder is true

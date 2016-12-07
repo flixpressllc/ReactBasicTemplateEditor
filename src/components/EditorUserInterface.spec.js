@@ -11,7 +11,6 @@ it('renders without crashing', () => {
       templateId: 79,
       minutesRemainingInContract: 170.2819,
       minimumTemplateDuration: 0.1667,
-      mode: 'Add',
       previewVideoUrl: '',
       isChargePerOrder: false,
       renderCost: 8
