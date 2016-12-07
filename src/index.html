@@ -10,12 +10,13 @@
   <link rel="stylesheet" type="text/css" href="https://flixpress.com/templates/Styles/common-styles.css">
   <link rel="stylesheet" href="https://flixpress.com/Portals/_default/Skins/Fusion/css/font-awesome.css" />
   <script type="text/javascript">
+    // This is just to simulate what the Flixpress server actually does with a url query.
     var tid = window.location.search.match(/tid=([0-9]+)/i);
     tid = tid && tid[1] ? tid[1] : 1000;
   </script>
 </head>
 <body>
-<form>
+<form><!-- this form also helps simulate the DNN way of putting a form on every page. :-(  -->
   
   <input type="hidden" name="RndTemplate_HF" id="RndTemplate_HF" value="<?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?>
 <OrderRequestOfTextOnlyRndTemplate xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;>
@@ -43,8 +44,8 @@
 
 
   <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
-  <script type="text/javascript" src="./templateEditor.js"></script> <!-- for serve:dist -->
-  <script type="text/javascript" src="./main.js"></script> <!-- for serve -->
+  <script type="text/javascript" src="./templateEditor.js"></script> <!-- for `npm serve:dist` -->
+  <script type="text/javascript" src="./main.js"></script> <!-- for `npm serve` -->
   <script type="text/javascript">
     initializeTemplateEditor({
       divToReplaceId: 'Template_FlashContent_Div',
@@ -55,9 +56,8 @@
         templateId: tid,
         minutesRemainingInContract: 170.2819,
         minimumTemplateDuration: 0.1667,
-        mode: 'Add',
         previewVideoUrl: '',
-        isChargePerOrder: 'False',
+        isChargePerOrder: false,
         renderCost: 8
       }
     });
