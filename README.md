@@ -10,15 +10,15 @@ To develop on a local machine, install [Node.js](http://nodejs.org) and [Git](ht
 npm install
 ```
 
-```
-git checkout develop
-```
-
 Alternatively, you could use some kind of GUI Git program, like the one offered at GitHub to switch to the development branch.
 
-From there, you can start making changes to the javascript (`src/components` for the most part) and the css (`src/styles/editor.scss`). Please be sure to check out the development branch of the repo, and not the master branch. (If you are unfamiliar with Git, [this 15 minute starter](https://try.github.io/levels/1/challenges/1) is good.) The master branch ought to be reserved for code that all works and can readily be run in production. Of course, to see what your changes are actually doing, it is best to do one of the following below...
+From there, you can start making changes to the javascript (`src/components` for the most part). Please be sure to check out a new branch of the repo, and not the master branch. (If you are unfamiliar with Git, [this 15 minute starter](https://try.github.io/levels/1/challenges/1) is good.) The master branch ought to be reserved for code that all works and can readily be run in production. We now use the [Github Flow](https://guides.github.com/introduction/flow/index.html) process at Flixpress.
 
-## Develop Live
+To see what your changes are actually doing, it is best to do one of the following below...
+
+## Develop Live (from Flixpress HQ)
+
+> This section is somewhat deprecated. There is very little reason to develop this way, now that the [Develop Locally system](#develop-locally) works so well.
 
 To develop code that you can actually run on the site for real server testing, you'll want to do the same as above, but instead of running the second command, run this one:
 
@@ -26,37 +26,35 @@ To develop code that you can actually run on the site for real server testing, y
 npm run dev -- --location "path/to/server/folder"
 ```
 
-Path to server folder is the path to where the compiled (but not compressed) files should go so that the live server can access it. This path can be relative or absolute. For example on my computer, I'd use either of the following:
+Path to server folder is the path to where the compiled (but not compressed) files should go so that the live server can access it. This path can be relative or absolute. For example on my computer, I'd use the following:
 
 ```
-npm run dev -- --location "/Users/Don/Dropbox/Public/flixreact"
+npm run dev -- --location "/Volumes/Don2/templates/Scripts"
 ```
 
-```
-npm run dev -- --location "../../Dropbox/Public/flixreact"
-```
-
-In either case, the final folder is the one that `TextOnlyNoFlash.aspx` is using to get the file.
+The final folder is the one that `TextOnly.aspx` is using to get the file. (I mount my folder on the dev server at `/Volumes/Don2` on my local machine.)
 
 ```html
-// TextOnlyNoFlash.aspx -- Editor View:
+ <!-- TextOnly.aspx file-->
 
-<script type="text/javascript" src="https://dl.dropboxusercontent.com/u/20859562/flixreact/templateEditor.js"></script>
+<script type="text/javascript" src="/templates/Scripts/templateEditor.js"></script>
 ```
 
-Of course, you can set this script source to anything you like. Ultimately, it will be set to a local file and We'll have a `TextOnlyNoFlashDev.aspx` that will call out to a dev file. (More on that below)
+Of course, you can set this script source to anything you like. Ultimately, it will be set to a local file and We'll have a `TextOnly.aspx` that will call out to a dev file. (More on that below)
 
-Changes you make while the Terminal/Command Prompt is watching the files will be compiled (not compressed) and loaded into the directory you specified. Since I used Dropbox, I just had to then wait for the file to be uploaded to the cloud. This is the best way for us all to work on the file from remote locations right now.
+Changes you make while the Terminal/Command Prompt is watching the files will be compiled (not compressed) and loaded into the directory you specified.
 
 ## Develop Locally
 
-The process above is great for testing live, but if you are mostly interested in tweaking the user interface, it is probably better and faster to use this command instead:
+The process above is ok for testing live off the Flixpress dev server, but if you are mostly interested in tweaking the user interface (or you don't work at Flixpress and just want to play around with the thing), it is probably better and faster to use this command instead:
 
 ```
 npm run start
 ```
 
-This will spin up a local server and will not do much interaction with Flixpress. Right now it is hard coded to think it is on template 79, since that one has the most stuff in it of all the templates I've already moved over. Making changes to the code here will not require you to refresh the browser page. It'll just hot swap the code and the styles. Pretty nice.
+This will spin up a local server and open your default browser to the url for the project. Without a query param in the url, it will default to template 1000 because that is the development template. Making changes to the code here will not require you to refresh the browser page. It'll just hot swap the code and the styles.
+
+### Convenience Commands
 
 To open a specific browser, use the `openWith` option:
 
@@ -88,7 +86,9 @@ Incidentally, you can only get the css separately when building to production li
 
 # Working with CSS
 
-The editor.scss file is written using [SASS](http://sass-lang.com) which supports style nesting and variables. Regular, old css will work just fine inside this file, and I'd suggest putting any changes at the bottom until you are familiar with Sass. Running any of the commands described above will transpile the file into regular old css.
+The style files are written using [SASS](http://sass-lang.com) which supports style nesting and variables. Regular, old css will work just fine inside a file ending in `.scss`. Some of the files I have created end in `.sass`, which is run through the same SASS processor, but has a different syntax. Those files probably ought not be edited anyway. Not until you really understand SASS.
+
+The styles for each of the components in this project live next to the components themselves. For example, if you want to change some style in the `AccountBalance` component which lives at `src/components/AccountBalance.js`, then you'd edit the neighboring SASS file at `src/components/AccountBalance.scss`.
 
 # Implementation
 
@@ -98,22 +98,17 @@ Below is the bare minimum needed on the page.
 <head>
   
   ...
-  
-  <!-- required -->
+  <!-- optional, but a good idea: -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- required: -->
   <script src="path/to/jquery.min.js"></script>
-  <script src="path/to/flixpress.js"></script>
-  <!-- the script in question -->
+  <!-- the script that this project creates: -->
   <script type="text/javascript" src="path/to/templateEditor.js"></script>
-  <!-- after all other styles -->
-  <link rel="stylesheet" type="text/css" href="Styles/editor.css">
 </head>
 
 ...
 
-<div class="MainDiv">
-  <div id="Template_FlashContent_Div"></div>
-</div>
+<div id="Template_FlashContent_Div"></div>
 
 ...
 
@@ -123,19 +118,18 @@ Below is the bare minimum needed on the page.
     React.createElement(EditorUserInterface, {
       uiSettingsJsonUrl: "/templates/Template79.js", 
       userSettingsData: {
-        templateType: "text", // Always 'text' for now
+        templateType: 'text', // Always 'text' for now
         username: 'DonDenton',
         templateId: 79,
         minutesRemainingInContract: 170.2819,
         minimumTemplateDuration: 0.1667,
         mode: 'Add',
         previewVideoUrl: '',
-        isChargePerOrder: 'False',
-        renderCost: 8,
-        creditRemaining: 8 // This one is new, but Izzy knows how to generate it.
+        isChargePerOrder: 'False', // Understands the ASP way of creating a capitalized string for Bool.toString();
+        renderCost: 8
       }
     }),
-    document.getElementById('Template_FlashContent_Div')
+    document.getElementById('Template_FlashContent_Div') // Just needs to point to the div to replace.
   );
 </script>
 
