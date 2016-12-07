@@ -24,22 +24,25 @@ export default React.createClass({
     // .NET normalize
     var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
     
-    var depletionMessage, balanceMessage, resultingBalance, balanceType;
+    var depletionMessage, balance, resultingBalance, balanceType;
     
     if (isChargePerOrder) {
-      balanceType = 'credits';
-      depletionMessage = `cost ${sd.renderCost} ${balanceType}`;
-      balanceMessage = `??? ${balanceType}`;
-      resultingBalance = `??? ${balanceType}`;
+      balanceType = '(USD)';
+      depletionMessage = `cost $${sd.renderCost} ${balanceType}`;
+      balance = '';
+      resultingBalance = '';
     } else {
       balanceType = 'minutes';
       depletionMessage = `render ${round(sd.minimumTemplateDuration)} ${balanceType} of video`;
-      balanceMessage = `${round(sd.minutesRemainingInContract)} ${balanceType}`;
+      balance = `${round(sd.minutesRemainingInContract)} ${balanceType}`;
       resultingBalance = `${round(sd.minutesRemainingInContract - sd.minimumTemplateDuration)} ${balanceType}`;
     }
-    
-    var message = `You are about to place an order which would ${depletionMessage}. You currently have ${balanceMessage} in your account right now, and if you place an order, you'd have ${resultingBalance} remaining. All orders are final.\n\nIf you would like to create a preview instead, check the preview checkbox. \n\nAre you sure you want to place an order?`;
-    // const previewMessage = 'You used the enter key to submit a preview. Did you mean to do that?';
+    var balanceMessage = (isChargePerOrder) ? '' : `You currently have ${balance} in your account right now, and if you place an order, you'd have ${resultingBalance} remaining.`
+    var message = <div>
+      <p>You are about to place an order which would {depletionMessage}. {balanceMessage} All orders are final.</p>
+      <p>If you would like to create a preview instead, check the preview checkbox.</p>
+      <p>Are you sure you want to place an order?</p>
+      </div>;
     
     var options = {
       otherAction: this.props.placePreviewOrder,
