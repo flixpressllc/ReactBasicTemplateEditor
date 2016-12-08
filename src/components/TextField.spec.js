@@ -17,6 +17,12 @@ describe('TextField', () => {
     expect(component.find('label').text()).toEqual('mario');
   });
   
+  it('displays the value in the textarea', () => {
+    const component = render(<TextField fieldName='mario' settings={ {value:'My Text'} }/>)
+    
+    expect(component.find('input').val()).toEqual('My Text');
+  });
+  
   it('calls the onUserInput function when text is altered', () => {
     const fakeEvent = {target:{value:'new value'}};
     const fakeFn = jest.fn(() => {});
