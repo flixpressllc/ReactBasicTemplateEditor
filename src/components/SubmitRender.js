@@ -13,7 +13,7 @@ export default React.createClass({
   },
   
   handleSubmit: function (e) {
-    if (this.props.allowSubmit === false){
+    if (this.props.allowSubmit !== true){
       e.preventDefault();
       this.confirmOrder();
     }

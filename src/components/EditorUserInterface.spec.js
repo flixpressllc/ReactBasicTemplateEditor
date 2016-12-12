@@ -4,7 +4,7 @@ import EditorUserInterface from './EditorUserInterface';
 
 it('renders without crashing', () => {
   let settings = {
-    uiSettingsJsonUrl: '/templates/Template79.json',
+    uiSettingsJsonUrl: '/templates/Template1000.json',
     userSettingsData: {
       templateType: 'text',
       username: 'DonDenton',
@@ -17,5 +17,9 @@ it('renders without crashing', () => {
     }
   };
   
-  shallow(<EditorUserInterface uiSettingsJsonUrl={ settings.uiSettingsJsonUrl } userSettingsData={ settings.userSettingsData }/>);
+  expect(() => {
+    shallow(<EditorUserInterface
+      uiSettingsJsonUrl={ settings.uiSettingsJsonUrl }
+      userSettingsData={ settings.userSettingsData }/>);
+  }).not.toThrow();
 });
