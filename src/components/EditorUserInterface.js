@@ -173,6 +173,10 @@ var EditorUserInterface = React.createClass({
     })
   },
 
+  handleUpdateImages: function () {
+    return;
+  },
+
   transformYouTubeLinkData: function (linkObj) {
     linkObj.title = linkObj.title.replace('|',' ');
     linkObj.time = linkObj.time || '';
@@ -284,6 +288,8 @@ var EditorUserInterface = React.createClass({
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}
+          userImages={ this.state.userImages }
+          onUpdateImages={ this.handleUpdateImages }
         />
       );
     }

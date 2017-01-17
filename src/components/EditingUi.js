@@ -4,6 +4,7 @@ import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
+import ImageContainer from './ImageContainer';
 import './EditingUi.scss';
 
 var EditingUi = React.createClass({
@@ -185,6 +186,7 @@ var EditingUi = React.createClass({
           name={this.state.previewImageName}
           type={ this.state.previewImageType }
           fields={ fieldsObj }/>
+        <ImageContainer images={ this.props.userImages } onUpdateImages={ this.props.onUpdateImages } />
       </div>
     );
   }
