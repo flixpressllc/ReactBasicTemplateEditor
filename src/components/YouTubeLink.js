@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { YOU_TUBE_API_KEY } from '../stores/app-settings';
+import { getJSON } from '../utils/ajax';
 import './YouTubeLink.scss';
 
 const YouTubeLink = React.createClass({
@@ -21,7 +22,7 @@ const YouTubeLink = React.createClass({
       linkWasChecked: false
     };
   },
-  
+
   getDefaultProps: function () {
     return {userText: ''};
   },
@@ -116,20 +117,20 @@ const YouTubeLink = React.createClass({
     this.setState({isCheckingValidity: true});
 
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
-    var _this = this;
 
-    $.getJSON(checkLink)
-      .done( function(data) {
+    getJSON(checkLink)
+      .then( returnObject => {
+        let data = returnObject.data;
         if (data.pageInfo.totalResults === 0) {
           resolve(false);
         } else if (data.pageInfo.totalResults === 1) {
-          _this.setValid(videoId,data.items[0].snippet.title);
+          this.setValid(videoId,data.items[0].snippet.title);
         } else {
-          _this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'), videoId);
+          this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'), videoId);
         }
       })
-      .fail( function() {
-        _this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
+      .catch( () => {
+        this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
       });
 
   })},

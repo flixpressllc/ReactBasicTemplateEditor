@@ -3,6 +3,7 @@ import {clone} from './imports';
 import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
+import { ajax } from '../utils/ajax';
 import './PreviewImage.scss';
 
 const URL_PARTIAL = '/templates/images/';
@@ -21,10 +22,10 @@ export default React.createClass({
     };
   },
   
-  setMissingViaResponse: function (jqXHR) {
+  setMissingViaResponse: function (res) {
     let isMissing = true;
-    let fileIsImage = jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
-    if (jqXHR.status === 200 && fileIsImage) {
+    let fileIsImage = res.jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
+    if (res.jqXHR.status === 200 && fileIsImage) {
       isMissing = false;
     }
     this.setState({
@@ -68,14 +69,13 @@ export default React.createClass({
         image: newImage,
         missing: false
       });
-      this.currentCheck = $.ajax({
+      
+      this.currentCheck = ajax({
         url: newImage,
         type: 'HEAD'
-      }).done((data, status, jqXHR)=>{
-        this.setMissingViaResponse(jqXHR);
-      }).fail((jqXHR /*, status, error */)=>{
-        this.setMissingViaResponse(jqXHR);
-      });
+      })
+      .then( res => this.setMissingViaResponse(res) )
+      .catch( () => this.setState({isMissing: true}) );
     }
   },
   
