@@ -4,10 +4,27 @@ import './TextField.scss';
 
 export default React.createClass({
   handleTextEdit: function(event){
-    this.props.onUserInput(
-      this.props.fieldName,
-      event.target.value
-    );
+    let newValue = this.filterChange(event.target.value);
+    if (newValue !== this.props.settings.value) {
+      this.props.onUserInput(
+        this.props.fieldName,
+        newValue
+      );
+    }
+  },
+  
+  filterChange: function (newValue) {
+    return this.characterLimit(newValue);
+  },
+  
+  characterLimit: function (string) {
+    let limit = this.props.settings.maxCharacters;
+    if (!limit || limit <= 0) return string;
+    if (limit === 1) {
+      return string.charAt(string.length - 1);
+    }
+    return string.slice(0, this.props.settings.maxCharacters);
+    
   },
   
   handleFocus: function () {
@@ -23,7 +40,7 @@ export default React.createClass({
         <input
           type="text"
           name={this.props.fieldName}
-          value={this.props.userText}
+          value={this.props.settings.value}
           onChange={this.handleTextEdit}
           onFocus={this.handleFocus}
         />

@@ -23,7 +23,7 @@ export default React.createClass({
     var sd = this.props.userSettingsData;
     
     // .NET normalize
-    var isChargePerOrder = (sd.isChargePerOrder === true || sd.isChargePerOrder === 'True') ? true : false;
+    var isChargePerOrder = sd.isChargePerOrder;
     
     var cost, balance, rawCost, rawBalance, type;
     if (isChargePerOrder) {

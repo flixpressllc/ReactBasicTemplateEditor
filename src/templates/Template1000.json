@@ -450,7 +450,8 @@
   "textFields": {
     "Icon Character - type in only one (optional)": {
       "value": "",
-      "previewImage": "79_letter.jpg"
+      "previewImage": "79_letter.jpg",
+      "maxCharacters": 1
     },
     "Text Left of Icon": {
       "value": "",
