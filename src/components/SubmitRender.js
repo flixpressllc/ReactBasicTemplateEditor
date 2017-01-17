@@ -3,17 +3,16 @@ import {CheckBox} from './imports';
 import confirm from '../utils/confirm';
 import {round} from '../utils/helper-functions';
 import AccountBalance from './AccountBalance';
+import { find } from '../utils/dom-queries';
 import './SubmitRender.scss';
 
 export default React.createClass({
   componentWillMount: function () {
-    $('form').on('submit', (e)=>{
-      this.handleSubmit(e);
-    });
+    find('form').on('submit', e => this.handleSubmit(e) );
   },
   
   handleSubmit: function (e) {
-    if (this.props.allowSubmit === false){
+    if (this.props.allowSubmit !== true){
       e.preventDefault();
       this.confirmOrder();
     }

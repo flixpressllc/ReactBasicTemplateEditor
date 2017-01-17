@@ -19,7 +19,7 @@ export default React.createClass({
   
   characterLimit: function (string) {
     let limit = this.props.settings.maxCharacters;
-    if (!limit) return string;
+    if (!limit || limit <= 0) return string;
     if (limit === 1) {
       return string.charAt(string.length - 1);
     }
