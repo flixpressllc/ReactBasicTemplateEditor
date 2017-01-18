@@ -7,10 +7,12 @@
 
 .reactBasicTemplateEditor-ImageContainer-imageListItem {
   @include clearfix;
+  background-color: rgba(150,150,150,0.5);
+  padding: 10px;
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
   float: right;
   transform: rotate(90deg);
-  
+
 }
