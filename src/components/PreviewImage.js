@@ -123,6 +123,7 @@ export default React.createClass({
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           className="reactBasicTemplateEditor-PreviewImage-modal"
+          contentLabel="Preview Image Modal"
           overlayClassName="reactBasicTemplateEditor-PreviewImage-modalOverlay">
 
           <img

@@ -248,6 +248,7 @@ var SoundPicker = React.createClass({
         {removeAudio}
         <Modal
           ref="modal"
+          contentLabel="Sound Picker Modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           className="reactBasicTemplateEditor-SoundPicker-modal"
