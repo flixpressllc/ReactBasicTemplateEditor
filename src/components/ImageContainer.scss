@@ -1,4 +1,16 @@
+@import "../styles/base-includes";
+
 .reactBasicTemplateEditor-ImageContainer {
   border: 1px solid green;
   padding: 1em;
+}
+
+.reactBasicTemplateEditor-ImageContainer-imageListItem {
+  @include clearfix;
+}
+
+.reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
+  float: right;
+  transform: rotate(90deg);
+  
 }

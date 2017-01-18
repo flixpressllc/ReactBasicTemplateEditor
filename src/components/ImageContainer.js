@@ -1,36 +1,46 @@
 import React from 'react';
-import Modal from 'react-modal';
-import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
+import DraggableList from 'react-draggable-list';
 import './ImageContainer.scss';
 
 let testImages = [
-  'something.jpg',
-  'somethingelse.jpg'
+  {name: 'something.jpg', id:1},
+  {name: 'somethingelse.jpg', id:2}
 ];
+
+let ListImage = React.createClass({
+  render: function () {
+    let {dragHandle, item} = this.props;
+    return (
+      <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
+        <span>name: {item.name}</span>
+        {dragHandle(<span className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>|||</span>)}
+      </div>
+    );
+  }
+})
 
 var ImageContainer = React.createClass({
   getInitialState: function () {
     return {modalIsOpen: false};
   },
   
-  renderImageListItems: function () {
-    let images = testImages;
-    // let images = this.props.images;
-    
-    return images.map( (imgName, i) => {
-      return <li key={i}>{ imgName }</li>;
-    })
+  _onListChange: function (newList) {
+    // this.setState({list: newList});
+    testImages = newList;
   },
   
   render: function () {
-    let images = this.renderImageListItems();
+    let images = [].concat(testImages);
     if (images.length === 0) return null;
     return (
       <div className="reactBasicTemplateEditor-ImageContainer">
-        <ul>
-          { images }
-        </ul>
-        
+        <DraggableList
+          itemKey='id'
+          template={ ListImage }
+          list={ images }
+          onMoveEnd={ newList => this._onListChange(newList) }
+          container={() => document.body}
+        />
       </div>
     );
   }
