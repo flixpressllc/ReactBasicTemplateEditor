@@ -3,25 +3,46 @@ import DraggableList from 'react-draggable-list';
 import './ImageContainer.scss';
 
 let ListImage = React.createClass({
+  shouldComponentUpdate: function (newProps) {
+    let shouldUpdate = false;
+    ['id','caption','url'].map((property) => {
+      if (newProps.item[property] !== this.props.item[property]){
+        shouldUpdate = true;
+      }
+    });
+    return shouldUpdate;
+  },
+
+  handleChange: function (e) {
+    // not working...
+  },
+
   render: function () {
     let {dragHandle, item} = this.props;
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ item.url } />
+        <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
+          <label htmlFor='caption'>
+            Caption:
+          </label>
+          <input
+            type='text'
+            name='caption'
+            value={ item.caption }
+            onChange={ this.handleChange }
+            />
+        </div>
+
         {dragHandle(<span className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>|||</span>)}
       </div>
     );
   }
 })
 
-var ImageContainer = React.createClass({
+let ImageContainer = React.createClass({
   getInitialState: function () {
     return {modalIsOpen: false};
-  },
-
-  _onListChange: function (newList) {
-    // this.setState({list: newList});
-    // testImages = newList;
   },
 
   render: function () {
@@ -33,7 +54,7 @@ var ImageContainer = React.createClass({
           itemKey='id'
           template={ ListImage }
           list={ images }
-          onMoveEnd={ newList => this.props.onUpdateImages(newList) }
+          onMoveEnd={ this.props.onUpdateImages }
           container={() => document.body}
         />
       </div>

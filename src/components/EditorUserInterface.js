@@ -20,8 +20,16 @@ var EditorUserInterface = React.createClass({
       textFields: {},
       caughtErrors: [],
       userImages: [
-        {url: 'https://verydandy.files.wordpress.com/2012/02/robot-head.png?w=580', id:1},
-        {url: 'http://southoldlibrary.org/wp-content/uploads/2016/12/Robots.jpg', id:2}
+        {
+          id:1,
+          url: 'https://verydandy.files.wordpress.com/2012/02/robot-head.png?w=580',
+          caption: 'mechahead',
+        },
+        {
+          id:2,
+          url: 'http://southoldlibrary.org/wp-content/uploads/2016/12/Robots.jpg',
+          caption: '',
+        }
       ]
     };
   },
