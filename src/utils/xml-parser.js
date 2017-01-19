@@ -1,19 +1,4 @@
-import jxon from 'jxon';
-import jsb from 'js-beautify';
-
-const developmentMode = true; // TODO: find a better development switch
-
-var prettyXml = function (str) {
-  if (developmentMode) {
-    return jsb.html(str);
-  } else {
-    return str;
-  }
-}
-
-jxon.config({
-  parseValues: true
-});
+import jxon from './xmlAdapter';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -46,7 +31,7 @@ var startingPoint = {
 var xmlContainerDiv = function () {return $('#RndTemplate_HF')[0]; };
 
 var getLoadedXmlAsString = function () {
-  return prettyXml(xmlContainerDiv().value);
+  return xmlContainerDiv().value;
 };
 
 var getLoadedXmlAsObject = function () {
@@ -155,7 +140,7 @@ var getReactStartingData = function () {
 };
 
 function objectToXml (object) {
-  return '<?xml version="1.0" encoding="utf-16"?>\n' + prettyXml(jxon.jsToString(object));
+  return '<?xml version="1.0" encoding="utf-16"?>\n' + jxon.jsToString(object);
 }
 
 var updateXmlForOrder = function (reactObj) {
