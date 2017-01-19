@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
-import xmlParser from '../utils/xml-parser';
+import getAudioOptions from '../utils/getAudioOptions';
 import './SoundPicker.scss';
 
 const STOCK_URL = 'https://fpsound.s3.amazonaws.com/';
@@ -15,7 +15,7 @@ var SoundPicker = React.createClass({
   getInitialState: function () {
     return {modalIsOpen: false, isPlaying: false};
   },
-  
+
   blankAudioInfo: {
     audioType: 'NoAudio',
     audioUrl: '',
@@ -23,7 +23,7 @@ var SoundPicker = React.createClass({
     length: 0,
     name: ''
   },
-  
+
   getPlayerStyle: function () {
     if (this.audioIsChosen()){
       return {display: 'block'};
@@ -31,22 +31,22 @@ var SoundPicker = React.createClass({
       return {display: 'none'};
     }
   },
-  
+
   audioIsChosen: function () {
     return this.props.audioInfo !== undefined && this.props.audioInfo.audioType !== 'NoAudio';
   },
-  
+
   componentWillMount: function () {
     if (this.props.audioOptions === undefined) {
       this.props.onChooseSong(this.blankAudioInfo);
       Modal.setAppElement('#' + CONTAINING_ELEMENT_ID);
     }
   },
-  
+
   openModal: function () {
     this.setState({modalIsOpen: true})
   },
-  
+
   closeModal: function () {
     this.setState({modalIsOpen: false})
   },
@@ -57,17 +57,17 @@ var SoundPicker = React.createClass({
       this.stopPlayer();
     }
   },
-  
+
   handleOnAfterOpenModal: function () {
     // good place to start making server requests
     if (this.state.audioOptions === undefined) {
       //define it.
-      xmlParser.getAudioOptions(this.props.username).done(function(result){
+      getAudioOptions(this.props.username).done(function(result){
         this.setState({audioOptions: result});
       }.bind(this))
     }
   },
-  
+
   handleChooseSong: function (song, type) {
     var audioInfo;
     if (song === undefined) {
@@ -93,24 +93,24 @@ var SoundPicker = React.createClass({
     this.stopPlayer();
     this.setState({modalIsOpen: false});
   },
-  
+
   handleRemoveAudio: function () {
     this.props.onChooseSong(this.blankAudioInfo);
     this.setState({modalIsOpen: false});
   },
-  
+
   stopFrontPlayer: function () {
     if (this.refs.frontPlayer.pause !== undefined){
       this.refs.frontPlayer.pause();
     }
   },
-  
+
   player: new Audio(),
-  
+
   handlePlaySong: function (songType, songId) {
     var url = (songType === 'custom') ? CUSTOM_URL : STOCK_URL ;
     url += songId + '.mp3';
-    
+
     if (url !== this.player.src) {
       this.loadPlayer(url);
       this.setState({loadedSong: `${songType}-${songId}`})
@@ -118,32 +118,32 @@ var SoundPicker = React.createClass({
       this.startPlayer();
     }
   },
-  
+
   loadPlayer: function (songUrl) {
     this.player.pause();
     this.player.src = songUrl;
     this.startPlayer();
   },
-  
+
   startPlayer: function () {
     this.player.play();
     this.setState({isPlaying: true})
   },
-  
+
   stopPlayer: function () {
     this.player.pause();
     this.setState({isPlaying: false})
   },
-  
+
   render: function () {
     var stockAudioItems = [];
     var customAudioItems = [];
     var tabNames = [];
     var tabPanels = [];
-    
+
     if (this.state.audioOptions !== undefined) {
       if (this.state.audioOptions.categories !== undefined) {
-        
+
         let categories = [];
         let panels = [];
         for (let key in this.state.audioOptions.categories) {
@@ -152,7 +152,7 @@ var SoundPicker = React.createClass({
             <Tab className="reactBasicTemplateEditor-SoundPicker-stockCategoryTab"
               key={`tab-${categorySafeName}`}>{key}</Tab>
           );
-          
+
           let songs = [];
           for (let i = 0; i < this.state.audioOptions.categories[key].songs.length; i++) {
             let song = this.state.audioOptions.categories[key].songs[i];
@@ -170,7 +170,7 @@ var SoundPicker = React.createClass({
                 playSong={this.handlePlaySong}/>
             );
           }
-          
+
           panels.push(<TabPanel key={`tab-panel-${categorySafeName}`}>{songs}</TabPanel>);
         }
         stockAudioItems.push(
@@ -180,9 +180,9 @@ var SoundPicker = React.createClass({
           </Tabs>
         )
       }
-      
+
       if (this.state.audioOptions.customAudio !== undefined) {
-        
+
         for (let i = 0; i < this.state.audioOptions.customAudio.length; i++) {
           let song = this.state.audioOptions.customAudio[i];
           let isPlaying = false;
@@ -201,8 +201,8 @@ var SoundPicker = React.createClass({
         }
 
       }
-      
-      
+
+
       if (stockAudioItems.length > 0) {
         tabNames.push(<Tab key="stock-audio-tab">Stock Audio</Tab>);
         tabPanels.push(
@@ -222,9 +222,9 @@ var SoundPicker = React.createClass({
         );
       }
     }
-    
+
     var playerStyle = this.getPlayerStyle();
-    
+
     var hasAudio =  (this.props.audioInfo !== undefined) ? true : false ;
     var name = hasAudio ? this.props.audioInfo.name : 'None' ;
     var url = hasAudio ? this.props.audioInfo.audioUrl : '' ;
@@ -232,7 +232,7 @@ var SoundPicker = React.createClass({
     var removeAudio = this.audioIsChosen() ? (<button
       className="reactBasicTemplateEditor-SoundPicker-removeAudio"
       type="button" onClick={this.handleRemoveAudio}>Remove Audio</button>) : '';
-    
+
     return (
       <div className="reactBasicTemplateEditor-SoundPicker">
         <h3 className="reactBasicTemplateEditor-SoundPicker-title">Choose Your Audio</h3>
@@ -255,7 +255,7 @@ var SoundPicker = React.createClass({
           overlayClassName="sound-picker-modal-overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
-          
+
           <button className="reactBasicTemplateEditor-SoundPicker-modalCancel cancel" type="button" onClick={this.closeModal}> Cancel </button>
           <Tabs>
             <TabList className="reactBasicTemplateEditor-SoundPicker-librarySwitch">
@@ -273,11 +273,11 @@ var Song = React.createClass({
   getInitialState: function () {
     return {playing: false}
   },
-  
+
   choose: function () {
     this.props.onChooseSong(this.props.song, this.props.type);
   },
-  
+
   togglePlay: function () {
     if (this.props.isPlaying){
       this.stop();
@@ -285,15 +285,15 @@ var Song = React.createClass({
       this.play();
     }
   },
-  
+
   play: function () {
     this.props.playSong(this.props.type, this.props.song.Id);
   },
-  
+
   stop: function () {
     this.props.stop();
   },
-  
+
   render: function () {
     var toggleBtn = this.props.isPlaying ? 'Stop' : 'Listen' ;
     return (
