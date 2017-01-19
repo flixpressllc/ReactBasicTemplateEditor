@@ -1,27 +1,19 @@
 import React from 'react';
-import DraggableList from 'react-draggable-list';
+import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import './ImageContainer.scss';
 
-let ListImage = React.createClass({
-  shouldComponentUpdate: function (newProps) {
-    let shouldUpdate = false;
-    ['id','caption','url'].map((property) => {
-      if (newProps.item[property] !== this.props.item[property]){
-        shouldUpdate = true;
-      }
-    });
-    return shouldUpdate;
-  },
+const DragHandle = SortableHandle(() => {
+  return (<span className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>|||</span>);
+});
 
+const ListImage = SortableElement( React.createClass({
   handleChange: function (e) {
-    // not working...
+    this.props.onCaptionChange(this.props.item.id, e.target.value);
   },
-
   render: function () {
-    let {dragHandle, item} = this.props;
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
-        <img src={ item.url } />
+        <img src={ this.props.item.url } />
         <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
           <label htmlFor='caption'>
             Caption:
@@ -29,33 +21,63 @@ let ListImage = React.createClass({
           <input
             type='text'
             name='caption'
-            value={ item.caption }
+            value={ this.props.item.caption }
             onChange={ this.handleChange }
             />
         </div>
-
-        {dragHandle(<span className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>|||</span>)}
+        <DragHandle />
       </div>
     );
   }
-})
+}) );
 
-let ImageContainer = React.createClass({
+const SortableList = SortableContainer( React.createClass({
+  render: function () {
+    return (
+      <div>
+        {this.props.items.map((value, index) =>
+          <ListImage
+            key={`item-${index}`}
+            onCaptionChange={ this.props.onCaptionChange }
+            index={index}
+            item={value} />
+        )}
+      </div>
+    );
+  }
+}), {transitionDuration: 0} );
+
+const ImageContainer = React.createClass({
   getInitialState: function () {
     return {modalIsOpen: false};
   },
 
+  handleSortEnd: function ({oldIndex, newIndex}) {
+    let newArray = arrayMove(this.props.images, oldIndex, newIndex);
+    this.props.onUpdateImages(newArray);
+  },
+
+  handlecaptionChange: function (id, newCaptionText) {
+    let newArray = this.props.images.map(image => {
+      if (image.id === id) {
+        image.caption = newCaptionText;
+      }
+      return image;
+    });
+    this.props.onUpdateImages(newArray);
+  },
+
   render: function () {
+    // let images = ['one','two','three'];
     let images = [].concat(this.props.images);
     if (images.length === 0) return null;
     return (
       <div className="reactBasicTemplateEditor-ImageContainer">
-        <DraggableList
-          itemKey='id'
-          template={ ListImage }
-          list={ images }
-          onMoveEnd={ this.props.onUpdateImages }
-          container={() => document.body}
+        <SortableList
+          items={ images }
+          onSortEnd={ this.handleSortEnd }
+          onCaptionChange={ this.handlecaptionChange }
+          useDragHandle={ true }
         />
       </div>
     );
