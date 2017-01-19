@@ -40,7 +40,7 @@ var getLoadedXmlAsString = function () {
 };
 
 var getLoadedXmlAsObject = function () {
-  return jxon.stringToJs(getLoadedXmlAsString(xmlContainerDiv().value));
+  return jxon.stringToJs(getLoadedXmlAsString());
 };
 
 var getTopLevelXmlName = function () {
