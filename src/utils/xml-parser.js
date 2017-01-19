@@ -80,7 +80,7 @@ var convertSpecsToReactData = function (xmlObj) {
   } else {
     xmlObj = xmlObj.RenderedData;
   }
-  
+
   // Audio Info
   if (xmlObj.AudioInfo !== undefined) {
     result.audioInfo = changePropsInitialCase(xmlObj.AudioInfo, 'lowerFirst');
@@ -104,7 +104,7 @@ var convertSpecsToReactData = function (xmlObj) {
       }
     }
   }
-  
+
   return result;
 };
 
@@ -159,7 +159,7 @@ var updateXmlForOrder = function (reactObj) {
   if (reactObj.audioInfo === undefined) {
     promise.reject('No audioInfo was present');
   }
-  
+
   orderObject[topLvlName].RenderedData.AudioInfo = changePropsInitialCase(reactObj.audioInfo, 'UpperFirst');
 
   // Distribute Specs
@@ -167,18 +167,18 @@ var updateXmlForOrder = function (reactObj) {
     promise.reject('No Specs were sent');
   }
   for (var i = 0; i < reactObj.ui.length; i++) {
-    
+
     for (var key in reactObj.ui[i]) {
       if (reactObj.ui[i].hasOwnProperty(key)){
         var SpArray = [];
-        
+
         for (var j = 0; j < reactObj.ui[i][key].length; j++) {
            SpArray.push({
             $name: reactObj.ui[i][key][j].name,
             $val: reactObj.ui[i][key][j].value
           });
         }
-        
+
         orderObject[topLvlName].RenderedData.Specs.SpCx.CSp.push({
           $name: key,
           $val: 'CD|' + key + '|',
@@ -189,7 +189,7 @@ var updateXmlForOrder = function (reactObj) {
 
       }
     }
-    
+
   }
 
   //Preview?
@@ -210,18 +210,18 @@ var getCatSongs = function (categoryId, username) {
     dataType: 'xml',
     type: 'GET'
   });
-  
+
 }
 
 var getAudioOptions = function (username) {
   var optionsPromise = $.Deferred();
   // https://ws.flixpress.com/AudioWebService.asmx/GetAudio?categoryId=2&page=1&pageSize=100&username=bowdo
-  
+
   // https://ws.flixpress.com/AudioWebService.asmx/GetCategoryTree
-  
+
   var categoryUrl = 'https://ws.flixpress.com/AudioWebService.asmx/GetCategoryTree';
   var customUrl = 'https://ws.flixpress.com/CustomAudioWebService.asmx/GetCustomAudio';
-  
+
   function whenAll(arrayOfPromises) {
     return $.when.apply($, arrayOfPromises).then(function() {
       return Array.prototype.slice.call(arguments, 0);
@@ -232,13 +232,13 @@ var getAudioOptions = function (username) {
   var customAudioArr = [];
   var haveAllCats = $.Deferred();
   var haveAllCustom = $.Deferred();
-  
+
   var getCats = $.ajax({
     url: categoryUrl,
     dataType: 'xml',
     type: 'GET'
   });
-  
+
   getCats.done(function(result){
     var getAllCats = [];
     var categories = jxon.xmlToJs(result).ArrayOfCategory.Category.SubCategories.Category;
@@ -252,19 +252,19 @@ var getAudioOptions = function (username) {
         categoriesObj[category.Name].songs = jxon.xmlToJs(result).ResultSetOfAudio.Records.Audio;
       });
     });
-    
+
     whenAll(getAllCats).done(function(){
       haveAllCats.resolve();
     })
   });
-  
+
   var getCustom = $.ajax({
     url: customUrl,
     dataType: 'xml',
     type: 'GET',
     data: {username: username, page:1, pageSize: 1000}
   });
-  
+
   getCustom.done(function (result) {
     var songs = jxon.xmlToJs(result).ResultSetOfCustomAudio.Records.CustomAudio;
     for (var i = 0; i < songs.length; i++) {
@@ -272,19 +272,15 @@ var getAudioOptions = function (username) {
     }
     haveAllCustom.resolve();
   });
-  
+
   $.when(haveAllCats, haveAllCustom).then(function () {
     optionsPromise.resolve({categories:categoriesObj, customAudio: customAudioArr});
   });
-  
+
   return optionsPromise;
 };
 
 export default {
-  getLoadedXmlAsString,
-  getLoadedXmlAsObject,
-  objectToXml,
-  xmlContainerDiv,
   getReactStartingData,
   updateXmlForOrder,
   getAudioOptions
