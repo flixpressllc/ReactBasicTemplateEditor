@@ -1,6 +1,7 @@
 import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
+import  Deferred  from './deferred';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -143,7 +144,7 @@ function objectToXml (object) {
 }
 
 var updateXmlForOrder = function (reactObj) {
-  var promise = $.Deferred();
+  var promise = Deferred();
   var orderObject = clone(startingPoint);
   var topLvlName = getTopLevelXmlName();
   var finalOrderXml = '';
