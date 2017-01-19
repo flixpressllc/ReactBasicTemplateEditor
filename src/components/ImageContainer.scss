@@ -9,10 +9,20 @@
   @include clearfix;
   background-color: rgba(150,150,150,0.5);
   padding: 10px;
+  margin: 10px;
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
   float: right;
-  transform: rotate(90deg);
+  cursor: move;
 
+  > div {
+    width: 1.5em;
+    height: 5px;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255, 0.6);
+    border-left: none;
+    border-top: none;
+    margin: 4px;
+  }
 }

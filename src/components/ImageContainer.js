@@ -3,7 +3,10 @@ import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'rea
 import './ImageContainer.scss';
 
 const DragHandle = SortableHandle(() => {
-  return (<span className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>|||</span>);
+  return (
+    <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle'>
+      <div/><div/><div/>
+    </div>);
 });
 
 const ListImage = SortableElement( React.createClass({
