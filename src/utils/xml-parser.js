@@ -1,4 +1,6 @@
 import jxon from './xmlAdapter';
+import { XML_CONTAINER_ID } from '../stores/app-settings';
+import { getElementById } from './dom-queries';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -28,7 +30,9 @@ var startingPoint = {
 };
 /* eslint-enable quotes */
 
-var xmlContainerDiv = function () {return $('#RndTemplate_HF')[0]; };
+function xmlContainerDiv () {
+  return getElementById(XML_CONTAINER_ID);
+}
 
 var getLoadedXmlAsString = function () {
   return xmlContainerDiv().value;
