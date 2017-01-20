@@ -2,7 +2,8 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty, nestedPropertyTest, isObject } from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
+  nestedPropertyTest, isObject, isNotEmpty } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -79,8 +80,11 @@ var convertSpecsToReactData = function (givenXmlObj) {
 };
 
 function getStartingResolutionsObject (obj) {
-  let givenResolutions = obj.ResolutionOptions.ListItemViewModel;
-  if (isEmpty(givenResolutions)) {throw new Error('No resolutions available')}
+  if (!nestedPropertyTest(obj, 'ResolutionOptions.ListItemViewModel', isNotEmpty)) {
+    throw new Error('No resolutions available');
+  }
+
+  let givenResolutions = clone(obj.ResolutionOptions.ListItemViewModel);
 
   // jxon will only create an array if there is more than one value.
   // We want an array every time.

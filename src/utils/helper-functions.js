@@ -12,6 +12,10 @@ export function isEmpty (obj) {
   return (Object.getOwnPropertyNames(obj).length === 0);
 }
 
+export function isNotEmpty (obj) {
+  return !isEmpty(obj);
+}
+
 export function isObject(x) {
   if (x === null) { return false; }
   return ( typeof x === 'object' );
