@@ -121,17 +121,19 @@ function objectToXml (object) {
   return '<?xml version="1.0" encoding="utf-16"?>\n' + jxon.jsToString(object);
 }
 
-var updateXmlForOrder = function (reactObj) {
+function getOrderResolutionObject (reactObj) {
+  if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
+    throw new Error('No ResolutionId was present');
+  }
+  return {ResolutionId: reactObj.resolutionId};
+
+}
+
+function updateXmlForOrder (reactObj) {
   var promise = Deferred();
   var orderObject = clone(startingPoint);
-  var topLvlName = getTopLevelXmlName();
-  var finalOrderXml = '';
 
-  // Pick a resolution
-  if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
-    promise.reject('No ResolutionId was present');
-  }
-  orderObject.ResolutionId = reactObj.resolutionId;
+  let orderResolutionObj = getOrderResolutionObject(reactObj);
 
   // copy audio
   if (reactObj.audioInfo === undefined) {
@@ -174,9 +176,10 @@ var updateXmlForOrder = function (reactObj) {
   //Preview?
   orderObject.IsPreview = reactObj.isPreview;
 
-  orderObject = wrapObjectWithProperty(orderObject, topLvlName);
-  finalOrderXml = objectToXml(orderObject);
-  setXmlContainerValue(finalOrderXml);
+  orderObject = Object.assign({}, orderObject, orderResolutionObj);
+
+  orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
+  setXmlContainerValue( objectToXml(orderObject) );
   promise.resolve();
 
   return promise;
