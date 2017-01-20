@@ -50,7 +50,7 @@ describe('nestedPropertyDetails', () => {
   });
   it('marks a missing property as false', () => {
     let obj = {level1: {level2: 'I am here'}};
-    expect(nestedPropertyDetails(obj, 'level1.level2.level3.level4').exists).toEqual(false);
+    expect(nestedPropertyDetails(obj, 'level1.level2.level3').exists).toEqual(false);
   });
   it('provides the existing path', () => {
     let obj = {level1: {level2: 'I am here'}};
