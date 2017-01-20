@@ -2,6 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
+import {clone} from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -79,10 +80,6 @@ function changePropsInitialCase (obj, whichCase) {
     newObject[newName] = prop;
   }
   return newObject;
-}
-
-function clone(obj) {
-  return JSON.parse(JSON.stringify(obj));
 }
 
 
