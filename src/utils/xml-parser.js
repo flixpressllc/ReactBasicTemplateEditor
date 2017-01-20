@@ -2,7 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import {clone} from './helper-functions';
+import {clone, changePropsInitialCase} from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -55,32 +55,6 @@ var getLoadedXmlAsObject = function () {
 var getTopLevelXmlName = function () {
   return 'OrderRequestOfTextOnlyRndTemplate';
 };
-
-function changePropsInitialCase (obj, whichCase) {
-  var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
-  var newObject = obj;
-  if (makeAspVersion) {
-    var regex = /[a-z]/;
-  } else {
-    var regex = /[A-z]/;
-  }
-  for (var key in newObject) {
-    if (newObject.hasOwnProperty(key) === false) continue;
-    if (typeof key !== 'string') continue;
-    if (key.charAt(0).match(regex) === null) continue;
-
-    var prop = newObject[key];
-    var newName = '';
-    if (makeAspVersion){
-      newName = key.charAt(0).toUpperCase() + key.slice(1);
-    } else {
-      newName = key.charAt(0).toLowerCase() + key.slice(1);
-    }
-    delete newObject[key];
-    newObject[newName] = prop;
-  }
-  return newObject;
-}
 
 
 var convertSpecsToReactData = function (xmlObj) {
