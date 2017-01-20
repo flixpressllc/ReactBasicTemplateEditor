@@ -40,29 +40,33 @@ export function traverseObject (obj, callback, recursive = false, preserveOrigin
   return returnedObj;
 }
 
-export function changePropsInitialCase (obj, whichCase) {
+export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
-  var newObject = clone(obj);
+  var newObject = preserveOriginal ? clone(obj) : obj;
   if (makeAspVersion) {
     var regex = /[a-z]/;
   } else {
     var regex = /[A-z]/;
   }
-  for (var key in newObject) {
-    if (newObject.hasOwnProperty(key) === false) continue;
-    if (typeof key !== 'string') continue;
-    if (key.charAt(0).match(regex) === null) continue;
-
-    var prop = newObject[key];
-    var newName = '';
-    if (makeAspVersion){
-      newName = key.charAt(0).toUpperCase() + key.slice(1);
+  return traverseObject(obj, (key, prop) => {
+    let originals = [key, prop];
+    if (typeof key !== 'string') return originals;
+    if (key.charAt(0).match(regex) === null) return originals;
+    let newKey = '';
+    if (makeAspVersion) {
+      newKey = key.charAt(0).toUpperCase() + key.slice(1);
     } else {
-      newName = key.charAt(0).toLowerCase() + key.slice(1);
+      newKey = key.charAt(0).toLowerCase() + key.slice(1);
     }
-    delete newObject[key];
-    newObject[newName] = prop;
-  }
-  return newObject;
+    return [newKey, prop];
+  }, recursive);
+}
+
+export function convertPropKeysForAsp (obj) {
+  return changePropsInitialCase(obj, 'UpperFirst', true);
+}
+
+export function convertPropKeysForJs (obj) {
+  return changePropsInitialCase(obj, 'lowerFirst', true);
 }
 
