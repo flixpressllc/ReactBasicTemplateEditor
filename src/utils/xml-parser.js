@@ -92,11 +92,8 @@ var convertSpecsToReactData = function (xmlObj) {
   return result;
 };
 
-var getReactStartingData = function () {
-  var obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
-  var result = convertSpecsToReactData(obj);
-
-  var givenResolutions = obj.ResolutionOptions.ListItemViewModel;
+function getStartingResolutionsArray (obj) {
+  let givenResolutions = obj.ResolutionOptions.ListItemViewModel;
   if (givenResolutions == false) {throw new Error('No resolutions available')}
   if (givenResolutions.length === undefined) {
     // jxon will only create an array if there is more than one value.
@@ -104,18 +101,22 @@ var getReactStartingData = function () {
     givenResolutions = [givenResolutions];
   }
   // Eventual refactor for arrays of Objects?
-  var resolutions = []
-  for (var i=0; i < givenResolutions.length; i++) {
+  let resolutions = []
+  for (let i=0; i < givenResolutions.length; i++) {
     resolutions.push(convertPropKeysForJs(givenResolutions[i]));
   }
-  result.resolutions = resolutions;
-  result.resolutionId = resolutions[0].id;
+  return {resolutions: resolutions, resolutionId: resolutions[0].id};
+}
 
-  // The easy one:
-  result.isPreview = obj.IsPreview;
+function getReactStartingData () {
+  let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
-  return result;
-};
+  let specsObj = convertSpecsToReactData(obj);
+  let resolutionsObject = getStartingResolutionsArray(obj);
+  let isPreviewObject = {isPreview: obj.IsPreview};
+
+  return Object.assign({}, specsObj, resolutionsObject, isPreviewObject);
+}
 
 function objectToXml (object) {
   return '<?xml version="1.0" encoding="utf-16"?>\n' + jxon.jsToString(object);
