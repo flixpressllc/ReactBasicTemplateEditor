@@ -165,6 +165,7 @@ var updateXmlForOrder = function (reactObj) {
   // Distribute Specs
   if (reactObj.ui === undefined) {
     promise.reject('No Specs were sent');
+    return promise;
   }
   for (var i = 0; i < reactObj.ui.length; i++) {
 
