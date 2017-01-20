@@ -121,23 +121,27 @@ function objectToXml (object) {
   return '<?xml version="1.0" encoding="utf-16"?>\n' + jxon.jsToString(object);
 }
 
-function getOrderResolutionObject (reactObj) {
+function addResolutionToOrderObj (orderObj, reactObj) {
   if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
     throw new Error('No ResolutionId was present');
   }
-  return {ResolutionId: reactObj.resolutionId};
-
+  let newOrderObj = clone(orderObj);
+  newOrderObj.ResolutionId = reactObj.resolutionId;
+  return newOrderObj;
 }
 
-function getOrderRenderedDataObject (reactObj) {
-  let orderObject = clone(startingPoint).RenderedData;
+function addAudioToOrderObj (orderObj, reactObj) {
+  let newOrderObj = clone(orderObj);
   // copy audio
   if (reactObj.audioInfo === undefined) {
     throw new Error('No audioInfo was present');
   }
+  newOrderObj.RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
+  return newOrderObj;
+}
 
-  orderObject.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
-
+function addSpecsToOrderObj (orderObj, reactObj) {
+  let newOrderObj = clone(orderObj);
   // Distribute Specs
   if (reactObj.ui === undefined) {
     throw new Error('No Specs were sent');
@@ -155,7 +159,7 @@ function getOrderRenderedDataObject (reactObj) {
           });
         }
 
-        orderObject.Specs.SpCx.CSp.push({
+        newOrderObj.RenderedData.Specs.SpCx.CSp.push({
           $name: key,
           $val: 'CD|' + key + '|',
           SpCx: {
@@ -167,20 +171,17 @@ function getOrderRenderedDataObject (reactObj) {
     }
 
   }
-  return {RenderedData: orderObject};
+  return newOrderObj;
 }
 
 function updateXmlForOrder (reactObj) {
   var promise = Deferred();
   var orderObject = clone(startingPoint);
 
-  let orderResolutionObj = getOrderResolutionObject(reactObj);
-  let orderRenderedDataObj = getOrderRenderedDataObject(reactObj);
-
-  //Preview?
+  orderObject = addResolutionToOrderObj(orderObject, reactObj);
+  orderObject = addAudioToOrderObj(orderObject, reactObj);
+  orderObject = addSpecsToOrderObj(orderObject, reactObj);
   orderObject.IsPreview = reactObj.isPreview;
-
-  orderObject = Object.assign({}, orderObject, orderResolutionObj, orderRenderedDataObj);
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
