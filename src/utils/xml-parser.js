@@ -35,8 +35,16 @@ function xmlContainerDiv () {
   return getElementById(XML_CONTAINER_ID);
 }
 
-var getLoadedXmlAsString = function () {
+function getXmlContainerValue () {
   return xmlContainerDiv().value;
+}
+
+function setXmlContainerValue (value) {
+  xmlContainerDiv().value = value;
+}
+
+var getLoadedXmlAsString = function () {
+  return getXmlContainerValue();
 };
 
 var getLoadedXmlAsObject = function () {
@@ -197,7 +205,7 @@ var updateXmlForOrder = function (reactObj) {
   orderObject[topLvlName].IsPreview = reactObj.isPreview;
 
   finalOrderXml = objectToXml(orderObject);
-  xmlContainerDiv().value = finalOrderXml;
+  setXmlContainerValue(finalOrderXml);
   promise.resolve();
 
   return promise;
