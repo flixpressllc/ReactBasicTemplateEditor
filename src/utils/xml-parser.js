@@ -65,11 +65,6 @@ var convertSpecsToReactData = function (xmlObj) {
     xmlObj = xmlObj.RenderedData;
   }
 
-  // Audio Info
-  if (xmlObj.AudioInfo !== undefined) {
-    result.audioInfo = convertPropKeysForJs(xmlObj.AudioInfo);
-  }
-
   var what = Object.prototype.toString;
   if (xmlObj.Specs !== undefined) {
     result.nameValuePairs = [];
@@ -111,14 +106,22 @@ function getStartingResolutionsObject (obj) {
   return {resolutions: resolutions, resolutionId: resolutions[0].id};
 }
 
+function getStartingAudioObject (obj) {
+  if (obj.RenderedData && obj.RenderedData.AudioInfo !== undefined) {
+    return {audioInfo: convertPropKeysForJs(obj.RenderedData.AudioInfo)};
+  }
+  return {};
+}
+
 function getReactStartingData () {
   let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
   let specsObj = convertSpecsToReactData(obj);
   let resolutionsObj = getStartingResolutionsObject(obj);
+  let audioDataObj = getStartingAudioObject(obj);
   let isPreviewObj = {isPreview: obj.IsPreview};
 
-  return Object.assign({}, specsObj, resolutionsObj, isPreviewObj);
+  return Object.assign({}, specsObj, resolutionsObj, audioDataObj, isPreviewObj);
 }
 
 function objectToXml (object) {
