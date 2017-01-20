@@ -1,5 +1,4 @@
 'use strict';
-const xmlParser = jest.genMockFromModule('../confirm');
 
 
 let fakeGetAudioDone = jest.fn(cb => {
@@ -11,7 +10,7 @@ let doneable = {done: function (cb) {
   thenable.then(cb)
 }};
 
-xmlParser.getAudioOptions = jest.fn(() => doneable );
+const getAudioOptions = jest.fn(() => doneable );
 
 const fakeAudioObject = {
     categories: {
@@ -314,4 +313,4 @@ const fakeAudioObject = {
     ]
 }
 
-export default xmlParser;
+export default getAudioOptions;
