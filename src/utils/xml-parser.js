@@ -93,11 +93,10 @@ var convertSpecsToReactData = function (xmlObj) {
 };
 
 var getReactStartingData = function () {
-  var obj = getLoadedXmlAsObject();
-  var topLvlName = getTopLevelXmlName();
-  var result = convertSpecsToReactData(obj[topLvlName]);
+  var obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
+  var result = convertSpecsToReactData(obj);
 
-  var givenResolutions = obj[topLvlName].ResolutionOptions.ListItemViewModel;
+  var givenResolutions = obj.ResolutionOptions.ListItemViewModel;
   if (givenResolutions == false) {throw new Error('No resolutions available')}
   if (givenResolutions.length === undefined) {
     // jxon will only create an array if there is more than one value.
@@ -113,7 +112,7 @@ var getReactStartingData = function () {
   result.resolutionId = resolutions[0].id;
 
   // The easy one:
-  result.isPreview = obj[topLvlName].IsPreview;
+  result.isPreview = obj.IsPreview;
 
   return result;
 };
