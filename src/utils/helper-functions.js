@@ -57,6 +57,14 @@ export function nestedPropertyDetails (obj, propertyPathString) {
   return {exists: exists, existingPath: existingPath.join('.'), finalValidProperty: reducedObj}
 }
 
+export function nestedPropertyTest (obj, path, callback) {
+  let details = nestedPropertyDetails(obj, path)
+  if (details.exists) {
+    return !!callback(details.finalValidProperty);
+  }
+  return false;
+}
+
 export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
   var newObject = preserveOriginal ? clone(obj) : obj;

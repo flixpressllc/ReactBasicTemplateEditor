@@ -61,3 +61,22 @@ describe('nestedPropertyDetails', () => {
     expect(nestedPropertyDetails(obj, 'level1.level2.level3.level4').finalValidProperty).toEqual('I am here');
   });
 });
+
+describe('nestedPropertyTest', () => {
+  let nestedPropertyTest = hf.nestedPropertyTest;
+  it('returns false if a prop does not exist at some level', () => {
+    let obj = {level1: {level2: 'I am here'}};
+
+    expect(nestedPropertyTest(obj,'level1.level2.level3', (val) => true )).toEqual(false);
+  });
+  it('returns true for a successfull callback on an existing prop', () => {
+    let obj = {level1: {level2: 'I am here'}};
+
+    expect(nestedPropertyTest(obj,'level1.level2', (val) => val === 'I am here' )).toEqual(true);
+  });
+  it('returns false for an unsuccessful callback on an existing prop', () => {
+    let obj = {level1: {level2: 'I am here'}};
+
+    expect(nestedPropertyTest(obj,'level1.level2', (val) => val === 'I am not here' )).toEqual(false);
+  });
+});
