@@ -2,7 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty, nestedPropertyTest } from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty, nestedPropertyTest, isObject } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -98,7 +98,7 @@ function getStartingResolutionsObject (obj) {
 }
 
 function getStartingAudioObject (obj) {
-  if (obj.RenderedData && obj.RenderedData.AudioInfo !== undefined) {
+  if (nestedPropertyTest(obj, 'RenderedData.AudioInfo', isObject)) {
     return {audioInfo: convertPropKeysForJs(obj.RenderedData.AudioInfo)};
   }
   return {};
