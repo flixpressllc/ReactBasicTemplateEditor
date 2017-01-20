@@ -8,7 +8,7 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
-import xmlParser from '../utils/xml-parser';
+import renderDataAdapter from '../utils/renderDataAdapter';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
 import './EditorUserInterface.scss';
@@ -29,7 +29,7 @@ var EditorUserInterface = React.createClass({
   },
 
   getStartingData: function () {
-    var startingPoint = xmlParser.getReactStartingData();
+    var startingPoint = renderDataAdapter.getReactStartingData();
     var currentState = clone(this.state);
     var stateToMerge = clone(startingPoint);
 
@@ -220,7 +220,7 @@ var EditorUserInterface = React.createClass({
     }
 
     try {
-      xmlParser.updateXmlForOrder(order);
+      renderDataAdapter.updateXmlForOrder(order);
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
       });

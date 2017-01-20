@@ -1,4 +1,4 @@
-exports[`Parser getReactStartingData returns the expected object for a new TextOnly 1`] = `
+exports[`DataAdapter getReactStartingData returns the expected object for a new TextOnly 1`] = `
 Object {
   "isPreview": false,
   "resolutionId": 5,
@@ -19,7 +19,7 @@ Object {
 }
 `;
 
-exports[`Parser getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
+exports[`DataAdapter getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
 Object {
   "audioInfo": Object {
     "audioType": "StockAudio",
@@ -81,7 +81,7 @@ Object {
 }
 `;
 
-exports[`Parser updateXmlForOrder updates the container with the expected values for new TextOnly 1`] = `
+exports[`DataAdapter updateXmlForOrder updates the container with the expected values for new TextOnly 1`] = `
 "<?xml version=\"1.0\" encoding=\"utf-16\"?>
 <OrderRequestOfTextOnlyRndTemplate xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">
     <ResolutionId>5</ResolutionId>

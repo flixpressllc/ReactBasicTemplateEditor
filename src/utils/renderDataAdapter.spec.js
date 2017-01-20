@@ -1,5 +1,5 @@
 require('jxon');
-import Parser from './xml-parser';
+import DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 
@@ -148,15 +148,15 @@ const mockOrderObjForTextOnly79 = {
   "resolutionId": 5
 };
 
-describe('Parser', () => {
+describe('DataAdapter', () => {
   describe('getReactStartingData', () => {
     it('returns the expected object for a new TextOnly', () => {
       require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: startingTextOnlyXml})
-      expect(Parser.getReactStartingData()).toMatchSnapshot();
+      expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
     it('returns the expected object for a previously created TextOnly', () => {
       require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: previousTextOnlyXml})
-      expect(Parser.getReactStartingData()).toMatchSnapshot();
+      expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
   });
   describe('updateXmlForOrder', () => {
@@ -164,7 +164,7 @@ describe('Parser', () => {
       let dom = require('./dom-queries');
       dom.__setMockElement(XML_CONTAINER_ID, {value: startingTextOnlyXml});
 
-      Parser.updateXmlForOrder(mockOrderObjForTextOnly79);
+      DataAdapter.updateXmlForOrder(mockOrderObjForTextOnly79);
 
       expect(pretty(dom.getElementById(XML_CONTAINER_ID).value)).toMatchSnapshot();
     });
