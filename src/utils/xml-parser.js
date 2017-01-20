@@ -1,7 +1,6 @@
 import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
-import  Deferred  from './deferred';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
   nestedPropertyTest, isObject, isNotEmpty, wrapObjectWithProperty } from './helper-functions';
 
@@ -175,7 +174,6 @@ function addSpecsToOrderObj (orderObj, reactObj) {
 }
 
 function updateXmlForOrder (reactObj) {
-  var promise = Deferred();
   var orderObject = clone(startingPoint);
 
   orderObject = addResolutionToOrderObj(orderObject, reactObj);
@@ -185,9 +183,6 @@ function updateXmlForOrder (reactObj) {
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
-  promise.resolve();
-
-  return promise;
 };
 
 export default {

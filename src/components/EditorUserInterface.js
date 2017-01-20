@@ -219,22 +219,12 @@ var EditorUserInterface = React.createClass({
       }
     }
 
-    var orderPromise = new Promise((resolve,reject) => {
-
-    xmlParser.updateXmlForOrder(order)
-      .done(function(){
-        resolve()
-      })
-      .fail(function(failureReason){
-        reject(failureReason)
-      })
-    });
-
-    orderPromise.then(function(){
+    try {
+      xmlParser.updateXmlForOrder(order);
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
-      })
-    }.bind(this)).catch(function(failureReason){
+      });
+    } catch (failureReason) {
       var message = 'Order Failed.';
       if (failureReason !== undefined){
         message += ` The given reason was "${failureReason}"`;
@@ -244,13 +234,12 @@ var EditorUserInterface = React.createClass({
           {message: message}
         ]
       })
-
       // This method of calling console (essentially) tells the build
       // script that this is an intentional call, meant for production
       var c = console;
       c.log('Sent Object:',order);
       c.error('Order Failure: ' + failureReason);
-    }.bind(this));
+    }
   },
 
   handleChooseSong: function (audioInfo) {
