@@ -129,23 +129,18 @@ function getOrderResolutionObject (reactObj) {
 
 }
 
-function updateXmlForOrder (reactObj) {
-  var promise = Deferred();
-  var orderObject = clone(startingPoint);
-
-  let orderResolutionObj = getOrderResolutionObject(reactObj);
-
+function getOrderRenderedDataObject (reactObj) {
+  let orderObject = clone(startingPoint).RenderedData;
   // copy audio
   if (reactObj.audioInfo === undefined) {
-    promise.reject('No audioInfo was present');
+    throw new Error('No audioInfo was present');
   }
 
-  orderObject.RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
+  orderObject.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
 
   // Distribute Specs
   if (reactObj.ui === undefined) {
-    promise.reject('No Specs were sent');
-    return promise;
+    throw new Error('No Specs were sent');
   }
   for (var i = 0; i < reactObj.ui.length; i++) {
 
@@ -160,7 +155,7 @@ function updateXmlForOrder (reactObj) {
           });
         }
 
-        orderObject.RenderedData.Specs.SpCx.CSp.push({
+        orderObject.Specs.SpCx.CSp.push({
           $name: key,
           $val: 'CD|' + key + '|',
           SpCx: {
@@ -172,11 +167,20 @@ function updateXmlForOrder (reactObj) {
     }
 
   }
+  return {RenderedData: orderObject};
+}
+
+function updateXmlForOrder (reactObj) {
+  var promise = Deferred();
+  var orderObject = clone(startingPoint);
+
+  let orderResolutionObj = getOrderResolutionObject(reactObj);
+  let orderRenderedDataObj = getOrderRenderedDataObject(reactObj);
 
   //Preview?
   orderObject.IsPreview = reactObj.isPreview;
 
-  orderObject = Object.assign({}, orderObject, orderResolutionObj);
+  orderObject = Object.assign({}, orderObject, orderResolutionObj, orderRenderedDataObj);
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
