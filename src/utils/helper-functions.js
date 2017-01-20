@@ -16,6 +16,12 @@ export function isNotEmpty (obj) {
   return !isEmpty(obj);
 }
 
+export function wrapObjectWithProperty (obj, propName, preserveOriginal = true) {
+  let newObject = {};
+  newObject[propName] = clone(obj);
+  return newObject;
+}
+
 export function isObject(x) {
   if (x === null) { return false; }
   return ( typeof x === 'object' );

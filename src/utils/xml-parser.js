@@ -3,33 +3,31 @@ import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
-  nestedPropertyTest, isObject, isNotEmpty } from './helper-functions';
+  nestedPropertyTest, isObject, isNotEmpty, wrapObjectWithProperty } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
 var startingPoint = {
-  OrderRequestOfTextOnlyRndTemplate: {
-    "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
-    ResolutionId: 0,
-    RenderedData: {
-      Specs: {
-        $name: "Specs",
-        $val: "",
-        SpCx: {
-          CSp: []
-        }
-      },
-      AudioInfo: {
-        Name: null,
-        Length: "0",
-        AudioType: "NoAudio",
-        Id: "0",
-        AudioUrl: null
+  "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+  ResolutionId: 0,
+  RenderedData: {
+    Specs: {
+      $name: "Specs",
+      $val: "",
+      SpCx: {
+        CSp: []
       }
     },
-    IsPreview: false
-  }
+    AudioInfo: {
+      Name: null,
+      Length: "0",
+      AudioType: "NoAudio",
+      Id: "0",
+      AudioUrl: null
+    }
+  },
+  IsPreview: false
 };
 /* eslint-enable quotes */
 
@@ -130,17 +128,17 @@ var updateXmlForOrder = function (reactObj) {
   var finalOrderXml = '';
 
   // Pick a resolution
-  if (reactObj.resolutionId === undefined || reactObj.ResolutionId === 0) {
+  if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
     promise.reject('No ResolutionId was present');
   }
-  orderObject[topLvlName].ResolutionId = reactObj.resolutionId;
+  orderObject.ResolutionId = reactObj.resolutionId;
 
   // copy audio
   if (reactObj.audioInfo === undefined) {
     promise.reject('No audioInfo was present');
   }
 
-  orderObject[topLvlName].RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
+  orderObject.RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
 
   // Distribute Specs
   if (reactObj.ui === undefined) {
@@ -160,7 +158,7 @@ var updateXmlForOrder = function (reactObj) {
           });
         }
 
-        orderObject[topLvlName].RenderedData.Specs.SpCx.CSp.push({
+        orderObject.RenderedData.Specs.SpCx.CSp.push({
           $name: key,
           $val: 'CD|' + key + '|',
           SpCx: {
@@ -174,8 +172,9 @@ var updateXmlForOrder = function (reactObj) {
   }
 
   //Preview?
-  orderObject[topLvlName].IsPreview = reactObj.isPreview;
+  orderObject.IsPreview = reactObj.isPreview;
 
+  orderObject = wrapObjectWithProperty(orderObject, topLvlName);
   finalOrderXml = objectToXml(orderObject);
   setXmlContainerValue(finalOrderXml);
   promise.resolve();
