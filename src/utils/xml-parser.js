@@ -2,7 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty } from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty, nestedPropertyTest } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -57,34 +57,25 @@ var getTopLevelXmlName = function () {
 };
 
 
-var convertSpecsToReactData = function (xmlObj) {
-  var result = {};
-  if (xmlObj.RenderedData === undefined) {
-    return result;
-  } else {
-    xmlObj = xmlObj.RenderedData;
+var convertSpecsToReactData = function (givenXmlObj) {
+  if (!nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', Array.isArray)) {
+    return {};
   }
+  let specs = clone(givenXmlObj.RenderedData.Specs.SpCx.CSp);
 
-  var what = Object.prototype.toString;
-  if (xmlObj.Specs !== undefined) {
-    result.nameValuePairs = [];
-    if (what.call(xmlObj.Specs.SpCx.CSp) !== '[object Array]'){
-      // Make it into an array for consistency
-      xmlObj.Specs.SpCx.CSp = [clone(xmlObj.Specs.SpCx.CSp)]
-    }
-    for (var i = 0; i < xmlObj.Specs.SpCx.CSp.length; i++) {
-      var currentFieldsArray = xmlObj.Specs.SpCx.CSp[i].SpCx.Sp;
-      var name = '';
-      var value = '';
-      for ( var j = 0; currentFieldsArray.length > j; j++ ) {
-        name = currentFieldsArray[j].$name;
-        value = currentFieldsArray[j].$val;
-        result.nameValuePairs.push({name: name, value: value});
-      }
+  let nameValuePairs = [];
+  for (var i = 0; i < specs.length; i++) {
+    var currentFieldsArray = specs[i].SpCx.Sp;
+    var name = '';
+    var value = '';
+    for ( var j = 0; currentFieldsArray.length > j; j++ ) {
+      name = currentFieldsArray[j].$name;
+      value = currentFieldsArray[j].$val;
+      nameValuePairs.push({name: name, value: value});
     }
   }
 
-  return result;
+  return {nameValuePairs};
 };
 
 function getStartingResolutionsObject (obj) {
