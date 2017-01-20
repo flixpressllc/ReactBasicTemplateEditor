@@ -40,6 +40,23 @@ export function traverseObject (obj, callback, recursive = false, preserveOrigin
   return returnedObj;
 }
 
+export function nestedPropertyDetails (obj, propertyPathString) {
+  let pathParts = propertyPathString.split('.');
+  let reducedObj = clone(obj);
+  let exists = true;
+  let existingPath = [];
+  while (exists && pathParts.length > 0) {
+    let newPart = pathParts.shift();
+    if (reducedObj[newPart]) {
+      existingPath.push(newPart);
+      reducedObj = reducedObj[newPart];
+    } else {
+      exists = false;
+    }
+  }
+  return {exists: exists, existingPath: existingPath.join('.'), finalValidProperty: reducedObj}
+}
+
 export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
   var newObject = preserveOriginal ? clone(obj) : obj;

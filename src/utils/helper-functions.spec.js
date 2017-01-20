@@ -41,3 +41,23 @@ describe('changePropsInitialCase', () => {
     expect(returnObj).toEqual({one: 1, two: 2});
   });
 });
+
+describe('nestedPropertyDetails', () => {
+  let nestedPropertyDetails = hf.nestedPropertyDetails;
+  it('marks an existing property as true', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyDetails(obj, 'level1.level2').exists).toEqual(true);
+  });
+  it('marks a missing property as false', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyDetails(obj, 'level1.level2.level3.level4').exists).toEqual(false);
+  });
+  it('provides the existing path', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyDetails(obj, 'level1.level2.level3.level4').existingPath).toEqual('level1.level2');
+  });
+  it('provides the final found property', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyDetails(obj, 'level1.level2.level3.level4').finalValidProperty).toEqual('I am here');
+  });
+});
