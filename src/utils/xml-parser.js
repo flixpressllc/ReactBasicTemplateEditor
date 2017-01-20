@@ -2,7 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import {clone, changePropsInitialCase} from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -67,7 +67,7 @@ var convertSpecsToReactData = function (xmlObj) {
 
   // Audio Info
   if (xmlObj.AudioInfo !== undefined) {
-    result.audioInfo = changePropsInitialCase(xmlObj.AudioInfo, 'lowerFirst');
+    result.audioInfo = convertPropKeysForJs(xmlObj.AudioInfo);
   }
 
   var what = Object.prototype.toString;
@@ -107,7 +107,7 @@ var getReactStartingData = function () {
   // Eventual refactor for arrays of Objects?
   var resolutions = []
   for (var i=0; i < givenResolutions.length; i++) {
-    resolutions.push(changePropsInitialCase(givenResolutions[i],'lowerFirst'));
+    resolutions.push(convertPropKeysForJs(givenResolutions[i]));
   }
   result.resolutions = resolutions;
   result.resolutionId = resolutions[0].id;
@@ -139,7 +139,7 @@ var updateXmlForOrder = function (reactObj) {
     promise.reject('No audioInfo was present');
   }
 
-  orderObject[topLvlName].RenderedData.AudioInfo = changePropsInitialCase(reactObj.audioInfo, 'UpperFirst');
+  orderObject[topLvlName].RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
 
   // Distribute Specs
   if (reactObj.ui === undefined) {

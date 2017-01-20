@@ -63,10 +63,10 @@ export function changePropsInitialCase (obj, whichCase, recursive = false, prese
 }
 
 export function convertPropKeysForAsp (obj) {
-  return changePropsInitialCase(obj, 'UpperFirst', true);
+  return changePropsInitialCase(obj, 'UpperFirst', false);
 }
 
 export function convertPropKeysForJs (obj) {
-  return changePropsInitialCase(obj, 'lowerFirst', true);
+  return changePropsInitialCase(obj, 'lowerFirst', false);
 }
 
