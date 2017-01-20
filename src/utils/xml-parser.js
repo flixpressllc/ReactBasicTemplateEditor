@@ -2,7 +2,7 @@ import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import  Deferred  from './deferred';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp } from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -92,19 +92,22 @@ var convertSpecsToReactData = function (xmlObj) {
   return result;
 };
 
-function getStartingResolutionsArray (obj) {
+function getStartingResolutionsObject (obj) {
   let givenResolutions = obj.ResolutionOptions.ListItemViewModel;
-  if (givenResolutions == false) {throw new Error('No resolutions available')}
+  if (isEmpty(givenResolutions)) {throw new Error('No resolutions available')}
+
+  // jxon will only create an array if there is more than one value.
+  // We want an array every time.
   if (givenResolutions.length === undefined) {
-    // jxon will only create an array if there is more than one value.
-    // We want an array every time.
     givenResolutions = [givenResolutions];
   }
+
   // Eventual refactor for arrays of Objects?
   let resolutions = []
   for (let i=0; i < givenResolutions.length; i++) {
     resolutions.push(convertPropKeysForJs(givenResolutions[i]));
   }
+
   return {resolutions: resolutions, resolutionId: resolutions[0].id};
 }
 
@@ -112,10 +115,10 @@ function getReactStartingData () {
   let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
   let specsObj = convertSpecsToReactData(obj);
-  let resolutionsObject = getStartingResolutionsArray(obj);
-  let isPreviewObject = {isPreview: obj.IsPreview};
+  let resolutionsObj = getStartingResolutionsObject(obj);
+  let isPreviewObj = {isPreview: obj.IsPreview};
 
-  return Object.assign({}, specsObj, resolutionsObject, isPreviewObject);
+  return Object.assign({}, specsObj, resolutionsObj, isPreviewObj);
 }
 
 function objectToXml (object) {
