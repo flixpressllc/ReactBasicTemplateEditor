@@ -6,6 +6,7 @@
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItem {
+  @extend %base-container-styles;
   @include clearfix;
   background-color: rgba(150,150,150,0.5);
   padding: 10px;
