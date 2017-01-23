@@ -27,16 +27,18 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false,
-    proxy: {
-      '/templates/images/*': {
+    proxy: [
+      {
+        context: ['/templates/images/*'],
         target: 'https://flixpress.com',
         changeOrigin: true
       },
-      '/Scripts/flixpress-js/*': {
+      {
+        context: ['/Scripts/flixpress-js/*'],
         target: 'https://s3.amazonaws.com/FlixSamples/development_files',
         changeOrigin: true
       }
-    }
+    ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],

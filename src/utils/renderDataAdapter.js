@@ -1,8 +1,9 @@
 import jxon from './xmlAdapter';
-import { XML_CONTAINER_ID } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
-  nestedPropertyTest, isObject, isNotEmpty, wrapObjectWithProperty } from './helper-functions';
+  nestedPropertyTest, isObject, isNotEmpty,
+  traverseObject, wrapObjectWithProperty } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -50,8 +51,19 @@ var getLoadedXmlAsObject = function () {
   return jxon.stringToJs(getLoadedXmlAsString());
 };
 
+function isImageTemplate () {
+  return getTopLevelXmlName() === 'OrderRequestOfFSlidesRndTemplate';
+}
+
 var getTopLevelXmlName = function () {
-  return 'OrderRequestOfTextOnlyRndTemplate';
+  const allowedNames = ['OrderRequestOfTextOnlyRndTemplate', 'OrderRequestOfFSlidesRndTemplate']
+  let topLevelName = '';
+  traverseObject(getLoadedXmlAsObject(), key => {
+    if ( allowedNames.indexOf(key) !== -1 )
+    topLevelName = key;
+  });
+  if (topLevelName === '') throw new Error('no TopLevelName discovered in ' + getLoadedXmlAsString());
+  return topLevelName;
 };
 
 
@@ -105,6 +117,22 @@ function getStartingAudioObject (obj) {
   return {};
 }
 
+function getImagesFromHiddenField () {
+  let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
+  let imagesArray = imagesString.split('|');
+  return imagesArray.filter( val => isNotEmpty(val) ).map( (val, i) => {
+    return { id: i, url: val };
+  });
+}
+
+function getStartingUserImages (obj) {
+  // images may be in the object or on the page...
+  if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls', isNotEmpty)) {
+    // do a return in here
+  }
+  return {userImages: getImagesFromHiddenField()};
+}
+
 function getReactStartingData () {
   let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
@@ -112,8 +140,9 @@ function getReactStartingData () {
   let resolutionsObj = getStartingResolutionsObject(obj);
   let audioDataObj = getStartingAudioObject(obj);
   let isPreviewObj = {isPreview: obj.IsPreview};
+  let userImages = isImageTemplate() ? getStartingUserImages(obj) : {} ;
 
-  return Object.assign({}, specsObj, resolutionsObj, audioDataObj, isPreviewObj);
+  return Object.assign({}, specsObj, resolutionsObj, audioDataObj, isPreviewObj, userImages);
 }
 
 function objectToXml (object) {

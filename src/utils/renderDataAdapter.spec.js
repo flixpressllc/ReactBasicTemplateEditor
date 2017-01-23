@@ -1,7 +1,7 @@
 require('jxon');
 import DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
-import { XML_CONTAINER_ID } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 
 jest.mock('./dom-queries');
 
@@ -26,6 +26,28 @@ const startingTextOnlyXml = `<?xml version="1.0" encoding="utf-16"?>
   </ListItemViewModel>
 </ResolutionOptions>
 </OrderRequestOfTextOnlyRndTemplate>`;
+
+const startingImagesXml = `<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ResolutionId>0</ResolutionId>
+<IsPreview>false</IsPreview>
+<ResolutionOptions>
+  <ListItemViewModel>
+    <Id>5</Id>
+    <Name>720p</Name>
+  </ListItemViewModel>
+  <ListItemViewModel>
+    <Id>3</Id>
+    <Name>1080p</Name>
+  </ListItemViewModel>
+  <ListItemViewModel>
+    <Id>4</Id>
+    <Name>4K</Name>
+  </ListItemViewModel>
+</ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>`;
+
+const startingImagesCroppedImagesFormFieldValue = 'DonDentonAdmin_1-23-2017_94956756.png|DonDentonAdmin_1-23-2017_9502787.jpg|DonDentonAdmin_1-23-2017_9505506.png|';
 
 const previousTextOnlyXml = `<?xml version="1.0" encoding="utf-16"?>
 <OrderRequestOfTextOnlyRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -151,11 +173,18 @@ const mockOrderObjForTextOnly79 = {
 describe('DataAdapter', () => {
   describe('getReactStartingData', () => {
     it('returns the expected object for a new TextOnly', () => {
-      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: startingTextOnlyXml})
+      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: startingTextOnlyXml});
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
     it('returns the expected object for a previously created TextOnly', () => {
-      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: previousTextOnlyXml})
+      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: previousTextOnlyXml});
+      expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
+    });
+
+    it('returns the expected object for a new Images template', () => {
+      let dom = require('./dom-queries');
+      dom.__setMockElement(XML_CONTAINER_ID, {value: startingImagesXml});
+      dom.__setMockElement(IMAGES_CONTAINER_ID, {value: startingImagesCroppedImagesFormFieldValue});
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
   });

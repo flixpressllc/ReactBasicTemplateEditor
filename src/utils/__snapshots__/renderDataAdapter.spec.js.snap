@@ -1,3 +1,38 @@
+exports[`DataAdapter getReactStartingData returns the expected object for a new Images template 1`] = `
+Object {
+  "isPreview": false,
+  "resolutionId": 5,
+  "resolutions": Array [
+    Object {
+      "id": 5,
+      "name": "720p",
+    },
+    Object {
+      "id": 3,
+      "name": "1080p",
+    },
+    Object {
+      "id": 4,
+      "name": "4K",
+    },
+  ],
+  "userImages": Array [
+    Object {
+      "id": 0,
+      "url": "DonDentonAdmin_1-23-2017_94956756.png",
+    },
+    Object {
+      "id": 1,
+      "url": "DonDentonAdmin_1-23-2017_9502787.jpg",
+    },
+    Object {
+      "id": 2,
+      "url": "DonDentonAdmin_1-23-2017_9505506.png",
+    },
+  ],
+}
+`;
+
 exports[`DataAdapter getReactStartingData returns the expected object for a new TextOnly 1`] = `
 Object {
   "isPreview": false,

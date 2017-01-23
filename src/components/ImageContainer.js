@@ -1,5 +1,6 @@
 import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
+import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import './ImageContainer.scss';
 
 const DragHandle = SortableHandle(() => {
@@ -16,7 +17,7 @@ const ListImage = SortableElement( React.createClass({
   render: function () {
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
-        <img src={ this.props.item.url } />
+        <img src={ THUMBNAIL_URL_PREFIX + this.props.item.url } />
         <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
           <label htmlFor='caption'>
             Caption:
