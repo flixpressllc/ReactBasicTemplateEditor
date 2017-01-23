@@ -1,0 +1,124 @@
+exports[`DataAdapter getReactStartingData returns the expected object for a new TextOnly 1`] = `
+Object {
+  "isPreview": false,
+  "resolutionId": 5,
+  "resolutions": Array [
+    Object {
+      "id": 5,
+      "name": "720p",
+    },
+    Object {
+      "id": 3,
+      "name": "1080p",
+    },
+    Object {
+      "id": 4,
+      "name": "4K",
+    },
+  ],
+}
+`;
+
+exports[`DataAdapter getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
+Object {
+  "audioInfo": Object {
+    "audioType": "StockAudio",
+    "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+    "id": 13,
+    "length": 3,
+    "name": "Bunny Garden",
+  },
+  "isPreview": true,
+  "nameValuePairs": Array [
+    Object {
+      "name": "Icon Style",
+      "value": "camera",
+    },
+    Object {
+      "name": "Icon Character - type in only one (optional)",
+      "value": "q",
+    },
+    Object {
+      "name": "Background",
+      "value": "camo",
+    },
+    Object {
+      "name": "Icon Color",
+      "value": "icon_pink",
+    },
+    Object {
+      "name": "Main Text Color",
+      "value": "main_orange",
+    },
+    Object {
+      "name": "Subtitle Text Color",
+      "value": "sub_white",
+    },
+    Object {
+      "name": "Text Left of Icon",
+      "value": "Left",
+    },
+    Object {
+      "name": "Text Right of Icon",
+      "value": "Right",
+    },
+    Object {
+      "name": "Subtitle",
+      "value": "Bottom",
+    },
+  ],
+  "resolutionId": 5,
+  "resolutions": Array [
+    Object {
+      "id": 5,
+      "name": "720p",
+    },
+    Object {
+      "id": 3,
+      "name": "1080p",
+    },
+  ],
+}
+`;
+
+exports[`DataAdapter updateXmlForOrder updates the container with the expected values for new TextOnly 1`] = `
+"<?xml version=\"1.0\" encoding=\"utf-16\"?>
+<OrderRequestOfTextOnlyRndTemplate xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">
+    <ResolutionId>5</ResolutionId>
+    <RenderedData>
+        <Specs name=\"Specs\" val=\"\">
+            <SpCx>
+                <CSp name=\"Customize Icon\" val=\"CD|Customize Icon|\">
+                    <SpCx>
+                        <Sp name=\"Icon Style\" val=\"camera\" />
+                        <Sp name=\"Icon Character - type in only one (optional)\" val=\"q\" />
+                    </SpCx>
+                </CSp>
+                <CSp name=\"Customize Look\" val=\"CD|Customize Look|\">
+                    <SpCx>
+                        <Sp name=\"Background\" val=\"camo\" />
+                        <Sp name=\"Icon Color\" val=\"icon_pink\" />
+                        <Sp name=\"Main Text Color\" val=\"main_orange\" />
+                        <Sp name=\"Subtitle Text Color\" val=\"sub_white\" />
+                    </SpCx>
+                </CSp>
+                <CSp name=\"Customize Text\" val=\"CD|Customize Text|\">
+                    <SpCx>
+                        <Sp name=\"Text Left of Icon\" val=\"Left\" />
+                        <Sp name=\"Text Right of Icon\" val=\"Right\" />
+                        <Sp name=\"Subtitle\" val=\"Bottom\" />
+                    </SpCx>
+                </CSp>
+            </SpCx>
+        </Specs>
+        <AudioInfo>
+            <AudioType>StockAudio</AudioType>
+            <AudioUrl>https://fpsound.s3.amazonaws.com/13.mp3</AudioUrl>
+            <Id>13</Id>
+            <Length>3</Length>
+            <Name>Bunny Garden</Name>
+        </AudioInfo>
+    </RenderedData>
+    <IsPreview>true</IsPreview>
+</OrderRequestOfTextOnlyRndTemplate>"
+`;

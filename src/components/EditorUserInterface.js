@@ -8,7 +8,7 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
-import xmlParser from '../utils/xml-parser';
+import renderDataAdapter from '../utils/renderDataAdapter';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
 import './EditorUserInterface.scss';
@@ -41,7 +41,7 @@ var EditorUserInterface = React.createClass({
   },
 
   getStartingData: function () {
-    var startingPoint = xmlParser.getReactStartingData();
+    var startingPoint = renderDataAdapter.getReactStartingData();
     var currentState = clone(this.state);
     var stateToMerge = clone(startingPoint);
 
@@ -235,22 +235,12 @@ var EditorUserInterface = React.createClass({
       }
     }
 
-    var orderPromise = new Promise((resolve,reject) => {
-
-    xmlParser.updateXmlForOrder(order)
-      .done(function(){
-        resolve()
-      })
-      .fail(function(failureReason){
-        reject(failureReason)
-      })
-    });
-
-    orderPromise.then(function(){
+    try {
+      renderDataAdapter.updateXmlForOrder(order);
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
-      })
-    }.bind(this)).catch(function(failureReason){
+      });
+    } catch (failureReason) {
       var message = 'Order Failed.';
       if (failureReason !== undefined){
         message += ` The given reason was "${failureReason}"`;
@@ -260,13 +250,12 @@ var EditorUserInterface = React.createClass({
           {message: message}
         ]
       })
-
       // This method of calling console (essentially) tells the build
       // script that this is an intentional call, meant for production
       var c = console;
       c.log('Sent Object:',order);
       c.error('Order Failure: ' + failureReason);
-    }.bind(this));
+    }
   },
 
   handleChooseSong: function (audioInfo) {

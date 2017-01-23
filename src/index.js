@@ -5,6 +5,12 @@ import EditorUserInterface from './components/EditorUserInterface';
 
 require('reset.css');
 
+// Hack to get around server side code for now...
+if($('head').find('meta[content="width=device-width, initial-scale=1.0"]').length < 1) {
+  $('head').append($('<meta name="viewport" content="width=device-width, initial-scale=1.0">'));
+}
+// Ok. Onward...
+
 let reactPromise = new Promise((resolve) => {
 // In the future, React Engine may be loaded separately...
   function tryReact () {
