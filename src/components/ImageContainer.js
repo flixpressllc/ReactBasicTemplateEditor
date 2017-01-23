@@ -21,7 +21,7 @@ const ListImage = SortableElement( React.createClass({
         <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
           <label htmlFor='caption'>
             Caption:
-          </label>
+          </label><br/>
           <input
             type='text'
             name='caption'

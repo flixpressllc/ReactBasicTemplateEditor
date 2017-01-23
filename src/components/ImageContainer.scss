@@ -11,10 +11,12 @@
   background-color: rgba(150,150,150,0.5);
   padding: 10px;
   margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
-  float: right;
   cursor: move;
 
   > div {
