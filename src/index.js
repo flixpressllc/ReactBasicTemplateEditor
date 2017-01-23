@@ -25,6 +25,7 @@ let reactPromise = new Promise((resolve) => {
 
 function initializeTemplateEditor (options) {
   let settings = {
+    templateType: options.templateType,
     uiSettingsJsonUrl: options.uiSettingsJsonUrl,
     userSettingsData: options.userSettingsData
   };

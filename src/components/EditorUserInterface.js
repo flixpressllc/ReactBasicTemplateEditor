@@ -277,7 +277,9 @@ var EditorUserInterface = React.createClass({
     var editingUi = (<span></span>);
     if (this.state.ui !== undefined) {
       editingUi = (
-        <EditingUi uiSections={this.state.ui}
+        <EditingUi
+          templateType={ this.props.templateType}
+          uiSections={this.state.ui}
           allTextFields={this.state.textFields}
           allYouTubeLinks={this.state.youTubeLinks}
           allTextBoxes={this.state.textBoxes}
