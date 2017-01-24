@@ -1,5 +1,5 @@
 require('jxon');
-import DataAdapter from './renderDataAdapter';
+import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 

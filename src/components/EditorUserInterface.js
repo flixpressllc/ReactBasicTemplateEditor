@@ -8,7 +8,7 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
-import renderDataAdapter from '../utils/renderDataAdapter';
+import * as renderDataAdapter from '../utils/renderDataAdapter';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
 import './EditorUserInterface.scss';

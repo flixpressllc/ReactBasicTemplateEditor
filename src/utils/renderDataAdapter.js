@@ -214,7 +214,7 @@ function updateXmlForOrder (reactObj) {
   setXmlContainerValue( objectToXml(orderObject) );
 };
 
-export default {
+export {
   getReactStartingData,
   updateXmlForOrder
 };
