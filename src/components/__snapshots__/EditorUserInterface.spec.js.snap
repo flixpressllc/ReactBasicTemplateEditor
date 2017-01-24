@@ -1,0 +1,143 @@
+exports[`EditorUserInterface when text only and when starting fresh prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": undefined,
+    "isPreview": false,
+    "resolutionId": 5,
+    "ui": Array [
+      Object {
+        "Customize Icon": Array [
+          Object {
+            "name": "Icon Style",
+            "type": "DropDown",
+            "value": "",
+          },
+          Object {
+            "name": "Icon Character - type in only one (optional)",
+            "type": "TextField",
+            "value": "",
+          },
+        ],
+      },
+      Object {
+        "Customize Look": Array [
+          Object {
+            "name": "YT1",
+            "type": "YouTubeLink",
+            "value": "",
+          },
+          Object {
+            "name": "Icon Color",
+            "type": "DropDown",
+            "value": "",
+          },
+          Object {
+            "name": "Main Text Color",
+            "type": "ColorPicker",
+            "value": "0.0.0",
+          },
+          Object {
+            "name": "Subtitle Text Color",
+            "type": "ColorPicker",
+            "value": "256.100.100.50",
+          },
+        ],
+      },
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Subtitle",
+            "type": "TextBox",
+            "value": "",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`EditorUserInterface when text only and when starting with a preview prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 3,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "ui": Array [
+      Object {
+        "Customize Icon": Array [
+          Object {
+            "name": "Icon Style",
+            "type": "DropDown",
+            "value": "camera",
+          },
+          Object {
+            "name": "Icon Character - type in only one (optional)",
+            "type": "TextField",
+            "value": "q",
+          },
+        ],
+      },
+      Object {
+        "Customize Look": Array [
+          Object {
+            "name": "YT1",
+            "type": "YouTubeLink",
+            "value": "The Office Audition Tapes For Dwight, Michael, Kevin, Pam and Jim|S73Nzksy6rU|",
+          },
+          Object {
+            "name": "Icon Color",
+            "type": "DropDown",
+            "value": "icon_pink",
+          },
+          Object {
+            "name": "Main Text Color",
+            "type": "ColorPicker",
+            "value": "100.100.0",
+          },
+          Object {
+            "name": "Subtitle Text Color",
+            "type": "ColorPicker",
+            "value": "0.0.0.50",
+          },
+        ],
+      },
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "Left",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "Right",
+          },
+          Object {
+            "name": "Subtitle",
+            "type": "TextBox",
+            "value": "Bottom",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;

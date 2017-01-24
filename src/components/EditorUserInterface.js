@@ -29,13 +29,15 @@ var EditorUserInterface = React.createClass({
     });
   },
 
-  getStartingData: function () {
+  getStartingData: function () { return new Promise((resolve) => {
     var startingPoint = renderDataAdapter.getReactStartingData();
     var currentState = clone(this.state);
     var stateToMerge = clone(startingPoint);
 
     stateToMerge.defaultResolutionId = startingPoint.resolutionId;
 
+    // this is only done for previews that are re-edited
+    // the nameValuePairs prop's presence indicates that is is a re-edit
     if (startingPoint.nameValuePairs !== undefined) {
       var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
       var confirmedContainers = [];
@@ -64,8 +66,8 @@ var EditorUserInterface = React.createClass({
     // done with this now
     delete stateToMerge.nameValuePairs;
 
-    this.setState(stateToMerge);
-  },
+    this.setState(stateToMerge, resolve);
+  })},
 
   // Returns true if it passes, or an array of strings describing
   // why it didn't pass.
@@ -84,34 +86,30 @@ var EditorUserInterface = React.createClass({
     }
   },
 
-  tryJsonFile: function () { return new Promise((resolve,reject) => {
+  defineUi: function () { return new Promise( (resolve, reject) => {
     this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
     .then( result => {
-      resolve(); // The file exists. Below we check for bad data.
       var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
-        this.setState(result.data, this.getStartingData);
+        this.setState(result.data, resolve);
       } else {
         // Post Errors
         var errors = [];
         for (var i = 0; i < checkedResults.length; i++) {
-          errors.push({
-            message: checkedResults[i]
-          })
+          errors.push({ message: checkedResults[i] })
         }
-        this.setState({
-          caughtErrors: errors
-        })
+        this.setState({ caughtErrors: errors }, reject);
       }
-    })
-    .catch( error => {
-      reject(`${error.name}: ${error.message}`);
     });
   })},
 
-  componentDidMount: function () {
-    this.tryJsonFile()
-    .catch((possibleReason)=>{
+  setupEditor: function () { return new Promise((resolve, reject) => {
+    let defineUi = this.defineUi()
+    defineUi
+      .then(() => this.getStartingData())
+      .then(() => resolve());
+
+    defineUi.catch((possibleReason)=>{
       let errors = this.state.caughtErrors || [];
       errors.push({message: 'Could not load template data.'});
       if (possibleReason) { errors.push({message: possibleReason}); }
@@ -119,6 +117,10 @@ var EditorUserInterface = React.createClass({
         caughtErrors: errors
       });
     });
+  })},
+
+  componentDidMount: function () {
+    this.setupEditor();
   },
 
   componentWillUnmount: function () {
@@ -179,6 +181,9 @@ var EditorUserInterface = React.createClass({
   },
 
   transformYouTubeLinkData: function (linkObj) {
+    if (linkObj.title === undefined || linkObj.videoId === undefined) {
+      return '';
+    }
     linkObj.title = linkObj.title.replace('|',' ');
     linkObj.time = linkObj.time || '';
     return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
@@ -214,8 +219,17 @@ var EditorUserInterface = React.createClass({
             type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
             type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
 
-            if (type === 'youTubeLinks') {
-              order.ui[i][key][j].value = this.transformYouTubeLinkData(clone(this.state[type][name]));
+            // assure that a value exists
+            if (!this.state[type][name].value) {
+              order.ui[i][key][j].value = '';
+
+              if (type === 'youTubeLinks') {
+                if (this.state[type][name]) {
+                  order.ui[i][key][j].value = this.transformYouTubeLinkData(clone(this.state[type][name]));
+                } else {
+                  order.ui[i][key][j].value = '';
+                }
+              }
             } else {
               order.ui[i][key][j].value = this.state[type][name].value.toString();
             }

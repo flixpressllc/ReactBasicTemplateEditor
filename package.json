@@ -50,6 +50,7 @@
     "jquery": "^1.12.4",
     "js-stylesheet": "0.0.1",
     "json-loader": "^0.5.4",
+    "jsonfile": "^2.4.0",
     "minimist": "^1.2.0",
     "node-sass": "^3.9.3",
     "null-loader": "^0.1.1",
