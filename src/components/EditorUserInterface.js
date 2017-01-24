@@ -17,7 +17,6 @@ var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
       allowSubmit: false,
-      textFields: {},
       caughtErrors: [],
       userImages: []
     };
