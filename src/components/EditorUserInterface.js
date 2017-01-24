@@ -34,8 +34,6 @@ var EditorUserInterface = React.createClass({
     var currentState = clone(this.state);
     var stateToMerge = clone(startingPoint);
 
-    stateToMerge.defaultResolutionId = startingPoint.resolutionId;
-
     // this is only done for previews that are re-edited
     // the nameValuePairs prop's presence indicates that is is a re-edit
     if (startingPoint.nameValuePairs !== undefined) {
@@ -267,7 +265,7 @@ var EditorUserInterface = React.createClass({
 
   render: function() {
     var resolutionPicker = (<span></span>);
-    if (this.state.defaultResolutionId !== undefined) {
+    if (this.state.resolutionId !== undefined) {
       resolutionPicker = (
         <ResolutionPicker
           resolutionOptions={this.state.resolutions}
