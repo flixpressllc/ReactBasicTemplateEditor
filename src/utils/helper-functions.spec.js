@@ -112,11 +112,11 @@ describe('objectContainsValue', () => {
   let objectContainsValue = hf.objectContainsValue;
   it('returns true if an object contains the given value', () => {
     const obj = {name: 'Stanley', demeanor: 'angry'}
-    expect(objectContainsValue(obj, 'angry')).toEqual(true);
+    expect(objectContainsValue('angry', obj)).toEqual(true);
   });
   it('returns false if an object does not contain the given value', () => {
     const obj = {name: 'Stanley', demeanor: 'angry'}
-    expect(objectContainsValue(obj, 'happy')).toEqual(false);
+    expect(objectContainsValue('happy', obj)).toEqual(false);
   });
 });
 
@@ -124,10 +124,10 @@ describe('objectKeyForValue', () => {
   let objectKeyForValue = hf.objectKeyForValue;
   it('gives the correct key for a given value', () => {
     const obj = {name: 'Stanley', demeanor: 'angry'}
-    expect(objectKeyForValue(obj, 'Stanley')).toEqual('name');
+    expect(objectKeyForValue('Stanley', obj)).toEqual('name');
   });
   it('returns false for a non-existant value', () => {
     const obj = {name: 'Stanley', demeanor: 'angry'}
-    expect(objectKeyForValue(obj, 'Jim')).toEqual(false);
+    expect(objectKeyForValue('Jim', obj)).toEqual(false);
   });
 });

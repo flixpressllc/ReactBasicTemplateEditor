@@ -132,12 +132,12 @@ export function valuesArrayFromObject (obj) {
   return Object.keys(obj).map(key => obj[key]);
 }
 
-export function objectContainsValue(obj, val) {
+export function objectContainsValue(val, obj) {
   return valuesArrayFromObject(obj).indexOf(val) !== -1;
 }
 
-export function objectKeyForValue (obj, val) {
-  if (!objectContainsValue(obj, val)) return false;
+export function objectKeyForValue (val, obj) {
+  if (!objectContainsValue(val, obj)) return false;
   return Object.keys(obj).reduce((a, currentKey) => {
     if (obj[currentKey] === val) {a = currentKey;}
     return a;
