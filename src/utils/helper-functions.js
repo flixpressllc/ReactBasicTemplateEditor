@@ -1,3 +1,24 @@
+// see https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+// via http://stackoverflow.com/a/7390612/1386201
+/*
+    toType({a: 4}); //"object"
+    toType([1, 2, 3]); //"array"
+    (function() {console.log(toType(arguments))})(); //"arguments"
+    toType(new ReferenceError); //"error"
+    toType(new Date); //"date"
+    toType(/a-z/); //"regexp"
+    toType(Math); //"math"
+    toType(JSON); //"json"
+    toType(new Number(4)); //"number"
+    toType(new String("abc")); //"string"
+    toType(new Boolean(true)); //"boolean"
+    toType(null); //"null"
+    toType(); //"undefined"
+*/
+export function toType (obj) {
+  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+}
+
 export function round(value, decimals) {
     decimals = decimals === undefined ? 2 : decimals;
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
@@ -23,8 +44,7 @@ export function wrapObjectWithProperty (obj, propName, preserveOriginal = true) 
 }
 
 export function isObject(x) {
-  if (x === null) { return false; }
-  return ( typeof x === 'object' );
+  return ( toType(x) === 'object' );
 }
 
 // Traverses an object.
@@ -105,3 +125,21 @@ export function convertPropKeysForJs (obj) {
   return changePropsInitialCase(obj, 'lowerFirst', true);
 }
 
+export function valuesArrayFromObject (obj) {
+  if (!isObject(obj)) {
+    throw new Error(`'obj' was not an object. Was ${toType(obj)}`);
+  }
+  return Object.keys(obj).map(key => obj[key]);
+}
+
+export function objectContainsValue(obj, val) {
+  return valuesArrayFromObject(obj).indexOf(val) !== -1;
+}
+
+export function objectKeyForValue (obj, val) {
+  if (!objectContainsValue(obj, val)) return false;
+  return Object.keys(obj).reduce((a, currentKey) => {
+    if (obj[currentKey] === val) {a = currentKey;}
+    return a;
+  }, '');
+}

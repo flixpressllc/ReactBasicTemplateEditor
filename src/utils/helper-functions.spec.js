@@ -80,3 +80,54 @@ describe('nestedPropertyTest', () => {
     expect(nestedPropertyTest(obj,'level1.level2', (val) => val === 'I am not here' )).toEqual(false);
   });
 });
+
+describe('toType', () => {
+  let toType = hf.toType;
+  it('returns all expected strings', () => {
+    expect(toType({a: 4})).toEqual("object");
+    expect(toType([1, 2, 3])).toEqual("array");
+    expect( (function() {return toType(arguments)})() ).toEqual("arguments");
+    expect(toType(new ReferenceError)).toEqual("error");
+    expect(toType(new Date)).toEqual("date");
+    expect(toType(/a-z/)).toEqual("regexp");
+    expect(toType(Math)).toEqual("math");
+    expect(toType(JSON)).toEqual("json");
+    expect(toType(new Number(4))).toEqual("number");
+    expect(toType(new String("abc"))).toEqual("string");
+    expect(toType(new Boolean(true))).toEqual("boolean");
+    expect(toType(null)).toEqual("null");
+    expect(toType()).toEqual("undefined");
+  });
+});
+
+describe('valuesArrayFromObject', () => {
+  let valuesArrayFromObject = hf.valuesArrayFromObject;
+  it('returns an array of values from a given object', () => {
+    const obj = {name: 'Stanley', demeanor: 'angry'}
+    expect(valuesArrayFromObject(obj)).toEqual(['Stanley', 'angry']);
+  });
+});
+
+describe('objectContainsValue', () => {
+  let objectContainsValue = hf.objectContainsValue;
+  it('returns true if an object contains the given value', () => {
+    const obj = {name: 'Stanley', demeanor: 'angry'}
+    expect(objectContainsValue(obj, 'angry')).toEqual(true);
+  });
+  it('returns false if an object does not contain the given value', () => {
+    const obj = {name: 'Stanley', demeanor: 'angry'}
+    expect(objectContainsValue(obj, 'happy')).toEqual(false);
+  });
+});
+
+describe('objectKeyForValue', () => {
+  let objectKeyForValue = hf.objectKeyForValue;
+  it('gives the correct key for a given value', () => {
+    const obj = {name: 'Stanley', demeanor: 'angry'}
+    expect(objectKeyForValue(obj, 'Stanley')).toEqual('name');
+  });
+  it('returns false for a non-existant value', () => {
+    const obj = {name: 'Stanley', demeanor: 'angry'}
+    expect(objectKeyForValue(obj, 'Jim')).toEqual(false);
+  });
+});
