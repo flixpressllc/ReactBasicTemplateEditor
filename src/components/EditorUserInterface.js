@@ -11,7 +11,10 @@ import Modal from 'react-modal';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
+import { traverseObject } from '../utils/helper-functions';
 import './EditorUserInterface.scss';
+
+const DATA_CONTAINER_NAMES = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -23,46 +26,46 @@ var EditorUserInterface = React.createClass({
   },
 
   handlePlacePreviewOrder: function () {
-    this.setState({isPreview: true},function () {
+    this.setState({isPreview: true}, function () {
       this.handlePlaceOrder();
     });
   },
 
-  getStartingData: function () { return new Promise((resolve) => {
-    var startingPoint = renderDataAdapter.getReactStartingData();
-    var currentState = clone(this.state);
-    var stateToMerge = clone(startingPoint);
+  extractAndReplacePreviewRenderValues: function (stateToMerge) {
+    if (stateToMerge.nameValuePairs === undefined) return stateToMerge;
 
-    // this is only done for previews that are re-edited
-    // the nameValuePairs prop's presence indicates that is is a re-edit
-    if (startingPoint.nameValuePairs !== undefined) {
-      var dataTypeContainers = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
-      var confirmedContainers = [];
-      for (var i = dataTypeContainers.length - 1; i >= 0; i--) {
-        if (currentState.hasOwnProperty(dataTypeContainers[i])) {
-          stateToMerge[dataTypeContainers[i]] = clone(currentState[dataTypeContainers[i]]);
-          confirmedContainers.push(dataTypeContainers[i]);
-        }
-      }
-
-      for (var i = 0; i < startingPoint.nameValuePairs.length; i++) {
-        var name = startingPoint.nameValuePairs[i].name;
-        var value = startingPoint.nameValuePairs[i].value;
-        for (var j = confirmedContainers.length - 1; j >= 0; j--) {
-          if(stateToMerge[confirmedContainers[j]].hasOwnProperty(name)){
-            if (stateToMerge[confirmedContainers[j]] === 'youTubeLinks') {
-              stateToMerge[confirmedContainers[j]][name] = this.getYouTubeLinkData(value);
-            } else {
-              stateToMerge[confirmedContainers[j]][name].value = value;
-            }
-          }
-        }
-      }
-    }
-
-    // done with this now
+    let nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
+      a[pair.name] = pair.value;
+      return a;
+    }, {});
+    let nameValuePairsArray = stateToMerge.nameValuePairs;
     delete stateToMerge.nameValuePairs;
 
+    let currentContainerState = DATA_CONTAINER_NAMES.reduce((a, containerName) => {
+      if(!this.state.hasOwnProperty(containerName)) return a;
+      a[containerName] = clone(this.state[containerName]);
+      return a;
+    }, {});
+
+    stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
+
+    DATA_CONTAINER_NAMES.map((containerName) => {
+      stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
+        obj.value = nameValuePairsObj[formIdName];
+        if (containerName === 'youTubeLinks') {
+          obj = Object.assign({}, obj, this.transformYouTubeRenderStringToData(nameValuePairsObj[formIdName]));
+        }
+        return [formIdName, obj];
+      })
+    });
+
+    // done with this now
+    return stateToMerge;
+  },
+
+  getStartingData: function () { return new Promise((resolve) => {
+    let stateToMerge = renderDataAdapter.getReactStartingData();
+    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
     this.setState(stateToMerge, resolve);
   })},
 
@@ -177,7 +180,7 @@ var EditorUserInterface = React.createClass({
     this.setState({userImages: newArray});
   },
 
-  transformYouTubeLinkData: function (linkObj) {
+  transformYouTubeDataToRenderString: function (linkObj) {
     if (linkObj.title === undefined || linkObj.videoId === undefined) {
       return '';
     }
@@ -186,12 +189,14 @@ var EditorUserInterface = React.createClass({
     return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
   },
 
-  getYouTubeLinkData: function (linkObj) {
-    const parts = linkObj.value.split('|');
+  transformYouTubeRenderStringToData: function (renderString) {
+    let linkObj = {};
+
+    const parts = renderString.split('|');
     linkObj.title = parts[0];
     linkObj.videoId = parts[1];
     linkObj.time = parts[2];
-    linkObj.value = linkObj.title;
+    linkObj.value = linkObj.videoId; // This is what gets displayed
     return linkObj;
   },
 
@@ -216,20 +221,22 @@ var EditorUserInterface = React.createClass({
             type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
             type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
 
-            // assure that a value exists
-            if (!this.state[type][name].value) {
-              order.ui[i][key][j].value = '';
-
-              if (type === 'youTubeLinks') {
-                if (this.state[type][name]) {
-                  order.ui[i][key][j].value = this.transformYouTubeLinkData(clone(this.state[type][name]));
-                } else {
-                  order.ui[i][key][j].value = '';
-                }
+            if (type === 'youTubeLinks') {
+              if (this.state[type][name]) {
+                let ytDataOut = this.transformYouTubeDataToRenderString(clone(this.state[type][name]));
+                order.ui[i][key][j].value = ytDataOut;
+              } else {
+                order.ui[i][key][j].value = '';
               }
             } else {
-              order.ui[i][key][j].value = this.state[type][name].value.toString();
+              // assure that a value exists
+              if (!this.state[type][name].value) {
+                order.ui[i][key][j].value = '';
+              } else {
+                order.ui[i][key][j].value = this.state[type][name].value.toString();
+              }
             }
+
           }
         }
       }
