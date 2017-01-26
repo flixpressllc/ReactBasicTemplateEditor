@@ -3,7 +3,8 @@ import { mount, render } from 'enzyme';
 import EditorUserInterface from '../src/components/EditorUserInterface';
 
 // need to really mock out lost of jquery stuff
-xdescribe('Feature: Images only display in image templates', () => {
+describe('Feature: Images only display in image templates', () => {
+  pending();
   beforeAll( () => { global.window.$ = () => {}; } )
   it('renders images', () => {
     let settings = {
