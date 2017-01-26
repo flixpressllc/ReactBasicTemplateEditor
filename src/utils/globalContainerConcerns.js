@@ -116,7 +116,7 @@ export function getContainerNameFor (dataType) {
   return pluralName;
 }
 
-let __testingFunctions = {
+let __privateFunctions = {
   _resetValues,
   _addContainerName,
   _addPluralName
@@ -129,4 +129,4 @@ let __privateVars = {
   _pluralsDictionary
 };
 
-export { __testingFunctions, __privateVars };
+export { __privateFunctions, __privateVars };
