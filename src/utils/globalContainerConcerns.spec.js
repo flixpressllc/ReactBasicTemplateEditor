@@ -5,16 +5,23 @@ import {
   getToRenderStringFunctionFor,
   getToDataObjectFunctionFor,
   getContainerNameFor,
-  getDataTypeFor,
+  getDataTypeNameFor,
   __privateFunctions,
   __privateVars
 } from './globalContainerConcerns';
 
 describe('registerDataType', () => {
   beforeEach(__privateFunctions._resetValues);
-  it('adds a data-type name to the list', () => {
-    registerDataType('textField');
-    expect(__privateVars()._dataTypeNames).toEqual(['textField']);
+  describe('when given a string in the first argument', () => {
+    it('adds a data-type name to the list', () => {
+      registerDataType('textField');
+      expect(__privateVars()._dataTypeNames).toEqual(['textField']);
+    });
+  });
+  describe('when given an object in the first argument', () => {
+    it('requires the "name" property', () => {
+      expect( () => registerDataType({}) ).toThrow();
+    });
   });
   describe('when given only a data type name', () => {
     it('adds a container name based on the data type plus an "s"', () => {
@@ -34,14 +41,14 @@ describe('registerDataType', () => {
   });
   describe('when given a container name name', () => {
     it('adds the container name given', () => {
-      registerDataType('textField', 'monkeyBox');
+      registerDataType('textField', {containerName: 'monkeyBox'});
       expect(__privateVars()._containerNamesDictionary).toEqual({textField: 'monkeyBox'});
     });
   });
   describe('when given a toRenderString function', () => {
     it('adds that function to the lookup', () => {
       let theFunction = function textFieldToRenderString () { return 'hello'; };
-      registerDataType('textField', null, theFunction);
+      registerDataType('textField', {toRenderString: theFunction});
       expect(__privateVars()._toRenderStringFunctions.textField.name)
         .toEqual('textFieldToRenderString');
     });
@@ -49,7 +56,7 @@ describe('registerDataType', () => {
   describe('when given a toDataObject function', () => {
     it('adds that function to the lookup', () => {
       let theFunction = function textFieldToDataObject () { return 'hello'; };
-      registerDataType('textField', null, null, theFunction);
+      registerDataType('textField', {toDataObject: theFunction});
       expect(__privateVars()._toDataObjectFunctions.textField.name)
         .toEqual('textFieldToDataObject');
     });
@@ -94,24 +101,29 @@ describe('getToDataObjectFunctionFor', () => {
 
 describe('getContainerNameFor', () => {
   beforeEach(__privateFunctions._resetValues);
-  it('returns plural names for container names', () => {
-    __privateFunctions._addPluralName('textField', 'textFields');
-    __privateFunctions._addPluralName('textBox', 'textBoxes');
+  it('returns container names for data type names', () => {
+    __privateFunctions._addContainerName('textField', 'textFields');
+    __privateFunctions._addContainerName('textBox', 'textBoxes');
     expect(getContainerNameFor('textField')).toEqual('textFields');
     expect(getContainerNameFor('textBox')).toEqual('textBoxes');
   });
 });
 
-describe('getDataTypeFor', () => {
+describe('getDataTypeNameFor', () => {
   beforeEach(__privateFunctions._resetValues);
-  pending();
+  it('returns the proper data type name for a given container name', () => {
+    __privateFunctions._addContainerName('textField', 'textFields');
+    __privateFunctions._addContainerName('textBox', 'textBoxes');
+    expect(getDataTypeNameFor('textFields')).toEqual('textField');
+    expect(getDataTypeNameFor('textBoxes')).toEqual('textBox');
+  });
 });
 
-describe('_addPluralName', () => {
+describe('_addContainerName', () => {
   beforeEach(__privateFunctions._resetValues);
   it('adds an s if no plural name is supplied', () => {
-    __privateFunctions._addPluralName('textField');
-    expect(getContainerNameFor('textField')).toEqual('textFields');
+    __privateFunctions._addContainerName('textField');
+    expect(__privateVars()._containerNamesDictionary.textField).toEqual('textFields');
   });
 });
 

@@ -1,6 +1,6 @@
 import {
   isObject, valuesArrayFromObject, objectContainsValue,
-  objectKeyForValue, toType } from './helper-functions';
+  objectKeyForValue, toType, isEmpty } from './helper-functions';
 
 let _dataTypeNames;
 let _toRenderStringFunctions;
@@ -62,37 +62,54 @@ function _addGenericToDataObjectFunction (dataTypeName) {
   _toDataObjectFunctions[dataTypeName] = _createGenericToDataObjectFunction();
 }
 
-function _addPluralName (dataTypeName, dataTypeContainerName) {
-  if (dataTypeContainerName === null || dataTypeContainerName === undefined) {
-    dataTypeContainerName = dataTypeName + 's';
+function _addContainerName (dataTypeName, containerName) {
+  if (containerName === null || containerName === undefined || containerName === '') {
+    containerName = dataTypeName + 's';
   }
-  if (typeof dataTypeContainerName !== 'string') {
-    throw new Error(`'dataTypeContainerName' name "${dataTypeContainerName}" is not a valid string.`);
+  if (typeof containerName !== 'string') {
+    throw new Error(`Second argument for \`_addContainerName\` must be either empty or a string. Was given ${toType(containerName)}`);
   }
-  if (objectContainsValue(dataTypeContainerName, _containerNamesDictionary)) {
-    throw new Error(`The name ${dataTypeContainerName} was already registered.`);
+  if (objectContainsValue(containerName, _containerNamesDictionary)) {
+    throw new Error(`The name "${containerName}" was already registered.`);
   }
-  _containerNamesDictionary[dataTypeName] = dataTypeContainerName;
+  _containerNamesDictionary[dataTypeName] = containerName;
 }
 
-export function registerDataType (dataTypeName, dataTypeContainerName, toRenderStringFunction, toDataObjectFunction) {
-  _addDataTypeName(dataTypeName);
-  _addPluralName(dataTypeName, dataTypeContainerName)
-  if (toRenderStringFunction) {
-    _addToRenderStringFunction(dataTypeName, toRenderStringFunction);
+export function registerDataType (dataTypeName, options = {}) {
+  if (typeof dataTypeName === 'string') {
+    options.name = dataTypeName;
+  } else if (isObject(dataTypeName)) {
+    options = dataTypeName;
+    if (isEmpty(options.name)) {
+      throw new Error('When an object is given as the first argument for `registerDataType`, the `name` property must be included.')
+    }
   } else {
-    _addGenericToRenderStringFunction(dataTypeName);
+    throw new Error(`The first argument for registerDataType must be either a string or an object. Was ${toType(dataTypeName)}`);
   }
-  if (toDataObjectFunction) {
-    _addToDataObjectFunction(dataTypeName, toDataObjectFunction);
+
+
+  _addDataTypeName(options.name);
+  _addContainerName(options.name, options.containerName)
+  if (options.toRenderString) {
+    _addToRenderStringFunction(dataTypeName, options.toRenderString);
   } else {
-    _addGenericToDataObjectFunction(dataTypeName);
+    _addGenericToRenderStringFunction(options.name);
+  }
+  if (options.toDataObject) {
+    _addToDataObjectFunction(dataTypeName, options.toDataObject);
+  } else {
+    _addGenericToDataObjectFunction(options.name);
   }
 }
 
 export function getDataTypeNames () {
   // Always will contain strings. No need for the clone function
   return [].concat(_dataTypeNames);
+}
+
+export function getContainerNames () {
+  // Always will contain strings. No need for the clone function
+  return [].concat(valuesArrayFromObject(_containerNamesDictionary));
 }
 
 export function getToRenderStringFunctionFor (dataTypeName) {
@@ -111,10 +128,10 @@ export function getToDataObjectFunctionFor (dataTypeName) {
   return desiredFunction;
 }
 
-export function getDataTypeFor (dataTypeContainerName) {
+export function getDataTypeNameFor (dataTypeContainerName) {
   let key = objectKeyForValue(dataTypeContainerName, _containerNamesDictionary);
   if (key === false) {
-    throw new Error(`There is no plural container name called ${dataTypeContainerName}.`);
+    throw new Error(`There is no container name called "${dataTypeContainerName}"`);
   }
   return key;
 }
@@ -130,7 +147,7 @@ export function getContainerNameFor (dataTypeName) {
 let __privateFunctions = {
   _resetValues,
   _addDataTypeName,
-  _addPluralName,
+  _addContainerName,
   _addToDataObjectFunction,
   _addToRenderStringFunction,
   _addGenericToRenderStringFunction,
