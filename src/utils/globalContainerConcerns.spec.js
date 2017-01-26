@@ -1,7 +1,7 @@
 import { toType } from './helper-functions';
 import {
   registerDataType,
-  getContainerNames,
+  getDataTypeNames,
   getToRenderStringFunctionFor,
   getToDataObjectFunctionFor,
   getContainerNameFor,
@@ -10,22 +10,59 @@ import {
   __privateVars
 } from './globalContainerConcerns';
 
-function registerSomeFakeData () {
-
-}
-
 describe('registerDataType', () => {
   beforeEach(__privateFunctions._resetValues);
-  pending();
+  it('adds a data-type name to the list', () => {
+    registerDataType('textField');
+    expect(__privateVars()._dataTypeNames).toEqual(['textField']);
+  });
+  describe('when given only a data type name', () => {
+    it('adds a container name based on the data type plus an "s"', () => {
+      registerDataType('textField');
+      expect(__privateVars()._containerNamesDictionary).toEqual({textField: 'textFields'});
+    });
+    it('adds a generic toRenderString function', () => {
+      registerDataType('textField');
+      expect(__privateVars()._toRenderStringFunctions.textField.toString())
+        .toEqual(__privateFunctions._createGenericToRenderStringFunction().toString());
+    });
+    it('adds a generic toDataObject function', () => {
+      registerDataType('textField');
+      expect(__privateVars()._toDataObjectFunctions.textField.toString())
+        .toEqual(__privateFunctions._createGenericToDataObjectFunction().toString());
+    });
+  });
+  describe('when given a container name name', () => {
+    it('adds the container name given', () => {
+      registerDataType('textField', 'monkeyBox');
+      expect(__privateVars()._containerNamesDictionary).toEqual({textField: 'monkeyBox'});
+    });
+  });
+  describe('when given a toRenderString function', () => {
+    it('adds that function to the lookup', () => {
+      let theFunction = function textFieldToRenderString () { return 'hello'; };
+      registerDataType('textField', null, theFunction);
+      expect(__privateVars()._toRenderStringFunctions.textField.name)
+        .toEqual('textFieldToRenderString');
+    });
+  });
+  describe('when given a toDataObject function', () => {
+    it('adds that function to the lookup', () => {
+      let theFunction = function textFieldToDataObject () { return 'hello'; };
+      registerDataType('textField', null, null, theFunction);
+      expect(__privateVars()._toDataObjectFunctions.textField.name)
+        .toEqual('textFieldToDataObject');
+    });
+  });
 });
 
-describe('getContainerNames', () => {
+describe('getDataTypeNames', () => {
   beforeEach(__privateFunctions._resetValues);
   it('returns container names as an array', () => {
-    __privateFunctions._addContainerName('one');
-    __privateFunctions._addContainerName('two');
-    __privateFunctions._addContainerName('three');
-    expect(getContainerNames()).toEqual(['one', 'two', 'three']);
+    __privateFunctions._addDataTypeName('one');
+    __privateFunctions._addDataTypeName('two');
+    __privateFunctions._addDataTypeName('three');
+    expect(getDataTypeNames()).toEqual(['one', 'two', 'three']);
   });
 });
 
