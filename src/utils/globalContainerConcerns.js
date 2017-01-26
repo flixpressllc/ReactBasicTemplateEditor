@@ -1,13 +1,13 @@
 import {
   isObject, valuesArrayFromObject, objectContainsValue,
-  objectKeyForValue, toType, isEmpty } from './helper-functions';
+  objectKeyForValue, toType, isEmpty, clone } from './helper-functions';
 
 let _dataTypeNames;
 let _toRenderStringFunctions;
 let _toDataObjectFunctions;
 let _containerNamesDictionary;
 
-function _resetValues () {
+export function _resetValues () {
   _dataTypeNames = [];
   _toRenderStringFunctions = {};
   _toDataObjectFunctions = {};
@@ -32,7 +32,7 @@ function _addToDataObjectFunction (dataTypeName, theFunction) {
   _toDataObjectFunctions[dataTypeName] = theFunction;
 }
 
-function _createGenericToRenderStringFunction () {
+export function _createGenericToRenderStringFunction () {
   return function genericToRenderString (containerDataNode) {
     if (!isObject(containerDataNode)) {
       throw new Error(`The containerDataNode given was not an object with a "value" property containing a string. Was ${containerDataNode}`);
@@ -47,10 +47,10 @@ function _addGenericToRenderStringFunction (dataTypeName) {
   _toRenderStringFunctions[dataTypeName] = _createGenericToRenderStringFunction();
 }
 
-function _createGenericToDataObjectFunction () {
-  return (containerDataNode, renderString) => {
+export function _createGenericToDataObjectFunction () {
+  return (renderString, containerDataNode) => {
     if (!isObject(containerDataNode)) {
-      throw new Error(`The containerDataNode given was not an object. Was ${containerDataNode}`);
+      throw new Error(`The containerDataNode given was not an object. Was ${toType(containerDataNode)}. This function must merge an already-defined object with previous render data.`);
     }
     let newDataNode = clone(containerDataNode);
     newDataNode.value = renderString;
@@ -144,18 +144,6 @@ export function getContainerNameFor (dataTypeName) {
   return pluralName;
 }
 
-let __privateFunctions = {
-  _resetValues,
-  _addDataTypeName,
-  _addContainerName,
-  _addToDataObjectFunction,
-  _addToRenderStringFunction,
-  _addGenericToRenderStringFunction,
-  _addGenericToDataObjectFunction,
-  _createGenericToDataObjectFunction,
-  _createGenericToRenderStringFunction
-};
-
 let __privateVars = () => { return {
   _dataTypeNames,
   _toRenderStringFunctions,
@@ -163,4 +151,4 @@ let __privateVars = () => { return {
   _containerNamesDictionary
 }};
 
-export { __privateFunctions, __privateVars };
+export { __privateVars };
