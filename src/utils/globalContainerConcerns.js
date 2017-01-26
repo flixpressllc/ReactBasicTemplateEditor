@@ -119,7 +119,9 @@ export function getContainerNameFor (dataType) {
 let __privateFunctions = {
   _resetValues,
   _addContainerName,
-  _addPluralName
+  _addPluralName,
+  _addToDataObjectFunction,
+  _addToRenderStringFunction
 };
 
 let __privateVars = {

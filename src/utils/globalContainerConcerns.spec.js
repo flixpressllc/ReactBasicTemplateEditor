@@ -1,3 +1,4 @@
+import { toType } from './helper-functions';
 import {
   registerDataType,
   getContainerNames,
@@ -30,12 +31,28 @@ describe('getContainerNames', () => {
 
 describe('getToRenderStringFunctionFor', () => {
   beforeEach(__privateFunctions._resetValues);
-  pending();
+  it('returns the correct function for the given data type', () => {
+    let fakeYtFunction = () => {return 'hello';};
+    let fakeTextFieldFunction = () => {return 'hello there';};
+    __privateFunctions._addToRenderStringFunction('youTubeLink', fakeYtFunction);
+    __privateFunctions._addToRenderStringFunction('textField', fakeTextFieldFunction);
+
+    expect(getToRenderStringFunctionFor('textField')).toBe(fakeTextFieldFunction);
+    expect(getToRenderStringFunctionFor('youTubeLink')).toBe(fakeYtFunction);
+  });
 });
 
 describe('getToDataObjectFunctionFor', () => {
   beforeEach(__privateFunctions._resetValues);
-  pending();
+  it('returns the correct function for the given data type', () => {
+    let fakeYtFunction = () => {return 'hello';};
+    let fakeTextFieldFunction = () => {return 'hello there';};
+    __privateFunctions._addToDataObjectFunction('youTubeLink', fakeYtFunction);
+    __privateFunctions._addToDataObjectFunction('textField', fakeTextFieldFunction);
+
+    expect(getToDataObjectFunctionFor('textField')).toBe(fakeTextFieldFunction);
+    expect(getToDataObjectFunctionFor('youTubeLink')).toBe(fakeYtFunction);
+  });
 });
 
 describe('getContainerNameFor', () => {
