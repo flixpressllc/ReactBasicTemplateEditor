@@ -14,6 +14,7 @@
     toType(new Boolean(true)); //"boolean"
     toType(null); //"null"
     toType(); //"undefined"
+    toType( () => {} ); //"function"
 */
 export function toType (obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();

@@ -84,19 +84,20 @@ describe('nestedPropertyTest', () => {
 describe('toType', () => {
   let toType = hf.toType;
   it('returns all expected strings', () => {
-    expect(toType({a: 4})).toEqual("object");
-    expect(toType([1, 2, 3])).toEqual("array");
-    expect( (function() {return toType(arguments)})() ).toEqual("arguments");
-    expect(toType(new ReferenceError)).toEqual("error");
-    expect(toType(new Date)).toEqual("date");
-    expect(toType(/a-z/)).toEqual("regexp");
-    expect(toType(Math)).toEqual("math");
-    expect(toType(JSON)).toEqual("json");
-    expect(toType(new Number(4))).toEqual("number");
-    expect(toType(new String("abc"))).toEqual("string");
-    expect(toType(new Boolean(true))).toEqual("boolean");
-    expect(toType(null)).toEqual("null");
-    expect(toType()).toEqual("undefined");
+    expect(toType({a: 4})).toEqual('object');
+    expect(toType([1, 2, 3])).toEqual('array');
+    expect( (function() {return toType(arguments)})() ).toEqual('arguments');
+    expect(toType(new ReferenceError)).toEqual('error');
+    expect(toType(new Date)).toEqual('date');
+    expect(toType(/a-z/)).toEqual('regexp');
+    expect(toType(Math)).toEqual('math');
+    expect(toType(JSON)).toEqual('json');
+    expect(toType(new Number(4))).toEqual('number');
+    expect(toType(new String('abc'))).toEqual('string');
+    expect(toType(new Boolean(true))).toEqual('boolean');
+    expect(toType(null)).toEqual('null');
+    expect(toType()).toEqual('undefined');
+    expect(toType(() => {})).toEqual('function');
   });
 });
 
