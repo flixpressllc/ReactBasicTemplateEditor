@@ -110,12 +110,20 @@ export function changePropsInitialCase (obj, whichCase, recursive = false, prese
     if (key.charAt(0).match(regex) === null) return originals;
     let newKey = '';
     if (makeAspVersion) {
-      newKey = key.charAt(0).toUpperCase() + key.slice(1);
+      newKey = firstCharToUpper(key);
     } else {
-      newKey = key.charAt(0).toLowerCase() + key.slice(1);
+      newKey = firstCharToLower(key);
     }
     return [newKey, prop];
   }, recursive);
+}
+
+export function firstCharToUpper (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function firstCharToLower (string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
 export function convertPropKeysForAsp (obj) {
