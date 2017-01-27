@@ -1,6 +1,10 @@
 import React from 'react';
-
 import {clone} from './imports';
+import { getJSON } from '../utils/ajax';
+import { find } from '../utils/dom-queries';
+import { traverseObject } from '../utils/helper-functions';
+import * as renderDataAdapter from '../utils/renderDataAdapter';
+import * as dc from '../utils/globalContainerConcerns';
 
 import Messages from './UserMessages';
 import SubmitRender from './SubmitRender';
@@ -8,13 +12,12 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
-import * as renderDataAdapter from '../utils/renderDataAdapter';
-import { getJSON } from '../utils/ajax';
-import { find } from '../utils/dom-queries';
-import { traverseObject } from '../utils/helper-functions';
+
 import './EditorUserInterface.scss';
 
-const DATA_CONTAINER_NAMES = ['textFields', 'dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks'];
+const MOVED_NAMES = dc.getContainerNames();
+const UNMOVED_NAMES = ['dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks']
+const DATA_CONTAINER_NAMES = UNMOVED_NAMES.concat(MOVED_NAMES);
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
@@ -50,13 +53,22 @@ var EditorUserInterface = React.createClass({
     stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
 
     DATA_CONTAINER_NAMES.map((containerName) => {
-      stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
-        obj.value = nameValuePairsObj[formIdName];
-        if (containerName === 'youTubeLinks') {
-          obj = Object.assign({}, obj, this.transformYouTubeRenderStringToData(nameValuePairsObj[formIdName]));
-        }
-        return [formIdName, obj];
-      })
+      console.log(containerName)
+      if (MOVED_NAMES.indexOf(containerName) > -1) {
+        // do the new stuff
+        stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
+          return [formIdName, dc.getToDataObjectFunctionFor(dc.getDataTypeNameFor(containerName))(nameValuePairsObj[formIdName], obj)];
+        })
+      } else {
+        // do the old stuff
+        stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
+          obj.value = nameValuePairsObj[formIdName];
+          if (containerName === 'youTubeLinks') {
+            obj = Object.assign({}, obj, this.transformYouTubeRenderStringToData(nameValuePairsObj[formIdName]));
+          }
+          return [formIdName, obj];
+        })
+      }
     });
 
     // done with this now
