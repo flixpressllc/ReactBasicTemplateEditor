@@ -198,37 +198,37 @@ var EditorUserInterface = React.createClass({
   populateOrderUi: function () {
     let orderUi = this.state.ui
     // add values to order.ui
-    for (var i = 0; i < orderUi.length; i++) {
-      for (var key in orderUi[i]) {
-        if (orderUi[i].hasOwnProperty(key)) {
-          for (var j = 0; j < orderUi[i][key].length; j++) {
-            var name = orderUi[i][key][j].name;
-            var type = orderUi[i][key][j].type;
+    orderUi = orderUi.map(sectionObjContainerObj =>{
+      sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataArray) => {
+        for (var j = 0; j < formDataArray.length; j++) {
+          var name = formDataArray[j].name;
+          var type = formDataArray[j].type;
 
-            // convert things like 'TextField' to 'textFields'
-            type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
-            type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
+          // convert things like 'TextField' to 'textFields'
+          type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
+          type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
 
-            if (type === 'youTubeLinks') {
-              if (this.state[type][name]) {
-                let ytDataOut = this.transformYouTubeDataToRenderString(clone(this.state[type][name]));
-                orderUi[i][key][j].value = ytDataOut;
-              } else {
-                orderUi[i][key][j].value = '';
-              }
+          if (type === 'youTubeLinks') {
+            if (this.state[type][name]) {
+              let ytDataOut = this.transformYouTubeDataToRenderString(clone(this.state[type][name]));
+              formDataArray[j].value = ytDataOut;
             } else {
-              // assure that a value exists
-              if (!this.state[type][name].value) {
-                orderUi[i][key][j].value = '';
-              } else {
-                orderUi[i][key][j].value = this.state[type][name].value.toString();
-              }
+              formDataArray[j].value = '';
             }
-
+          } else {
+            // assure that a value exists
+            if (!this.state[type][name].value) {
+              formDataArray[j].value = '';
+            } else {
+              formDataArray[j].value = this.state[type][name].value.toString();
+            }
           }
+
         }
-      }
-    }
+        return [sectionName, formDataArray];
+      });
+      return sectionObjContainerObj;
+    });
     return orderUi;
   },
 
