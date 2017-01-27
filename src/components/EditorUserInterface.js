@@ -185,46 +185,20 @@ var EditorUserInterface = React.createClass({
     this.setState({userImages: newArray});
   },
 
-  transformYouTubeDataToRenderString: function (linkObj) {
-    if (linkObj.title === undefined || linkObj.videoId === undefined) {
-      return '';
-    }
-    linkObj.title = linkObj.title.replace('|',' ');
-    linkObj.time = linkObj.time || '';
-    return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
-  },
-
   populateOrderUi: function () {
-    let orderUi = this.state.ui
+    let orderUi = clone(this.state.ui);
     // add values to order.ui
     orderUi = orderUi.map(sectionObjContainerObj =>{
-      sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataArray) => {
-        for (var j = 0; j < formDataArray.length; j++) {
-          var name = formDataArray[j].name;
-          var type = formDataArray[j].type;
+      sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataObjectArray) => {
+        formDataObjectArray = formDataObjectArray.map(formDataObj => {
+          let formIdName = formDataObj.name;
+          let type = firstCharToLower(formDataObj.type);   // 'TextField' to 'textField'
+          let containerName = dc.getContainerNameFor(type);
 
-          // convert things like 'TextField' to 'textFields'
-          type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
-          type = (type == 'textBoxs') ? 'textBoxes' : type; // TODO: fix this hack
-
-          if (type === 'youTubeLinks') {
-            if (this.state[type][name]) {
-              let ytDataOut = this.transformYouTubeDataToRenderString(clone(this.state[type][name]));
-              formDataArray[j].value = ytDataOut;
-            } else {
-              formDataArray[j].value = '';
-            }
-          } else {
-            // assure that a value exists
-            if (!this.state[type][name].value) {
-              formDataArray[j].value = '';
-            } else {
-              formDataArray[j].value = this.state[type][name].value.toString();
-            }
-          }
-
-        }
-        return [sectionName, formDataArray];
+          formDataObj.value = dc.getToRenderStringFunctionFor(type)(this.state[containerName][formIdName]);
+          return formDataObj;
+        });
+        return [sectionName, formDataObjectArray];
       });
       return sectionObjContainerObj;
     });

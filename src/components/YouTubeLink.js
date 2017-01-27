@@ -17,8 +17,17 @@ function youTubeRenderStringToData (renderString, obj) {
   return Object.assign({}, obj, linkObj);
 }
 
+function youTubeDataToRenderString (linkObj) {
+  if (linkObj.title === undefined || linkObj.videoId === undefined) {
+    return '';
+  }
+  linkObj.title = linkObj.title.replace('|',' ');
+  linkObj.time = linkObj.time || '';
+  return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
+}
+
 registerDataType('youTubeLink', {
-  // toRenderString: youTubeDataToRenderString,
+  toRenderString: youTubeDataToRenderString,
   toDataObject: youTubeRenderStringToData
 });
 
