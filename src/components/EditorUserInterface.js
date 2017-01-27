@@ -34,6 +34,12 @@ var EditorUserInterface = React.createClass({
     });
   },
 
+  mergeAllNodesInContainerWithPreviewStringData: function (container, dataTypeName, nameValuePairsObj) {
+    return traverseObject(container, (formIdName, obj) => {
+      return [formIdName, dc.getToDataObjectFunctionFor(dataTypeName)(nameValuePairsObj[formIdName], obj)];
+    })
+  },
+
   extractAndReplacePreviewRenderValues: function (stateToMerge) {
     if (stateToMerge.nameValuePairs === undefined) return stateToMerge;
 
@@ -53,12 +59,11 @@ var EditorUserInterface = React.createClass({
     stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
 
     DATA_CONTAINER_NAMES.map((containerName) => {
-      console.log(containerName)
       if (MOVED_NAMES.indexOf(containerName) > -1) {
         // do the new stuff
-        stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
-          return [formIdName, dc.getToDataObjectFunctionFor(dc.getDataTypeNameFor(containerName))(nameValuePairsObj[formIdName], obj)];
-        })
+        let dataTypeName = dc.getDataTypeNameFor(containerName);
+        let container = stateToMerge[containerName];
+        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
       } else {
         // do the old stuff
         stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
