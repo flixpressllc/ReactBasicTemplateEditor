@@ -14,9 +14,7 @@ import Modal from 'react-modal';
 
 import './EditorUserInterface.scss';
 
-const MOVED_NAMES = dc.getContainerNames();
-const UNMOVED_NAMES = []
-const DATA_CONTAINER_NAMES = UNMOVED_NAMES.concat(MOVED_NAMES);
+const DATA_CONTAINER_NAMES = dc.getContainerNames();
 
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
