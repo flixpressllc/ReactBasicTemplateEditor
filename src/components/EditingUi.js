@@ -7,7 +7,7 @@ import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
 
 import { registerDataType, getContainerNameFor } from '../utils/globalContainerConcerns';
-import { firstCharToLower, firstCharToUpper } from '../utils/helper-functions';
+import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
 
 import './EditingUi.scss';
 
@@ -55,6 +55,19 @@ var EditingUi = React.createClass({
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
     />);
+  },
+
+  createUserImageChooser: function (name, object) {
+    var safeName = name.replace(' ','-');
+    if (isEmpty(object.userImages)) return null;
+    return (
+      <ImageContainer
+        fieldName={ name }
+        images={ object.userImages }
+        onUpdateImages={ this.props.onUpdateImages }
+        key={`text-field-${safeName}`}
+      />
+    );
   },
 
   createYouTubeLink: function (name, object) {
@@ -164,7 +177,6 @@ var EditingUi = React.createClass({
       var type = inputArray[i].type;
       var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
       var object = this.props[container][name];
-
       components.push(this['create' + type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
@@ -179,9 +191,6 @@ var EditingUi = React.createClass({
   render: function () {
     var uiSections = this.props.uiSections
     let fieldsObj = this.getFieldsForPreviewImage();
-    let imageContainer = this.props.templateType === 'images' ?
-      <ImageContainer images={ this.props.allUserImages } onUpdateImages={ this.props.onUpdateImages } /> :
-      null;
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
       for (var sectionName in uiSections[i]){
@@ -191,7 +200,6 @@ var EditingUi = React.createClass({
     return (
       <div id="editing-ui" className="editing-ui component">
         { sections }
-        { imageContainer }
         <PreviewImage
           name={this.state.previewImageName}
           type={ this.state.previewImageType }

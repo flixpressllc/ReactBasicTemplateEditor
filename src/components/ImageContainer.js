@@ -5,7 +5,7 @@ import { registerDataType } from '../utils/globalContainerConcerns';
 
 import './ImageContainer.scss';
 
-registerDataType('userImages', {containerName: 'userImagesContainer'});
+registerDataType('userImageChooser');
 
 const DragHandle = SortableHandle(() => {
   return (

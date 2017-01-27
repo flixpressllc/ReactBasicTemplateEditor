@@ -14,8 +14,6 @@ import Modal from 'react-modal';
 
 import './EditorUserInterface.scss';
 
-const DATA_CONTAINER_NAMES = dc.getContainerNames();
-
 var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
@@ -42,6 +40,7 @@ var EditorUserInterface = React.createClass({
   extractAndReplacePreviewRenderValues: function (stateToMerge) {
     if (stateToMerge.nameValuePairs === undefined) return stateToMerge;
 
+    const DATA_CONTAINER_NAMES = dc.getContainerNames();
     let nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
       a[pair.name] = pair.value;
       return a;
@@ -69,9 +68,22 @@ var EditorUserInterface = React.createClass({
     return stateToMerge;
   },
 
+  imagesAreSnowflakes: function (stateToMerge) {
+    if (this.props.templateType !== 'images') return stateToMerge;
+    let newStateToMerge = clone(stateToMerge);
+
+    let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
+      imageChooser.userImages = newStateToMerge.userImages;
+      return [key, imageChooser];
+    });
+    newStateToMerge.userImageChoosers = singlePopulatedChooser;
+    return newStateToMerge;
+  },
+
   getStartingData: function () { return new Promise((resolve) => {
     let stateToMerge = renderDataAdapter.getReactStartingData();
     stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
+    stateToMerge = this.imagesAreSnowflakes(stateToMerge);
     this.setState(stateToMerge, resolve);
   })},
 
@@ -271,7 +283,7 @@ var EditorUserInterface = React.createClass({
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}
-          allUserImages={ this.state.userImages }
+          allUserImageChoosers={ this.state.userImageChoosers }
           onUpdateImages={ this.handleUpdateImages }
         />
       );

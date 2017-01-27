@@ -10,7 +10,7 @@
       "previewImage": "79_letter.jpg"
     }
   },
-  "userImages": {
+  "userImageChoosers": {
     "Your Two Images": {
       "value": ""
     }
@@ -25,6 +25,14 @@
         {
           "type": "TextField",
           "name": "Text Right of Icon"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "Your Two Images"
         }
       ]
     }

@@ -65,8 +65,10 @@ export function traverseObject (obj, callback, recursive = false, preserveOrigin
       }
     }
     let keyValArray = callback(key, newObject[key]);
-    if (Array.isArray(keyValArray) && keyValArray.length > 1) {
+    if (Array.isArray(keyValArray) && keyValArray.length === 2) {
       returnedObj[keyValArray[0]] = keyValArray[1];
+    } else if (!isEmpty(keyValArray)) {
+      throw new Error(`It looks lik you might have been trying to construct a new object, but you returned something other than an array that looks like [key, value]. You returned ${keyValArray}`);
     }
   }
   return returnedObj;
