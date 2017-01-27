@@ -1,0 +1,32 @@
+{
+  "templateId": 2000,
+  "textFields": {
+    "Text Left of Icon": {
+      "value": "",
+      "previewImage": "79_letter.jpg"
+    },
+    "Text Right of Icon": {
+      "value": "",
+      "previewImage": "79_letter.jpg"
+    }
+  },
+  "userImages": {
+    "Your Two Images": {
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Text Left of Icon"
+        },
+        {
+          "type": "TextField",
+          "name": "Text Right of Icon"
+        }
+      ]
+    }
+  ]
+}

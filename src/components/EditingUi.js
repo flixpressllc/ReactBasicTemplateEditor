@@ -6,7 +6,8 @@ import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
 
-import { registerDataType } from '../utils/globalContainerConcerns';
+import { registerDataType, getContainerNameFor } from '../utils/globalContainerConcerns';
+import { firstCharToLower, firstCharToUpper } from '../utils/helper-functions';
 
 import './EditingUi.scss';
 
@@ -161,10 +162,10 @@ var EditingUi = React.createClass({
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
       var type = inputArray[i].type;
-      var container = 'all' + type + 's';
-      container = (container == 'allTextBoxs') ? 'allTextBoxes' : container; // TODO: fix this hack
+      var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
       var object = this.props[container][name];
-      components.push(this['create' + inputArray[i].type](name, object));
+
+      components.push(this['create' + type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
     return (
@@ -179,7 +180,7 @@ var EditingUi = React.createClass({
     var uiSections = this.props.uiSections
     let fieldsObj = this.getFieldsForPreviewImage();
     let imageContainer = this.props.templateType === 'images' ?
-      <ImageContainer images={ this.props.userImages } onUpdateImages={ this.props.onUpdateImages } /> :
+      <ImageContainer images={ this.props.allUserImages } onUpdateImages={ this.props.onUpdateImages } /> :
       null;
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
@@ -189,12 +190,12 @@ var EditingUi = React.createClass({
     }
     return (
       <div id="editing-ui" className="editing-ui component">
-        {sections}
+        { sections }
+        { imageContainer }
         <PreviewImage
           name={this.state.previewImageName}
           type={ this.state.previewImageType }
           fields={ fieldsObj }/>
-        { imageContainer }
       </div>
     );
   }

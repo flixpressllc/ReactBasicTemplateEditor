@@ -1,7 +1,11 @@
 import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
+import { registerDataType } from '../utils/globalContainerConcerns';
+
 import './ImageContainer.scss';
+
+registerDataType('userImages', {containerName: 'userImagesContainer'});
 
 const DragHandle = SortableHandle(() => {
   return (

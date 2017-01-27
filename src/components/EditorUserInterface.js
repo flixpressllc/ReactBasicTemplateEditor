@@ -1,7 +1,7 @@
 import React from 'react';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
-import { traverseObject, firstCharToLower, clone } from '../utils/helper-functions';
+import { traverseObject, firstCharToLower, clone, isEmpty } from '../utils/helper-functions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
 
@@ -20,8 +20,7 @@ var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
       allowSubmit: false,
-      caughtErrors: [],
-      userImages: []
+      caughtErrors: []
     };
   },
 
@@ -32,6 +31,9 @@ var EditorUserInterface = React.createClass({
   },
 
   mergeAllNodesInContainerWithPreviewStringData: function (container, dataTypeName, nameValuePairsObj) {
+    if (isEmpty(container)) {
+      throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
+    }
     return traverseObject(container, (formIdName, obj) => {
       return [formIdName, dc.getToDataObjectFunctionFor(dataTypeName)(nameValuePairsObj[formIdName], obj)];
     })
@@ -58,7 +60,9 @@ var EditorUserInterface = React.createClass({
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
       let container = stateToMerge[containerName];
-      stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
+      if (!isEmpty(container)) {
+        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
+      }
     });
 
     // done with this now
@@ -106,7 +110,7 @@ var EditorUserInterface = React.createClass({
   })},
 
   setupEditor: function () { return new Promise((resolve) => {
-    let defineUi = this.defineUi()
+    let defineUi = this.defineUi();
     defineUi
       .then(() => this.getStartingData())
       .then(() => resolve());
@@ -267,7 +271,7 @@ var EditorUserInterface = React.createClass({
           onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}
-          userImages={ this.state.userImages }
+          allUserImages={ this.state.userImages }
           onUpdateImages={ this.handleUpdateImages }
         />
       );

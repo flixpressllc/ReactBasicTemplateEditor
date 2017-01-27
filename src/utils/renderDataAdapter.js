@@ -129,6 +129,7 @@ function getStartingUserImages (obj) {
   // images may be in the object or on the page...
   if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls', isNotEmpty)) {
     // do a return in here
+    throw new Error('Returning preview render data for images is not yet implemented');
   }
   return {userImages: getImagesFromHiddenField()};
 }
