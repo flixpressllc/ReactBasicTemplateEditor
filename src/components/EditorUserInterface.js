@@ -16,7 +16,7 @@ import Modal from 'react-modal';
 import './EditorUserInterface.scss';
 
 const MOVED_NAMES = dc.getContainerNames();
-const UNMOVED_NAMES = ['dropDowns', 'textBoxes', 'colorPickers', 'youTubeLinks']
+const UNMOVED_NAMES = ['youTubeLinks']
 const DATA_CONTAINER_NAMES = UNMOVED_NAMES.concat(MOVED_NAMES);
 
 var EditorUserInterface = React.createClass({

@@ -1,6 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
+import { registerDataType } from '../utils/globalContainerConcerns';
+
 import './TextBox.scss';
+
+registerDataType('textBox', {containerName: 'textBoxes'});
 
 export default React.createClass({
   handleTextEdit: function(event){
@@ -9,11 +13,11 @@ export default React.createClass({
       event.target.value
     );
   },
-  
+
   handleFocus: function () {
     this.props.onTextBoxFocus(this.props.fieldName);
   },
-  
+
   render: function(){
     return(
       <div className={cx(this.props.className,'reactBasicTemplateEditor-TextBox')}>

@@ -3,7 +3,11 @@ import cx from 'classnames';
 import { SketchPicker } from 'react-color';
 import { Checkboard } from 'react-color/lib/components/common';
 import reactCSS from 'reactcss';
+import { registerDataType } from '../utils/globalContainerConcerns';
+
 import './ColorPicker.scss';
+
+registerDataType('colorPicker');
 
 var ColorPicker = React.createClass({
   getInitialState: function () {
@@ -75,7 +79,7 @@ var ColorPicker = React.createClass({
       this.makeString(color.rgb)
     );
   },
-  
+
   render: function(){
     const color = this.color();
     const styles = reactCSS({
@@ -121,14 +125,14 @@ var ColorPicker = React.createClass({
         <label htmlFor={this.props.fieldName}>
           {this.props.fieldName}
         </label>
-        
+
         <div className='reactBasicTemplateEditor-ColorPicker-swatch' style={ styles.swatch } onClick={ this.handleClick }>
           <div className='reactBasicTemplateEditor-ColorPicker-swatchColor' style={ styles.color }>
             <Checkboard size={5} />
             <div style={ styles.activeColor }/>
           </div>
         </div>
-        
+
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose } />
           <div style={ styles.safeZone } >
@@ -139,7 +143,7 @@ var ColorPicker = React.createClass({
               onChange={ this.handleColorChange } />
           </div>
         </div> : null }
-      
+
       </div>
     );
   }

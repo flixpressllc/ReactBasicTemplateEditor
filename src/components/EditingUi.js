@@ -5,7 +5,12 @@ import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
+
+import { registerDataType } from '../utils/globalContainerConcerns';
+
 import './EditingUi.scss';
+
+registerDataType('dropDown');
 
 var EditingUi = React.createClass({
   getInitialState: function () {
