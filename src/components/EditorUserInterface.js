@@ -16,7 +16,7 @@ import Modal from 'react-modal';
 import './EditorUserInterface.scss';
 
 const MOVED_NAMES = dc.getContainerNames();
-const UNMOVED_NAMES = ['youTubeLinks']
+const UNMOVED_NAMES = []
 const DATA_CONTAINER_NAMES = UNMOVED_NAMES.concat(MOVED_NAMES);
 
 var EditorUserInterface = React.createClass({
@@ -59,21 +59,10 @@ var EditorUserInterface = React.createClass({
     stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
 
     DATA_CONTAINER_NAMES.map((containerName) => {
-      if (MOVED_NAMES.indexOf(containerName) > -1) {
-        // do the new stuff
-        let dataTypeName = dc.getDataTypeNameFor(containerName);
-        let container = stateToMerge[containerName];
-        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
-      } else {
-        // do the old stuff
-        stateToMerge[containerName] = traverseObject(stateToMerge[containerName], (formIdName, obj) => {
-          obj.value = nameValuePairsObj[formIdName];
-          if (containerName === 'youTubeLinks') {
-            obj = Object.assign({}, obj, this.transformYouTubeRenderStringToData(nameValuePairsObj[formIdName]));
-          }
-          return [formIdName, obj];
-        })
-      }
+      // do the new stuff
+      let dataTypeName = dc.getDataTypeNameFor(containerName);
+      let container = stateToMerge[containerName];
+      stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
     });
 
     // done with this now
@@ -204,17 +193,6 @@ var EditorUserInterface = React.createClass({
     linkObj.title = linkObj.title.replace('|',' ');
     linkObj.time = linkObj.time || '';
     return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
-  },
-
-  transformYouTubeRenderStringToData: function (renderString) {
-    let linkObj = {};
-
-    const parts = renderString.split('|');
-    linkObj.title = parts[0];
-    linkObj.videoId = parts[1];
-    linkObj.time = parts[2];
-    linkObj.value = linkObj.videoId; // This is what gets displayed
-    return linkObj;
   },
 
   handlePlaceOrder: function () {

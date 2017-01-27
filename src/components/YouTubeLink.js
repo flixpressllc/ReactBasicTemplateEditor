@@ -2,7 +2,25 @@ import React from 'react';
 import cx from 'classnames';
 import { YOU_TUBE_API_KEY } from '../stores/app-settings';
 import { getJSON } from '../utils/ajax';
+import { registerDataType } from '../utils/globalContainerConcerns';
+
 import './YouTubeLink.scss';
+
+function youTubeRenderStringToData (renderString, obj) {
+  let linkObj = {};
+
+  const parts = renderString.split('|');
+  linkObj.title = parts[0];
+  linkObj.videoId = parts[1];
+  linkObj.time = parts[2];
+  linkObj.value = linkObj.videoId; // This is what gets displayed
+  return Object.assign({}, obj, linkObj);
+}
+
+registerDataType('youTubeLink', {
+  // toRenderString: youTubeDataToRenderString,
+  toDataObject: youTubeRenderStringToData
+});
 
 const YouTubeLink = React.createClass({
   handleTextEdit: function(event){
