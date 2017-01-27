@@ -195,22 +195,15 @@ var EditorUserInterface = React.createClass({
     return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
   },
 
-  handlePlaceOrder: function () {
-    var order = {};
-
-    // add necessaries
-    order.ui = this.state.ui;
-    order.isPreview = this.state.isPreview;
-    order.audioInfo = this.state.audioInfo;
-    order.resolutionId = this.state.resolutionId;
-
+  populateOrderUi: function () {
+    let orderUi = this.state.ui
     // add values to order.ui
-    for (var i = 0; i < order.ui.length; i++) {
-      for (var key in order.ui[i]) {
-        if (order.ui[i].hasOwnProperty(key)) {
-          for (var j = 0; j < order.ui[i][key].length; j++) {
-            var name = order.ui[i][key][j].name;
-            var type = order.ui[i][key][j].type;
+    for (var i = 0; i < orderUi.length; i++) {
+      for (var key in orderUi[i]) {
+        if (orderUi[i].hasOwnProperty(key)) {
+          for (var j = 0; j < orderUi[i][key].length; j++) {
+            var name = orderUi[i][key][j].name;
+            var type = orderUi[i][key][j].type;
 
             // convert things like 'TextField' to 'textFields'
             type = type.charAt(0).toLowerCase() + type.slice(1) + 's';
@@ -219,16 +212,16 @@ var EditorUserInterface = React.createClass({
             if (type === 'youTubeLinks') {
               if (this.state[type][name]) {
                 let ytDataOut = this.transformYouTubeDataToRenderString(clone(this.state[type][name]));
-                order.ui[i][key][j].value = ytDataOut;
+                orderUi[i][key][j].value = ytDataOut;
               } else {
-                order.ui[i][key][j].value = '';
+                orderUi[i][key][j].value = '';
               }
             } else {
               // assure that a value exists
               if (!this.state[type][name].value) {
-                order.ui[i][key][j].value = '';
+                orderUi[i][key][j].value = '';
               } else {
-                order.ui[i][key][j].value = this.state[type][name].value.toString();
+                orderUi[i][key][j].value = this.state[type][name].value.toString();
               }
             }
 
@@ -236,6 +229,17 @@ var EditorUserInterface = React.createClass({
         }
       }
     }
+    return orderUi;
+  },
+
+  handlePlaceOrder: function () {
+    var order = {};
+
+    // add necessaries
+    order.ui = this.populateOrderUi();
+    order.isPreview = this.state.isPreview;
+    order.audioInfo = this.state.audioInfo;
+    order.resolutionId = this.state.resolutionId;
 
     try {
       renderDataAdapter.updateXmlForOrder(order);
