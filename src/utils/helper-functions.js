@@ -39,9 +39,10 @@ export function isNotEmpty (obj) {
 }
 
 export function wrapObjectWithProperty (obj, propName, preserveOriginal = true) {
-  let newObject = {};
-  newObject[propName] = clone(obj);
-  return newObject;
+  let wrapper = {};
+  let newObj = preserveOriginal ? clone(obj) : obj;
+  wrapper[propName] = newObj;
+  return wrapper;
 }
 
 export function isObject(x) {
@@ -98,13 +99,13 @@ export function nestedPropertyTest (obj, path, callback) {
 
 export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
-  var newObject = preserveOriginal ? clone(obj) : obj;
+  var newObj = preserveOriginal ? clone(obj) : obj;
   if (makeAspVersion) {
     var regex = /[a-z]/;
   } else {
     var regex = /[A-z]/;
   }
-  return traverseObject(obj, (key, prop) => {
+  return traverseObject(newObj, (key, prop) => {
     let originals = [key, prop];
     if (typeof key !== 'string') return originals;
     if (key.charAt(0).match(regex) === null) return originals;

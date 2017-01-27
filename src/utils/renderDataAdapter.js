@@ -1,7 +1,7 @@
 import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
+import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty,
   traverseObject, wrapObjectWithProperty } from './helper-functions';
 
@@ -212,7 +212,7 @@ function updateXmlForOrder (reactObj) {
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
-};
+}
 
 export {
   getReactStartingData,

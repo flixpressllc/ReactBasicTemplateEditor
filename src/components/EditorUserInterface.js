@@ -44,7 +44,6 @@ var EditorUserInterface = React.createClass({
       a[pair.name] = pair.value;
       return a;
     }, {});
-    let nameValuePairsArray = stateToMerge.nameValuePairs;
     delete stateToMerge.nameValuePairs;
 
     let currentContainerState = DATA_CONTAINER_NAMES.reduce((a, containerName) => {
@@ -106,7 +105,7 @@ var EditorUserInterface = React.createClass({
     });
   })},
 
-  setupEditor: function () { return new Promise((resolve, reject) => {
+  setupEditor: function () { return new Promise((resolve) => {
     let defineUi = this.defineUi()
     defineUi
       .then(() => this.getStartingData())
