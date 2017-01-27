@@ -1,6 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 import './TextField.scss';
+import { registerDataType } from '../utils/globalContainerConcerns';
+
+registerDataType('textField');
 
 export default React.createClass({
   handleTextEdit: function(event){
@@ -12,11 +15,11 @@ export default React.createClass({
       );
     }
   },
-  
+
   filterChange: function (newValue) {
     return this.characterLimit(newValue);
   },
-  
+
   characterLimit: function (string) {
     let limit = this.props.settings.maxCharacters;
     if (!limit || limit <= 0) return string;
@@ -24,13 +27,13 @@ export default React.createClass({
       return string.charAt(string.length - 1);
     }
     return string.slice(0, this.props.settings.maxCharacters);
-    
+
   },
-  
+
   handleFocus: function () {
     this.props.onTextFieldFocus(this.props.fieldName);
   },
-  
+
   render: function(){
     return(
       <div className={cx(this.props.className,'reactBasicTemplateEditor-TextField')}>

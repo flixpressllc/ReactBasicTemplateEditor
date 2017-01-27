@@ -76,5 +76,4 @@ export default function getAudioOptions (username) {
   });
 
   return optionsPromise;
-};
-
+}

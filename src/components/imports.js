@@ -1,17 +1,6 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 
-function clone(obj) {
-  var target = {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      target[i] = obj[i];
-    }
-  }
-  return target;
-}
-
-
 /// From https://github.com/jerryshew/react-component/blob/master/component/CheckBox.js
 const CheckBox = React.createClass({
     propTypes: {
@@ -110,7 +99,7 @@ const RadioGroup = React.createClass({
             options: []
         };
     },
-    
+
     toggleChange(e, value){
         this.setState({ value }, () => {
             if (this.props.onChange) this.props.onChange(this.state.value);
@@ -169,4 +158,4 @@ const RadioGroup = React.createClass({
     }
 });
 
-export {clone, RadioGroup, CheckBox};
+export {RadioGroup, CheckBox};

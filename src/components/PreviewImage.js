@@ -1,5 +1,5 @@
 import React from 'react';
-import {clone} from './imports';
+import { clone } from '../utils/helper-functions';
 import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
@@ -21,7 +21,7 @@ export default React.createClass({
       missing: false
     };
   },
-  
+
   setMissingViaResponse: function (res) {
     let isMissing = true;
     let fileIsImage = res.jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
@@ -32,21 +32,21 @@ export default React.createClass({
       missing: isMissing
     });
   },
-  
+
   getPreviewImage: function (type, identifier) {
     if (type === 'TextField') {
       return URL_PARTIAL + this.props.fields.textFields[identifier].previewImage
-    
+
     } else if (type === 'YouTubeLink') {
       let videoId = this.props.fields.youTubeLinks[identifier].videoId
       if (videoId) {
         return `https://img.youtube.com/vi/${ videoId }/hqdefault.jpg`;
       }
       return '';
-    
+
     } else if (type === 'TextBox') {
         return URL_PARTIAL + this.props.fields.textBoxes[identifier].previewImage
-      
+
     } else if (type === 'DropDown') {
       let value = this.props.fields.dropDowns[identifier].value;
       for (var i = this.props.fields.dropDowns[identifier].options.length - 1; i >= 0; i--) {
@@ -55,10 +55,10 @@ export default React.createClass({
         }
       }
     }
-    
+
     return this.state.image;
   },
-  
+
   setImage: function (newImage) {
     if (newImage != this.state.image && newImage !== '') {
       if (this.currentCheck) this.currentCheck.abort();
@@ -69,7 +69,7 @@ export default React.createClass({
         image: newImage,
         missing: false
       });
-      
+
       this.currentCheck = ajax({
         url: newImage,
         type: 'HEAD'
@@ -78,24 +78,24 @@ export default React.createClass({
       .catch( () => this.setState({isMissing: true}) );
     }
   },
-  
+
   componentWillReceiveProps: function(newProps) {
     let image = this.getPreviewImage(newProps.type, newProps.name)
     if (this.state.image !== image) {
       this.setImage(image);
     }
   },
-  
+
   openModal: function () {
     if (this.state.missing) return;
     this.setState({modalIsOpen: true})
   },
-  
+
   closeModal: function () {
     this.setState({modalIsOpen: false})
   },
 
-  
+
   render: function(){
     var message = 'click to enlarge';
     if (this.state.missing === true) {
@@ -129,14 +129,14 @@ export default React.createClass({
           <img
             className="reactBasicTemplateEditor-PreviewImage-modalImage"
             src={this.state.image}/>
-          
+
           <button
             className="reactBasicTemplateEditor-PreviewImage-modalCloseButton"
             type="button"
             onClick={this.closeModal}>
             Close
           </button>
-          
+
           <div className="reactBasicTemplateEditor-PreviewImage-modalExplain">
             (This image doesn't represent your final render. It is just an example to help illustrate the last field you worked with.)
           </div>

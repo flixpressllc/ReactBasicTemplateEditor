@@ -5,7 +5,13 @@ import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
+
+import { registerDataType, getContainerNameFor } from '../utils/globalContainerConcerns';
+import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
+
 import './EditingUi.scss';
+
+registerDataType('dropDown');
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -49,6 +55,19 @@ var EditingUi = React.createClass({
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
     />);
+  },
+
+  createUserImageChooser: function (name, object) {
+    var safeName = name.replace(' ','-');
+    if (isEmpty(object.userImages)) return null;
+    return (
+      <ImageContainer
+        fieldName={ name }
+        images={ object.userImages }
+        onUpdateImages={ this.props.onUpdateImages }
+        key={`text-field-${safeName}`}
+      />
+    );
   },
 
   createYouTubeLink: function (name, object) {
@@ -156,10 +175,9 @@ var EditingUi = React.createClass({
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
       var type = inputArray[i].type;
-      var container = 'all' + type + 's';
-      container = (container == 'allTextBoxs') ? 'allTextBoxes' : container; // TODO: fix this hack
+      var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
       var object = this.props[container][name];
-      components.push(this['create' + inputArray[i].type](name, object));
+      components.push(this['create' + type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
     return (
@@ -173,9 +191,6 @@ var EditingUi = React.createClass({
   render: function () {
     var uiSections = this.props.uiSections
     let fieldsObj = this.getFieldsForPreviewImage();
-    let imageContainer = this.props.templateType === 'images' ?
-      <ImageContainer images={ this.props.userImages } onUpdateImages={ this.props.onUpdateImages } /> :
-      null;
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
       for (var sectionName in uiSections[i]){
@@ -184,12 +199,11 @@ var EditingUi = React.createClass({
     }
     return (
       <div id="editing-ui" className="editing-ui component">
-        {sections}
+        { sections }
         <PreviewImage
           name={this.state.previewImageName}
           type={ this.state.previewImageType }
           fields={ fieldsObj }/>
-        { imageContainer }
       </div>
     );
   }

@@ -1,6 +1,23 @@
 require('jxon');
 import * as hf from './helper-functions';
 
+describe('clone', () => {
+  const clone = hf.clone;
+  it('returns a different object', () => {
+    const originalObj = {one: {value:1}, two: {value:2}};
+    expect(clone(originalObj)).not.toBe(originalObj);
+  });
+  it('returns an object whose values are equal to the original', () => {
+    const originalObj = {one: {value:1}, two: {value:2}};
+    expect(clone(originalObj)).toEqual(originalObj);
+  });
+  it('returns an array if that is the starting object', () => {
+    const originalArr = [{one: {value:1}, two: {value:2}}];
+    const newArr = clone(originalArr);
+    expect(hf.toType(newArr)).toEqual('array');
+  });
+});
+
 describe('traverseObject', () => {
   const traverseObject = hf.traverseObject;
   it('clones by default', () => {

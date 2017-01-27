@@ -1,7 +1,7 @@
 import jxon from './xmlAdapter';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getElementById } from './dom-queries';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
+import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty,
   traverseObject, wrapObjectWithProperty } from './helper-functions';
 
@@ -129,6 +129,7 @@ function getStartingUserImages (obj) {
   // images may be in the object or on the page...
   if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls', isNotEmpty)) {
     // do a return in here
+    throw new Error('Returning preview render data for images is not yet implemented');
   }
   return {userImages: getImagesFromHiddenField()};
 }
@@ -212,7 +213,7 @@ function updateXmlForOrder (reactObj) {
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
-};
+}
 
 export {
   getReactStartingData,

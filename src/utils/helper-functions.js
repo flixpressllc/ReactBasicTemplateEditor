@@ -39,9 +39,10 @@ export function isNotEmpty (obj) {
 }
 
 export function wrapObjectWithProperty (obj, propName, preserveOriginal = true) {
-  let newObject = {};
-  newObject[propName] = clone(obj);
-  return newObject;
+  let wrapper = {};
+  let newObj = preserveOriginal ? clone(obj) : obj;
+  wrapper[propName] = newObj;
+  return wrapper;
 }
 
 export function isObject(x) {
@@ -64,8 +65,10 @@ export function traverseObject (obj, callback, recursive = false, preserveOrigin
       }
     }
     let keyValArray = callback(key, newObject[key]);
-    if (Array.isArray(keyValArray) && keyValArray.length > 1) {
+    if (Array.isArray(keyValArray) && keyValArray.length === 2) {
       returnedObj[keyValArray[0]] = keyValArray[1];
+    } else if (!isEmpty(keyValArray)) {
+      throw new Error(`It looks lik you might have been trying to construct a new object, but you returned something other than an array that looks like [key, value]. You returned ${keyValArray}`);
     }
   }
   return returnedObj;
@@ -98,24 +101,32 @@ export function nestedPropertyTest (obj, path, callback) {
 
 export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
-  var newObject = preserveOriginal ? clone(obj) : obj;
+  var newObj = preserveOriginal ? clone(obj) : obj;
   if (makeAspVersion) {
     var regex = /[a-z]/;
   } else {
     var regex = /[A-z]/;
   }
-  return traverseObject(obj, (key, prop) => {
+  return traverseObject(newObj, (key, prop) => {
     let originals = [key, prop];
     if (typeof key !== 'string') return originals;
     if (key.charAt(0).match(regex) === null) return originals;
     let newKey = '';
     if (makeAspVersion) {
-      newKey = key.charAt(0).toUpperCase() + key.slice(1);
+      newKey = firstCharToUpper(key);
     } else {
-      newKey = key.charAt(0).toLowerCase() + key.slice(1);
+      newKey = firstCharToLower(key);
     }
     return [newKey, prop];
   }, recursive);
+}
+
+export function firstCharToUpper (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function firstCharToLower (string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
 export function convertPropKeysForAsp (obj) {

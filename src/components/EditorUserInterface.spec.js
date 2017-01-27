@@ -7,9 +7,9 @@ jest.mock('../utils/renderDataAdapter');
 jest.mock('../utils/ajax');
 const ajax = require('../utils/ajax');
 ajax.getJSON = (path) => {
-  return new Promise ((resolve) => {
+  return new Promise ((resolve, reject) => {
     require('jsonfile').readFile('./src' + path, (err, obj) => {
-      if (err) throw err;
+      if (err) reject(err);
       resolve({data: obj});
     });
   });
@@ -148,7 +148,7 @@ describe('EditorUserInterface', () => {
       });
     });
     describe('and when starting with a preview', () => {
-      it('prepares the data for order as expected', () => {
+      it.only('prepares the data for order as expected', () => {
         let settings = generalSettings();
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
