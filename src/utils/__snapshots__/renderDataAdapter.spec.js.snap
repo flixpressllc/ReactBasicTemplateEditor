@@ -18,16 +18,16 @@ Object {
   ],
   "userImages": Array [
     Object {
+      "file": "DonDentonAdmin_1-23-2017_94956756.png",
       "id": 0,
-      "url": "DonDentonAdmin_1-23-2017_94956756.png",
     },
     Object {
+      "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
       "id": 1,
-      "url": "DonDentonAdmin_1-23-2017_9502787.jpg",
     },
     Object {
+      "file": "DonDentonAdmin_1-23-2017_9505506.png",
       "id": 2,
-      "url": "DonDentonAdmin_1-23-2017_9505506.png",
     },
   ],
 }

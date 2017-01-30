@@ -21,7 +21,7 @@ const ListImage = SortableElement( React.createClass({
   render: function () {
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
-        <img src={ THUMBNAIL_URL_PREFIX + this.props.item.url } />
+        <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
         <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
           <label htmlFor='caption'>
             Caption:

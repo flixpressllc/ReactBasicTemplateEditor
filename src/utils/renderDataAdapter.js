@@ -149,7 +149,7 @@ function getImagesFromHiddenField () {
   let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
   let imagesArray = imagesString.split('|');
   return imagesArray.filter( val => isNotEmpty(val) ).map( (val, i) => {
-    return { id: i, url: val };
+    return { id: i, file: val };
   });
 }
 
