@@ -59,11 +59,11 @@ var EditingUi = React.createClass({
 
   createUserImageChooser: function (name, object) {
     var safeName = name.replace(' ','-');
-    if (isEmpty(object.userImages)) return null;
+    if (isEmpty(object.containedImages)) return null;
     return (
       <ImageContainer
         fieldName={ name }
-        images={ object.userImages }
+        images={ object.containedImages }
         onUpdateImages={ this.props.onUpdateImages }
         key={`text-field-${safeName}`}
       />

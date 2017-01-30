@@ -73,7 +73,7 @@ var EditorUserInterface = React.createClass({
     let newStateToMerge = clone(stateToMerge);
 
     let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      imageChooser.userImages = newStateToMerge.userImages;
+      imageChooser.containedImages = newStateToMerge.userImages;
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
@@ -196,7 +196,7 @@ var EditorUserInterface = React.createClass({
 
   handleUpdateImages: function (newArrayOfImages) {
     let imageChoosers = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      imageChooser.userImages = newArrayOfImages;
+      imageChooser.containedImages = newArrayOfImages;
       return [key, imageChooser];
     });
     this.setState({userImageChoosers: imageChoosers});
