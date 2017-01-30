@@ -31,8 +31,10 @@ describe('EditingUi', () => {
     expect(component.find('ImageContainer').length).toEqual(0);
   });
   it('renders images if the template type is images', () => {
+    pending();
     let props = editingUiProps;
     props.templateType = 'images';
+    props.allUserImageChoosers = {};
 
     const component = shallow(<EditingUi {...props} />);
 
