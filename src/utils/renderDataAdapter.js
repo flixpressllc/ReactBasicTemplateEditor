@@ -8,29 +8,56 @@ import { clone, convertPropKeysForJs, convertPropKeysForAsp,
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
-var startingPoint = {
-  "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-  "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+let startingPoint = {
+  '$xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+  '$xmlns:xsd': 'http://www.w3.org/2001/XMLSchema',
   ResolutionId: 0,
-  IsPreview: false,
-  RenderedData: {
-    Specs: {
-      $name: "Specs",
-      $val: "",
-      SpCx: {
-        CSp: []
-      }
-    },
-    AudioInfo: {
-      Name: null,
-      Length: "0",
-      AudioType: "NoAudio",
-      Id: "0",
-      AudioUrl: null
+  IsPreview: false
+};
+/* eslint-enable quotes */
+
+let startingSpecs = {
+  Specs: {
+    $name: 'Specs',
+    $val: '',
+    SpCx: {
+      CSp: []
     }
   }
 };
-/* eslint-enable quotes */
+
+let startingSlides = {
+  Slides: {
+    FSlide: {
+      Captions: {},
+      Images: {}
+    }
+  }
+};
+
+let startingAudioInfo = {
+  AudioInfo: {
+    Name: null,
+    Length: '0',
+    AudioType: 'NoAudio',
+    Id: '0',
+    AudioUrl: null
+  }
+};
+
+function getStartingRenderedData () {
+  if (isImageTemplate()) {
+    return Object.assign({}, startingSlides, startingAudioInfo)
+  } else {
+    return Object.assign({}, startingSpecs, startingAudioInfo)
+  }
+}
+
+function getOrderStartingPoint () {
+  let orderStartingPoint = clone(startingPoint);
+  orderStartingPoint.RenderedData = getStartingRenderedData();
+  return orderStartingPoint;
+}
 
 function xmlContainerDiv () {
   return getElementById(XML_CONTAINER_ID);
@@ -169,10 +196,18 @@ function addResolutionOptionsToOrderObj (orderObj, reactObj) {
   }
   let newOrderObj = clone(orderObj);
   newOrderObj.ResolutionOptions = reactObj.resolutionOptions.reduce((a, resObj) => {
-    a.ListItemViewModel.push({
-      'Name': resObj.name,
-      'Id': resObj.id
-    });
+    // TODO: test that this is actually necessary... just flipping the order
+    if (isImageTemplate()){
+      a.ListItemViewModel.push({
+        'Id': resObj.id,
+        'Name': resObj.name
+      });
+    } else {
+      a.ListItemViewModel.push({
+        'Name': resObj.name,
+        'Id': resObj.id
+      });
+    }
     return a;
   }, {'ListItemViewModel':[]});
   return newOrderObj;
@@ -180,6 +215,7 @@ function addResolutionOptionsToOrderObj (orderObj, reactObj) {
 
 function sortObjectByArray (keysInOrder, obj) {
   let newObj = keysInOrder.reduce((a, key) => {
+    if (!obj.hasOwnProperty(key)) return a;
     a[key] = clone(obj[key]);
     return a;
   }, {});
@@ -199,6 +235,12 @@ function addAudioToOrderObj (orderObj, reactObj) {
   let newOrderObj = clone(orderObj);
 
   let sortOrder = ['length', 'id', 'audioType', 'name', 'audioUrl']
+
+  // TODO: test if this flip reordering is actually necessary
+  if (isImageTemplate()) {
+    sortOrder = ['audioUrl', 'name', 'audioType', 'length', 'id'];
+  }
+
   let audioObject = sortObjectByArray(sortOrder, reactObj.audioInfo);
 
   // copy audio
@@ -207,11 +249,12 @@ function addAudioToOrderObj (orderObj, reactObj) {
 }
 
 function addSpecsToOrderObj (orderObj, reactObj) {
-  let newOrderObj = clone(orderObj);
-  // Distribute Specs
   if (reactObj.ui === undefined) {
     throw new Error('No Specs were sent');
   }
+
+  let newOrderObj = clone(orderObj);
+  // Distribute Specs
   for (var i = 0; i < reactObj.ui.length; i++) {
 
     for (var key in reactObj.ui[i]) {
@@ -240,16 +283,82 @@ function addSpecsToOrderObj (orderObj, reactObj) {
   return newOrderObj;
 }
 
+function addImageRenderDataToOrderObject (orderObject, reactObj) {
+  if (reactObj.ui === undefined) {
+    throw new Error('No Image Data was sent');
+  }
+
+  let newOrderObj = clone(orderObject);
+  var Captions = {CaptionField: []};
+  let Images = {CaptionedImage: []};
+
+  for (var i = 0; i < reactObj.ui.length; i++) {
+
+    for (var key in reactObj.ui[i]) {
+      if (reactObj.ui[i].hasOwnProperty(key)){
+
+        for (var j = 0; j < reactObj.ui[i][key].length; j++) {
+          if (reactObj.ui[i][key][j].type !== 'UserImageChooser') {
+            Captions.CaptionField.push({
+              Label: reactObj.ui[i][key][j].name,
+              Value: reactObj.ui[i][key][j].value
+            });
+          } else {
+            let chooser = reactObj.ui[i][key][j];
+            chooser.value.map(imgObj => {
+              Images.CaptionedImage.push({
+                Captions: { CaptionField: {
+                  Label: 'Caption',
+                  Value: imgObj.caption
+                }},
+                Filename: imgObj.file
+              });
+            });
+          }
+        }
+      }
+    }
+  }
+
+  newOrderObj.RenderedData.Slides.FSlide.Images = Images;
+
+  let unusedImages = {UnusedImageUrls: { String: reactObj.userImages}};
+
+  let otherProps = [
+    {LogoMode: 'Image'},
+    {LogoId: 0},
+    {LogoFilename: {}},
+    {Logo3DFilename: {}}
+  ]
+
+  Object.assign(newOrderObj.RenderedData, {Captions}, unusedImages, ...otherProps);
+
+  let sortArray = ['Slides', 'UnusedImageUrls', 'Captions', 'LogoMode', 'AudioInfo', 'LogoId', 'LogoFilename', 'Logo3DFilename'];
+
+  newOrderObj.RenderedData = sortObjectByArray(sortArray, newOrderObj.RenderedData);
+
+  return newOrderObj
+}
+
 function updateXmlForOrder (reactObj) {
-  var orderObject = clone(startingPoint);
+  var orderObject = getOrderStartingPoint();
 
   orderObject = addResolutionToOrderObj(orderObject, reactObj);
   orderObject = addAudioToOrderObj(orderObject, reactObj);
-  orderObject = addSpecsToOrderObj(orderObject, reactObj);
   orderObject.IsPreview = reactObj.isPreview;
   orderObject = addResolutionOptionsToOrderObj(orderObject, reactObj);
 
+  if (isImageTemplate()) {
+    orderObject = addImageRenderDataToOrderObject(orderObject, reactObj);
+  } else {
+    orderObject = addSpecsToOrderObj(orderObject, reactObj);
+  }
+
   let sortArray = ['ResolutionId', 'IsPreview', 'ResolutionOptions', 'RenderedData'];
+
+  if (isImageTemplate()) {
+    sortArray = ['IsPreview', 'RenderedData', 'ResolutionId', 'ResolutionOptions'];
+  }
 
   orderObject = sortObjectByArray(sortArray, orderObject);
 

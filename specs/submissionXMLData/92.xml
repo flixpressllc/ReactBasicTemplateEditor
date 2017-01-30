@@ -10,8 +10,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115146348.jpg</Filename>
@@ -20,8 +19,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115147660.jpg</Filename>
@@ -30,8 +28,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115150331.jpg</Filename>
@@ -40,8 +37,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115152252.jpg</Filename>
@@ -50,8 +46,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115154361.jpg</Filename>
@@ -60,8 +55,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115157985.jpg</Filename>
@@ -70,8 +64,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115158937.jpg</Filename>
@@ -80,8 +73,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value>
-                </Value>
+                <Value></Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_11520968.jpg</Filename>
@@ -131,10 +123,8 @@
     </Captions>
     <LogoMode>Image</LogoMode>
     <AudioInfo>
-      <AudioUrl>
-      </AudioUrl>
-      <Name>
-      </Name>
+      <AudioUrl></AudioUrl>
+      <Name></Name>
       <AudioType>NoAudio</AudioType>
       <Length>0</Length>
       <Id>0</Id>
