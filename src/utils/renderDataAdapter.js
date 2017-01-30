@@ -12,6 +12,7 @@ var startingPoint = {
   "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
   "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
   ResolutionId: 0,
+  IsPreview: false,
   RenderedData: {
     Specs: {
       $name: "Specs",
@@ -27,8 +28,7 @@ var startingPoint = {
       Id: "0",
       AudioUrl: null
     }
-  },
-  IsPreview: false
+  }
 };
 /* eslint-enable quotes */
 
@@ -155,18 +155,54 @@ function addResolutionToOrderObj (orderObj, reactObj) {
   if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
     throw new Error('No ResolutionId was present');
   }
+  if (reactObj.resolutionOptions === undefined) {
+    throw new Error('Resolution Options are extraneous... but I want the data to match exactly. No Resolution Options were present.')
+  }
   let newOrderObj = clone(orderObj);
   newOrderObj.ResolutionId = reactObj.resolutionId;
   return newOrderObj;
 }
 
-function addAudioToOrderObj (orderObj, reactObj) {
+function addResolutionOptionsToOrderObj (orderObj, reactObj) {
+  if (reactObj.resolutionOptions === undefined) {
+    throw new Error('Resolution Options are extraneous... but I want the data to match exactly. No Resolution Options were present.')
+  }
   let newOrderObj = clone(orderObj);
-  // copy audio
+  newOrderObj.ResolutionOptions = reactObj.resolutionOptions.reduce((a, resObj) => {
+    a.ListItemViewModel.push({
+      'Name': resObj.name,
+      'Id': resObj.id
+    });
+    return a;
+  }, {'ListItemViewModel':[]});
+  return newOrderObj;
+}
+
+function sortObjectByArray (keysInOrder, obj) {
+  let newObj = keysInOrder.reduce((a, key) => {
+    a[key] = clone(obj[key]);
+    return a;
+  }, {});
+
+  traverseObject(obj, (key, value) => {
+    if (newObj.hasOwnProperty(key)) return;
+    newObj[key] = clone(value);
+  });
+
+  return newObj;
+}
+
+function addAudioToOrderObj (orderObj, reactObj) {
   if (reactObj.audioInfo === undefined) {
     throw new Error('No audioInfo was present');
   }
-  newOrderObj.RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
+  let newOrderObj = clone(orderObj);
+
+  let sortOrder = ['length', 'id', 'audioType', 'name', 'audioUrl']
+  let audioObject = sortObjectByArray(sortOrder, reactObj.audioInfo);
+
+  // copy audio
+  newOrderObj.RenderedData.AudioInfo = convertPropKeysForAsp(audioObject);
   return newOrderObj;
 }
 
@@ -211,6 +247,11 @@ function updateXmlForOrder (reactObj) {
   orderObject = addAudioToOrderObj(orderObject, reactObj);
   orderObject = addSpecsToOrderObj(orderObject, reactObj);
   orderObject.IsPreview = reactObj.isPreview;
+  orderObject = addResolutionOptionsToOrderObj(orderObject, reactObj);
+
+  let sortArray = ['ResolutionId', 'IsPreview', 'ResolutionOptions', 'RenderedData'];
+
+  orderObject = sortObjectByArray(sortArray, orderObject);
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );

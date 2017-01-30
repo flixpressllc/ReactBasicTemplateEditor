@@ -79,6 +79,16 @@ Array [
     },
     "isPreview": true,
     "resolutionId": 5,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
     "ui": Array [
       Object {
         "Customize Icon": Array [

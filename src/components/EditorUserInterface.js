@@ -230,6 +230,7 @@ var EditorUserInterface = React.createClass({
     order.isPreview = this.state.isPreview;
     order.audioInfo = this.state.audioInfo;
     order.resolutionId = this.state.resolutionId;
+    order.resolutionOptions = this.state.resolutions;
 
     try {
       renderDataAdapter.updateXmlForOrder(order);

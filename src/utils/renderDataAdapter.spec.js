@@ -1,8 +1,8 @@
-require('jxon');
 import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
   TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY } from '../stores/app-settings';
+import { getSubmissionXmlFor } from '../../specs/spec-helpers';
 
 jest.mock('./dom-queries');
 
@@ -165,6 +165,81 @@ const mockOrderObjForTextOnly79 = {
     "audioType": "StockAudio",
     "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
     "id": 13,
+    "length": 0,
+    "name": "Bunny Garden"
+  },
+  "resolutionId": 3,
+  "resolutionOptions": [
+    { "id": 5, "name": "720p" },
+    { "id": 3, "name": "1080p" },
+  ]
+};
+
+const mockOrderObjForTextOnly89 = {
+  "ui": [
+    {
+      "Customize Icon": [
+        {
+          "type": "DropDown",
+          "name": "Icon Style",
+          "value": "camera"
+        },
+        {
+          "type": "TextField",
+          "name": "Icon Character - type in only one (optional)",
+          "value": "q"
+        }
+      ]
+    },
+    {
+      "Customize Look": [
+        {
+          "type": "DropDown",
+          "name": "Background",
+          "value": "camo"
+        },
+        {
+          "type": "DropDown",
+          "name": "Icon Color",
+          "value": "icon_pink"
+        },
+        {
+          "type": "DropDown",
+          "name": "Main Text Color",
+          "value": "main_orange"
+        },
+        {
+          "type": "DropDown",
+          "name": "Subtitle Text Color",
+          "value": "sub_white"
+        }
+      ]
+    },
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Text Left of Icon",
+          "value": "Left"
+        },
+        {
+          "type": "TextField",
+          "name": "Text Right of Icon",
+          "value": "Right"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle",
+          "value": "Bottom"
+        }
+      ]
+    }
+  ],
+  "isPreview": true,
+  "audioInfo": {
+    "audioType": "StockAudio",
+    "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+    "id": 13,
     "length": 3,
     "name": "Bunny Garden"
   },
@@ -190,13 +265,21 @@ describe('DataAdapter', () => {
     });
   });
   describe('updateXmlForOrder', () => {
-    it('updates the container with the expected values for new TextOnly', () => {
+    fit('updates the container with the expected values for new TextOnly', () => {
       let dom = require('./dom-queries');
       dom.__setMockElement(XML_CONTAINER_ID, {value: startingTextOnlyXml});
 
       DataAdapter.updateXmlForOrder(mockOrderObjForTextOnly79);
 
-      expect(pretty(dom.getElementById(XML_CONTAINER_ID).value)).toMatchSnapshot();
+      expect(pretty(dom.getElementById(XML_CONTAINER_ID).value)).toEqual(pretty(getSubmissionXmlFor(79)));
+    });
+    it('updates the container with the expected values for new Images', () => {
+      let dom = require('./dom-queries');
+      dom.__setMockElement(XML_CONTAINER_ID, {value: startingImagesXml});
+
+      DataAdapter.updateXmlForOrder(mockOrderObjForTextOnly89);
+
+      expect(pretty(dom.getElementById(XML_CONTAINER_ID).value)).toEqual(pretty(getSubmissionXmlFor(92)));
     });
   });
 });
