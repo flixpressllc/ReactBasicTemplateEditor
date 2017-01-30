@@ -1,14 +1,15 @@
 require('jxon');
 import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
-import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
+  TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY } from '../stores/app-settings';
 
 jest.mock('./dom-queries');
 
 let pretty = (obj) => jsb.html(obj);
 
 const startingTextOnlyXml = `<?xml version="1.0" encoding="utf-16"?>
-<OrderRequestOfTextOnlyRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<${TOP_LEVEL_NAME_TEXT_ONLY} xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <ResolutionId>0</ResolutionId>
 <IsPreview>false</IsPreview>
 <ResolutionOptions>
@@ -25,10 +26,10 @@ const startingTextOnlyXml = `<?xml version="1.0" encoding="utf-16"?>
     <Name>4K</Name>
   </ListItemViewModel>
 </ResolutionOptions>
-</OrderRequestOfTextOnlyRndTemplate>`;
+</${TOP_LEVEL_NAME_TEXT_ONLY}>`;
 
 const startingImagesXml = `<?xml version="1.0" encoding="utf-16"?>
-<OrderRequestOfFSlidesRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<${TOP_LEVEL_NAME_IMAGES} xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <ResolutionId>0</ResolutionId>
 <IsPreview>false</IsPreview>
 <ResolutionOptions>
@@ -45,7 +46,7 @@ const startingImagesXml = `<?xml version="1.0" encoding="utf-16"?>
     <Name>4K</Name>
   </ListItemViewModel>
 </ResolutionOptions>
-</OrderRequestOfFSlidesRndTemplate>`;
+</${TOP_LEVEL_NAME_IMAGES}>`;
 
 const startingImagesCroppedImagesFormFieldValue = 'DonDentonAdmin_1-23-2017_94956756.png|DonDentonAdmin_1-23-2017_9502787.jpg|DonDentonAdmin_1-23-2017_9505506.png|';
 

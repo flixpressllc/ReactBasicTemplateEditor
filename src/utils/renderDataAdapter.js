@@ -1,5 +1,6 @@
 import jxon from './xmlAdapter';
-import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
+  TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY} from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty,
@@ -56,7 +57,7 @@ function isImageTemplate () {
 }
 
 var getTopLevelXmlName = function () {
-  const allowedNames = ['OrderRequestOfTextOnlyRndTemplate', 'OrderRequestOfFSlidesRndTemplate']
+  const allowedNames = [TOP_LEVEL_NAME_TEXT_ONLY, TOP_LEVEL_NAME_IMAGES]
   let topLevelName = '';
   traverseObject(getLoadedXmlAsObject(), key => {
     if ( allowedNames.indexOf(key) !== -1 )
