@@ -50,55 +50,7 @@ const startingImagesXml = `<?xml version="1.0" encoding="utf-16"?>
 
 const startingImagesCroppedImagesFormFieldValue = 'DonDentonAdmin_1-23-2017_94956756.png|DonDentonAdmin_1-23-2017_9502787.jpg|DonDentonAdmin_1-23-2017_9505506.png|';
 
-const previousTextOnlyXml = `<?xml version="1.0" encoding="utf-16"?>
-<OrderRequestOfTextOnlyRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <RenderedData>
-    <Specs name="Specs" val="">
-      <SpCx>
-        <CSp name="Customize Icon" val="CD|Customize Icon|">
-          <SpCx>
-            <Sp name="Icon Style" val="camera" />
-            <Sp name="Icon Character - type in only one (optional)" val="q" />
-          </SpCx>
-        </CSp>
-        <CSp name="Customize Look" val="CD|Customize Look|">
-          <SpCx>
-            <Sp name="Background" val="camo" />
-            <Sp name="Icon Color" val="icon_pink" />
-            <Sp name="Main Text Color" val="main_orange" />
-            <Sp name="Subtitle Text Color" val="sub_white" />
-          </SpCx>
-        </CSp>
-        <CSp name="Customize Text" val="CD|Customize Text|">
-          <SpCx>
-            <Sp name="Text Left of Icon" val="Left" />
-            <Sp name="Text Right of Icon" val="Right" />
-            <Sp name="Subtitle" val="Bottom" />
-          </SpCx>
-        </CSp>
-      </SpCx>
-    </Specs>
-    <AudioInfo>
-      <Id>13</Id>
-      <Name>Bunny Garden</Name>
-      <AudioUrl>https://fpsound.s3.amazonaws.com/13.mp3</AudioUrl>
-      <AudioType>StockAudio</AudioType>
-      <Length>3</Length>
-    </AudioInfo>
-  </RenderedData>
-  <ResolutionId>5</ResolutionId>
-  <IsPreview>true</IsPreview>
-  <ResolutionOptions>
-    <ListItemViewModel>
-      <Id>5</Id>
-      <Name>720p</Name>
-    </ListItemViewModel>
-    <ListItemViewModel>
-      <Id>3</Id>
-      <Name>1080p</Name>
-    </ListItemViewModel>
-  </ResolutionOptions>
-</OrderRequestOfTextOnlyRndTemplate>"`;
+const previousTextOnlyXml =  getSubmissionXmlFor(79);
 
 const mockOrderObjForTextOnly79 = {
   "ui": [
