@@ -19,6 +19,7 @@ const ListImage = SortableElement( React.createClass({
     this.props.onCaptionChange(this.props.item.id, e.target.value);
   },
   render: function () {
+    const caption = this.props.item.caption || '';
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
@@ -29,7 +30,7 @@ const ListImage = SortableElement( React.createClass({
           <input
             type='text'
             name='caption'
-            value={ this.props.item.caption }
+            value={ caption }
             onChange={ this.handleChange }
             />
         </div>
