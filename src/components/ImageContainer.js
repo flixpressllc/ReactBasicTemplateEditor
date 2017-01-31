@@ -5,12 +5,17 @@ import { registerDataType } from '../utils/globalContainerConcerns';
 
 import './ImageContainer.scss';
 
-function generateRenderStringFromObject (object) {
+function toRenderString (object) {
   // This won't really be a string. That's okay, though.
   return object.containedImages;
 }
 
-registerDataType('userImageChooser', {toRenderString: generateRenderStringFromObject});
+function toDataObject (object) {
+  // This won't really be a string. That's okay, though.
+  return object.containedImages;
+}
+
+registerDataType('userImageChooser', {toRenderString, toDataObject});
 
 const DragHandle = SortableHandle(() => {
   return (

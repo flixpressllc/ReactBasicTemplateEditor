@@ -29,38 +29,64 @@ function generalSettings () { return {
   }
 };}
 
+function generalImagesTemplateSettings () { return {
+  uiSettingsJsonUrl: '/templates/Template2000.json',
+  templateType: 'images',
+  userSettingsData: {
+    username: 'DonDenton',
+    templateId: 2000,
+    minutesRemainingInContract: 170.2819,
+    minimumTemplateDuration: 0.1667,
+    previewVideoUrl: '',
+    isChargePerOrder: false,
+    renderCost: 8
+  }
+};}
+
 function baseMockReturnForGetStartingData () { return {
-  "isPreview": false,
-  "resolutionId": 5,
-  "resolutions": [
+  isPreview: false,
+  resolutionId: 0,
+  resolutions: [
     {
-      "id": 5,
-      "name": "720p",
+      id: 5,
+      name: '720p',
     },
     {
-      "id": 3,
-      "name": "1080p",
+      id: 3,
+      name: '1080p',
     },
     {
-      "id": 4,
-      "name": "4K",
+      id: 4,
+      name: '4K',
     },
   ],
-  // "userImages": [
-  //   {
-  //     "id": 0,
-  //     "url": "DonDentonAdmin_1-23-2017_94956756.png",
-  //   },
-  //   {
-  //     "id": 1,
-  //     "url": "DonDentonAdmin_1-23-2017_9502787.jpg",
-  //   },
-  //   {
-  //     "id": 2,
-  //     "url": "DonDentonAdmin_1-23-2017_9505506.png",
-  //   },
-  // ],
+  audioInfo: {
+    audioType: 'NoAudio',
+    audioUrl: '',
+    id: 0,
+    length: 0,
+    name: '',
+  }
 };}
+
+function imagesMockReturnForGetStartingData () {
+  return Object.assign({}, baseMockReturnForGetStartingData(), {
+    userImages: [
+      {
+        id: 0,
+        file: 'DonDentonAdmin_1-23-2017_94956756.png',
+      },
+      {
+        id: 1,
+        file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
+      },
+      {
+        id: 2,
+        file: 'DonDentonAdmin_1-23-2017_9505506.png',
+      }
+    ]
+  });
+}
 
 function baseMockReturnForGetStartingDataOffPreview () { return {
   "audioInfo": {
@@ -122,6 +148,55 @@ function baseMockReturnForGetStartingDataOffPreview () { return {
   ]
 };}
 
+function imagesMockReturnForGetStartingDataOffPreview () { return {
+  audioInfo: {
+    audioType: 'StockAudio',
+    audioUrl: 'https://fpsound.s3.amazonaws.com/13.mp3',
+    id: 13,
+    length: 3,
+    name: 'Bunny Garden',
+  },
+  isPreview: true,
+  nameValuePairs: [
+    {
+      name: 'Text Left of Icon',
+      value: 'Left',
+    },
+    {
+      name: 'Text Right of Icon',
+      value: 'Right',
+    },
+    {
+      name: 'Your Two Images',
+      value: [
+        {
+          caption: 'marmet',
+          file: 'DonDentonAdmin_1-23-2017_94956756.png',
+        },
+        {
+          caption: '',
+          file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
+        },
+        {
+          caption: '',
+          file: 'DonDentonAdmin_1-23-2017_9505506.png',
+        }
+      ]
+    }
+  ],
+  resolutionId: 5,
+  resolutions: [
+    {
+      id: 5,
+      name: '720p',
+    },
+    {
+      id: 3,
+      name: '1080p',
+    },
+  ]
+};}
+
 describe('EditorUserInterface', () => {
   it('renders without crashing', () => {
     const settings = generalSettings();
@@ -166,6 +241,78 @@ describe('EditorUserInterface', () => {
   });
 
   describe('when an images template', () => {
+    describe('and when starting fresh', () => {
+      it('passes the info into the correct containers', () => {
+        let settings = generalImagesTemplateSettings();
+        let renderDataAdapter = require('../utils/renderDataAdapter');
+        renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
+        renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingData() );
+        const component = shallow(<EditorUserInterface {...settings}/>);
 
+        return component.instance().setupEditor().then(() => {
+          let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
+
+          let expected = [
+            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png'},
+            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg'},
+            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png'},
+
+          ]
+
+          expect(containedImages).toEqual(expected);
+        });
+      });
+      it('prepares the data for order as expected', () => {
+        let settings = generalImagesTemplateSettings();
+        let renderDataAdapter = require('../utils/renderDataAdapter');
+        renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
+        renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingData() );
+        const component = shallow(<EditorUserInterface {...settings}/>);
+
+        return component.instance().setupEditor().then(() => {
+          component.instance().handlePlaceOrder();
+
+          let numCalls = renderDataAdapter.updateXmlForOrder.mock.calls.length;
+          expect(renderDataAdapter.updateXmlForOrder.mock.calls[numCalls - 1]).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('and when starting from preview', () => {
+      it('passes the info into the correct containers', () => {
+        let settings = generalImagesTemplateSettings();
+        let renderDataAdapter = require('../utils/renderDataAdapter');
+        renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
+        renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingDataOffPreview() );
+        const component = shallow(<EditorUserInterface {...settings}/>);
+
+        return component.instance().setupEditor().then(() => {
+          let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
+
+          let expected = [
+            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png'},
+            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg'},
+            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png'},
+
+          ]
+
+          expect(containedImages).toEqual(expected);
+        });
+      });
+      it('prepares the data for order as expected', () => {
+        let settings = generalImagesTemplateSettings();
+        let renderDataAdapter = require('../utils/renderDataAdapter');
+        renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
+        renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingDataOffPreview() );
+        const component = shallow(<EditorUserInterface {...settings}/>);
+
+        return component.instance().setupEditor().then(() => {
+          component.instance().handlePlaceOrder();
+
+          let numCalls = renderDataAdapter.updateXmlForOrder.mock.calls.length;
+          expect(renderDataAdapter.updateXmlForOrder.mock.calls[numCalls - 1]).toMatchSnapshot();
+        });
+      });
+    });
   });
 });

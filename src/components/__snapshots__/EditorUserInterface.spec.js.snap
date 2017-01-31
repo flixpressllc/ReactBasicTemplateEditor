@@ -1,9 +1,150 @@
+exports[`EditorUserInterface when an images template and when starting fresh prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
+      "length": 0,
+      "name": "",
+    },
+    "isPreview": false,
+    "resolutionId": 0,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+        ],
+      },
+      Object {
+        "Customize Images": Array [
+          Object {
+            "name": "Your Two Images",
+            "type": "UserImageChooser",
+            "value": Array [
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_94956756.png",
+                "id": 0,
+              },
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+                "id": 1,
+              },
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_9505506.png",
+                "id": 2,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`EditorUserInterface when an images template and when starting from preview prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 3,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "Left",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "Right",
+          },
+        ],
+      },
+      Object {
+        "Customize Images": Array [
+          Object {
+            "name": "Your Two Images",
+            "type": "UserImageChooser",
+            "value": Array [
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_94956756.png",
+                "id": 0,
+                "caption": "marmet",
+              },
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+                "id": 1,
+                "caption": "",
+              },
+              Object {
+                "file": "DonDentonAdmin_1-23-2017_9505506.png",
+                "id": 2,
+                "caption": "",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
 exports[`EditorUserInterface when text only and when starting fresh prepares the data for order as expected 1`] = `
 Array [
   Object {
-    "audioInfo": undefined,
+    "audioInfo": Object {
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
+      "length": 0,
+      "name": "",
+    },
     "isPreview": false,
-    "resolutionId": 5,
+    "resolutionId": 0,
     "resolutionOptions": Array [
       Object {
         "id": 5,

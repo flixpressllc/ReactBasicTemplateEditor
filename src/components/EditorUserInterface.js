@@ -1,7 +1,7 @@
 import React from 'react';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
-import { traverseObject, firstCharToLower, clone, isEmpty } from '../utils/helper-functions';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from '../utils/helper-functions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
 
@@ -71,9 +71,21 @@ var EditorUserInterface = React.createClass({
   imagesAreSnowflakes: function (stateToMerge) {
     if (this.props.templateType !== 'images') return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
+    let nameValuePairsObj = {};
+    if (isNotEmpty(newStateToMerge.nameValuePairs)) {
+      nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
+        a[pair.name] = pair.value;
+        return a;
+      }, {});
+    }
 
     let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      imageChooser.containedImages = newStateToMerge.userImages;
+      if (isNotEmpty(nameValuePairsObj[key])) {
+        imageChooser.containedImages = nameValuePairsObj[key];
+      } else {
+        // just use all available images...
+        imageChooser.containedImages = newStateToMerge.userImages;
+      }
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
@@ -82,8 +94,8 @@ var EditorUserInterface = React.createClass({
 
   getStartingData: function () { return new Promise((resolve) => {
     let stateToMerge = renderDataAdapter.getReactStartingData();
-    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
     stateToMerge = this.imagesAreSnowflakes(stateToMerge);
+    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
     this.setState(stateToMerge, resolve);
   })},
 
