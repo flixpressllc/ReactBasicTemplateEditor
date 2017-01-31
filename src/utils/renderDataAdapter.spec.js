@@ -32,7 +32,13 @@ describe('DataAdapter', () => {
       dom.__setMockElement(IMAGES_CONTAINER_ID, {value: startingImagesCroppedImagesFormFieldValue});
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
+    it('returns the expected object for a previously created Images', () => {
+      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(92)});
+      expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
+    });
+
   });
+
   describe('updateXmlForOrder', () => {
     it('updates the container with the expected values for new TextOnly', () => {
       let dom = require('./dom-queries');

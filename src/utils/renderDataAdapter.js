@@ -3,7 +3,7 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
   TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY} from '../stores/app-settings';
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
-  nestedPropertyTest, isObject, isNotEmpty,
+  nestedPropertyTest, isObject, isNotEmpty, isEmpty,
   traverseObject, wrapObjectWithProperty } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
@@ -145,33 +145,55 @@ function getStartingAudioObject (obj) {
   return {};
 }
 
-function getImagesFromHiddenField () {
+function getImagesFromHiddenField (startingInt) {
+  startingInt = isEmpty(startingInt) ? 0 : startingInt;
   let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
   let imagesArray = imagesString.split('|');
   return imagesArray.filter( val => isNotEmpty(val) ).map( (val, i) => {
-    return { id: i, file: val };
+    return { id: (i + startingInt), file: val };
   });
 }
 
 function getStartingUserImages (obj) {
   // images may be in the object or on the page...
-  if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls', isNotEmpty)) {
+  if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls.String', isNotEmpty)) {
     // do a return in here
-    throw new Error('Returning preview render data for images is not yet implemented');
+    let unusedImages = obj.RenderedData.UnusedImageUrls.String.map((file, i) => {
+      return {id: i, file: file}
+    })
+    return {userImages: unusedImages.concat(getImagesFromHiddenField(unusedImages.length + 1))};
   }
   return {userImages: getImagesFromHiddenField()};
+}
+
+function convertCaptionsToReactData (givenXmlObj) {
+  if (!nestedPropertyTest(givenXmlObj,'RenderedData.Captions', Array.isArray)) {
+    return {};
+  }
+  let captions = clone(givenXmlObj.RenderedData.Captions);
+  let nameValuePairs = [];
+
+  captions.map((captionField) => {
+    nameValuePairs.push([captionField.Label, captionField.value]);
+  });
+  return {nameValuePairs};
 }
 
 function getReactStartingData () {
   let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
-  let specsObj = convertSpecsToReactData(obj);
+  let mainData;
+  if (isImageTemplate()){
+    mainData = convertCaptionsToReactData(obj);
+  } else {
+    mainData = convertSpecsToReactData(obj);
+  }
   let resolutionsObj = getStartingResolutionsObject(obj);
   let audioDataObj = getStartingAudioObject(obj);
   let isPreviewObj = {isPreview: obj.IsPreview};
   let userImages = isImageTemplate() ? getStartingUserImages(obj) : {} ;
 
-  return Object.assign({}, specsObj, resolutionsObj, audioDataObj, isPreviewObj, userImages);
+  return Object.assign({}, mainData, resolutionsObj, audioDataObj, isPreviewObj, userImages);
 }
 
 function objectToXml (object) {
