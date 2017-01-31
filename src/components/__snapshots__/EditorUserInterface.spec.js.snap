@@ -4,13 +4,27 @@ Array [
     "audioInfo": undefined,
     "isPreview": false,
     "resolutionId": 5,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
     "ui": Array [
       Object {
         "Customize Icon": Array [
           Object {
             "name": "Icon Style",
             "type": "DropDown",
-            "value": "",
+            "value": "MyOwnCharacter",
           },
           Object {
             "name": "Icon Character - type in only one (optional)",
@@ -29,7 +43,7 @@ Array [
           Object {
             "name": "Icon Color",
             "type": "DropDown",
-            "value": "",
+            "value": "icon_black",
           },
           Object {
             "name": "Main Text Color",

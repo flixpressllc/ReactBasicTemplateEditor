@@ -148,7 +148,7 @@ describe('EditorUserInterface', () => {
       });
     });
     describe('and when starting with a preview', () => {
-      it.only('prepares the data for order as expected', () => {
+      it('prepares the data for order as expected', () => {
         let settings = generalSettings();
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
@@ -163,5 +163,9 @@ describe('EditorUserInterface', () => {
         });
       });
     });
+  });
+
+  describe('when an images template', () => {
+
   });
 });

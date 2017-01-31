@@ -37,7 +37,11 @@ export function _createGenericToRenderStringFunction () {
     if (!isObject(containerDataNode)) {
       throw new Error(`The containerDataNode given was not an object with a "value" property containing a string. Was ${containerDataNode}`);
     } else if (typeof containerDataNode.value !== 'string') {
-      throw new Error(`The containerDataNode given did not have a "value" property containing a string. 'containerDataNode.value' was ${containerDataNode.value}`);
+      // try a default option:
+      if (toType(containerDataNode.default) === 'string') {
+        return containerDataNode.default;
+      }
+      throw new Error(`The containerDataNode given did not have a "value" property containing a string. 'containerDataNode.value' was ${toType(containerDataNode.value)}. containerDataNode: ${JSON.stringify(containerDataNode)}`);
     }
     return containerDataNode.value;
   };
