@@ -149,3 +149,40 @@ describe('objectKeyForValue', () => {
     expect(objectKeyForValue('Jim', obj)).toEqual(false);
   });
 });
+
+describe('isEmpty', () => {
+  let isEmpty = hf.isEmpty;
+  it('is true for undefined', () => {
+    expect(isEmpty(undefined)).toEqual(true);
+  });
+  it('is true for an empty object', () => {
+    expect(isEmpty({})).toEqual(true);
+  });
+  it('is true for an empty array', () => {
+    expect(isEmpty([])).toEqual(true);
+  });
+  it('is true for null object', () => {
+    expect(isEmpty(null)).toEqual(true);
+  });
+  it('is true for an empty string', () => {
+    expect(isEmpty('')).toEqual(true);
+  });
+
+  it('is false for an object containing an empty object', () => {
+    expect(isEmpty({1: {}})).toEqual(false);
+  });
+  it('is false for an empty array containing an empty array', () => {
+    expect(isEmpty([[]])).toEqual(false);
+  });
+  it('is false for a number that signifies false', () => {
+    console.log(hf.toType(-1))
+    expect(isEmpty(-1)).toEqual(false);
+  });
+  it('is false for a string', () => {
+    expect(isEmpty('r')).toEqual(false);
+  });
+  it('is false for either boolean', () => {
+    expect(isEmpty(false)).toEqual(false);
+    expect(isEmpty(true)).toEqual(false);
+  });
+});

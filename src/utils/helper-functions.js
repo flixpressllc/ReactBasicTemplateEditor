@@ -30,8 +30,16 @@ export function clone(obj) {
 }
 
 export function isEmpty (obj) {
-  if (!obj) { return true }
-  return (Object.getOwnPropertyNames(obj).length === 0);
+  let emptyTypes = ['null', 'undefined']
+  let checkableTypes = ['object', 'array', 'arguments', 'json', 'string']
+  let type = toType(obj);
+  if (emptyTypes.indexOf(type) > -1) { return true }
+  if (checkableTypes.indexOf(type) > -1) {
+    if (Object.getOwnPropertyNames(obj).length === 0) return true;
+    return obj.length === 0;
+  }
+  // other types return false because they are by nature filled
+  return false;
 }
 
 export function isNotEmpty (obj) {
