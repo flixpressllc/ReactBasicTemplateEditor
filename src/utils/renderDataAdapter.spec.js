@@ -13,7 +13,7 @@ const startingTextOnlyXml = getSubmissionXmlFor('startingTextOnly');
 
 const startingImagesXml = getSubmissionXmlFor('startingImages');
 
-const startingImagesCroppedImagesFormFieldValue = 'DonDentonAdmin_1-23-2017_94956756.png|DonDentonAdmin_1-23-2017_9502787.jpg|DonDentonAdmin_1-23-2017_9505506.png|';
+const startingImagesCroppedImagesFormFieldValue = 'HiddenFieldImage1.png|HiddenFieldImage2.jpg|HiddenFieldImage3.png|';
 
 describe('DataAdapter', () => {
   describe('getReactStartingData', () => {
@@ -37,6 +37,11 @@ describe('DataAdapter', () => {
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
 
+    it('does not return duplicate images from hidden field and captions in the userImages container', () => {
+      pending();
+
+      expect();
+    });
   });
 
   describe('updateXmlForOrder', () => {

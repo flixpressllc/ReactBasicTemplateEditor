@@ -18,15 +18,15 @@ Object {
   ],
   "userImages": Array [
     Object {
-      "file": "DonDentonAdmin_1-23-2017_94956756.png",
+      "file": "HiddenFieldImage1.png",
       "id": 0,
     },
     Object {
-      "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+      "file": "HiddenFieldImage2.jpg",
       "id": 1,
     },
     Object {
-      "file": "DonDentonAdmin_1-23-2017_9505506.png",
+      "file": "HiddenFieldImage3.png",
       "id": 2,
     },
   ],
@@ -49,6 +49,151 @@ Object {
     Object {
       "id": 4,
       "name": "4K",
+    },
+  ],
+}
+`;
+
+exports[`DataAdapter getReactStartingData returns the expected object for a previously created Images 1`] = `
+Object {
+  "audioInfo": Object {
+    "audioType": "NoAudio",
+    "audioUrl": "",
+    "id": 0,
+    "length": 0,
+    "name": "",
+  },
+  "isPreview": true,
+  "nameValuePairs": Array [
+    Array [
+      "Begin Text",
+      "In the beginning",
+    ],
+    Array [
+      "End Text",
+      "The End... or is it?",
+    ],
+    Array [
+      "Background Color",
+      "201.30.30",
+    ],
+    Array [
+      "Transition Type",
+      "Triangle Slash",
+    ],
+    Array [
+      "Style",
+      "Back Color Negative",
+    ],
+    Array [
+      "Glow",
+      "Disabled",
+    ],
+    Array [
+      "Particle Icon",
+      "Thumbs_Up",
+    ],
+    Array [
+      "ImageContainer",
+      Array [
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
+          "id": 0,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
+          "id": 1,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
+          "id": 2,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
+          "id": 3,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
+          "id": 4,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
+          "id": 5,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
+          "id": 6,
+        },
+        Object {
+          "caption": "",
+          "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
+          "id": 7,
+        },
+      ],
+    ],
+  ],
+  "resolutionId": 5,
+  "resolutions": Array [
+    Object {
+      "id": 5,
+      "name": "720p",
+    },
+    Object {
+      "id": 3,
+      "name": "1080p",
+    },
+  ],
+  "userImages": Array [
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
+      "id": 0,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
+      "id": 1,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
+      "id": 2,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
+      "id": 3,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
+      "id": 4,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
+      "id": 5,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
+      "id": 6,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
+      "id": 7,
+    },
+    Object {
+      "file": "HiddenFieldImage1.png",
+      "id": 8,
+    },
+    Object {
+      "file": "HiddenFieldImage2.jpg",
+      "id": 9,
+    },
+    Object {
+      "file": "HiddenFieldImage3.png",
+      "id": 10,
     },
   ],
 }

@@ -146,6 +146,9 @@ function getStartingAudioObject (obj) {
 }
 
 function getImagesFromHiddenField (startingInt) {
+  let container = getElementById(IMAGES_CONTAINER_ID);
+  if (!container) return [];
+
   startingInt = isEmpty(startingInt) ? 0 : startingInt;
   let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
   let imagesArray = imagesString.split('|');
@@ -161,21 +164,32 @@ function getStartingUserImages (obj) {
     let unusedImages = obj.RenderedData.UnusedImageUrls.String.map((file, i) => {
       return {id: i, file: file}
     })
-    return {userImages: unusedImages.concat(getImagesFromHiddenField(unusedImages.length + 1))};
+    return {userImages: unusedImages.concat(getImagesFromHiddenField(unusedImages.length))};
   }
   return {userImages: getImagesFromHiddenField()};
 }
 
 function convertCaptionsToReactData (givenXmlObj) {
-  if (!nestedPropertyTest(givenXmlObj,'RenderedData.Captions', Array.isArray)) {
-    return {};
-  }
-  let captions = clone(givenXmlObj.RenderedData.Captions);
   let nameValuePairs = [];
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Captions.CaptionField', isNotEmpty)) {
+    if (! Array.isArray(givenXmlObj.RenderedData.Captions.CaptionField)) givenXmlObj.RenderedData.Captions.CaptionField = [givenXmlObj.RenderedData.Captions.CaptionField];
+    givenXmlObj.RenderedData.Captions.CaptionField.map((captionField) => {
+      nameValuePairs.push([captionField.Label, captionField.Value]);
+    });
+  }
 
-  captions.map((captionField) => {
-    nameValuePairs.push([captionField.Label, captionField.value]);
-  });
+
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
+    if (! Array.isArray(givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage)) givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage = [givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage];
+    let mainImageData = []
+    givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage.map( (capImage, i) => {
+      mainImageData.push({id: i, file: capImage.Filename, caption: capImage.Captions.CaptionField.Value});
+    });
+    nameValuePairs.push(['ImageContainer', mainImageData]);
+  }
+
+  if (isEmpty(nameValuePairs)) return {};
+
   return {nameValuePairs};
 }
 
