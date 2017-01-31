@@ -33,7 +33,9 @@ describe('DataAdapter', () => {
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
     it('returns the expected object for a previously created Images', () => {
-      require('./dom-queries').__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(92)});
+      let dom = require('./dom-queries');
+      dom.__setMockElement(IMAGES_CONTAINER_ID, {value: ''});
+      dom.__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(92)});
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
 

@@ -183,18 +183,6 @@ Object {
       "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
       "id": 7,
     },
-    Object {
-      "file": "HiddenFieldImage1.png",
-      "id": 8,
-    },
-    Object {
-      "file": "HiddenFieldImage2.jpg",
-      "id": 9,
-    },
-    Object {
-      "file": "HiddenFieldImage3.png",
-      "id": 10,
-    },
   ],
 }
 `;
