@@ -164,9 +164,9 @@ function getStartingUserImages (obj) {
     let unusedImages = obj.RenderedData.UnusedImageUrls.String.map((file, i) => {
       return {id: i, file: file}
     })
-    return {userImages: unusedImages.concat(getImagesFromHiddenField(unusedImages.length))};
+    return {imageBank: unusedImages.concat(getImagesFromHiddenField(unusedImages.length))};
   }
-  return {userImages: getImagesFromHiddenField()};
+  return {imageBank: getImagesFromHiddenField()};
 }
 
 function convertCaptionsToReactData (givenXmlObj) {
@@ -205,9 +205,9 @@ function getReactStartingData () {
   let resolutionsObj = getStartingResolutionsObject(obj);
   let audioDataObj = getStartingAudioObject(obj);
   let isPreviewObj = {isPreview: obj.IsPreview};
-  let userImages = isImageTemplate() ? getStartingUserImages(obj) : {} ;
+  let imageBank = isImageTemplate() ? getStartingUserImages(obj) : {} ;
 
-  return Object.assign({}, mainData, resolutionsObj, audioDataObj, isPreviewObj, userImages);
+  return Object.assign({}, mainData, resolutionsObj, audioDataObj, isPreviewObj, imageBank);
 }
 
 function objectToXml (object) {
@@ -358,7 +358,7 @@ function addImageRenderDataToOrderObject (orderObject, reactObj) {
 
   newOrderObj.RenderedData.Slides.FSlide.Images = Images;
 
-  let unusedImages = {UnusedImageUrls: { String: reactObj.userImages}};
+  let unusedImages = {UnusedImageUrls: { String: reactObj.imageBank}};
 
   let otherProps = [
     {LogoMode: 'Image'},

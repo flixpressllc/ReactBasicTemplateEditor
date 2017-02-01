@@ -16,7 +16,7 @@ let editingUiProps = {
   onTextBoxesChange: () => {},
   onDropDownChange: () => {},
   onColorPickerChange: () => {},
-  userImages:  [],
+  imageBank:  [],
   onUpdateImages:  () => {},
 }
 

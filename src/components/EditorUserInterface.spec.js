@@ -71,7 +71,7 @@ function baseMockReturnForGetStartingData () { return {
 
 function imagesMockReturnForGetStartingData () {
   return Object.assign({}, baseMockReturnForGetStartingData(), {
-    userImages: [
+    imageBank: [
       {
         id: 0,
         file: 'DonDentonAdmin_1-23-2017_94956756.png',

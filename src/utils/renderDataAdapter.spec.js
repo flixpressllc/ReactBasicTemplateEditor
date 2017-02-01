@@ -39,7 +39,7 @@ describe('DataAdapter', () => {
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
 
-    it('does not return duplicate images from hidden field and captions in the userImages container', () => {
+    it('does not return duplicate images from hidden field and captions in the imageBank container', () => {
       pending();
 
       expect();

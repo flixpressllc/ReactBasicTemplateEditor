@@ -1,5 +1,19 @@
 exports[`DataAdapter getReactStartingData returns the expected object for a new Images template 1`] = `
 Object {
+  "imageBank": Array [
+    Object {
+      "file": "HiddenFieldImage1.png",
+      "id": 0,
+    },
+    Object {
+      "file": "HiddenFieldImage2.jpg",
+      "id": 1,
+    },
+    Object {
+      "file": "HiddenFieldImage3.png",
+      "id": 2,
+    },
+  ],
   "isPreview": false,
   "resolutionId": 5,
   "resolutions": Array [
@@ -14,20 +28,6 @@ Object {
     Object {
       "id": 4,
       "name": "4K",
-    },
-  ],
-  "userImages": Array [
-    Object {
-      "file": "HiddenFieldImage1.png",
-      "id": 0,
-    },
-    Object {
-      "file": "HiddenFieldImage2.jpg",
-      "id": 1,
-    },
-    Object {
-      "file": "HiddenFieldImage3.png",
-      "id": 2,
     },
   ],
 }
@@ -63,6 +63,40 @@ Object {
     "length": 0,
     "name": "",
   },
+  "imageBank": Array [
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
+      "id": 0,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
+      "id": 1,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
+      "id": 2,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
+      "id": 3,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
+      "id": 4,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
+      "id": 5,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
+      "id": 6,
+    },
+    Object {
+      "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
+      "id": 7,
+    },
+  ],
   "isPreview": true,
   "nameValuePairs": Array [
     Object {
@@ -148,40 +182,6 @@ Object {
     Object {
       "id": 3,
       "name": "1080p",
-    },
-  ],
-  "userImages": Array [
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
-      "id": 0,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
-      "id": 1,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
-      "id": 2,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
-      "id": 3,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
-      "id": 4,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
-      "id": 5,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
-      "id": 6,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
-      "id": 7,
     },
   ],
 }

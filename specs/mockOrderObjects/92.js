@@ -95,7 +95,7 @@ export default {
     { id: 5, name: '720p' },
     { id: 3, name: '1080p' },
   ],
-  userImages: [
+  imageBank: [
     'DonDentonAdmin_1-30-2017_115146348.jpg',
     'DonDentonAdmin_1-30-2017_115147660.jpg',
     'DonDentonAdmin_1-30-2017_115150331.jpg',
