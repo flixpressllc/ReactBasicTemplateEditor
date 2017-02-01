@@ -20,14 +20,10 @@
 <form><!-- this form also helps simulate the DNN way of putting a form on every page. :-(  -->
 
   <input type="hidden" name="RndTemplate_HF" id="RndTemplate_HF" value="<?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?>
-<OrderRequestOfTextOnlyRndTemplate xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;>
   <ResolutionId>0</ResolutionId>
   <IsPreview>false</IsPreview>
   <ResolutionOptions>
-    <ListItemViewModel>
-      <Id>5</Id>
-      <Name>720p</Name>
-    </ListItemViewModel>
     <ListItemViewModel>
       <Id>3</Id>
       <Name>1080p</Name>
@@ -37,7 +33,8 @@
       <Name>4K</Name>
     </ListItemViewModel>
   </ResolutionOptions>
-</OrderRequestOfTextOnlyRndTemplate>">
+</OrderRequestOfFSlidesRndTemplate>">
+  <input name="CroppedImageFilenames" type="text" value="DonDentonAdmin_1-23-2017_15345872.jpg|DonDentonAdmin_1-23-2017_145944747.jpg|" maxlength="2000" id="CroppedImageFilenames" />
 
   <div class="MainDiv">
     <div id="Template_FlashContent_Div" style="padding: 0px; margin: 0px;"></div>
@@ -51,7 +48,7 @@
     initializeTemplateEditor({
       divToReplaceId: 'Template_FlashContent_Div',
       uiSettingsJsonUrl: `/templates/Template${tid}.json`,
-      templateType: "text",
+      templateType: "images",
       userSettingsData: {
         username: 'DonDenton',
         templateId: tid,
