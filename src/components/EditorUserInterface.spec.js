@@ -279,7 +279,7 @@ describe('EditorUserInterface', () => {
     });
 
     describe('and when starting from preview', () => {
-      fit('passes the info into the correct containers', () => {
+      it('passes the info into the correct containers', () => {
         let settings = generalImagesTemplateSettings();
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
