@@ -189,21 +189,30 @@ function getNameValuePairsForMainCaptionFields (givenXmlObj) {
   return nameValuePairs;
 }
 
-function convertCaptionsToReactData (givenXmlObj) {
-  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
-
+function returnNameValuePairForSingleImageContainer (givenXmlObj) {
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
-    if (! Array.isArray(givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage)) givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage = [givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage];
-    let mainImageData = []
-    givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage.map( (capImage, i) => {
+    let captionedImages = givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage;
+    if (! Array.isArray(captionedImages)) captionedImages = [captionedImages];
+    let mainImageData = [];
+    captionedImages.map( (capImage, i) => {
       mainImageData.push({id: i, file: capImage.Filename, caption: capImage.Captions.CaptionField.Value});
     });
-    nameValuePairs.push({name: 'ImageContainer', value: mainImageData});
+    return {name: 'ImageContainer', value: mainImageData};
   }
+  return {};
+}
 
-  if (isEmpty(nameValuePairs)) return {};
+function convertCaptionsToReactData (givenXmlObj) {
+  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
+  let imageContainerPair = returnNameValuePairForSingleImageContainer(givenXmlObj);
 
-  return {nameValuePairs};
+  if (isNotEmpty(imageContainerPair)) nameValuePairs.push(imageContainerPair);
+
+  if (isEmpty(nameValuePairs)) {
+    return {};
+  } else {
+    return { nameValuePairs };
+  }
 }
 
 function getReactStartingData () {
