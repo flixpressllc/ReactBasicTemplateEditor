@@ -174,7 +174,7 @@ function convertCaptionsToReactData (givenXmlObj) {
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Captions.CaptionField', isNotEmpty)) {
     if (! Array.isArray(givenXmlObj.RenderedData.Captions.CaptionField)) givenXmlObj.RenderedData.Captions.CaptionField = [givenXmlObj.RenderedData.Captions.CaptionField];
     givenXmlObj.RenderedData.Captions.CaptionField.map((captionField) => {
-      nameValuePairs.push([captionField.Label, captionField.Value]);
+      nameValuePairs.push({name: captionField.Label, value:captionField.Value});
     });
   }
 
@@ -185,7 +185,7 @@ function convertCaptionsToReactData (givenXmlObj) {
     givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage.map( (capImage, i) => {
       mainImageData.push({id: i, file: capImage.Filename, caption: capImage.Captions.CaptionField.Value});
     });
-    nameValuePairs.push(['ImageContainer', mainImageData]);
+    nameValuePairs.push({name: 'ImageContainer', value: mainImageData});
   }
 
   if (isEmpty(nameValuePairs)) return {};
