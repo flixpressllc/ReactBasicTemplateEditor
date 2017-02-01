@@ -167,7 +167,7 @@ function imagesMockReturnForGetStartingDataOffPreview () { return {
       value: 'Right',
     },
     {
-      name: 'Your Two Images',
+      name: 'ImageContainer', // This will be wrong if we ever assume more than one
       value: [
         {
           caption: 'marmet',
@@ -279,7 +279,7 @@ describe('EditorUserInterface', () => {
     });
 
     describe('and when starting from preview', () => {
-      it('passes the info into the correct containers', () => {
+      fit('passes the info into the correct containers', () => {
         let settings = generalImagesTemplateSettings();
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
@@ -288,6 +288,7 @@ describe('EditorUserInterface', () => {
 
         return component.instance().setupEditor().then(() => {
           let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
+          console.log(component.state())
 
           expect(containedImages).toMatchSnapshot();
         });

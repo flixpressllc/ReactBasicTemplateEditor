@@ -11,8 +11,8 @@ function toRenderString (object) {
 }
 
 function toDataObject (object) {
-  // This won't really be a string. That's okay, though.
-  return object.containedImages;
+  // For now, this is a special case taken care of in the EditorUserInterface
+  return object;
 }
 
 registerDataType('userImageChooser', {toRenderString, toDataObject});

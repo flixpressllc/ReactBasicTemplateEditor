@@ -74,15 +74,20 @@ var EditorUserInterface = React.createClass({
     let newStateToMerge = clone(stateToMerge);
 
     let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      if (isNotEmpty(nameValuePairsObj[key])) {
-        imageChooser.containedImages = nameValuePairsObj[key];
+      if (isNotEmpty(nameValuePairsObj['ImageContainer'])) {
+        // imageChooser.containedImages = nameValuePairsObj[key];
+        // This is a workaround for now. We always will have only one image container
+        // This is in place of an actual name for the field
+        imageChooser.containedImages = nameValuePairsObj['ImageContainer'];
       } else {
         // just use all available images...
         imageChooser.containedImages = newStateToMerge.userImages;
       }
-      imageChooser.containedImages = imageChooser.containedImages.map((val, i) => {
-        return Object.assign(val, {id: i});
-      })
+      if (isNotEmpty(imageChooser.containedImages)) {
+        imageChooser.containedImages = imageChooser.containedImages.map((val, i) => {
+          return Object.assign(val, {id: i});
+        })
+      }
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
