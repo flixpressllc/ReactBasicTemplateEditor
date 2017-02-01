@@ -145,28 +145,32 @@ function getStartingAudioObject (obj) {
   return {};
 }
 
-function getImagesFromHiddenField (startingInt) {
+function getImagesFromHiddenField () {
   let container = getElementById(IMAGES_CONTAINER_ID);
   if (!container) return [];
 
-  startingInt = isEmpty(startingInt) ? 0 : startingInt;
   let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
   let imagesArray = imagesString.split('|');
-  return imagesArray.filter( val => isNotEmpty(val) ).map( (val, i) => {
-    return { id: (i + startingInt), file: val };
-  });
+  return imagesArray.filter( val => isNotEmpty(val) );
 }
 
-function getStartingUserImages (obj) {
-  // images may be in the object or on the page...
+function getImagesFromUnusedRenderData (obj) {
   if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls.String', isNotEmpty)) {
-    // do a return in here
-    let unusedImages = obj.RenderedData.UnusedImageUrls.String.map((file, i) => {
-      return {id: i, file: file}
-    })
-    return {imageBank: unusedImages.concat(getImagesFromHiddenField(unusedImages.length))};
+    return obj.RenderedData.UnusedImageUrls.String;
+  } else {
+    return [];
   }
-  return {imageBank: getImagesFromHiddenField()};
+}
+
+function getImageBank (obj) {
+  let allImages = getImagesFromUnusedRenderData(obj)
+    .concat(getImagesFromHiddenField())
+    .reduce((a, file, i) => {
+      a.push({ id: i, file: file });
+      return a;
+    }, []);
+
+  return { imageBank: allImages };
 }
 
 function convertCaptionsToReactData (givenXmlObj) {
@@ -205,7 +209,7 @@ function getReactStartingData () {
   let resolutionsObj = getStartingResolutionsObject(obj);
   let audioDataObj = getStartingAudioObject(obj);
   let isPreviewObj = {isPreview: obj.IsPreview};
-  let imageBank = isImageTemplate() ? getStartingUserImages(obj) : {} ;
+  let imageBank = isImageTemplate() ? getImageBank(obj) : {} ;
 
   return Object.assign({}, mainData, resolutionsObj, audioDataObj, isPreviewObj, imageBank);
 }
