@@ -175,7 +175,6 @@ describe('isEmpty', () => {
     expect(isEmpty([[]])).toEqual(false);
   });
   it('is false for a number that signifies false', () => {
-    console.log(hf.toType(-1))
     expect(isEmpty(-1)).toEqual(false);
   });
   it('is false for a string', () => {
