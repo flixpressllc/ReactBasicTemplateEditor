@@ -66,6 +66,26 @@ Array [
 ]
 `;
 
+exports[`EditorUserInterface when an images template and when starting from preview passes the info into the correct containers 1`] = `
+Array [
+  Object {
+    "caption": "marmet",
+    "file": "DonDentonAdmin_1-23-2017_94956756.png",
+    "id": 0,
+  },
+  Object {
+    "caption": "",
+    "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+    "id": 1,
+  },
+  Object {
+    "caption": "",
+    "file": "DonDentonAdmin_1-23-2017_9505506.png",
+    "id": 2,
+  },
+]
+`;
+
 exports[`EditorUserInterface when an images template and when starting from preview prepares the data for order as expected 1`] = `
 Array [
   Object {
@@ -110,19 +130,19 @@ Array [
             "type": "UserImageChooser",
             "value": Array [
               Object {
+                "caption": "marmet",
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
-                "caption": "marmet",
               },
               Object {
+                "caption": "",
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
-                "caption": "",
               },
               Object {
+                "caption": "",
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",
                 "id": 2,
-                "caption": "",
               },
             ],
           },

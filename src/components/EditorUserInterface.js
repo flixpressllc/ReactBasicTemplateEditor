@@ -38,7 +38,7 @@ var EditorUserInterface = React.createClass({
   },
 
   extractAndReplacePreviewRenderValues: function (stateToMerge) {
-    if (stateToMerge.nameValuePairs === undefined) return stateToMerge;
+    if (stateToMerge.nameValuePairs === undefined) return this.imagesAreSnowflakes(stateToMerge, {});
 
     const DATA_CONTAINER_NAMES = dc.getContainerNames();
     let nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
@@ -54,7 +54,6 @@ var EditorUserInterface = React.createClass({
     }, {});
 
     stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
-
     DATA_CONTAINER_NAMES.map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
@@ -64,20 +63,15 @@ var EditorUserInterface = React.createClass({
       }
     });
 
+    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj);
+
     // done with this now
     return stateToMerge;
   },
 
-  imagesAreSnowflakes: function (stateToMerge) {
+  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj) {
     if (this.props.templateType !== 'images') return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
-    let nameValuePairsObj = {};
-    if (isNotEmpty(newStateToMerge.nameValuePairs)) {
-      nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
-        a[pair.name] = pair.value;
-        return a;
-      }, {});
-    }
 
     let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
       if (isNotEmpty(nameValuePairsObj[key])) {
@@ -86,6 +80,9 @@ var EditorUserInterface = React.createClass({
         // just use all available images...
         imageChooser.containedImages = newStateToMerge.userImages;
       }
+      imageChooser.containedImages = imageChooser.containedImages.map((val, i) => {
+        return Object.assign(val, {id: i});
+      })
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
@@ -94,7 +91,6 @@ var EditorUserInterface = React.createClass({
 
   getStartingData: function () { return new Promise((resolve) => {
     let stateToMerge = renderDataAdapter.getReactStartingData();
-    stateToMerge = this.imagesAreSnowflakes(stateToMerge);
     stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
     this.setState(stateToMerge, resolve);
   })},

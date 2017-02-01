@@ -289,14 +289,7 @@ describe('EditorUserInterface', () => {
         return component.instance().setupEditor().then(() => {
           let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
 
-          let expected = [
-            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png'},
-            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg'},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png'},
-
-          ]
-
-          expect(containedImages).toEqual(expected);
+          expect(containedImages).toMatchSnapshot();
         });
       });
       it('prepares the data for order as expected', () => {
