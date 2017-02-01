@@ -162,7 +162,8 @@ function getImagesFromUnusedRenderData (obj) {
   }
 }
 
-function getImageBank (obj) {
+function getImageBankObject (obj) {
+  if (!isImageTemplate()) return {};
   let allImages = getImagesFromUnusedRenderData(obj)
     .concat(getImagesFromHiddenField())
     .reduce((a, file, i) => {
@@ -215,21 +216,21 @@ function convertCaptionsToReactData (givenXmlObj) {
   }
 }
 
+function getMainDataObject(givenXmlObj) {
+  return isImageTemplate() ? convertCaptionsToReactData(givenXmlObj) :
+    convertSpecsToReactData(givenXmlObj);
+}
+
 function getReactStartingData () {
-  let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
+  let xmlObj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
-  let mainData;
-  if (isImageTemplate()){
-    mainData = convertCaptionsToReactData(obj);
-  } else {
-    mainData = convertSpecsToReactData(obj);
-  }
-  let resolutionsObj = getStartingResolutionsObject(obj);
-  let audioDataObj = getStartingAudioObject(obj);
-  let isPreviewObj = {isPreview: obj.IsPreview};
-  let imageBank = isImageTemplate() ? getImageBank(obj) : {} ;
-
-  return Object.assign({}, mainData, resolutionsObj, audioDataObj, isPreviewObj, imageBank);
+  return Object.assign(
+    getMainDataObject(xmlObj),
+    getImageBankObject(xmlObj),
+    getStartingResolutionsObject(xmlObj),
+    getStartingAudioObject(xmlObj),
+    {isPreview: xmlObj.IsPreview},
+  );
 }
 
 function objectToXml (object) {
