@@ -288,8 +288,6 @@ describe('EditorUserInterface', () => {
 
         return component.instance().setupEditor().then(() => {
           let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
-          console.log(component.state())
-
           expect(containedImages).toMatchSnapshot();
         });
       });
