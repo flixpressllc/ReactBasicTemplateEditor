@@ -173,15 +173,24 @@ function getImageBank (obj) {
   return { imageBank: allImages };
 }
 
-function convertCaptionsToReactData (givenXmlObj) {
+function getNameValuePairsForMainCaptionFields (givenXmlObj) {
   let nameValuePairs = [];
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Captions.CaptionField', isNotEmpty)) {
-    if (! Array.isArray(givenXmlObj.RenderedData.Captions.CaptionField)) givenXmlObj.RenderedData.Captions.CaptionField = [givenXmlObj.RenderedData.Captions.CaptionField];
-    givenXmlObj.RenderedData.Captions.CaptionField.map((captionField) => {
+    let rDataCaptionFields = givenXmlObj.RenderedData.Captions.CaptionField;
+    if (! Array.isArray(rDataCaptionFields)) {
+      rDataCaptionFields = [rDataCaptionFields];
+    }
+
+    rDataCaptionFields.map((captionField) => {
       nameValuePairs.push({name: captionField.Label, value:captionField.Value});
     });
   }
 
+  return nameValuePairs;
+}
+
+function convertCaptionsToReactData (givenXmlObj) {
+  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
 
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
     if (! Array.isArray(givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage)) givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage = [givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage];
