@@ -303,6 +303,7 @@ var EditorUserInterface = React.createClass({
           onColorPickerChange={this.handleColorPickerChange}
           allUserImageChoosers={ this.state.userImageChoosers }
           onUpdateImages={ this.handleUpdateImages }
+          imageBank={ this.state.imageBank }
         />
       );
     }

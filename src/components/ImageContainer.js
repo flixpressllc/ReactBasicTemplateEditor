@@ -44,6 +44,7 @@ const ListImage = SortableElement( React.createClass({
             onChange={ this.handleChange }
             />
         </div>
+        <button type="button" onClick={ this.props.onChangeImage } >Change</button>
         <DragHandle />
       </div>
     );
@@ -59,6 +60,7 @@ const SortableList = SortableContainer( React.createClass({
             key={`item-${index}`}
             onCaptionChange={ this.props.onCaptionChange }
             index={index}
+            onChangeImage={ this.props.onChangeImage }
             item={value} />
         )}
       </div>
@@ -66,7 +68,23 @@ const SortableList = SortableContainer( React.createClass({
   }
 }), {transitionDuration: 0} );
 
+const ImageBank = React.createClass({
+  render: function () {
+    let imageList = this.props.imageBank.map(image => {
+      return <img src={ THUMBNAIL_URL_PREFIX + image.file } key={ image.id } />;
+    });
+    return (
+      <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
+        { imageList }
+      </div>
+    );
+  }
+});
+
 const ImageContainer = React.createClass({
+  componentWillMount: function () {
+  },
+
   getInitialState: function () {
     return {modalIsOpen: false};
   },
@@ -86,18 +104,59 @@ const ImageContainer = React.createClass({
     this.props.onUpdateImages(newArray);
   },
 
+  openModal: function () {
+    this.setState({modalIsOpen: true})
+  },
+
+  closeModal: function () {
+    this.setState({modalIsOpen: false})
+  },
+
+  handleChangeImage: function () {
+    //something
+    this.openModal();
+  },
+
+  handleReplaceImage: function (incomingId) {
+    this.closeModal();
+    let outgoingId = this.state.imageToReplace;
+    // do things...
+
+    // then
+    return;
+  },
+
+  renderFakeModal: function () {
+    return (
+      <div className="reactBasicTemplateEditor-ImageContainer-modal">
+        <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
+          onClick={ this.closeModal } type="button">
+          Cancel</button>
+
+        <ImageBank onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+      </div>
+    );
+  },
+
+  renderImageList: function () {
+    let images = this.props.images;
+    return (
+      <SortableList
+        items={ images }
+        onSortEnd={ this.handleSortEnd }
+        onCaptionChange={ this.handlecaptionChange }
+        useDragHandle={ true }
+        onChangeImage={ this.handleChangeImage }
+      />
+    );
+  },
+
   render: function () {
-    // let images = ['one','two','three'];
-    let images = [].concat(this.props.images);
-    if (images.length === 0) return null;
+    if (this.props.images.length === 0) return null;
+    let content = this.state.modalIsOpen ? this.renderFakeModal() : this.renderImageList();
     return (
       <div className="reactBasicTemplateEditor-ImageContainer">
-        <SortableList
-          items={ images }
-          onSortEnd={ this.handleSortEnd }
-          onCaptionChange={ this.handlecaptionChange }
-          useDragHandle={ true }
-        />
+        { content }
       </div>
     );
   }
