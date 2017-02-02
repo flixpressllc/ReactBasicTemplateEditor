@@ -80,7 +80,7 @@ var getLoadedXmlAsObject = function () {
 };
 
 function isImageTemplate () {
-  return getTopLevelXmlName() === 'OrderRequestOfFSlidesRndTemplate';
+  return getTopLevelXmlName() === TOP_LEVEL_NAME_IMAGES;
 }
 
 var getTopLevelXmlName = function () {
