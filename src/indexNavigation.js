@@ -4,8 +4,10 @@ let headerContent=`
   .debugging-navigation {
     position: fixed;
     bottom: 0;
+    right: 0;
     background: rgba(0,0,0,0.1);
     padding: 3px;
+    z-index: 9999;
   }
   .debugging-navigation li {
     display: block;
