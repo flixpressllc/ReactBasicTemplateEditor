@@ -45,7 +45,7 @@ let startingAudioInfo = {
   }
 };
 
-function getStartingRenderedData () {
+function getEmptyRenderedData () {
   if (isImageTemplate()) {
     return Object.assign({}, startingSlides, startingAudioInfo)
   } else {
@@ -53,9 +53,9 @@ function getStartingRenderedData () {
   }
 }
 
-function getOrderStartingPoint () {
+function getEmptyStartingPoint () {
   let orderStartingPoint = clone(startingPoint);
-  orderStartingPoint.RenderedData = getStartingRenderedData();
+  orderStartingPoint.RenderedData = getEmptyRenderedData();
   return orderStartingPoint;
 }
 
@@ -400,7 +400,7 @@ function addImageRenderDataToOrderObject (orderObject, reactObj) {
 }
 
 function updateXmlForOrder (reactObj) {
-  var orderObject = getOrderStartingPoint();
+  var orderObject = getEmptyStartingPoint();
 
   orderObject = addResolutionToOrderObj(orderObject, reactObj);
   orderObject = addAudioToOrderObj(orderObject, reactObj);
