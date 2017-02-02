@@ -28,7 +28,7 @@ var EditorUserInterface = React.createClass({
     });
   },
 
-  mergeAllNodesInContainerWithPreviewStringData: function (container, dataTypeName, nameValuePairsObj) {
+  mergeAllNodesInContainerWithPreviewData: function (container, dataTypeName, nameValuePairsObj) {
     if (isEmpty(container)) {
       throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
     }
@@ -37,35 +37,45 @@ var EditorUserInterface = React.createClass({
     })
   },
 
-  extractAndReplacePreviewRenderValues: function (stateToMerge) {
-    if (stateToMerge.nameValuePairs === undefined) return this.imagesAreSnowflakes(stateToMerge, {});
-
-    const DATA_CONTAINER_NAMES = dc.getContainerNames();
-    let nameValuePairsObj = stateToMerge.nameValuePairs.reduce((a, pair) => {
+  createNameValuePairsObj: function (stateToMerge) {
+    if (isEmpty(stateToMerge.nameValuePairs)) return {};
+    return stateToMerge.nameValuePairs.reduce((a, pair) => {
       a[pair.name] = pair.value;
       return a;
     }, {});
-    delete stateToMerge.nameValuePairs;
+  },
 
-    let currentContainerState = DATA_CONTAINER_NAMES.reduce((a, containerName) => {
+  getCurrentContainerState: function () {
+    return dc.getContainerNames().reduce((a, containerName) => {
       if(!this.state.hasOwnProperty(containerName)) return a;
       a[containerName] = clone(this.state[containerName]);
       return a;
     }, {});
+  },
 
-    stateToMerge = Object.assign({}, stateToMerge, currentContainerState);
-    DATA_CONTAINER_NAMES.map((containerName) => {
+  populateContainersWithPreviewData: function (stateToMerge, nameValuePairsObj) {
+    dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
       let container = stateToMerge[containerName];
       if (!isEmpty(container)) {
-        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewStringData(container, dataTypeName, nameValuePairsObj);
+        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
       }
     });
+    return stateToMerge;
+  },
 
+  extractAndReplacePreviewRenderValues: function (stateToMerge) {
+    let nameValuePairsObj = this.createNameValuePairsObj(stateToMerge);
+    delete stateToMerge.nameValuePairs;
+
+    if (isNotEmpty(nameValuePairsObj)) {
+      let populatedContainers = this.populateContainersWithPreviewData(
+        this.getCurrentContainerState(), nameValuePairsObj);
+      stateToMerge = Object.assign({}, stateToMerge, populatedContainers);
+    }
     stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj);
 
-    // done with this now
     return stateToMerge;
   },
 
