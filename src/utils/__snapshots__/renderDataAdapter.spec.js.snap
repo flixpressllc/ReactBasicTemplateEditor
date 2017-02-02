@@ -1,18 +1,9 @@
 exports[`DataAdapter getReactStartingData returns the expected object for a new Images template 1`] = `
 Object {
   "imageBank": Array [
-    Object {
-      "file": "HiddenFieldImage1.png",
-      "id": 0,
-    },
-    Object {
-      "file": "HiddenFieldImage2.jpg",
-      "id": 1,
-    },
-    Object {
-      "file": "HiddenFieldImage3.png",
-      "id": 2,
-    },
+    "HiddenFieldImage1.png",
+    "HiddenFieldImage2.jpg",
+    "HiddenFieldImage3.png",
   ],
   "isPreview": false,
   "resolutionId": 5,
@@ -64,38 +55,14 @@ Object {
     "name": "",
   },
   "imageBank": Array [
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
-      "id": 0,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
-      "id": 1,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
-      "id": 2,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
-      "id": 3,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
-      "id": 4,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
-      "id": 5,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
-      "id": 6,
-    },
-    Object {
-      "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
-      "id": 7,
-    },
+    "DonDentonAdmin_1-30-2017_115146348.jpg",
+    "DonDentonAdmin_1-30-2017_115147660.jpg",
+    "DonDentonAdmin_1-30-2017_115150331.jpg",
+    "DonDentonAdmin_1-30-2017_115152252.jpg",
+    "DonDentonAdmin_1-30-2017_115154361.jpg",
+    "DonDentonAdmin_1-30-2017_115157985.jpg",
+    "DonDentonAdmin_1-30-2017_115158937.jpg",
+    "DonDentonAdmin_1-30-2017_11520968.jpg",
   ],
   "isPreview": true,
   "nameValuePairs": Array [

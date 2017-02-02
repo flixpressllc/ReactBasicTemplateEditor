@@ -166,8 +166,8 @@ function getImageBankObject (obj) {
   if (!isImageTemplate()) return {};
   let allImages = getImagesFromUnusedRenderData(obj)
     .concat(getImagesFromHiddenField())
-    .reduce((a, file, i) => {
-      a.push({ id: i, file: file });
+    .reduce((a, file) => {
+      if (a.indexOf(file) === -1) a.push(file);
       return a;
     }, []);
 

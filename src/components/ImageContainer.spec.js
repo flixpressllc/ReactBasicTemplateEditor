@@ -28,8 +28,8 @@ describe('ImageContainer', () => {
   it('displays images', () => {
     let settings = {
       images: [
-        {file: 'toast.jpg', id: 0},
-        {file: 'coffee.jpg', id: 1}
+        {file: 'toast.jpg'},
+        {file: 'coffee.jpg'}
       ]
     };
     let component = mount(<ImageContainer {...getSettings(settings)}/>);
@@ -39,14 +39,14 @@ describe('ImageContainer', () => {
   it('displays only non-bank images to start', () => {
     let settings = {
       images: [
-        {file: 'toast.jpg', id: 0},
-        {file: 'coffee.jpg', id: 1}
+        {file: 'toast.jpg'},
+        {file: 'coffee.jpg'}
       ],
       imageBank: [
-        {file: 'toast.jpg', id: 0},
-        {file: 'coffee.jpg', id: 1},
-        {file: 'eggs.jpg', id: 2},
-        {file: 'milk.jpg', id: 3},
+        'toast.jpg',
+        'coffee.jpg',
+        'eggs.jpg',
+        'milk.jpg',
       ],
     };
     let component = mount(<ImageContainer {...getSettings(settings)}/>);
@@ -56,21 +56,25 @@ describe('ImageContainer', () => {
   it('displays the image bank when the button is clicked', () => {
     let settings = {
       images: [
-        {file: 'toast.jpg', id: 0},
-        {file: 'coffee.jpg', id: 1}
+        {file: 'toast.jpg'},
+        {file: 'coffee.jpg'}
       ],
       imageBank: [
-        {file: 'toast.jpg', id: 0},
-        {file: 'coffee.jpg', id: 1},
-        {file: 'eggs.jpg', id: 2},
-        {file: 'milk.jpg', id: 3},
+        'toast.jpg',
+        'coffee.jpg',
+        'eggs.jpg',
+        'milk.jpg',
       ],
     };
     const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
     component.find('button').first().simulate('click');
+    let renderedImages = component.render().find('img');
 
-    expect(component.find('img').length).toEqual(4);
+    expect(renderedImages.length).toEqual(4);
+    settings.imageBank.map((val, i) => {
+      expect(renderedImages.eq(i).attr('src')).toContain(val);
+    });
   });
 
 });

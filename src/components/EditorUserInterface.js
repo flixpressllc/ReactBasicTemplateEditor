@@ -81,7 +81,9 @@ var EditorUserInterface = React.createClass({
         imageChooser.containedImages = nameValuePairsObj['ImageContainer'];
       } else {
         // just use all available images...
-        imageChooser.containedImages = newStateToMerge.imageBank;
+        imageChooser.containedImages = newStateToMerge.imageBank.map(val => {
+          return {file: val};
+        });
       }
       if (isNotEmpty(imageChooser.containedImages)) {
         imageChooser.containedImages = imageChooser.containedImages.map((val, i) => {

@@ -72,18 +72,9 @@ function baseMockReturnForGetStartingData () { return {
 function imagesMockReturnForGetStartingData () {
   return Object.assign({}, baseMockReturnForGetStartingData(), {
     imageBank: [
-      {
-        id: 0,
-        file: 'DonDentonAdmin_1-23-2017_94956756.png',
-      },
-      {
-        id: 1,
-        file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
-      },
-      {
-        id: 2,
-        file: 'DonDentonAdmin_1-23-2017_9505506.png',
-      }
+      'DonDentonAdmin_1-23-2017_94956756.png',
+      'DonDentonAdmin_1-23-2017_9502787.jpg',
+      'DonDentonAdmin_1-23-2017_9505506.png'
     ]
   });
 }

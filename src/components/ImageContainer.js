@@ -70,8 +70,8 @@ const SortableList = SortableContainer( React.createClass({
 
 const ImageBank = React.createClass({
   render: function () {
-    let imageList = this.props.imageBank.map(image => {
-      return <img src={ THUMBNAIL_URL_PREFIX + image.file } key={ image.id } />;
+    let imageList = this.props.imageBank.map((image, i) => {
+      return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } />;
     });
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
@@ -85,13 +85,27 @@ const ImageContainer = React.createClass({
   componentWillMount: function () {
   },
 
+  getImagesStateFromImages: function (images) {
+    images = images || [];
+    return images.map((val, i) => {
+      val.id = i;
+      return val;
+    });
+  },
+
   getInitialState: function () {
-    return {modalIsOpen: false};
+    let imagesState = this.getImagesStateFromImages(this.props.images);
+    return {modalIsOpen: false, images: imagesState};
   },
 
   handleSortEnd: function ({oldIndex, newIndex}) {
     let newArray = arrayMove(this.props.images, oldIndex, newIndex);
     this.props.onUpdateImages(newArray);
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    if (newProps.images === this.props.images) return;
+    this.setState({images: this.getImagesStateFromImages(newProps.images)});
   },
 
   handlecaptionChange: function (id, newCaptionText) {
@@ -139,7 +153,7 @@ const ImageContainer = React.createClass({
   },
 
   renderImageList: function () {
-    let images = this.props.images;
+    let images = this.state.images;
     return (
       <SortableList
         items={ images }
@@ -152,7 +166,7 @@ const ImageContainer = React.createClass({
   },
 
   render: function () {
-    if (this.props.images.length === 0) return null;
+    if (this.state.images.length === 0) return null;
     let content = this.state.modalIsOpen ? this.renderFakeModal() : this.renderImageList();
     return (
       <div className="reactBasicTemplateEditor-ImageContainer">
