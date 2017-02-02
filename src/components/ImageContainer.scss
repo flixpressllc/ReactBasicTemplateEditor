@@ -12,12 +12,15 @@
   padding: 10px;
   margin: 10px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
   cursor: move;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   > div {
     width: 1.5em;
@@ -26,11 +29,22 @@
     border: 1px solid rgba(255,255,255, 0.6);
     border-left: none;
     border-top: none;
-    margin: 4px;
+    margin: 2px;
   }
 }
 
 .reactBasicTemplateEditor-ImageContainer-modalCancel {
   @extend %button;
   float: right;
+}
+
+.reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton {
+  @extend %button;
+  padding: 3px 6px;
+}
+
+.reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

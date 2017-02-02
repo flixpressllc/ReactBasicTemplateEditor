@@ -37,18 +37,20 @@ const ListImage = SortableElement( React.createClass({
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
-        <div className='reactBasicTemplateEditor-ImageContainer-imageCaption'>
-          <label htmlFor='caption'>
-            Caption:
-          </label><br/>
-          <input
+        <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
+          <button className="reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton"
+            type="button"
+            onClick={ this.handleChangeImage }>
+            Change Image
+          </button>
+          <input className='reactBasicTemplateEditor-ImageContainer-imageCaption'
             type='text'
             name='caption'
             value={ caption }
+            placeholder="Optional Caption"
             onChange={ this.handleChange }
             />
         </div>
-        <button type="button" onClick={ this.handleChangeImage } >Change</button>
         <DragHandle />
       </div>
     );
