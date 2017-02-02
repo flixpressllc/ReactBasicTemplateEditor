@@ -12,6 +12,7 @@
   },
   "userImageChoosers": {
     "Your Two Images": {
+      "maxImages": 4,
       "value": ""
     }
   },

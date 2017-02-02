@@ -100,6 +100,9 @@ var EditorUserInterface = React.createClass({
           return Object.assign(val, {id: i});
         })
       }
+      if (isNotEmpty(imageChooser.maxImages) && imageChooser.containedImages.length > imageChooser.maxImages) {
+        imageChooser.containedImages = imageChooser.containedImages.slice(0, imageChooser.maxImages);
+      }
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
