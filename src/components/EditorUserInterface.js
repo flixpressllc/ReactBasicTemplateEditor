@@ -37,14 +37,6 @@ var EditorUserInterface = React.createClass({
     })
   },
 
-  createNameValuePairsObj: function (stateToMerge) {
-    if (isEmpty(stateToMerge.nameValuePairs)) return {};
-    return stateToMerge.nameValuePairs.reduce((a, pair) => {
-      a[pair.name] = pair.value;
-      return a;
-    }, {});
-  },
-
   getCurrentContainerState: function () {
     return dc.getContainerNames().reduce((a, containerName) => {
       if(!this.state.hasOwnProperty(containerName)) return a;
@@ -53,21 +45,21 @@ var EditorUserInterface = React.createClass({
     }, {});
   },
 
-  populateContainersWithPreviewData: function (stateToMerge, nameValuePairsObj) {
+  populateContainersWithPreviewData: function (containersObj, nameValuePairsObj) {
+    let newContainersObj = clone(containersObj);
     dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
-      let container = stateToMerge[containerName];
+      let container = newContainersObj[containerName];
       if (!isEmpty(container)) {
-        stateToMerge[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
+        newContainersObj[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
       }
     });
-    return stateToMerge;
+    return newContainersObj;
   },
 
-  extractAndReplacePreviewRenderValues: function (stateToMerge) {
-    let nameValuePairsObj = this.createNameValuePairsObj(stateToMerge);
-    delete stateToMerge.nameValuePairs;
+  extractAndReplacePreviewRenderValues: function (stateToMerge, nameValuePairsObj) {
+    stateToMerge = clone(stateToMerge);
 
     if (isNotEmpty(nameValuePairsObj)) {
       let populatedContainers = this.populateContainersWithPreviewData(
@@ -110,8 +102,8 @@ var EditorUserInterface = React.createClass({
   },
 
   getStartingData: function () { return new Promise((resolve) => {
-    let stateToMerge = renderDataAdapter.getReactStartingData();
-    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge);
+    let [stateToMerge, nameValPairsObj] = renderDataAdapter.getReactStartingData();
+    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge, nameValPairsObj);
     this.setState(stateToMerge, resolve);
   })},
 

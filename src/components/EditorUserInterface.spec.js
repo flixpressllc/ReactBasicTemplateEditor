@@ -43,7 +43,7 @@ function generalImagesTemplateSettings () { return {
   }
 };}
 
-function baseMockReturnForGetStartingData () { return {
+function baseMockReturnForGetStartingData () { return [{
   isPreview: false,
   resolutionId: 0,
   resolutions: [
@@ -67,126 +67,94 @@ function baseMockReturnForGetStartingData () { return {
     length: 0,
     name: '',
   }
-};}
+}];}
 
 function imagesMockReturnForGetStartingData () {
-  return Object.assign({}, baseMockReturnForGetStartingData(), {
+  return [Object.assign({}, baseMockReturnForGetStartingData()[0], {
     imageBank: [
       'DonDentonAdmin_1-23-2017_94956756.png',
       'DonDentonAdmin_1-23-2017_9502787.jpg',
       'DonDentonAdmin_1-23-2017_9505506.png'
     ]
-  });
+  }),{}];
 }
 
-function baseMockReturnForGetStartingDataOffPreview () { return {
-  "audioInfo": {
-    "audioType": "StockAudio",
-    "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
-    "id": 13,
-    "length": 3,
-    "name": "Bunny Garden",
+function baseMockReturnForGetStartingDataOffPreview () { return [
+  {
+    "audioInfo": {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 3,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutions": [
+      {
+        "id": 5,
+        "name": "720p",
+      },
+      {
+        "id": 3,
+        "name": "1080p",
+      },
+    ]
   },
-  "isPreview": true,
-  "nameValuePairs": [
-    {
-      "name": "Icon Style",
-      "value": "camera",
-    },
-    {
-      "name": "Icon Character - type in only one (optional)",
-      "value": "q",
-    },
-    {
-      "name": "YT1",
-      "value": "The Office Audition Tapes For Dwight, Michael, Kevin, Pam and Jim|S73Nzksy6rU|",
-    },
-    {
-      "name": "Icon Color",
-      "value": "icon_pink",
-    },
-    {
-      "name": "Main Text Color",
-      "value": "100.100.0",
-    },
-    {
-      "name": "Subtitle Text Color",
-      "value": "0.0.0.50",
-    },
-    {
-      "name": "Text Left of Icon",
-      "value": "Left",
-    },
-    {
-      "name": "Text Right of Icon",
-      "value": "Right",
-    },
-    {
-      "name": "Subtitle",
-      "value": "Bottom",
-    },
-  ],
-  "resolutionId": 5,
-  "resolutions": [
-    {
-      "id": 5,
-      "name": "720p",
-    },
-    {
-      "id": 3,
-      "name": "1080p",
-    },
-  ]
-};}
+  {
+    'Icon Style': 'camera',
+    'Icon Character - type in only one (optional)': 'q',
+    'YT1': 'The Office Audition Tapes For Dwight, Michael, Kevin, Pam and Jim|S73Nzksy6rU|',
+    'Icon Color': 'icon_pink',
+    'Main Text Color': '100.100.0',
+    'Subtitle Text Color': '0.0.0.50',
+    'Text Left of Icon': 'Left',
+    'Text Right of Icon': 'Right',
+    'Subtitle': 'Bottom',
+  }
+];}
 
-function imagesMockReturnForGetStartingDataOffPreview () { return {
-  audioInfo: {
-    audioType: 'StockAudio',
-    audioUrl: 'https://fpsound.s3.amazonaws.com/13.mp3',
-    id: 13,
-    length: 3,
-    name: 'Bunny Garden',
+function imagesMockReturnForGetStartingDataOffPreview () { return [
+  {
+    audioInfo: {
+      audioType: 'StockAudio',
+      audioUrl: 'https://fpsound.s3.amazonaws.com/13.mp3',
+      id: 13,
+      length: 3,
+      name: 'Bunny Garden',
+    },
+    isPreview: true,
+    resolutionId: 5,
+    resolutions: [
+      {
+        id: 5,
+        name: '720p',
+      },
+      {
+        id: 3,
+        name: '1080p',
+      },
+    ]
   },
-  isPreview: true,
-  nameValuePairs: [
-    {
-      name: 'Text Left of Icon',
-      value: 'Left',
-    },
-    {
-      name: 'Text Right of Icon',
-      value: 'Right',
-    },
-    {
-      name: 'ImageContainer', // This will be wrong if we ever assume more than one
-      value: [
-        {
-          caption: 'marmet',
-          file: 'DonDentonAdmin_1-23-2017_94956756.png',
-        },
-        {
-          caption: '',
-          file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
-        },
-        {
-          caption: '',
-          file: 'DonDentonAdmin_1-23-2017_9505506.png',
-        }
-      ]
-    }
-  ],
-  resolutionId: 5,
-  resolutions: [
-    {
-      id: 5,
-      name: '720p',
-    },
-    {
-      id: 3,
-      name: '1080p',
-    },
-  ]
-};}
+  {
+    'Text Left of Icon': 'Left',
+    'Text Right of Icon': 'Right',
+    ImageContainer: [ // This name will be wrong if we ever assume more than one
+      {
+        caption: 'marmet',
+        file: 'DonDentonAdmin_1-23-2017_94956756.png',
+      },
+      {
+        caption: '',
+        file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
+      },
+      {
+        caption: '',
+        file: 'DonDentonAdmin_1-23-2017_9505506.png',
+      }
+    ]
+  }
+];}
 
 describe('EditorUserInterface', () => {
   it('renders without crashing', () => {

@@ -97,7 +97,7 @@ var getTopLevelXmlName = function () {
 
 var convertSpecsToReactData = function (givenXmlObj) {
   if (!nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', Array.isArray)) {
-    return {};
+    return [];
   }
   let specs = clone(givenXmlObj.RenderedData.Specs.SpCx.CSp);
 
@@ -109,11 +109,13 @@ var convertSpecsToReactData = function (givenXmlObj) {
     for ( var j = 0; currentFieldsArray.length > j; j++ ) {
       name = currentFieldsArray[j].$name;
       value = currentFieldsArray[j].$val;
-      nameValuePairs.push({name: name, value: value});
+      let o = {};
+      o[name] = value;
+      nameValuePairs.push(o);
     }
   }
 
-  return {nameValuePairs};
+  return nameValuePairs;
 };
 
 function getStartingResolutionsObject (obj) {
@@ -183,7 +185,9 @@ function getNameValuePairsForMainCaptionFields (givenXmlObj) {
     }
 
     rDataCaptionFields.map((captionField) => {
-      nameValuePairs.push({name: captionField.Label, value:captionField.Value});
+      let o = {};
+      o[captionField.Label] = captionField.Value;
+      nameValuePairs.push(o);
     });
   }
 
@@ -198,7 +202,7 @@ function returnNameValuePairForSingleImageContainer (givenXmlObj) {
     captionedImages.map( (capImage, i) => {
       mainImageData.push({id: i, file: capImage.Filename, caption: capImage.Captions.CaptionField.Value});
     });
-    return {name: 'ImageContainer', value: mainImageData};
+    return {ImageContainer: mainImageData};
   }
   return {};
 }
@@ -210,27 +214,31 @@ function convertCaptionsToReactData (givenXmlObj) {
   if (isNotEmpty(imageContainerPair)) nameValuePairs.push(imageContainerPair);
 
   if (isEmpty(nameValuePairs)) {
-    return {};
+    return [];
   } else {
-    return { nameValuePairs };
+    return nameValuePairs;
   }
 }
 
-function getMainDataObject(givenXmlObj) {
-  return isImageTemplate() ? convertCaptionsToReactData(givenXmlObj) :
-    convertSpecsToReactData(givenXmlObj);
+function getNameValuePairsObj(givenXmlObj) {
+  let nameValuePairsArr = isImageTemplate() ? convertCaptionsToReactData(givenXmlObj) : convertSpecsToReactData(givenXmlObj);
+
+  return Object.assign({}, ...nameValuePairsArr);
 }
 
 function getReactStartingData () {
   let xmlObj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
-  return Object.assign(
-    getMainDataObject(xmlObj),
-    getImageBankObject(xmlObj),
-    getStartingResolutionsObject(xmlObj),
-    getStartingAudioObject(xmlObj),
-    {isPreview: xmlObj.IsPreview},
-  );
+  return [
+    Object.assign(
+      getImageBankObject(xmlObj),
+      getStartingResolutionsObject(xmlObj),
+      getStartingAudioObject(xmlObj),
+      {isPreview: xmlObj.IsPreview},
+    ),
+    getNameValuePairsObj(xmlObj),
+  ];
+
 }
 
 function objectToXml (object) {

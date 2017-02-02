@@ -1,217 +1,176 @@
 exports[`DataAdapter getReactStartingData returns the expected object for a new Images template 1`] = `
-Object {
-  "imageBank": Array [
-    "HiddenFieldImage1.png",
-    "HiddenFieldImage2.jpg",
-    "HiddenFieldImage3.png",
-  ],
-  "isPreview": false,
-  "resolutionId": 5,
-  "resolutions": Array [
-    Object {
-      "id": 5,
-      "name": "720p",
-    },
-    Object {
-      "id": 3,
-      "name": "1080p",
-    },
-    Object {
-      "id": 4,
-      "name": "4K",
-    },
-  ],
-}
+Array [
+  Object {
+    "imageBank": Array [
+      "HiddenFieldImage1.png",
+      "HiddenFieldImage2.jpg",
+      "HiddenFieldImage3.png",
+    ],
+    "isPreview": false,
+    "resolutionId": 5,
+    "resolutions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
+  },
+  Object {},
+]
 `;
 
 exports[`DataAdapter getReactStartingData returns the expected object for a new TextOnly 1`] = `
-Object {
-  "isPreview": false,
-  "resolutionId": 5,
-  "resolutions": Array [
-    Object {
-      "id": 5,
-      "name": "720p",
-    },
-    Object {
-      "id": 3,
-      "name": "1080p",
-    },
-    Object {
-      "id": 4,
-      "name": "4K",
-    },
-  ],
-}
+Array [
+  Object {
+    "isPreview": false,
+    "resolutionId": 5,
+    "resolutions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
+  },
+  Object {},
+]
 `;
 
 exports[`DataAdapter getReactStartingData returns the expected object for a previously created Images 1`] = `
-Object {
-  "audioInfo": Object {
-    "audioType": "NoAudio",
-    "audioUrl": "",
-    "id": 0,
-    "length": 0,
-    "name": "",
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
+      "length": 0,
+      "name": "",
+    },
+    "imageBank": Array [
+      "DonDentonAdmin_1-30-2017_115146348.jpg",
+      "DonDentonAdmin_1-30-2017_115147660.jpg",
+      "DonDentonAdmin_1-30-2017_115150331.jpg",
+      "DonDentonAdmin_1-30-2017_115152252.jpg",
+      "DonDentonAdmin_1-30-2017_115154361.jpg",
+      "DonDentonAdmin_1-30-2017_115157985.jpg",
+      "DonDentonAdmin_1-30-2017_115158937.jpg",
+      "DonDentonAdmin_1-30-2017_11520968.jpg",
+    ],
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
   },
-  "imageBank": Array [
-    "DonDentonAdmin_1-30-2017_115146348.jpg",
-    "DonDentonAdmin_1-30-2017_115147660.jpg",
-    "DonDentonAdmin_1-30-2017_115150331.jpg",
-    "DonDentonAdmin_1-30-2017_115152252.jpg",
-    "DonDentonAdmin_1-30-2017_115154361.jpg",
-    "DonDentonAdmin_1-30-2017_115157985.jpg",
-    "DonDentonAdmin_1-30-2017_115158937.jpg",
-    "DonDentonAdmin_1-30-2017_11520968.jpg",
-  ],
-  "isPreview": true,
-  "nameValuePairs": Array [
-    Object {
-      "name": "Begin Text",
-      "value": "In the beginning",
-    },
-    Object {
-      "name": "End Text",
-      "value": "The End... or is it?",
-    },
-    Object {
-      "name": "Background Color",
-      "value": "201.30.30",
-    },
-    Object {
-      "name": "Transition Type",
-      "value": "Triangle Slash",
-    },
-    Object {
-      "name": "Style",
-      "value": "Back Color Negative",
-    },
-    Object {
-      "name": "Glow",
-      "value": "Disabled",
-    },
-    Object {
-      "name": "Particle Icon",
-      "value": "Thumbs_Up",
-    },
-    Object {
-      "name": "ImageContainer",
-      "value": Array [
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
-          "id": 0,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
-          "id": 1,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
-          "id": 2,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
-          "id": 3,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
-          "id": 4,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
-          "id": 5,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
-          "id": 6,
-        },
-        Object {
-          "caption": "",
-          "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
-          "id": 7,
-        },
-      ],
-    },
-  ],
-  "resolutionId": 5,
-  "resolutions": Array [
-    Object {
-      "id": 5,
-      "name": "720p",
-    },
-    Object {
-      "id": 3,
-      "name": "1080p",
-    },
-  ],
-}
+  Object {
+    "Background Color": "201.30.30",
+    "Begin Text": "In the beginning",
+    "End Text": "The End... or is it?",
+    "Glow": "Disabled",
+    "ImageContainer": Array [
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
+        "id": 0,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
+        "id": 1,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
+        "id": 2,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
+        "id": 3,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
+        "id": 4,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
+        "id": 5,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
+        "id": 6,
+      },
+      Object {
+        "caption": "",
+        "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
+        "id": 7,
+      },
+    ],
+    "Particle Icon": "Thumbs_Up",
+    "Style": "Back Color Negative",
+    "Transition Type": "Triangle Slash",
+  },
+]
 `;
 
 exports[`DataAdapter getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
-Object {
-  "audioInfo": Object {
-    "audioType": "StockAudio",
-    "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
-    "id": 13,
-    "length": 0,
-    "name": "Bunny Garden",
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 0,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
   },
-  "isPreview": true,
-  "nameValuePairs": Array [
-    Object {
-      "name": "Icon Style",
-      "value": "camera",
-    },
-    Object {
-      "name": "Icon Character - type in only one (optional)",
-      "value": "q",
-    },
-    Object {
-      "name": "Background",
-      "value": "camo",
-    },
-    Object {
-      "name": "Icon Color",
-      "value": "icon_pink",
-    },
-    Object {
-      "name": "Main Text Color",
-      "value": "main_orange",
-    },
-    Object {
-      "name": "Subtitle Text Color",
-      "value": "sub_white",
-    },
-    Object {
-      "name": "Text Left of Icon",
-      "value": "Left",
-    },
-    Object {
-      "name": "Text Right of Icon",
-      "value": "Right",
-    },
-    Object {
-      "name": "Subtitle",
-      "value": "Bottom",
-    },
-  ],
-  "resolutionId": 5,
-  "resolutions": Array [
-    Object {
-      "id": 5,
-      "name": "720p",
-    },
-    Object {
-      "id": 3,
-      "name": "1080p",
-    },
-  ],
-}
+  Object {
+    "Background": "camo",
+    "Icon Character - type in only one (optional)": "q",
+    "Icon Color": "icon_pink",
+    "Icon Style": "camera",
+    "Main Text Color": "main_orange",
+    "Subtitle": "Bottom",
+    "Subtitle Text Color": "sub_white",
+    "Text Left of Icon": "Left",
+    "Text Right of Icon": "Right",
+  },
+]
 `;
