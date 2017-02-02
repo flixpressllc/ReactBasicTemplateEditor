@@ -2,6 +2,7 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import { clone } from '../utils/helper-functions';
 
 import './ImageContainer.scss';
 
@@ -28,6 +29,9 @@ const ListImage = SortableElement( React.createClass({
   handleChange: function (e) {
     this.props.onCaptionChange(this.props.item.id, e.target.value);
   },
+  handleChangeImage: function () {
+    this.props.onChangeImage(this.props.item.id);
+  },
   render: function () {
     const caption = this.props.item.caption || '';
     return (
@@ -44,7 +48,7 @@ const ListImage = SortableElement( React.createClass({
             onChange={ this.handleChange }
             />
         </div>
-        <button type="button" onClick={ this.props.onChangeImage } >Change</button>
+        <button type="button" onClick={ this.handleChangeImage } >Change</button>
         <DragHandle />
       </div>
     );
@@ -71,7 +75,7 @@ const SortableList = SortableContainer( React.createClass({
 const ImageBank = React.createClass({
   render: function () {
     let imageList = this.props.imageBank.map((image, i) => {
-      return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } />;
+      return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { this.props.onChooseImage(image) }}/>;
     });
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
@@ -126,18 +130,23 @@ const ImageContainer = React.createClass({
     this.setState({modalIsOpen: false})
   },
 
-  handleChangeImage: function () {
+  handleChangeImage: function (oldImageId) {
     //something
-    this.openModal();
+    this.setState({imageIdToReplace: oldImageId}, this.openModal)
   },
 
-  handleReplaceImage: function (incomingId) {
-    this.closeModal();
-    let outgoingId = this.state.imageToReplace;
-    // do things...
+  handleReplaceImage: function (incomingImage) {
+    let outgoingId = this.state.imageIdToReplace;
 
-    // then
-    return;
+    let newImageArray = clone(this.state.images).map(image => {
+      if (image.id === outgoingId) {
+        image.file = incomingImage;
+      }
+      return image;
+    });
+
+    this.props.onUpdateImages(newImageArray);
+    this.closeModal();
   },
 
   renderFakeModal: function () {

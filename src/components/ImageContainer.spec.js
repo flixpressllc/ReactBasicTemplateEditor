@@ -68,13 +68,35 @@ describe('ImageContainer', () => {
     };
     const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-    component.find('button').first().simulate('click');
+    component.find('button').at(0).simulate('click');
     let renderedImages = component.render().find('img');
 
     expect(renderedImages.length).toEqual(4);
     settings.imageBank.map((val, i) => {
       expect(renderedImages.eq(i).attr('src')).toContain(val);
     });
+  });
+
+  it('swaps out the image when a new one is chosen', () => {
+    const fakeChangeArray = jest.fn();
+    let settings = {
+      images: [
+        {file: 'toast.jpg'},
+      ],
+      imageBank: [
+        'toast.jpg',
+        'coffee.jpg',
+        'eggs.jpg',
+        'milk.jpg',
+      ],
+      onUpdateImages: fakeChangeArray
+    };
+    const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+    component.find('button').at(0).simulate('click');
+    component.find('img').at(2).simulate('click');
+
+    expect(fakeChangeArray).toHaveBeenCalledWith([{file: 'eggs.jpg', id:0}]);
   });
 
 });
