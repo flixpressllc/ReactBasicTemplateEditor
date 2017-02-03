@@ -23,7 +23,6 @@ function generalSettings () { return {
     templateId: 1000,
     minutesRemainingInContract: 170.2819,
     minimumTemplateDuration: 0.1667,
-    previewVideoUrl: '',
     isChargePerOrder: false,
     renderCost: 8
   }
@@ -37,7 +36,6 @@ function generalImagesTemplateSettings () { return {
     templateId: 2000,
     minutesRemainingInContract: 170.2819,
     minimumTemplateDuration: 0.1667,
-    previewVideoUrl: '',
     isChargePerOrder: false,
     renderCost: 8
   }
