@@ -28,6 +28,10 @@ var EditorUserInterface = React.createClass({
     });
   },
 
+  isImageTemplate: function () {
+    return this.props.templateType === 'images';
+  },
+
   mergeAllNodesInContainerWithPreviewData: function (container, dataTypeName, nameValuePairsObj) {
     if (isEmpty(container)) {
       throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
@@ -71,8 +75,43 @@ var EditorUserInterface = React.createClass({
     return stateToMerge;
   },
 
+  respectMaximumImageValue: function (imageChooser) {
+    if (isEmpty(imageChooser.maxImages)) return imageChooser;
+    imageChooser = clone(imageChooser);
+
+    // drain extra images
+    if (imageChooser.containedImages.length > imageChooser.maxImages) {
+      imageChooser.containedImages = imageChooser.containedImages.slice(0, imageChooser.maxImages);
+    }
+
+    return imageChooser;
+  },
+
+  respectMinimumImageValue: function (imageChooser, imageBank) {
+    if (isEmpty(imageChooser.minImages)) return imageChooser;
+    imageChooser = clone(imageChooser);
+
+    if (imageChooser.containedImages.length < imageChooser.minImages && isNotEmpty(imageBank)) {
+      let difference = imageChooser.minImages - imageChooser.containedImages.length;
+      for (let i = 0; i < difference; i++) {
+        // Just push the first image over and over for now.
+        // We aren't trying to magically build the template for them.
+        imageChooser.containedImages.push({file: imageBank[0]});
+      }
+    }
+
+    return imageChooser;
+  },
+
+  assignIds: function (containedImages) {
+    if (isEmpty(containedImages)) return containedImages;
+    return containedImages.map((val, i) => {
+      return Object.assign(val, {id: i});
+    });
+  },
+
   imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj) {
-    if (this.props.templateType !== 'images') return stateToMerge;
+    if (!this.isImageTemplate()) return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
 
     let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
@@ -87,14 +126,11 @@ var EditorUserInterface = React.createClass({
           return {file: val};
         });
       }
-      if (isNotEmpty(imageChooser.containedImages)) {
-        imageChooser.containedImages = imageChooser.containedImages.map((val, i) => {
-          return Object.assign(val, {id: i});
-        })
-      }
-      if (isNotEmpty(imageChooser.maxImages) && imageChooser.containedImages.length > imageChooser.maxImages) {
-        imageChooser.containedImages = imageChooser.containedImages.slice(0, imageChooser.maxImages);
-      }
+
+      imageChooser = this.respectMaximumImageValue(imageChooser);
+      imageChooser = this.respectMinimumImageValue(imageChooser, stateToMerge.imageBank);
+      imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
+
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
