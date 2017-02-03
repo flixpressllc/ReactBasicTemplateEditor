@@ -4,7 +4,7 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
-  traverseObject, wrapObjectWithProperty } from './helper-functions';
+  traverseObject, wrapObjectWithProperty, toType } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -200,7 +200,14 @@ function returnNameValuePairForSingleImageContainer (givenXmlObj) {
     if (! Array.isArray(captionedImages)) captionedImages = [captionedImages];
     let mainImageData = [];
     captionedImages.map( (capImage, i) => {
-      mainImageData.push({id: i, file: capImage.Filename, caption: capImage.Captions.CaptionField.Value});
+      let capFields = capImage.Captions.CaptionField;
+      if (toType(capFields) !== 'array') {
+        capFields = [capFields];
+      }
+      mainImageData.push({id: i, file: capImage.Filename, captions: capFields.map(field => {
+          return field.Value;
+        })
+      });
     });
     return {ImageContainer: mainImageData};
   }
@@ -374,10 +381,14 @@ function addImageRenderDataToOrderObject (orderObject, reactObj) {
             let chooser = reactObj.ui[i][key][j];
             chooser.value.map(imgObj => {
               Images.CaptionedImage.push({
-                Captions: { CaptionField: {
-                  Label: 'Caption',
-                  Value: imgObj.caption
-                }},
+                Captions: { CaptionField:
+                  imgObj.captions.map((cap) => {
+                    return {
+                      Label: cap.label,
+                      Value: cap.value
+                    };
+                  })
+                },
                 Filename: imgObj.file
               });
             });

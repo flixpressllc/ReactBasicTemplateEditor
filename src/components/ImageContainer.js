@@ -8,7 +8,19 @@ import './ImageContainer.scss';
 
 function toRenderString (object) {
   // This won't really be a string. That's okay, though.
-  return object.containedImages;
+  let renderValue = clone(object.containedImages).map((imgObj) => {
+    if (imgObj.captions === undefined) {
+      imgObj.captions = [];
+    }
+    imgObj.captions = imgObj.captions.map((capText, i) => {
+      return {
+        label: object.captions[i],
+        value: capText
+      };
+    })
+    return imgObj;
+  });
+  return renderValue;
 }
 
 function toDataObject (object) {
@@ -27,13 +39,37 @@ const DragHandle = SortableHandle(() => {
 
 const ListImage = SortableElement( React.createClass({
   handleChange: function (e) {
-    this.props.onCaptionChange(this.props.item.id, e.target.value);
+    this.props.onCaptionChange({
+      imageId: this.props.item.id,
+      captionIndex: e.target.getAttribute('data-index'),
+      newValue: e.target.value
+    });
   },
   handleChangeImage: function () {
     this.props.onChangeImage(this.props.item.id);
   },
+  renderCaptions: function () {
+    if (this.props.captions === undefined) {
+      return null;
+    }
+    const captionValues = this.props.item.captions || '';
+    const captions = this.props.captions.map((capName, i) => {
+      return (
+        <input className='reactBasicTemplateEditor-ImageContainer-imageCaption'
+          key={ i }
+          type='text'
+          data-index={ i }
+          name={ capName }
+          value={ captionValues[i] }
+          placeholder={`Optional ${capName}`}
+          onChange={ this.handleChange }
+          />
+      );
+    });
+    return captions;
+  },
   render: function () {
-    const caption = this.props.item.caption || '';
+    const captions = this.renderCaptions();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
@@ -43,13 +79,7 @@ const ListImage = SortableElement( React.createClass({
             onClick={ this.handleChangeImage }>
             Change Image
           </button>
-          <input className='reactBasicTemplateEditor-ImageContainer-imageCaption'
-            type='text'
-            name='caption'
-            value={ caption }
-            placeholder="Optional Caption"
-            onChange={ this.handleChange }
-            />
+          { captions }
         </div>
         <DragHandle />
       </div>
@@ -64,6 +94,7 @@ const SortableList = SortableContainer( React.createClass({
         {this.props.items.map((value, index) =>
           <ListImage
             key={`item-${index}`}
+            captions={ this.props.captions }
             onCaptionChange={ this.props.onCaptionChange }
             index={index}
             onChangeImage={ this.props.onChangeImage }
@@ -114,10 +145,14 @@ const ImageContainer = React.createClass({
     this.setState({images: this.getImagesStateFromImages(newProps.images)});
   },
 
-  handlecaptionChange: function (id, newCaptionText) {
+  handleCaptionChange: function (newCaptionObject) {
     let newArray = this.props.images.map(image => {
-      if (image.id === id) {
-        image.caption = newCaptionText;
+      if (image.captions === undefined) {
+        // be sure there is an array
+        image.captions = [];
+      }
+      if (image.id === newCaptionObject.imageId) {
+        image.captions[newCaptionObject.captionIndex] = newCaptionObject.newValue;
       }
       return image;
     });
@@ -169,7 +204,8 @@ const ImageContainer = React.createClass({
       <SortableList
         items={ images }
         onSortEnd={ this.handleSortEnd }
-        onCaptionChange={ this.handlecaptionChange }
+        captions={ this.props.captions }
+        onCaptionChange={ this.handleCaptionChange }
         useDragHandle={ true }
         onChangeImage={ this.handleChangeImage }
       />

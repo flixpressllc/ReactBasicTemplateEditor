@@ -47,35 +47,35 @@ export default {
           value: [
             {
               file: 'DonDentonAdmin_1-30-2017_115146348.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115147660.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115150331.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115152252.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115154361.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115157985.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115158937.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_11520968.jpg',
-              caption: ''
+              captions: [ {label: 'Caption', value:'' } ]
             },
           ]
         }

@@ -91,42 +91,58 @@ Array [
     "Glow": "Disabled",
     "ImageContainer": Array [
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
         "id": 0,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
         "id": 1,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115150331.jpg",
         "id": 2,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
         "id": 3,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
         "id": 4,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115157985.jpg",
         "id": 5,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_115158937.jpg",
         "id": 6,
       },
       Object {
-        "caption": "",
+        "captions": Array [
+          "",
+        ],
         "file": "DonDentonAdmin_1-30-2017_11520968.jpg",
         "id": 7,
       },

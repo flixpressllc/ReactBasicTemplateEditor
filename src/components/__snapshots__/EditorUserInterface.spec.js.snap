@@ -46,14 +46,17 @@ Array [
             "type": "UserImageChooser",
             "value": Array [
               Object {
+                "captions": Array [],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
               },
               Object {
+                "captions": Array [],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
               },
               Object {
+                "captions": Array [],
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",
                 "id": 2,
               },
@@ -69,17 +72,23 @@ Array [
 exports[`EditorUserInterface when an images template and when starting from preview passes the info into the correct containers 1`] = `
 Array [
   Object {
-    "caption": "marmet",
+    "captions": Array [
+      "marmet",
+    ],
     "file": "DonDentonAdmin_1-23-2017_94956756.png",
     "id": 0,
   },
   Object {
-    "caption": "",
+    "captions": Array [
+      "",
+    ],
     "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
     "id": 1,
   },
   Object {
-    "caption": "",
+    "captions": Array [
+      "",
+    ],
     "file": "DonDentonAdmin_1-23-2017_9505506.png",
     "id": 2,
   },
@@ -130,17 +139,32 @@ Array [
             "type": "UserImageChooser",
             "value": Array [
               Object {
-                "caption": "marmet",
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "marmet",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
               },
               Object {
-                "caption": "",
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
               },
               Object {
-                "caption": "",
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",
                 "id": 2,
               },

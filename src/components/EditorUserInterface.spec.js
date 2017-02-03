@@ -141,15 +141,15 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
     'Text Right of Icon': 'Right',
     ImageContainer: [ // This name will be wrong if we ever assume more than one
       {
-        caption: 'marmet',
+        captions: [ 'marmet' ],
         file: 'DonDentonAdmin_1-23-2017_94956756.png',
       },
       {
-        caption: '',
+        captions: [''],
         file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
       },
       {
-        caption: '',
+        captions: [''],
         file: 'DonDentonAdmin_1-23-2017_9505506.png',
       }
     ]
