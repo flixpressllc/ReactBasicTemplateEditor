@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ResolutionId>0</ResolutionId>
+<IsPreview>false</IsPreview>
+<ResolutionOptions>
+  <ListItemViewModel>
+    <Id>5</Id>
+    <Name>720p</Name>
+  </ListItemViewModel>
+  <ListItemViewModel>
+    <Id>3</Id>
+    <Name>1080p</Name>
+  </ListItemViewModel>
+  <ListItemViewModel>
+    <Id>4</Id>
+    <Name>4K</Name>
+  </ListItemViewModel>
+</ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>

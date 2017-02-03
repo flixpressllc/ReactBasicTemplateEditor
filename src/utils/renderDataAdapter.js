@@ -1,34 +1,63 @@
 import jxon from './xmlAdapter';
-import { XML_CONTAINER_ID } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
+  TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY} from '../stores/app-settings';
 import { getElementById } from './dom-queries';
-import { clone, convertPropKeysForJs, convertPropKeysForAsp, isEmpty,
-  nestedPropertyTest, isObject, isNotEmpty, wrapObjectWithProperty } from './helper-functions';
+import { clone, convertPropKeysForJs, convertPropKeysForAsp,
+  nestedPropertyTest, isObject, isNotEmpty, isEmpty,
+  traverseObject, wrapObjectWithProperty, toType } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
-var startingPoint = {
-  "$xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-  "$xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+let startingPoint = {
+  '$xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+  '$xmlns:xsd': 'http://www.w3.org/2001/XMLSchema',
   ResolutionId: 0,
-  RenderedData: {
-    Specs: {
-      $name: "Specs",
-      $val: "",
-      SpCx: {
-        CSp: []
-      }
-    },
-    AudioInfo: {
-      Name: null,
-      Length: "0",
-      AudioType: "NoAudio",
-      Id: "0",
-      AudioUrl: null
-    }
-  },
   IsPreview: false
 };
 /* eslint-enable quotes */
+
+let startingSpecs = {
+  Specs: {
+    $name: 'Specs',
+    $val: '',
+    SpCx: {
+      CSp: []
+    }
+  }
+};
+
+let startingSlides = {
+  Slides: {
+    FSlide: {
+      Captions: {},
+      Images: {}
+    }
+  }
+};
+
+let startingAudioInfo = {
+  AudioInfo: {
+    Name: null,
+    Length: '0',
+    AudioType: 'NoAudio',
+    Id: '0',
+    AudioUrl: null
+  }
+};
+
+function getEmptyRenderedData () {
+  if (isImageTemplate()) {
+    return Object.assign({}, startingSlides, startingAudioInfo)
+  } else {
+    return Object.assign({}, startingSpecs, startingAudioInfo)
+  }
+}
+
+function getEmptyStartingPoint () {
+  let orderStartingPoint = clone(startingPoint);
+  orderStartingPoint.RenderedData = getEmptyRenderedData();
+  return orderStartingPoint;
+}
 
 function xmlContainerDiv () {
   return getElementById(XML_CONTAINER_ID);
@@ -50,14 +79,25 @@ var getLoadedXmlAsObject = function () {
   return jxon.stringToJs(getLoadedXmlAsString());
 };
 
+function isImageTemplate () {
+  return getTopLevelXmlName() === TOP_LEVEL_NAME_IMAGES;
+}
+
 var getTopLevelXmlName = function () {
-  return 'OrderRequestOfTextOnlyRndTemplate';
+  const allowedNames = [TOP_LEVEL_NAME_TEXT_ONLY, TOP_LEVEL_NAME_IMAGES]
+  let topLevelName = '';
+  traverseObject(getLoadedXmlAsObject(), key => {
+    if ( allowedNames.indexOf(key) !== -1 )
+    topLevelName = key;
+  });
+  if (topLevelName === '') throw new Error('no TopLevelName discovered in ' + getLoadedXmlAsString());
+  return topLevelName;
 };
 
 
 var convertSpecsToReactData = function (givenXmlObj) {
   if (!nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', Array.isArray)) {
-    return {};
+    return [];
   }
   let specs = clone(givenXmlObj.RenderedData.Specs.SpCx.CSp);
 
@@ -69,11 +109,13 @@ var convertSpecsToReactData = function (givenXmlObj) {
     for ( var j = 0; currentFieldsArray.length > j; j++ ) {
       name = currentFieldsArray[j].$name;
       value = currentFieldsArray[j].$val;
-      nameValuePairs.push({name: name, value: value});
+      let o = {};
+      o[name] = value;
+      nameValuePairs.push(o);
     }
   }
 
-  return {nameValuePairs};
+  return nameValuePairs;
 };
 
 function getStartingResolutionsObject (obj) {
@@ -105,15 +147,105 @@ function getStartingAudioObject (obj) {
   return {};
 }
 
+function getImagesFromHiddenField () {
+  let container = getElementById(IMAGES_CONTAINER_ID);
+  if (!container) return [];
+
+  let imagesString = getElementById(IMAGES_CONTAINER_ID).value;
+  let imagesArray = imagesString.split('|');
+  return imagesArray.filter( val => isNotEmpty(val) );
+}
+
+function getImagesFromUnusedRenderData (obj) {
+  if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls.String', isNotEmpty)) {
+    return obj.RenderedData.UnusedImageUrls.String;
+  } else {
+    return [];
+  }
+}
+
+function getImageBankObject (obj) {
+  if (!isImageTemplate()) return {};
+  let allImages = getImagesFromUnusedRenderData(obj)
+    .concat(getImagesFromHiddenField())
+    .reduce((a, file) => {
+      if (a.indexOf(file) === -1) a.push(file);
+      return a;
+    }, []);
+
+  return { imageBank: allImages };
+}
+
+function getNameValuePairsForMainCaptionFields (givenXmlObj) {
+  let nameValuePairs = [];
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Captions.CaptionField', isNotEmpty)) {
+    let rDataCaptionFields = givenXmlObj.RenderedData.Captions.CaptionField;
+    if (! Array.isArray(rDataCaptionFields)) {
+      rDataCaptionFields = [rDataCaptionFields];
+    }
+
+    rDataCaptionFields.map((captionField) => {
+      let o = {};
+      o[captionField.Label] = captionField.Value;
+      nameValuePairs.push(o);
+    });
+  }
+
+  return nameValuePairs;
+}
+
+function returnNameValuePairForSingleImageContainer (givenXmlObj) {
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
+    let captionedImages = givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage;
+    if (! Array.isArray(captionedImages)) captionedImages = [captionedImages];
+    let mainImageData = [];
+    captionedImages.map( (capImage, i) => {
+      let capFields = capImage.Captions.CaptionField;
+      if (toType(capFields) !== 'array') {
+        capFields = [capFields];
+      }
+      mainImageData.push({id: i, file: capImage.Filename, captions: capFields.map(field => {
+          return field.Value;
+        })
+      });
+    });
+    return {ImageContainer: mainImageData};
+  }
+  return {};
+}
+
+function convertCaptionsToReactData (givenXmlObj) {
+  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
+  let imageContainerPair = returnNameValuePairForSingleImageContainer(givenXmlObj);
+
+  if (isNotEmpty(imageContainerPair)) nameValuePairs.push(imageContainerPair);
+
+  if (isEmpty(nameValuePairs)) {
+    return [];
+  } else {
+    return nameValuePairs;
+  }
+}
+
+function getNameValuePairsObj(givenXmlObj) {
+  let nameValuePairsArr = isImageTemplate() ? convertCaptionsToReactData(givenXmlObj) : convertSpecsToReactData(givenXmlObj);
+
+  return Object.assign({}, ...nameValuePairsArr);
+}
+
 function getReactStartingData () {
-  let obj = getLoadedXmlAsObject()[getTopLevelXmlName()];
+  let xmlObj = getLoadedXmlAsObject()[getTopLevelXmlName()];
 
-  let specsObj = convertSpecsToReactData(obj);
-  let resolutionsObj = getStartingResolutionsObject(obj);
-  let audioDataObj = getStartingAudioObject(obj);
-  let isPreviewObj = {isPreview: obj.IsPreview};
+  return [
+    Object.assign(
+      getImageBankObject(xmlObj),
+      getStartingResolutionsObject(xmlObj),
+      getStartingAudioObject(xmlObj),
+      {isPreview: xmlObj.IsPreview},
+    ),
+    getNameValuePairsObj(xmlObj)
+  ];
 
-  return Object.assign({}, specsObj, resolutionsObj, audioDataObj, isPreviewObj);
 }
 
 function objectToXml (object) {
@@ -124,27 +256,79 @@ function addResolutionToOrderObj (orderObj, reactObj) {
   if (reactObj.resolutionId === undefined || reactObj.resolutionId === 0) {
     throw new Error('No ResolutionId was present');
   }
+  if (reactObj.resolutionOptions === undefined) {
+    throw new Error('Resolution Options are extraneous... but I want the data to match exactly. No Resolution Options were present.')
+  }
   let newOrderObj = clone(orderObj);
   newOrderObj.ResolutionId = reactObj.resolutionId;
   return newOrderObj;
 }
 
-function addAudioToOrderObj (orderObj, reactObj) {
+function addResolutionOptionsToOrderObj (orderObj, reactObj) {
+  if (reactObj.resolutionOptions === undefined) {
+    throw new Error('Resolution Options are extraneous... but I want the data to match exactly. No Resolution Options were present.')
+  }
   let newOrderObj = clone(orderObj);
-  // copy audio
+  newOrderObj.ResolutionOptions = reactObj.resolutionOptions.reduce((a, resObj) => {
+    // TODO: test that this is actually necessary... just flipping the order
+    if (isImageTemplate()){
+      a.ListItemViewModel.push({
+        'Id': resObj.id,
+        'Name': resObj.name
+      });
+    } else {
+      a.ListItemViewModel.push({
+        'Name': resObj.name,
+        'Id': resObj.id
+      });
+    }
+    return a;
+  }, {'ListItemViewModel':[]});
+  return newOrderObj;
+}
+
+function sortObjectByArray (keysInOrder, obj) {
+  let newObj = keysInOrder.reduce((a, key) => {
+    if (!obj.hasOwnProperty(key)) return a;
+    a[key] = clone(obj[key]);
+    return a;
+  }, {});
+
+  traverseObject(obj, (key, value) => {
+    if (newObj.hasOwnProperty(key)) return;
+    newObj[key] = clone(value);
+  });
+
+  return newObj;
+}
+
+function addAudioToOrderObj (orderObj, reactObj) {
   if (reactObj.audioInfo === undefined) {
     throw new Error('No audioInfo was present');
   }
-  newOrderObj.RenderedData.AudioInfo = convertPropKeysForAsp(reactObj.audioInfo);
+  let newOrderObj = clone(orderObj);
+
+  let sortOrder = ['length', 'id', 'audioType', 'name', 'audioUrl']
+
+  // TODO: test if this flip reordering is actually necessary
+  if (isImageTemplate()) {
+    sortOrder = ['audioUrl', 'name', 'audioType', 'length', 'id'];
+  }
+
+  let audioObject = sortObjectByArray(sortOrder, reactObj.audioInfo);
+
+  // copy audio
+  newOrderObj.RenderedData.AudioInfo = convertPropKeysForAsp(audioObject);
   return newOrderObj;
 }
 
 function addSpecsToOrderObj (orderObj, reactObj) {
-  let newOrderObj = clone(orderObj);
-  // Distribute Specs
   if (reactObj.ui === undefined) {
     throw new Error('No Specs were sent');
   }
+
+  let newOrderObj = clone(orderObj);
+  // Distribute Specs
   for (var i = 0; i < reactObj.ui.length; i++) {
 
     for (var key in reactObj.ui[i]) {
@@ -173,19 +357,94 @@ function addSpecsToOrderObj (orderObj, reactObj) {
   return newOrderObj;
 }
 
+function addImageRenderDataToOrderObject (orderObject, reactObj) {
+  if (reactObj.ui === undefined) {
+    throw new Error('No Image Data was sent');
+  }
+
+  let newOrderObj = clone(orderObject);
+  var Captions = {CaptionField: []};
+  let Images = {CaptionedImage: []};
+
+  for (var i = 0; i < reactObj.ui.length; i++) {
+
+    for (var key in reactObj.ui[i]) {
+      if (reactObj.ui[i].hasOwnProperty(key)){
+
+        for (var j = 0; j < reactObj.ui[i][key].length; j++) {
+          if (reactObj.ui[i][key][j].type !== 'UserImageChooser') {
+            Captions.CaptionField.push({
+              Label: reactObj.ui[i][key][j].name,
+              Value: reactObj.ui[i][key][j].value
+            });
+          } else {
+            let chooser = reactObj.ui[i][key][j];
+            chooser.value.map(imgObj => {
+              Images.CaptionedImage.push({
+                Captions: { CaptionField:
+                  imgObj.captions.map((cap) => {
+                    return {
+                      Label: cap.label,
+                      Value: cap.value
+                    };
+                  })
+                },
+                Filename: imgObj.file
+              });
+            });
+          }
+        }
+      }
+    }
+  }
+
+  newOrderObj.RenderedData.Slides.FSlide.Images = Images;
+
+  let unusedImages = {UnusedImageUrls: { String: reactObj.imageBank}};
+
+  let otherProps = [
+    {LogoMode: 'Image'},
+    {LogoId: 0},
+    {LogoFilename: {}},
+    {Logo3DFilename: {}}
+  ]
+
+  Object.assign(newOrderObj.RenderedData, {Captions}, unusedImages, ...otherProps);
+
+  let sortArray = ['Slides', 'UnusedImageUrls', 'Captions', 'LogoMode', 'AudioInfo', 'LogoId', 'LogoFilename', 'Logo3DFilename'];
+
+  newOrderObj.RenderedData = sortObjectByArray(sortArray, newOrderObj.RenderedData);
+
+  return newOrderObj
+}
+
 function updateXmlForOrder (reactObj) {
-  var orderObject = clone(startingPoint);
+  var orderObject = getEmptyStartingPoint();
 
   orderObject = addResolutionToOrderObj(orderObject, reactObj);
   orderObject = addAudioToOrderObj(orderObject, reactObj);
-  orderObject = addSpecsToOrderObj(orderObject, reactObj);
   orderObject.IsPreview = reactObj.isPreview;
+  orderObject = addResolutionOptionsToOrderObj(orderObject, reactObj);
+
+  if (isImageTemplate()) {
+    orderObject = addImageRenderDataToOrderObject(orderObject, reactObj);
+  } else {
+    orderObject = addSpecsToOrderObj(orderObject, reactObj);
+  }
+
+  let sortArray = ['ResolutionId', 'IsPreview', 'ResolutionOptions', 'RenderedData'];
+
+  if (isImageTemplate()) {
+    sortArray = ['IsPreview', 'RenderedData', 'ResolutionId', 'ResolutionOptions'];
+  }
+
+  orderObject = sortObjectByArray(sortArray, orderObject);
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
   setXmlContainerValue( objectToXml(orderObject) );
-};
+}
 
-export default {
+export {
   getReactStartingData,
   updateXmlForOrder
 };

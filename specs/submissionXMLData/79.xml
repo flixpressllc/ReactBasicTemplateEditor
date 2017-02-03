@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfTextOnlyRndTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+  <ResolutionId>3</ResolutionId>
+  <IsPreview>true</IsPreview>
+  <ResolutionOptions>
+    <ListItemViewModel>
+      <Name>720p</Name>
+      <Id>5</Id>
+    </ListItemViewModel>
+    <ListItemViewModel>
+      <Name>1080p</Name>
+      <Id>3</Id>
+    </ListItemViewModel>
+  </ResolutionOptions>
+  <RenderedData>
+    <Specs name="Specs" val="" >
+      <SpCx>
+        <CSp name="Customize Icon" val="CD|Customize Icon|" >
+          <SpCx>
+            <Sp name="Icon Style" val="camera"  />
+            <Sp name="Icon Character - type in only one (optional)" val="q"  />
+          </SpCx>
+        </CSp>
+        <CSp name="Customize Look" val="CD|Customize Look|" >
+          <SpCx>
+            <Sp name="Background" val="camo"  />
+            <Sp name="Icon Color" val="icon_pink"  />
+            <Sp name="Main Text Color" val="main_orange"  />
+            <Sp name="Subtitle Text Color" val="sub_white"  />
+          </SpCx>
+        </CSp>
+        <CSp name="Customize Text" val="CD|Customize Text|" >
+          <SpCx>
+            <Sp name="Text Left of Icon" val="Left"  />
+            <Sp name="Text Right of Icon" val="Right"  />
+            <Sp name="Subtitle" val="Bottom"  />
+          </SpCx>
+        </CSp>
+      </SpCx>
+    </Specs>
+    <AudioInfo>
+      <Length>0</Length>
+      <Id>13</Id>
+      <AudioType>StockAudio</AudioType>
+      <Name>Bunny Garden</Name>
+      <AudioUrl>https://fpsound.s3.amazonaws.com/13.mp3</AudioUrl>
+    </AudioInfo>
+  </RenderedData>
+</OrderRequestOfTextOnlyRndTemplate>

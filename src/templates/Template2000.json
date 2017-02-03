@@ -1,0 +1,47 @@
+{
+  "templateId": 2000,
+  "textFields": {
+    "Text Left of Icon": {
+      "value": "",
+      "previewImage": "79_letter.jpg"
+    },
+    "Text Right of Icon": {
+      "value": "",
+      "previewImage": "79_letter.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "Your Two Images": {
+      "maxImages": 4,
+      "minImages": 3,
+      "captions": [
+        "Top Text",
+        "Middle Text",
+        "Bottom Text"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Text Left of Icon"
+        },
+        {
+          "type": "TextField",
+          "name": "Text Right of Icon"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "Your Two Images"
+        }
+      ]
+    }
+  ]
+}

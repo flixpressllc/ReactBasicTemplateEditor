@@ -16,8 +16,9 @@
   </script>
 </head>
 <body>
+<script src="./indexNavigation.js" charset="utf-8"></script>
 <form><!-- this form also helps simulate the DNN way of putting a form on every page. :-(  -->
-  
+
   <input type="hidden" name="RndTemplate_HF" id="RndTemplate_HF" value="<?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?>
 <OrderRequestOfTextOnlyRndTemplate xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;>
   <ResolutionId>0</ResolutionId>
@@ -37,7 +38,7 @@
     </ListItemViewModel>
   </ResolutionOptions>
 </OrderRequestOfTextOnlyRndTemplate>">
-  
+
   <div class="MainDiv">
     <div id="Template_FlashContent_Div" style="padding: 0px; margin: 0px;"></div>
   </div>
@@ -50,13 +51,12 @@
     initializeTemplateEditor({
       divToReplaceId: 'Template_FlashContent_Div',
       uiSettingsJsonUrl: `/templates/Template${tid}.json`,
+      templateType: "text",
+      templateId: tid,
       userSettingsData: {
-        templateType: "text",
         username: 'DonDenton',
-        templateId: tid,
         minutesRemainingInContract: 170.2819,
         minimumTemplateDuration: 0.1667,
-        previewVideoUrl: '',
         isChargePerOrder: false,
         renderCost: 8
       }

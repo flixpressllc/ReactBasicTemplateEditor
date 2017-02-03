@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+  <IsPreview>true</IsPreview>
+  <RenderedData>
+    <Slides>
+      <FSlide>
+        <Captions />
+        <Images>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115146348.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115147660.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115150331.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115152252.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115154361.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115157985.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_115158937.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions>
+              <CaptionField>
+                <Label>Caption</Label>
+                <Value></Value>
+              </CaptionField>
+            </Captions>
+            <Filename>DonDentonAdmin_1-30-2017_11520968.jpg</Filename>
+          </CaptionedImage>
+        </Images>
+      </FSlide>
+    </Slides>
+    <UnusedImageUrls>
+      <String>DonDentonAdmin_1-30-2017_115146348.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115147660.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115150331.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115152252.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115154361.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115157985.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_115158937.jpg</String>
+      <String>DonDentonAdmin_1-30-2017_11520968.jpg</String>
+    </UnusedImageUrls>
+    <Captions>
+      <CaptionField>
+        <Label>Begin Text</Label>
+        <Value>In the beginning</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>End Text</Label>
+        <Value>The End... or is it?</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Background Color</Label>
+        <Value>201.30.30</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Transition Type</Label>
+        <Value>Triangle Slash</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Style</Label>
+        <Value>Back Color Negative</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Glow</Label>
+        <Value>Disabled</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Particle Icon</Label>
+        <Value>Thumbs_Up</Value>
+      </CaptionField>
+    </Captions>
+    <LogoMode>Image</LogoMode>
+    <AudioInfo>
+      <AudioUrl></AudioUrl>
+      <Name></Name>
+      <AudioType>NoAudio</AudioType>
+      <Length>0</Length>
+      <Id>0</Id>
+    </AudioInfo>
+    <LogoId>0</LogoId>
+    <LogoFilename />
+    <Logo3DFilename />
+  </RenderedData>
+  <ResolutionId>5</ResolutionId>
+  <ResolutionOptions>
+    <ListItemViewModel>
+      <Id>5</Id>
+      <Name>720p</Name>
+    </ListItemViewModel>
+    <ListItemViewModel>
+      <Id>3</Id>
+      <Name>1080p</Name>
+    </ListItemViewModel>
+  </ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>

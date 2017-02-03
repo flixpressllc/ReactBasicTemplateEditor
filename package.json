@@ -32,6 +32,7 @@
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
+    "bluebird": "^3.4.7",
     "bower-webpack-plugin": "^0.1.9",
     "breakpoint-sass": "^2.7.0",
     "classnames": "^2.2.5",
@@ -50,6 +51,7 @@
     "jquery": "^1.12.4",
     "js-stylesheet": "0.0.1",
     "json-loader": "^0.5.4",
+    "jsonfile": "^2.4.0",
     "minimist": "^1.2.0",
     "node-sass": "^3.9.3",
     "null-loader": "^0.1.1",
@@ -78,6 +80,7 @@
     "react": "^15.3.1",
     "react-color": "^2.4.0",
     "react-dom": "^15.3.1",
+    "react-sortable-hoc": "^0.4.7",
     "reactcss": "^1.0.9",
     "reset.css": "^2.0.2"
   },
@@ -92,7 +95,8 @@
       "^.+\\.(css|scss|sass)$": "<rootDir>/cfg/jest/CSSStub.js"
     },
     "setupFiles": [
-      "<rootDir>/cfg/polyfills.js"
+      "<rootDir>/cfg/polyfills.js",
+      "<rootDir>/cfg/bluebirdPromiseRejection.js"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/(build|docs|node_modules)/"

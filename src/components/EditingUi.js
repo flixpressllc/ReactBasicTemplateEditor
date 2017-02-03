@@ -4,7 +4,14 @@ import TextBox from './TextBox';
 import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
+import ImageContainer from './ImageContainer';
+
+import { registerDataType, getContainerNameFor } from '../utils/globalContainerConcerns';
+import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
+
 import './EditingUi.scss';
+
+registerDataType('dropDown');
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -13,7 +20,7 @@ var EditingUi = React.createClass({
       previewImageType: ''
     };
   },
-  
+
   componentDidMount: function () {
     this.findFirstPreviewImage();
   },
@@ -21,15 +28,15 @@ var EditingUi = React.createClass({
   handleTextFocus: function (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'TextField'});
   },
-  
+
   handleYouTubeLinkFocus: function (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'YouTubeLink'});
   },
-  
+
   handleTextBoxFocus: function (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'TextBox'});
   },
-  
+
   getFieldsForPreviewImage: function () {
     return {
       dropDowns: this.props.allDropDowns,
@@ -38,7 +45,7 @@ var EditingUi = React.createClass({
       textBoxes: this.props.allTextBoxes
     }
   },
-  
+
   createTextField: function (name, object) {
     var safeName = name.replace(' ','-');
     return (<TextField
@@ -49,7 +56,22 @@ var EditingUi = React.createClass({
       key={`text-field-${safeName}`}
     />);
   },
-  
+
+  createUserImageChooser: function (name, object) {
+    var safeName = name.replace(' ','-');
+    if (isEmpty(object.containedImages)) return null;
+    return (
+      <ImageContainer
+        fieldName={ name }
+        images={ object.containedImages }
+        captions={ object.captions }
+        imageBank={ this.props.imageBank }
+        onUpdateImages={ this.props.onUpdateImages }
+        key={`text-field-${safeName}`}
+      />
+    );
+  },
+
   createYouTubeLink: function (name, object) {
     var safeName = name.replace(' ','-');
     return (<YouTubeLink
@@ -61,7 +83,7 @@ var EditingUi = React.createClass({
       key={`you-tube-link-${safeName}`}
     />);
   },
-  
+
   createTextBox: function (name, object) {
     var safeName = name.replace(' ','-');
     return (<TextBox
@@ -72,7 +94,7 @@ var EditingUi = React.createClass({
       key={`text-box-${safeName}`}
     />);
   },
-  
+
   createColorPicker: function (name, object) {
     var safeName = name.replace(' ','-');
     return (<ColorPicker
@@ -82,19 +104,19 @@ var EditingUi = React.createClass({
       key={`color-picker-${safeName}`}
     />);
   },
-  
+
   createDropDown: function (name, object) {
     var safeName = name.replace(' ','-');
     var options = [];
     var theDefault = object.default;
     var _thisDD; // will be set after the component mounts.
-    
+
     var onDropDownChange = function () {
       this.props.onDropDownChange(_thisDD, name);
       this.setState({previewImageName: name, previewImageType: 'DropDown'});
     }.bind(this);
-    
-    
+
+
     var _thisDDMounted = (ref) => {
       // set our local static variable to start...
       _thisDD = ref;
@@ -104,7 +126,7 @@ var EditingUi = React.createClass({
         this.props.onDropDownChange(_thisDD, name);
       }
     };
-    
+
     for (var i = 0; i < object.options.length; i++) {
       var option = object.options[i]
       options.push(
@@ -116,7 +138,7 @@ var EditingUi = React.createClass({
         </option>
       )
     }
-    
+
     return (
       <div className="reactBasicTemplateEditor-EditingUi-dropDown" key={`drop-down-${safeName}`}>
         <label>{name}</label>
@@ -132,7 +154,7 @@ var EditingUi = React.createClass({
       </div>
     )
   },
-  
+
   findFirstPreviewImage: function () {
     let uiSections = this.props.uiSections;
     for (let i = 0; i < uiSections.length; i++) {
@@ -149,16 +171,15 @@ var EditingUi = React.createClass({
     // hasn't mounted yet. This is a hack, but we'll call again...
     setTimeout(this.findFirstPreviewImage,500);
   },
-  
+
   createSection: function (sectionName, inputArray) {
     var components = [];
     for (var i = 0; i < inputArray.length; i++) {
       var name = inputArray[i].name;
       var type = inputArray[i].type;
-      var container = 'all' + type + 's';
-      container = (container == 'allTextBoxs') ? 'allTextBoxes' : container; // TODO: fix this hack
+      var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
       var object = this.props[container][name];
-      components.push(this['create' + inputArray[i].type](name, object));
+      components.push(this['create' + type](name, object));
     }
     var safeName = sectionName.replace(' ','-');
     return (
@@ -168,7 +189,7 @@ var EditingUi = React.createClass({
       </div>
     )
   },
-  
+
   render: function () {
     var uiSections = this.props.uiSections
     let fieldsObj = this.getFieldsForPreviewImage();
@@ -180,7 +201,7 @@ var EditingUi = React.createClass({
     }
     return (
       <div id="editing-ui" className="editing-ui component">
-        {sections}
+        { sections }
         <PreviewImage
           name={this.state.previewImageName}
           type={ this.state.previewImageType }

@@ -1,0 +1,415 @@
+exports[`EditorUserInterface when an images template and when starting fresh prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
+      "length": 0,
+      "name": "",
+    },
+    "isPreview": false,
+    "resolutionId": 0,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+        ],
+      },
+      Object {
+        "Customize Images": Array [
+          Object {
+            "name": "Your Two Images",
+            "type": "UserImageChooser",
+            "value": Array [
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_94956756.png",
+                "id": 0,
+              },
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+                "id": 1,
+              },
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_9505506.png",
+                "id": 2,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`EditorUserInterface when an images template and when starting from preview passes the info into the correct containers 1`] = `
+Array [
+  Object {
+    "captions": Array [
+      "marmet",
+    ],
+    "file": "DonDentonAdmin_1-23-2017_94956756.png",
+    "id": 0,
+  },
+  Object {
+    "captions": Array [
+      "",
+    ],
+    "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+    "id": 1,
+  },
+  Object {
+    "captions": Array [
+      "",
+    ],
+    "file": "DonDentonAdmin_1-23-2017_9505506.png",
+    "id": 2,
+  },
+]
+`;
+
+exports[`EditorUserInterface when an images template and when starting from preview prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 3,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "Left",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "Right",
+          },
+        ],
+      },
+      Object {
+        "Customize Images": Array [
+          Object {
+            "name": "Your Two Images",
+            "type": "UserImageChooser",
+            "value": Array [
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "marmet",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_94956756.png",
+                "id": 0,
+              },
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+                "id": 1,
+              },
+              Object {
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
+                "file": "DonDentonAdmin_1-23-2017_9505506.png",
+                "id": 2,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`EditorUserInterface when text only and when starting fresh prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
+      "length": 0,
+      "name": "",
+    },
+    "isPreview": false,
+    "resolutionId": 0,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+      Object {
+        "id": 4,
+        "name": "4K",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Icon": Array [
+          Object {
+            "name": "Icon Style",
+            "type": "DropDown",
+            "value": "MyOwnCharacter",
+          },
+          Object {
+            "name": "Icon Character - type in only one (optional)",
+            "type": "TextField",
+            "value": "",
+          },
+        ],
+      },
+      Object {
+        "Customize Look": Array [
+          Object {
+            "name": "YT1",
+            "type": "YouTubeLink",
+            "value": "",
+          },
+          Object {
+            "name": "Icon Color",
+            "type": "DropDown",
+            "value": "icon_black",
+          },
+          Object {
+            "name": "Main Text Color",
+            "type": "ColorPicker",
+            "value": "0.0.0",
+          },
+          Object {
+            "name": "Subtitle Text Color",
+            "type": "ColorPicker",
+            "value": "256.100.100.50",
+          },
+        ],
+      },
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "",
+          },
+          Object {
+            "name": "Subtitle",
+            "type": "TextBox",
+            "value": "",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`EditorUserInterface when text only and when starting with a preview prepares the data for order as expected 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 3,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutionOptions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
+    "ui": Array [
+      Object {
+        "Customize Icon": Array [
+          Object {
+            "name": "Icon Style",
+            "type": "DropDown",
+            "value": "camera",
+          },
+          Object {
+            "name": "Icon Character - type in only one (optional)",
+            "type": "TextField",
+            "value": "q",
+          },
+        ],
+      },
+      Object {
+        "Customize Look": Array [
+          Object {
+            "name": "YT1",
+            "type": "YouTubeLink",
+            "value": "The Office Audition Tapes For Dwight, Michael, Kevin, Pam and Jim|S73Nzksy6rU|",
+          },
+          Object {
+            "name": "Icon Color",
+            "type": "DropDown",
+            "value": "icon_pink",
+          },
+          Object {
+            "name": "Main Text Color",
+            "type": "ColorPicker",
+            "value": "100.100.0",
+          },
+          Object {
+            "name": "Subtitle Text Color",
+            "type": "ColorPicker",
+            "value": "0.0.0.50",
+          },
+        ],
+      },
+      Object {
+        "Customize Text": Array [
+          Object {
+            "name": "Text Left of Icon",
+            "type": "TextField",
+            "value": "Left",
+          },
+          Object {
+            "name": "Text Right of Icon",
+            "type": "TextField",
+            "value": "Right",
+          },
+          Object {
+            "name": "Subtitle",
+            "type": "TextBox",
+            "value": "Bottom",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
