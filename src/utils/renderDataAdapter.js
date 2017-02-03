@@ -236,7 +236,7 @@ function getReactStartingData () {
       getStartingAudioObject(xmlObj),
       {isPreview: xmlObj.IsPreview},
     ),
-    getNameValuePairsObj(xmlObj),
+    getNameValuePairsObj(xmlObj)
   ];
 
 }
