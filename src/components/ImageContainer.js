@@ -6,16 +6,16 @@ import { clone } from '../utils/helper-functions';
 
 import './ImageContainer.scss';
 
-function toRenderString (object) {
+function toRenderString (imageChooserObj) {
   // This won't really be a string. That's okay, though.
-  let renderValue = clone(object.containedImages).map((imgObj) => {
+  let renderValue = clone(imageChooserObj.containedImages).map((imgObj) => {
     if (imgObj.captions === undefined) {
       imgObj.captions = [];
     }
-    imgObj.captions = imgObj.captions.map((capText, i) => {
+    imgObj.captions = imageChooserObj.captions.map((capLabel, i) => {
       return {
-        label: object.captions[i],
-        value: capText
+        label: capLabel,
+        value: imgObj.captions[i] || ''
       };
     })
     return imgObj;

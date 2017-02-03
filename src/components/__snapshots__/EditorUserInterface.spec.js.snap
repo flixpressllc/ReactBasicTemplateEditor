@@ -46,17 +46,56 @@ Array [
             "type": "UserImageChooser",
             "value": Array [
               Object {
-                "captions": Array [],
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
               },
               Object {
-                "captions": Array [],
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
               },
               Object {
-                "captions": Array [],
+                "captions": Array [
+                  Object {
+                    "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",
                 "id": 2,
               },
@@ -144,6 +183,14 @@ Array [
                     "label": "Top Text",
                     "value": "marmet",
                   },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
                 ],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
@@ -154,6 +201,14 @@ Array [
                     "label": "Top Text",
                     "value": "",
                   },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
+                    "value": "",
+                  },
                 ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
@@ -162,6 +217,14 @@ Array [
                 "captions": Array [
                   Object {
                     "label": "Top Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Middle Text",
+                    "value": "",
+                  },
+                  Object {
+                    "label": "Bottom Text",
                     "value": "",
                   },
                 ],
