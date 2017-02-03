@@ -1,0 +1,58 @@
+{
+  "templateId": 68,
+  "textFields": {
+    "Text1": {
+      "value": ""
+    },
+    "Problem1": {
+      "value": ""
+    },
+    "Text2": {
+      "value": ""
+    },
+    "Problem2": {
+      "value": ""
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 5,
+      "minImages": 5,
+      "captions": [
+        "Top Text",
+        "Bottom Text"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Text1"
+        },
+        {
+          "type": "TextField",
+          "name": "Problem1"
+        },
+        {
+          "type": "TextField",
+          "name": "Text2"
+        },
+        {
+          "type": "TextField",
+          "name": "Problem2"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}
