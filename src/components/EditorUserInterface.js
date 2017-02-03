@@ -146,11 +146,11 @@ var EditorUserInterface = React.createClass({
   // Returns true if it passes, or an array of strings describing
   // why it didn't pass.
   checkResult: function (results) {
-    var messages = [];
-    var userSettingsData = this.props.userSettingsData;
+    let messages = [];
+    let templateId = this.props.templateId;
     // Template Id's match?
-    if (results.templateId.toString() !== userSettingsData.templateId.toString()) {
-      messages.push(`Template IDs do not match. This page reports: ${userSettingsData.templateId}, JSON file reports: ${results.templateId}`);
+    if (results.templateId.toString() !== templateId.toString()) {
+      messages.push(`Template IDs do not match. This page reports: ${templateId}, JSON file reports: ${results.templateId}`);
     }
 
     if (messages.length === 0){
@@ -354,7 +354,7 @@ var EditorUserInterface = React.createClass({
     return (
       <div className="reactBasicTemplateEditor-EditorUserInterface">
         <h1 className="reactBasicTemplateEditor-EditorUserInterface-title">
-          <span>Editing Template {this.props.userSettingsData.templateId}</span>
+          <span>Editing Template {this.props.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
         <div className="reactBasicTemplateEditor-EditorUserInterface-formArea">

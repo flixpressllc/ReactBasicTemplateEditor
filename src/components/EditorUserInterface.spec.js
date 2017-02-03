@@ -18,9 +18,9 @@ ajax.getJSON = (path) => {
 function generalSettings () { return {
   uiSettingsJsonUrl: '/templates/Template1000.json',
   templateType: 'text',
+  templateId: 1000,
   userSettingsData: {
     username: 'DonDenton',
-    templateId: 1000,
     minutesRemainingInContract: 170.2819,
     minimumTemplateDuration: 0.1667,
     isChargePerOrder: false,
@@ -31,9 +31,9 @@ function generalSettings () { return {
 function generalImagesTemplateSettings () { return {
   uiSettingsJsonUrl: '/templates/Template2000.json',
   templateType: 'images',
+  templateId: 2000,
   userSettingsData: {
     username: 'DonDenton',
-    templateId: 2000,
     minutesRemainingInContract: 170.2819,
     minimumTemplateDuration: 0.1667,
     isChargePerOrder: false,
