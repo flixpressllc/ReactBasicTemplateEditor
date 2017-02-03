@@ -1,0 +1,66 @@
+{
+  "templateId": 55,
+  "textFields": {
+    "Intro Title": {
+      "value": "",
+      "previewImage": "t55_1.jpg"
+    },
+    "Green Top": {
+      "value": "",
+      "previewImage": "t55_2.jpg"
+    },
+    "Green Bottom": {
+      "value": "",
+      "previewImage": "t55_2.jpg"
+    },
+    "Final Title": {
+      "value": "",
+      "previewImage": "t55_4.jpg"
+    },
+    "Final Subtitle": {
+      "value": "",
+      "previewImage": "t55_4.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 6,
+      "minImages": 6,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Intro Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Green Top"
+        },
+        {
+          "type": "TextField",
+          "name": "Green Bottom"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Subtitle"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

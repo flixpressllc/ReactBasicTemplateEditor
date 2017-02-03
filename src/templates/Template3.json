@@ -1,0 +1,37 @@
+{
+  "templateId": 3,
+  "textFields": {
+    "Final Title": {
+      "value": "",
+      "previewImage": "t3_1.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 5,
+      "minImages": 5,
+      "captions": [
+        "Captions"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Final Title"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

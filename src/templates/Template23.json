@@ -1,0 +1,58 @@
+{
+  "templateId": 23,
+  "textFields": {
+    "Team 1": {
+      "value": "",
+      "previewImage": "t23_1.jpg"
+    },
+    "Team 2": {
+      "value": "",
+      "previewImage": "t23_1.jpg"
+    },
+    "Sub Line 1": {
+      "value": "",
+      "previewImage": "t23_1.jpg"
+    },
+    "Sub Line 2": {
+      "value": "",
+      "previewImage": "t23_1.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 2,
+      "minImages": 2,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Team 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Team 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Sub Line 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Sub Line 2"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

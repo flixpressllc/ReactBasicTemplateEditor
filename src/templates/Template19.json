@@ -1,0 +1,82 @@
+{
+  "templateId": 19,
+  "textFields": {
+    "Final Text": {
+      "value": "",
+      "previewImage": "t19_1.jpg"
+    },
+    "Word 1": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    },
+    "Word 2": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    },
+    "Word 3": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    },
+    "Word 4": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    },
+    "Word 5": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    },
+    "Word 6": {
+      "value": "",
+      "previewImage": "t19_2.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 1,
+      "minImages": 1,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Final Text"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 3"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 4"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 5"
+        },
+        {
+          "type": "TextField",
+          "name": "Word 6"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}
