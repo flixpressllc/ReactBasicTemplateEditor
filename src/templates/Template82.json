@@ -1,0 +1,82 @@
+{
+  "templateId": 82,
+  "textFields": {
+    "Problem": {
+      "value": "",
+      "previewImage": "t82_1.jpg"
+    },
+    "Need 1": {
+      "value": "",
+      "previewImage": "t82_2.jpg"
+    },
+    "Need 2": {
+      "value": "",
+      "previewImage": "t82_2.jpg"
+    },
+    "Need 3": {
+      "value": "",
+      "previewImage": "t82_2.jpg"
+    },
+    "Your Slogan": {
+      "value": "",
+      "previewImage": "t82_5.jpg"
+    },
+    "Final Top": {
+      "value": "",
+      "previewImage": "t82_6.jpg"
+    },
+    "Final Bottom": {
+      "value": "",
+      "previewImage": "t82_6.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 1,
+      "minImages": 1,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Problem"
+        },
+        {
+          "type": "TextField",
+          "name": "Need 1"
+        },
+        {
+          "type": "TextField",
+          "name": "Need 2"
+        },
+        {
+          "type": "TextField",
+          "name": "Need 3"
+        },
+        {
+          "type": "TextField",
+          "name": "Your Slogan"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Top"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Bottom"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

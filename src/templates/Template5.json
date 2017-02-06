@@ -1,0 +1,46 @@
+{
+  "templateId": 5,
+  "textFields": {
+    "Intro Text": {
+      "value": "",
+      "previewImage": "t5_1.jpg"
+    },
+    "Final Text": {
+      "value": "",
+      "previewImage": "t5_2.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 4,
+      "minImages": 4,
+      "captions": [
+        "Front Text",
+        "Back Text"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Intro Text"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Text"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

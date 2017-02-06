@@ -1,0 +1,212 @@
+{
+  "templateId": 92,
+  "textFields": {
+    "Begin Text": {
+      "value": "",
+      "previewImage": "t92_1.jpg"
+    },
+    "End Text": {
+      "value": "",
+      "previewImage": "t92_1.jpg"
+    }
+  },
+  "colorPickers": {
+    "Background Color": {
+      "value": "40.115.170"
+    }
+  },
+  "dropDowns": {
+    "Transition Type": {
+      "default": "Cubes",
+      "options": [
+        {
+          "name": "Cubes",
+          "value": "Cubes",
+          "previewImage": "t92_cubes.jpg"
+        },
+        {
+          "name": "3D Morph",
+          "value": "3D Morph",
+          "previewImage": "t92_morph.jpg"
+        },
+        {
+          "name": "Triangle Slash",
+          "value": "Triangle Slash",
+          "previewImage": "t92_slash.jpg"
+        },
+        {
+          "name": "Broken Glass",
+          "value": "Broken Glass",
+          "previewImage": "t92_metal_tile1.jpg"
+        }
+      ]
+    },
+    "Style": {
+      "default": "Full Color",
+      "options": [
+        {
+          "name": "Full Color",
+          "value": "Full Color",
+          "previewImage": "t92_full_color.jpg"
+        },
+        {
+          "name": "Add Back Color",
+          "value": "Add Back Color",
+          "previewImage": "t92_add_back_color.jpg"
+        },
+        {
+          "name": "Back Color Negative",
+          "value": "Back Color Negative",
+          "previewImage": "t92_back_color_negative.jpg"
+        },
+        {
+          "name": "Back Color Pastel",
+          "value": "Back Color Pastel",
+          "previewImage": "t92_back_color_pastel.jpg"
+        }
+      ]
+    },
+    "Glow": {
+      "default": "Enabled",
+      "options": [
+        {
+          "name": "Enabled",
+          "value": "Enabled",
+          "previewImage": "t92_glow_enabled.jpg"
+        },
+        {
+          "name": "Disabled",
+          "value": "Disabled",
+          "previewImage": "t92_glow_disabled.jpg"
+        }
+      ]
+    },
+    "Particle Icon": {
+      "default": "None",
+      "options": [
+        {
+          "name": "None",
+          "value": "None",
+          "previewImage": "t92_particle_none.jpg"
+        },
+        {
+          "name": "Basketball",
+          "value": "basketball19",
+          "previewImage": "t92_particle_basketball.jpg"
+        },
+        {
+          "name": "Butterfly",
+          "value": "butterfly90",
+          "previewImage": "t92_particle_butterfly.jpg"
+        },
+        {
+          "name": "Money",
+          "value": "coin11",
+          "previewImage": "t92_particle_coin.jpg"
+        },
+        {
+          "name": "Earth",
+          "value": "earth53",
+          "previewImage": "t92_particle_earth.jpg"
+        },
+        {
+          "name": "Flower",
+          "value": "flower178",
+          "previewImage": "t92_particle_flower.jpg"
+        },
+        {
+          "name": "Heart",
+          "value": "heart296",
+          "previewImage": "t92_particle_heart.jpg"
+        },
+        {
+          "name": "Leaf",
+          "value": "leaf32",
+          "previewImage": "t92_particle_leaf.jpg"
+        },
+        {
+          "name": "Lightbulb",
+          "value": "lightbulb11",
+          "previewImage": "t92_particle_lightbulb.jpg"
+        },
+        {
+          "name": "Note",
+          "value": "note55",
+          "previewImage": "t92_particle_note.jpg"
+        },
+        {
+          "name": "Smiley",
+          "value": "smiling36",
+          "previewImage": "t92_particle_smiley.jpg"
+        },
+        {
+          "name": "Soccer",
+          "value": "soccer19",
+          "previewImage": "t92_particle_socer.jpg"
+        },
+        {
+          "name": "Thumbs Up",
+          "value": "thumb52",
+          "previewImage": "t92_particle_thumbs_up.jpg"
+        },
+        {
+          "name": "Snowflake",
+          "value": "winter35",
+          "previewImage": "t92_particle_snowflake.jpg"
+        }
+      ]
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 8,
+      "minImages": 8,
+      "captions":[
+        "Caption"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Begin Text"
+        },
+        {
+          "type": "TextField",
+          "name": "End Text"
+        },
+        {
+          "type": "ColorPicker",
+          "name": "Background Color"
+        },
+        {
+          "type": "DropDown",
+          "name": "Transition Type"
+        },
+        {
+          "type": "DropDown",
+          "name": "Style"
+        },
+        {
+          "type": "DropDown",
+          "name": "Glow"
+        },
+        {
+          "type": "DropDown",
+          "name": "Particle Icon"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

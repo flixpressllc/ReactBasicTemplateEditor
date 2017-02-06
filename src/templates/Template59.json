@@ -1,31 +1,27 @@
 {
-  "templateId": 68,
+  "templateId": 59,
   "textFields": {
-    "Text1": {
+    "Short Main Title": {
       "value": "",
-      "previewImage": "T68_1.jpg"
+      "previewImage": "t59_1.jpg"
     },
-    "Problem1": {
+    "Bottom Title": {
       "value": "",
-      "previewImage": "T68_1.jpg"
+      "previewImage": "t59_1.jpg"
     },
-    "Text2": {
+    "Final Top Title": {
       "value": "",
-      "previewImage": "T68_3.jpg"
+      "previewImage": "t59_3.jpg"
     },
-    "Problem2": {
+    "Final Bottom Title": {
       "value": "",
-      "previewImage": "T68_3.jpg"
+      "previewImage": "t59_3.jpg"
     }
   },
   "userImageChoosers": {
     "ImageChooser": {
-      "maxImages": 5,
-      "minImages": 5,
-      "captions": [
-        "Top Text",
-        "Bottom Text"
-      ],
+      "maxImages": 1,
+      "minImages": 1,
       "value": ""
     }
   },
@@ -34,19 +30,19 @@
       "Customize Text": [
         {
           "type": "TextField",
-          "name": "Text1"
+          "name": "Short Main Title"
         },
         {
           "type": "TextField",
-          "name": "Problem1"
+          "name": "Bottom Title"
         },
         {
           "type": "TextField",
-          "name": "Text2"
+          "name": "Final Top Title"
         },
         {
           "type": "TextField",
-          "name": "Problem2"
+          "name": "Final Bottom Title"
         }
       ]
     },

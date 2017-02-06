@@ -1,0 +1,34 @@
+{
+  "templateId": 20,
+  "textFields": {
+    "Intro Text": {
+      "value": "",
+      "previewImage": "t20_1.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 1,
+      "minImages": 1,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Intro Text"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "templateId": 7,
+  "textFields": {
+    "Begin Title": {
+      "value": "",
+      "previewImage": "t7_1.jpg"
+    },
+    "Final Title": {
+      "value": "",
+      "previewImage": "t7_2.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 9,
+      "minImages": 9,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Begin Title"
+        },
+        {
+          "type": "TextField",
+          "name": "Final Title"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

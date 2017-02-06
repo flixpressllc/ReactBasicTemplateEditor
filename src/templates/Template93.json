@@ -1,0 +1,44 @@
+{
+  "templateId": 93,
+  "textFields": {
+    "Top (15 char max) ": {
+      "value": "",
+      "previewImage": "t93_1.jpg",
+      "maxCharacters": 15
+    },
+    "Bottom (15 char max)": {
+      "value": "",
+      "previewImage": "t93_2.jpg",
+      "maxCharacters": 15
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 5,
+      "minImages": 5,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Top (15 char max) "
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom (15 char max)"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

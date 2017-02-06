@@ -1,0 +1,107 @@
+{
+  "templateId": 85,
+  "textFields": {
+    "Main Title": {
+      "value": "",
+      "previewImage": "t85_basketball.jpg"
+    },
+    "Subtitle": {
+      "value": "",
+      "previewImage": "t85_basketball.jpg"
+    }
+  },
+  "colorPickers": {
+    "Title Color": {
+      "value": "40.115.170"
+    }
+  },
+  "dropDowns": {
+    "3D Object": {
+      "default": "1 Basketball",
+      "options": [
+        {
+          "name": "Basketball",
+          "value": "1 Basketball",
+          "previewImage": "t85_basketball.jpg"
+        },
+        {
+          "name": "Football",
+          "value": "2 Football",
+          "previewImage": "t85_football.jpg"
+        },
+        {
+          "name": "Baseball",
+          "value": "3 Baseball",
+          "previewImage": "t85_baseball.jpg"
+        },
+        {
+          "name": "Soccer",
+          "value": "4 Soccer",
+          "previewImage": "t85_soccer.jpg"
+        },
+        {
+          "name": "Golf",
+          "value": "5 Golf",
+          "previewImage": "t85_golf.jpg"
+        },
+        {
+          "name": "Gaming Guns",
+          "value": "6 Guns",
+          "previewImage": "t85_gaming_guns.jpg"
+        },
+        {
+          "name": "Controller",
+          "value": "7 Gaming",
+          "previewImage": "t85_controller.jpg"
+        },
+        {
+          "name": "Star",
+          "value": "8 Star",
+          "previewImage": "t85_star.jpg"
+        },
+        {
+          "name": "Trophy",
+          "value": "9 Trophy",
+          "previewImage": "t85_trophy.jpg"
+        }
+      ]
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 2,
+      "minImages": 2,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Main Title"
+        },
+        {
+          "type": "ColorPicker",
+          "name": "Title Color"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle"
+        },
+        {
+          "type": "DropDown",
+          "name": "3D Object"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}
