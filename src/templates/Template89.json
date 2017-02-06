@@ -1,0 +1,37 @@
+{
+  "templateId": 89,
+  "textFields": {
+    "Main Title": {
+      "value": "",
+      "previewImage": "t89_1.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 9,
+      "minImages": 9,
+      "captions": [
+        "Subtitle"
+      ],
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Main Title"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

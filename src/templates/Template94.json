@@ -1,0 +1,42 @@
+{
+  "templateId": 94,
+  "textFields": {
+    "Short Top Text": {
+      "value": "",
+      "previewImage": "t94_1.jpg"
+    },
+    "Bottom Text": {
+      "value": "",
+      "previewImage": "t94_1.jpg"
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 1,
+      "minImages": 1,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Short Top Text"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Text"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "templateId": 87,
+  "textFields": {
+    "Main Title": {
+      "value": "",
+      "previewImage": "t87_1.jpg"
+    },
+    "Subtitle": {
+      "value": "",
+      "previewImage": "t87_1.jpg"
+    }
+  },
+  "colorPickers": {
+    "Title Color": {
+      "value": "40.115.170"
+    }
+  },
+  "dropDowns": {
+    "Background": {
+      "default": "1 Metal 1",
+      "options": [
+        {
+          "name": "Metal 1",
+          "value": "1 Metal 1",
+          "previewImage": "t87_metal1.jpg"
+        },
+        {
+          "name": "Metal 2",
+          "value": "2 Metal 2",
+          "previewImage": "t87_metal2.jpg"
+        },
+        {
+          "name": "Dirt",
+          "value": "3 Dirt",
+          "previewImage": "t87_dirt.jpg"
+        },
+        {
+          "name": "Metal Tile 1",
+          "value": "4 Metal Tile",
+          "previewImage": "t87_metal_tile1.jpg"
+        },
+        {
+          "name": "Metal Tile 2",
+          "value": "5 Metal Tile 2",
+          "previewImage": "t87_metal_tile2.jpg"
+        },
+        {
+          "name": "Concrete",
+          "value": "6 Concrete",
+          "previewImage": "t87_concrete.jpg"
+        }
+      ]
+    }
+  },
+  "userImageChoosers": {
+    "ImageChooser": {
+      "maxImages": 2,
+      "minImages": 2,
+      "value": ""
+    }
+  },
+  "ui": [
+    {
+      "Customize Text": [
+        {
+          "type": "TextField",
+          "name": "Main Title"
+        },
+        {
+          "type": "ColorPicker",
+          "name": "Title Color"
+        },
+        {
+          "type": "TextField",
+          "name": "Subtitle"
+        },
+        {
+          "type": "DropDown",
+          "name": "Background"
+        }
+      ]
+    },
+    {
+      "Customize Images": [
+        {
+          "type": "UserImageChooser",
+          "name": "ImageChooser"
+        }
+      ]
+    }
+  ]
+}
