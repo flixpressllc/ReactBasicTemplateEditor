@@ -219,10 +219,10 @@ var EditorUserInterface = React.createClass({
     this.setState({textBoxes: textBoxes});
   },
 
-  handleDropDownChange: function (selectElement, ddName) {
-    var ddState = this.state.dropDowns;
-    ddState[ddName].value = selectElement.value;
-    this.setState({dropDowns: ddState});
+  handleDropDownChange: function (e, ddName, callback) {
+    var ddState = clone(this.state.dropDowns);
+    ddState[ddName].value = e.target.value;
+    this.setState({dropDowns: ddState}, callback);
   },
 
   handleColorPickerChange: function (fieldName, userColor) {
