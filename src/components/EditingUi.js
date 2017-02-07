@@ -5,13 +5,12 @@ import PreviewImage from './PreviewImage';
 import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
+import DropDown from './DropDown';
 
-import { registerDataType, getContainerNameFor } from '../utils/globalContainerConcerns';
+import { getContainerNameFor } from '../utils/globalContainerConcerns';
 import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
 
 import './EditingUi.scss';
-
-registerDataType('dropDown');
 
 var EditingUi = React.createClass({
   getInitialState: function () {
@@ -35,6 +34,10 @@ var EditingUi = React.createClass({
 
   handleTextBoxFocus: function (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'TextBox'});
+  },
+
+  handleDropDownFocus: function (fieldName) {
+    this.setState({previewImageName: fieldName, previewImageType: 'DropDown'});
   },
 
   getFieldsForPreviewImage: function () {
@@ -107,52 +110,15 @@ var EditingUi = React.createClass({
 
   createDropDown: function (name, object) {
     var safeName = name.replace(' ','-');
-    var options = [];
-    var theDefault = object.default;
-    var _thisDD; // will be set after the component mounts.
-
-    var onDropDownChange = function () {
-      this.props.onDropDownChange(_thisDD, name);
-      this.setState({previewImageName: name, previewImageType: 'DropDown'});
-    }.bind(this);
-
-
-    var _thisDDMounted = (ref) => {
-      // set our local static variable to start...
-      _thisDD = ref;
-      // if there is no value chosen for the dropdown yet...
-      if (this.props.allDropDowns[name].value === undefined) {
-        // ...tell props that we've chosen the default to start
-        this.props.onDropDownChange(_thisDD, name);
-      }
-    };
-
-    for (var i = 0; i < object.options.length; i++) {
-      var option = object.options[i]
-      options.push(
-        <option
-          key={`${safeName}-option-${option.value}`}
-          value={option.value}
-        >
-          {option.name}
-        </option>
-      )
-    }
-
-    return (
-      <div className="reactBasicTemplateEditor-EditingUi-dropDown" key={`drop-down-${safeName}`}>
-        <label>{name}</label>
-        <select
-          ref={_thisDDMounted}
-          onChange={onDropDownChange}
-          onFocus={onDropDownChange}
-          defaultValue={theDefault}
-          value={this.props.allDropDowns[name].value}
-        >
-         {options}
-        </select>
-      </div>
-    )
+    return (<DropDown
+      fieldName={ name }
+      defaultValue={ object.default }
+      value={ object.value }
+      options={ object.options }
+      onDropDownChange={ this.props.onDropDownChange }
+      onDropDownFocus={ this.handleDropDownFocus }
+      key={`drop-down-${safeName}`} />
+    );
   },
 
   findFirstPreviewImage: function () {
