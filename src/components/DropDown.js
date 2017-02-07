@@ -6,24 +6,30 @@ import './DropDown.scss';
 registerDataType('dropDown');
 
 export default React.createClass({
-  onDropDownChange: function () {
-    this.props.onDropDownChange(this.mountedInstance, this.props.fieldName);
-    this.props.onDropDownFocus(this.props.fieldName);
+  getDefaultProps: function () {
+    return {
+      options: [],
+      fieldName: '',
+      onDropDownChange: () => {
+        throw new Error('DropDown was not given an `onDropDownChange` function');
+      },
+      onDropDownFocus: () => {
+        throw new Error('DropDown was not given an `onDropDownFocus` function');
+      }
+    };
   },
 
-  onMount: function (ref) {
-    this.mountedInstance = ref;
-    // if there is no value chosen for the dropdown yet...
-    if (this.props.value === undefined) {
-      // ...tell props that we've chosen the default to start
-      this.props.onDropDownChange(ref, this.props.fieldName);
-    }
+  handleDropDownChange: function (e) {
+    this.props.onDropDownChange(e, this.props.fieldName,
+    ()=> {
+      // This will update PreviewImage... should find a better way...
+      this.props.onDropDownFocus(this.props.fieldName);
+    });
   },
 
   render: function(){
     let name = this.props.fieldName;
     var options = [];
-    var theDefault = this.props.default;
     var safeName = name.replace(' ','-');
 
     for (var i = 0; i < this.props.options.length; i++) {
@@ -42,10 +48,9 @@ export default React.createClass({
       <div className="reactBasicTemplateEditor-DropDown">
         <label>{name}</label>
         <select
-          ref={this.onMount}
-          onChange={ (obj) => this.onDropDownChange(obj) }
+          onChange={ this.handleDropDownChange }
           onFocus={ () => this.props.onDropDownFocus(this.props.fieldName) }
-          defaultValue={ theDefault }
+          defaultValue={ this.props.defaultValue }
           value={ this.props.value }
         >
          { options }
