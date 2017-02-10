@@ -1,5 +1,11 @@
 @import "../styles/_common-components";
 
 .reactBasicTemplateEditor-EditingUi-sectionTitle {
-  @extend %component-title
+  @extend %component-title;
+}
+
+.reactBasicTemplateEditor-EditingUi-section:first-child {
+  .reactBasicTemplateEditor-EditingUi-sectionTitle {
+    margin-top: 0;
+  }
 }

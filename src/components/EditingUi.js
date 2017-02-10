@@ -153,7 +153,8 @@ var EditingUi = React.createClass({
     }
     var safeName = sectionName.replace(' ','-');
     return (
-      <div key={`section-${safeName}`}>
+      <div className="reactBasicTemplateEditor-EditingUi-section"
+        key={`section-${safeName}`}>
         <h3 className="reactBasicTemplateEditor-EditingUi-sectionTitle">{sectionName}</h3>
         {components}
       </div>
@@ -171,7 +172,9 @@ var EditingUi = React.createClass({
     }
     return (
       <div id="editing-ui" className="editing-ui component">
-        { sections }
+        <div className="reactBasicTemplateEditor-EditingUi-sections">
+          { sections }
+        </div>
         <PreviewImage
           name={this.state.previewImageName}
           type={ this.state.previewImageType }

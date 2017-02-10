@@ -361,13 +361,13 @@ var EditorUserInterface = React.createClass({
         <div className="reactBasicTemplateEditor-EditorUserInterface-formArea">
             <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {editingUi}
+          </div>
+          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             <SoundPicker
               audioInfo={this.state.audioInfo}
               username={this.props.userSettingsData.username}
               onChooseSong={this.handleChooseSong}
             />
-          </div>
-          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {resolutionPicker}
             <SubmitRender
               isPreview={this.state.isPreview}
