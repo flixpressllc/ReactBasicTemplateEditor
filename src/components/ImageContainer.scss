@@ -38,8 +38,9 @@
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton {
+  font-size: 0.75em;
   @extend %button;
-  padding: 3px 6px;
+  padding: 0.35em 0.5em;
 }
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers {

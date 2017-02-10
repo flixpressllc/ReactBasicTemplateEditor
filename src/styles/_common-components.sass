@@ -16,13 +16,17 @@
   font-size: inherit
   padding: $major-button-padding
   background-color: $flixpress-blue
-  color: white
+  color: rgba(255,255,255,0.8)
   border: none
   border-radius: $fluid-radius
   cursor: pointer
   margin: $tinyPad $tinyPad 0 0
+  letter-spacing: 0.05em
+  text-transform: uppercase
+  font-size: 0.85em
 
   &:hover
+    color: white
     background-color: darken($flixpress-blue, 10)
 
   &.cancel
@@ -76,6 +80,10 @@
   padding: $medPad 0
   background-color: #bbb
   text-align: center
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  font-weight: bold
+  color: darken(#bbb, 25)
   +fw-bars
 
   +breakpoint($md)
