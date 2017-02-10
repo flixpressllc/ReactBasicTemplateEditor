@@ -287,6 +287,7 @@ var EditorUserInterface = React.createClass({
     order.audioInfo = this.state.audioInfo;
     order.resolutionId = this.state.resolutionId;
     order.resolutionOptions = this.state.resolutions;
+    order.imageBank = this.state.imageBank || [];
 
     try {
       renderDataAdapter.updateXmlForOrder(order);
