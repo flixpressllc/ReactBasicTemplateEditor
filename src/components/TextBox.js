@@ -7,6 +7,7 @@ import './TextBox.scss';
 registerDataType('textBox', {containerName: 'textBoxes'});
 
 export default React.createClass({
+  displayName: 'TextBox',
   handleTextEdit: function(event){
     this.props.onUserInput(
       this.props.fieldName,

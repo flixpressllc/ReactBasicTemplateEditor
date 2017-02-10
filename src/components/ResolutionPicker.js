@@ -3,6 +3,7 @@ import {RadioGroup} from './imports';
 import './ResolutionPicker.scss';
 
 export default React.createClass({
+  displayName: 'ResolutionPicker',
   handleResolutionChange: function (value) {
     this.props.resolutionIdChange(parseInt(value,10));
   },

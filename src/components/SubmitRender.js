@@ -7,24 +7,25 @@ import { find } from '../utils/dom-queries';
 import './SubmitRender.scss';
 
 export default React.createClass({
+  displayName: 'SubmitRender',
   componentWillMount: function () {
     find('form').on('submit', e => this.handleSubmit(e) );
   },
-  
+
   handleSubmit: function (e) {
     if (this.props.allowSubmit !== true){
       e.preventDefault();
       this.confirmOrder();
     }
   },
-  
+
   confirmOrder: function () {
     var sd = this.props.userSettingsData;
     // .NET normalize
     var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
-    
+
     var depletionMessage, balance, resultingBalance, balanceType;
-    
+
     if (isChargePerOrder) {
       balanceType = '(USD)';
       depletionMessage = `cost $${sd.renderCost} ${balanceType}`;
@@ -42,13 +43,13 @@ export default React.createClass({
       <p>If you would like to create a preview instead, check the preview checkbox.</p>
       <p>Are you sure you want to place an order?</p>
       </div>;
-    
+
     var options = {
       otherAction: this.props.placePreviewOrder,
       otherActionLabel: 'Make a Free Preview',
       proceedLabel:'Yes: Place Order'
     };
-    
+
     if (this.props.isPreview !== true) {
       confirm(message,options).then(() => {
         // proceed
@@ -60,7 +61,7 @@ export default React.createClass({
       this.props.placeOrder();
     }
   },
-  
+
   render: function () {
     var text = (this.props.isPreview) ? 'Render Preview' : 'Submit Order'
     return (

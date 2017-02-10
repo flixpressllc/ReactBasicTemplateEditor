@@ -6,7 +6,7 @@ var Message = React.createClass({
   raw: function (m) {
     return {__html: m};
   },
-  
+
   render: function () {
     var className = 'reactBasicTemplateEditor-UserMessages-message user-message ' + this.props.type;
     // if (this.props.htmlSafe === true){
@@ -17,7 +17,7 @@ var Message = React.createClass({
     //     />
     //   )
     // }
-    
+
     return (
       <div className={className}>
         {this.props.message}
@@ -27,8 +27,9 @@ var Message = React.createClass({
 });
 
 export default React.createClass({
+  displayName: 'UserMessages',
   emptyStyle: {display: 'none'},
-  
+
   render: function () {
     var messagesObjArr = this.props.messages;
     var messages = [];

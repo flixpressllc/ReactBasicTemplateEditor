@@ -6,6 +6,7 @@ import './DropDown.scss';
 registerDataType('dropDown');
 
 export default React.createClass({
+  displayName: 'DropDown',
   getDefaultProps: function () {
     return {
       options: [],
