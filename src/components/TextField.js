@@ -7,9 +7,15 @@ registerDataType('textField');
 
 export default React.createClass({
   displayName: 'TextField',
+  getDefaultProps: function () {
+    return {
+      value: '',
+      settings: {}
+    };
+  },
   handleTextEdit: function(event){
     let newValue = this.filterChange(event.target.value);
-    if (newValue !== this.props.settings.value) {
+    if (newValue !== this.props.value) {
       this.props.onUserInput(
         this.props.fieldName,
         newValue
@@ -44,7 +50,7 @@ export default React.createClass({
         <input
           type="text"
           name={this.props.fieldName}
-          value={this.props.settings.value}
+          value={this.props.value}
           onChange={this.handleTextEdit}
           onFocus={this.handleFocus}
         />

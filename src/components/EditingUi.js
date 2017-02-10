@@ -51,9 +51,13 @@ var EditingUi = React.createClass({
 
   createTextField: function (name, object) {
     var safeName = name.replace(' ','-');
+    // TODO: The object passed in contains the value and settings all in the same
+    // dimension. These maybe should be filtered or passed in in an actual settings
+    // object inside the enclosing object.
     return (<TextField
       fieldName={name}
       settings={object}
+      value={ object.value }
       onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
