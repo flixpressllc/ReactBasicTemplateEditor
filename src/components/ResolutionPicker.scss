@@ -5,10 +5,9 @@
 }
 
 .reactBasicTemplateEditor-ResolutionPicker-title {
-  @extend %component-title
+  @extend %component-title;
 }
 
 .reactBasicTemplateEditor-ResolutionPicker-explain {
-  color: #888;
-  font-size: 0.9em;
+  @extend %explanation-text;
 }
