@@ -9,11 +9,11 @@
   // Using an ID here for DNN/legacy reasons
   #Submit_BT {
     @extend %button;
-    width: 10em;
+    width: 12em;
     margin-left: 6px;
     background-color: $flixpress-red;
     &:hover {
-      background-color: darken($flixpress-red, 10);
+      background-color: lighten($flixpress-red, 10);
     }
   }
 }

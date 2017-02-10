@@ -27,7 +27,7 @@
   border-radius: $fluid-radius;
   overflow: hidden;
   margin-bottom: $medPad;
-  
+
   > li {
     @extend %tab;
     margin: 0;
@@ -43,13 +43,13 @@
   background-color: #333;
   color: white;
   font-size: $base-font-size * 0.875;
-    
+
   @include breakpoint($sm) {
     width: 49%;
     margin: $tinyPad 0.5%;
     float: left;
     text-align: center;
-    padding: $medPad;    
+    padding: $medPad;
   }
 }
 
@@ -97,9 +97,25 @@
   font-size: $base-font-size * 0.875;
   padding: $button-padding;
   margin: 0 $tinyPad 0 0;
-  width: 4.6em;
+  width: 5.6em;
   float: left;
   @include breakpoint($sm) {
     float: none;
   }
+}
+
+.reactBasicTemplateEditor-SoundPicker-playerWrapper {
+  padding: $medPad;
+  width: calc(100% - #{$medPad * 2});
+  margin: auto;
+  background: #555;
+
+  > audio {
+    width: 100%;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-chosenAudioTitle {
+  color: white;
+  padding: $tinyPad;
 }

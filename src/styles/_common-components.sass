@@ -5,7 +5,7 @@
   box-sizing: border-box
   *
     box-sizing: border-box
-  
+
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
   font-size: $base-font-size
   line-height: $line-height
@@ -16,13 +16,17 @@
   font-size: inherit
   padding: $major-button-padding
   background-color: $flixpress-blue
-  color: white
+  color: rgba(255,255,255,0.8)
   border: none
   border-radius: $fluid-radius
   cursor: pointer
   margin: $tinyPad $tinyPad 0 0
+  letter-spacing: 0.05em
+  text-transform: uppercase
+  font-size: 0.85em
 
   &:hover
+    color: white
     background-color: darken($flixpress-blue, 10)
 
   &.cancel
@@ -59,7 +63,7 @@
     margin-left: 0
     &::after
       content: ''
-    
+
 %input
   @extend %textbox
 
@@ -70,12 +74,16 @@
     display: block
     float: right
     margin-right: 0
-    
+
 %component-title
   margin: $bigPad auto
   padding: $medPad 0
   background-color: #bbb
   text-align: center
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  font-weight: bold
+  color: darken(#bbb, 25)
   +fw-bars
 
   +breakpoint($md)
@@ -94,7 +102,7 @@
   padding: $medPad
   z-index: 101
   box-shadow: 0 0 24px #555
-  
+
   @include breakpoint($md)
     position: fixed
     +sides($bigPad * 2)
@@ -108,18 +116,18 @@
 %confirm-modal
   @extend %modal
   box-shadow: 0 0 24px #000
-  
+
   +breakpoint($sm)
     +sides($bigPad)
-  
+
   +breakpoint($md)
     +sides($bigPad * 4)
     padding: $bigPad * 4
-  
+
 %confirm-overlay
   @extend %overlay
   background-color: rgba(0,0,0,0.5)
-  
+
 %tab
   border: 1px solid $flixpress-blue
   background-color: transparent
@@ -135,3 +143,7 @@
   &:hover
     background-color: $flixpress-blue
     color: white
+
+%explanation-text
+  color: #888
+  font-size: 0.9em

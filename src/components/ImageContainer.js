@@ -215,9 +215,14 @@ const ImageContainer = React.createClass({
 
   render: function () {
     if (this.state.images.length === 0) return null;
-    let content = this.state.modalIsOpen ? this.renderFakeModal() : this.renderImageList();
+    const content = this.state.modalIsOpen ? this.renderFakeModal() : this.renderImageList();
+    const explanation = this.state.images.length > 1 ?
+      'Change the order of the images by dragging up and down with the handles on the right.':'';
     return (
       <div className="reactBasicTemplateEditor-ImageContainer">
+        <div className="reactBasicTemplateEditor-ImageContainer-explainer">
+          { explanation }
+        </div>
         { content }
       </div>
     );

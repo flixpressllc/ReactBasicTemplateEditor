@@ -355,19 +355,19 @@ var EditorUserInterface = React.createClass({
     return (
       <div className="reactBasicTemplateEditor-EditorUserInterface">
         <h1 className="reactBasicTemplateEditor-EditorUserInterface-title">
-          <span>Editing Template {this.props.templateId}</span>
+          <span>Template {this.props.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
         <div className="reactBasicTemplateEditor-EditorUserInterface-formArea">
             <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {editingUi}
+          </div>
+          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             <SoundPicker
               audioInfo={this.state.audioInfo}
               username={this.props.userSettingsData.username}
               onChooseSong={this.handleChooseSong}
             />
-          </div>
-          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
             {resolutionPicker}
             <SubmitRender
               isPreview={this.state.isPreview}
