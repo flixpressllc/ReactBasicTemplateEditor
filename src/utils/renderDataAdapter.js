@@ -201,13 +201,17 @@ function returnNameValuePairForSingleImageContainer (givenXmlObj) {
     let mainImageData = [];
     captionedImages.map( (capImage, i) => {
       let capFields = capImage.Captions.CaptionField;
-      if (toType(capFields) !== 'array') {
+      if (!isEmpty(capFields) && toType(capFields) !== 'array') {
         capFields = [capFields];
       }
-      mainImageData.push({id: i, file: capImage.Filename, captions: capFields.map(field => {
-          return field.Value;
-        })
-      });
+      if (isEmpty(capFields)) {
+        mainImageData.push({id: i, file: capImage.Filename});
+      } else {
+        mainImageData.push({id: i, file: capImage.Filename, captions: capFields.map(field => {
+            return field.Value;
+          })
+        });
+      }
     });
     return {ImageContainer: mainImageData};
   }

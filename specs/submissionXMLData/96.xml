@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RenderedData>
+    <Slides>
+      <FSlide>
+        <Images>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_2-10-2017_102221672.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_2-10-2017_102222406.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_2-10-2017_102222985.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_2-10-2017_102223703.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_2-10-2017_102224328.jpg</Filename>
+          </CaptionedImage>
+        </Images>
+        <Captions />
+      </FSlide>
+    </Slides>
+    <Captions>
+      <CaptionField>
+        <Label>Your Title</Label>
+        <Value>Working?</Value>
+      </CaptionField>
+    </Captions>
+    <LogoMode>Image</LogoMode>
+    <LogoId>0</LogoId>
+    <LogoFilename />
+    <Logo3DFilename />
+    <UnusedImageUrls>
+      <String>DonDentonAdmin_2-10-2017_102221672.jpg</String>
+      <String>DonDentonAdmin_2-10-2017_102222406.jpg</String>
+      <String>DonDentonAdmin_2-10-2017_102222985.jpg</String>
+      <String>DonDentonAdmin_2-10-2017_102223703.jpg</String>
+      <String>DonDentonAdmin_2-10-2017_102224328.jpg</String>
+    </UnusedImageUrls>
+    <AudioInfo>
+      <Id>0</Id>
+      <Name />
+      <AudioUrl />
+      <AudioType>NoAudio</AudioType>
+      <Length>0</Length>
+    </AudioInfo>
+  </RenderedData>
+  <ResolutionId>5</ResolutionId>
+  <IsPreview>true</IsPreview>
+  <ResolutionOptions>
+    <ListItemViewModel>
+      <Id>5</Id>
+      <Name>720p</Name>
+    </ListItemViewModel>
+    <ListItemViewModel>
+      <Id>3</Id>
+      <Name>1080p</Name>
+    </ListItemViewModel>
+  </ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>

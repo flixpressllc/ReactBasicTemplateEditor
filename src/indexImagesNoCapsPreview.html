@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>React Webpack Template Title</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="jquery/dist/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://flixpress.com/templates/Styles/common-styles.css">
+  <link rel="stylesheet" href="https://flixpress.com/Portals/_default/Skins/Fusion/css/font-awesome.css" />
+  <script type="text/javascript">
+    // This is just to simulate what the Flixpress server actually does with a url query.
+    var tid = window.location.search.match(/tid=([0-9]+)/i);
+    tid = tid && tid[1] ? tid[1] : 1000;
+  </script>
+</head>
+<body>
+<script src="./indexNavigation.js" charset="utf-8"></script>
+<form><!-- this form also helps simulate the DNN way of putting a form on every page. :-(  -->
+
+  <input type="hidden" name="RndTemplate_HF" id="RndTemplate_HF" value='<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <IsPreview>true</IsPreview>
+  <RenderedData>
+    <Slides>
+      <FSlide>
+        <Captions/>
+        <Images>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_1-23-2017_145944747.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
+          </CaptionedImage>
+          <CaptionedImage>
+            <Captions />
+            <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
+          </CaptionedImage>
+        </Images>
+      </FSlide>
+    </Slides>
+    <UnusedImageUrls>
+      <String>DonDentonAdmin_1-23-2017_15345872.jpg</String>
+      <String>DonDentonAdmin_1-23-2017_145944747.jpg</String>
+    </UnusedImageUrls>
+    <Captions>
+      <CaptionField>
+        <Label>Text Left of Icon</Label>
+        <Value>Left text</Value>
+      </CaptionField>
+      <CaptionField>
+        <Label>Text Right of Icon</Label>
+        <Value>Right text</Value>
+      </CaptionField>
+    </Captions>
+    <LogoMode>Image</LogoMode>
+    <AudioInfo>
+      <AudioUrl>https://fpsound.s3.amazonaws.com/49.mp3</AudioUrl>
+      <Name>Winning Circle</Name>
+      <AudioType>StockAudio</AudioType>
+      <Length>5</Length>
+      <Id>49</Id>
+    </AudioInfo>
+    <LogoId>0</LogoId>
+    <LogoFilename/>
+    <Logo3DFilename/>
+  </RenderedData>
+  <ResolutionId>3</ResolutionId>
+  <ResolutionOptions>
+    <ListItemViewModel>
+      <Id>3</Id>
+      <Name>1080p</Name>
+    </ListItemViewModel>
+    <ListItemViewModel>
+      <Id>4</Id>
+      <Name>4K</Name>
+    </ListItemViewModel>
+  </ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>'>
+  <input name="CroppedImageFilenames" type="text" value="DonDentonAdmin_hammer.jpg|DonDentonAdmin_money.jpg|DonDentonAdmin_cup.jpg|" maxlength="2000" id="CroppedImageFilenames" />
+
+  <div class="MainDiv">
+    <div id="Template_FlashContent_Div" style="padding: 0px; margin: 0px;"></div>
+  </div>
+
+
+  <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
+  <script type="text/javascript" src="./templateEditor.js"></script> <!-- for `npm serve:dist` -->
+  <script type="text/javascript" src="./main.js"></script> <!-- for `npm serve` -->
+  <script type="text/javascript">
+    initializeTemplateEditor({
+      divToReplaceId: 'Template_FlashContent_Div',
+      uiSettingsJsonUrl: `/templates/Template${tid}.json`,
+      templateType: "images",
+      templateId: tid,
+      userSettingsData: {
+        username: 'DonDenton',
+        minutesRemainingInContract: 170.2819,
+        minimumTemplateDuration: 0.1667,
+        isChargePerOrder: false,
+        renderCost: 8
+      }
+    });
+  </script>
+
+</form>
+</body>
+</html>

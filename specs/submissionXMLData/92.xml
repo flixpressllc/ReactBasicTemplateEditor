@@ -10,7 +10,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value></Value>
+                <Value>Here is a caption</Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115146348.jpg</Filename>
@@ -19,7 +19,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value></Value>
+                <Value>And here is one, too.</Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115147660.jpg</Filename>
@@ -37,7 +37,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value></Value>
+                <Value>The previous one wasn't captioned.</Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115152252.jpg</Filename>
@@ -46,7 +46,7 @@
             <Captions>
               <CaptionField>
                 <Label>Caption</Label>
-                <Value></Value>
+                <Value>This is the last caption I'll write.</Value>
               </CaptionField>
             </Captions>
             <Filename>DonDentonAdmin_1-30-2017_115154361.jpg</Filename>
