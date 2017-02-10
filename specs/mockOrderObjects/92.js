@@ -47,11 +47,11 @@ export default {
           value: [
             {
               file: 'DonDentonAdmin_1-30-2017_115146348.jpg',
-              captions: [ {label: 'Caption', value:'' } ]
+              captions: [ {label: 'Caption', value:'Here is a caption' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115147660.jpg',
-              captions: [ {label: 'Caption', value:'' } ]
+              captions: [ {label: 'Caption', value:'And here is one, too.' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115150331.jpg',
@@ -59,11 +59,11 @@ export default {
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115152252.jpg',
-              captions: [ {label: 'Caption', value:'' } ]
+              captions: [ {label: 'Caption', value:'The previous one wasn\'t captioned.' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115154361.jpg',
-              captions: [ {label: 'Caption', value:'' } ]
+              captions: [ {label: 'Caption', value:'This is the last caption I\'ll write.' } ]
             },
             {
               file: 'DonDentonAdmin_1-30-2017_115157985.jpg',

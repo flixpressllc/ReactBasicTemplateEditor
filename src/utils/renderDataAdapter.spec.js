@@ -32,11 +32,23 @@ describe('DataAdapter', () => {
       dom.__setMockElement(IMAGES_CONTAINER_ID, {value: startingImagesCroppedImagesFormFieldValue});
       expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
     });
-    it('returns the expected object for a previously created Images', () => {
-      let dom = require('./dom-queries');
-      dom.__setMockElement(IMAGES_CONTAINER_ID, {value: ''});
-      dom.__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(92)});
-      expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
+    describe('when starting with a previous render', () => {
+      describe('and when images contain captions', () => {
+        it('returns the expected object', () => {
+          let dom = require('./dom-queries');
+          dom.__setMockElement(IMAGES_CONTAINER_ID, {value: ''});
+          dom.__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(92)});
+          expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
+        });
+      });
+      describe('and when images do not contain captions', () => {
+        it('returns the expected object', () => {
+          let dom = require('./dom-queries');
+          dom.__setMockElement(IMAGES_CONTAINER_ID, {value: ''});
+          dom.__setMockElement(XML_CONTAINER_ID, {value: getSubmissionXmlFor(96)});
+          expect(DataAdapter.getReactStartingData()).toMatchSnapshot();
+        });
+      });
     });
 
     it('does not return duplicate images from hidden field and captions in the imageBank container', () => {

@@ -34,7 +34,12 @@ let headerContent=`
   </li>
   <li>
     <a href="/indexImagesFresh.html?tid=2000">Images</a>
-    <a href="/indexImagesPreview.html?tid=2000">Preview Data</a></li>
+    <a href="/indexImagesPreview.html?tid=2000">Preview Data</a>
+  </li>
+  <li>
+    <a href="/indexImagesFresh.html?tid=96">No Cap Images</a>
+    <a href="/indexImagesNoCapsPreview.html?tid=96">Preview Data</a>
+  </li>
 </ul>
 `
 

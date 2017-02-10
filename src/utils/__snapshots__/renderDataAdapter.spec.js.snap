@@ -51,7 +51,44 @@ Array [
 ]
 `;
 
-exports[`DataAdapter getReactStartingData returns the expected object for a previously created Images 1`] = `
+exports[`DataAdapter getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
+Array [
+  Object {
+    "audioInfo": Object {
+      "audioType": "StockAudio",
+      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
+      "id": 13,
+      "length": 0,
+      "name": "Bunny Garden",
+    },
+    "isPreview": true,
+    "resolutionId": 5,
+    "resolutions": Array [
+      Object {
+        "id": 5,
+        "name": "720p",
+      },
+      Object {
+        "id": 3,
+        "name": "1080p",
+      },
+    ],
+  },
+  Object {
+    "Background": "camo",
+    "Icon Character - type in only one (optional)": "q",
+    "Icon Color": "icon_pink",
+    "Icon Style": "camera",
+    "Main Text Color": "main_orange",
+    "Subtitle": "Bottom",
+    "Subtitle Text Color": "sub_white",
+    "Text Left of Icon": "Left",
+    "Text Right of Icon": "Right",
+  },
+]
+`;
+
+exports[`DataAdapter getReactStartingData when starting with a previous render and when images contain captions returns the expected object 1`] = `
 Array [
   Object {
     "audioInfo": Object {
@@ -92,14 +129,14 @@ Array [
     "ImageContainer": Array [
       Object {
         "captions": Array [
-          "",
+          "Here is a caption",
         ],
         "file": "DonDentonAdmin_1-30-2017_115146348.jpg",
         "id": 0,
       },
       Object {
         "captions": Array [
-          "",
+          "And here is one, too.",
         ],
         "file": "DonDentonAdmin_1-30-2017_115147660.jpg",
         "id": 1,
@@ -113,14 +150,14 @@ Array [
       },
       Object {
         "captions": Array [
-          "",
+          "The previous one wasn\'t captioned.",
         ],
         "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
         "id": 3,
       },
       Object {
         "captions": Array [
-          "",
+          "This is the last caption I\'ll write.",
         ],
         "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
         "id": 4,
@@ -154,16 +191,23 @@ Array [
 ]
 `;
 
-exports[`DataAdapter getReactStartingData returns the expected object for a previously created TextOnly 1`] = `
+exports[`DataAdapter getReactStartingData when starting with a previous render and when images do not contain captions returns the expected object 1`] = `
 Array [
   Object {
     "audioInfo": Object {
-      "audioType": "StockAudio",
-      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
-      "id": 13,
+      "audioType": "NoAudio",
+      "audioUrl": "",
+      "id": 0,
       "length": 0,
-      "name": "Bunny Garden",
+      "name": "",
     },
+    "imageBank": Array [
+      "DonDentonAdmin_2-10-2017_102221672.jpg",
+      "DonDentonAdmin_2-10-2017_102222406.jpg",
+      "DonDentonAdmin_2-10-2017_102222985.jpg",
+      "DonDentonAdmin_2-10-2017_102223703.jpg",
+      "DonDentonAdmin_2-10-2017_102224328.jpg",
+    ],
     "isPreview": true,
     "resolutionId": 5,
     "resolutions": Array [
@@ -178,15 +222,29 @@ Array [
     ],
   },
   Object {
-    "Background": "camo",
-    "Icon Character - type in only one (optional)": "q",
-    "Icon Color": "icon_pink",
-    "Icon Style": "camera",
-    "Main Text Color": "main_orange",
-    "Subtitle": "Bottom",
-    "Subtitle Text Color": "sub_white",
-    "Text Left of Icon": "Left",
-    "Text Right of Icon": "Right",
+    "ImageContainer": Array [
+      Object {
+        "file": "DonDentonAdmin_2-10-2017_102221672.jpg",
+        "id": 0,
+      },
+      Object {
+        "file": "DonDentonAdmin_2-10-2017_102222406.jpg",
+        "id": 1,
+      },
+      Object {
+        "file": "DonDentonAdmin_2-10-2017_102222985.jpg",
+        "id": 2,
+      },
+      Object {
+        "file": "DonDentonAdmin_2-10-2017_102223703.jpg",
+        "id": 3,
+      },
+      Object {
+        "file": "DonDentonAdmin_2-10-2017_102224328.jpg",
+        "id": 4,
+      },
+    ],
+    "Your Title": "Working?",
   },
 ]
 `;
