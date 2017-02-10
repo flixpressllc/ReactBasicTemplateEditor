@@ -12,6 +12,7 @@ function toRenderString (imageChooserObj) {
     if (imgObj.captions === undefined) {
       imgObj.captions = [];
     }
+    if (imageChooserObj.captions === undefined) imageChooserObj.captions = [];
     imgObj.captions = imageChooserObj.captions.map((capLabel, i) => {
       return {
         label: capLabel,
