@@ -9,6 +9,7 @@ import './PreviewImage.scss';
 const URL_PARTIAL = '/templates/images/';
 
 export default React.createClass({
+  displayName: 'PreviewImage',
   getInitialState: function () {
     let image = '';
     if (this.props.type && this.props.name){

@@ -6,6 +6,7 @@ import { registerDataType } from '../utils/globalContainerConcerns';
 registerDataType('textField');
 
 export default React.createClass({
+  displayName: 'TextField',
   handleTextEdit: function(event){
     let newValue = this.filterChange(event.target.value);
     if (newValue !== this.props.settings.value) {

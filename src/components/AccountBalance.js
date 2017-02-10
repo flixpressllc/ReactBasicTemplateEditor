@@ -19,12 +19,13 @@ const minToTime = function (min) {
 };
 
 export default React.createClass({
+  displayName: 'AccountBalance',
   render: function () {
     var sd = this.props.userSettingsData;
-    
+
     // .NET normalize
     var isChargePerOrder = sd.isChargePerOrder;
-    
+
     var cost, balance, rawCost, rawBalance, type;
     if (isChargePerOrder) {
       rawCost = sd.renderCost;
@@ -38,12 +39,12 @@ export default React.createClass({
       balance = minToTime(rawBalance);
       type = 'monthly time';
     }
-    
+
     var balanceData = {
       insufficient: (!this.props.isPreview && rawCost > rawBalance),
       sufficient: (!this.props.isPreview && rawCost <= rawBalance)
     }
-    
+
     var tCost;
     if (this.props.isPreview) {
       tCost = (
