@@ -142,7 +142,7 @@ var EditorUserInterface = React.createClass({
     if (isNotEmpty(imageChooser.captions)) {
       imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
         if (isEmpty(imageObj.captions)) {
-          imageObj.captions = imageChooser.captions.map( val => '' );
+          imageObj.captions = imageChooser.captions.map( () => '' );
         }
         return imageObj;
       });
