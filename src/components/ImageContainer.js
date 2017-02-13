@@ -53,8 +53,9 @@ const ListImage = SortableElement( React.createClass({
     if (this.props.captions === undefined) {
       return null;
     }
-    const captionValues = this.props.item.captions || '';
+    const captionValues = clone(this.props.item.captions);
     const captions = this.props.captions.map((capName, i) => {
+      captionValues[i] = captionValues[i] || '';
       return (
         <input className='reactBasicTemplateEditor-ImageContainer-imageCaption'
           key={ i }

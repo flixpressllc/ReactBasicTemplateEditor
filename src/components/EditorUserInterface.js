@@ -130,11 +130,24 @@ var EditorUserInterface = React.createClass({
       imageChooser = this.respectMaximumImageValue(imageChooser);
       imageChooser = this.respectMinimumImageValue(imageChooser, stateToMerge.imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
+      imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
 
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
     return newStateToMerge;
+  },
+
+  createBlankCaptionsIfNeeded: function (imageChooser) {
+    if (isNotEmpty(imageChooser.captions)) {
+      imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
+        if (isEmpty(imageObj.captions)) {
+          imageObj.captions = imageChooser.captions.map( val => '' );
+        }
+        return imageObj;
+      });
+    }
+    return imageChooser;
   },
 
   getStartingData: function () { return new Promise((resolve) => {
