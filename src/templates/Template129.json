@@ -113,7 +113,7 @@
           "name": "Bottom Line"
         }
       ],
-      "Voiceover (Optional)": [
+      "Voiceover (optional)": [
         {
           "type": "DropDown",
           "name": "Voices"
