@@ -1,0 +1,128 @@
+{
+  "templateId": 129,
+  "dropDowns": {
+    "Color": {
+      "default": "Blue",
+      "options": [
+        {
+          "name": "Blue",
+          "value": "Blue",
+          "previewImage": "t129_1.jpg"
+        },
+        {
+          "name": "Purple",
+          "value": "Purple",
+          "previewImage": "t129_1.jpg"
+        },
+        {
+          "name": "Red",
+          "value": "Red",
+          "previewImage": "t129_1.jpg"
+        },
+        {
+          "name": "Gold",
+          "value": "Gold",
+          "previewImage": "t129_1.jpg"
+        },
+        {
+          "name": "Green",
+          "value": "Green",
+          "previewImage": "t129_1.jpg"
+        },
+        {
+          "name": "Teal",
+          "value": "Teal",
+          "previewImage": "t129_1.jpg"
+        }
+      ]
+    },
+    "Voices": {
+      "default": "None",
+      "options": [
+        {"name": "None", "value": "None", "previewImage": "t129_1.jpg"},
+        {"name": "Joanna, (English-US) Female", "value": "Joanna, (English-US) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Salli,  (English-US) Female", "value": "Salli,  (English-US) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Justin, (English-US) Child", "value": "Justin, (English-US) Child", "previewImage": "t129_1.jpg"},
+        {"name": "Joey,   (English-US) Male", "value": "Joey,   (English-US) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Emma,   (English-BR) Female", "value": "Emma,   (English-BR) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Amy,    (English-BR) Female", "value": "Amy,    (English-BR) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Brian,  (English-BR) Male", "value": "Brian,  (English-BR) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Nicole, (English AU)Female", "value": "Nicole, (English AU)Female", "previewImage": "t129_1.jpg"},
+        {"name": "Russell,(English AU) Male", "value": "Russell,(English AU) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Raveena,(Enlish-IND) Female", "value": "Raveena,(Enlish-IND) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Penelope,(Spanish US) Female", "value": "Penelope,(Spanish US) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Miguel,  (Spanish US) Male", "value": "Miguel,  (Spanish US) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Conchita,(Spanish EU)  Female", "value": "Conchita,(Spanish EU)  Female", "previewImage": "t129_1.jpg"},
+        {"name": "Ines,    (Portugese-EU)Female", "value": "Ines,    (Portugese-EU)Female", "previewImage": "t129_1.jpg"},
+        {"name": "Cristiano,(Portugese-EU)Male", "value": "Cristiano,(Portugese-EU)Male", "previewImage": "t129_1.jpg"},
+        {"name": "Vitoria, (Portugese-BR)Female", "value": "Vitoria, (Portugese-BR)Female", "previewImage": "t129_1.jpg"},
+        {"name": "Ricardo, (Portugese-BR)Male", "value": "Ricardo, (Portugese-BR)Male", "previewImage": "t129_1.jpg"},
+        {"name": "Enrique, (Spanish EU) Male", "value": "Enrique, (Spanish EU) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Filiz,   (Turkish)  Female", "value": "Filiz,   (Turkish)  Female", "previewImage": "t129_1.jpg"},
+        {"name": "Carla,   (Italian) Female", "value": "Carla,   (Italian) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Giorgio, (Italian) Male", "value": "Giorgio, (Italian) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Tatyana, (Russian) Female", "value": "Tatyana, (Russian) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Maxim,   (Russian) Male", "value": "Maxim,   (Russian) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Celine,  (French) Female", "value": "Celine,  (French) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Chantal, (French-CN) Female", "value": "Chantal, (French-CN) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Mathieu, (French) Male", "value": "Mathieu, (French) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Marlene, (German) Female", "value": "Marlene, (German) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Hans,    (German) Male", "value": "Hans,    (German) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Liv,     (Norvegian) Female", "value": "Liv,     (Norvegian) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Naja,    (Danish) Female", "value": "Naja,    (Danish) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Mads,    (Danish) Male", "value": "Mads,    (Danish) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Lotte,   (Dutch) Female", "value": "Lotte,   (Dutch) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Ruben,   (Dutch) Male", "value": "Ruben,   (Dutch) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Mizuki,  (Japanese) Female", "value": "Mizuki,  (Japanese) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Maja,    (Polish) Female", "value": "Maja,    (Polish) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Ewa,     (Polish) Female", "value": "Ewa,     (Polish) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Jan,     (Polish) Male", "value": "Jan,     (Polish) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Jacek,   (Polish) Male", "value": "Jacek,   (Polish) Male", "previewImage": "t129_1.jpg"},
+        {"name": "Carmen,  (Romanian) Female", "value": "Carmen,  (Romanian) Female", "previewImage": "t129_1.jpg"},
+        {"name": "Astrid,  (Swedish) Female", "value": "Astrid,  (Swedish) Female", "previewImage": "t129_1.jpg"}
+      ]
+    }
+  },
+  "textFields": {
+    "Top Line": {
+      "value": "",
+      "previewImage": "t129_1.jpg"
+    },
+    "Bottom Line": {
+      "value": "",
+      "previewImage": "t129_1.jpg"
+    },
+    "What To Say": {
+      "value": "",
+      "previewImage": "t129_1.jpg"
+    }
+  },
+  "ui": [
+    {
+      "Properties": [
+        {
+          "type": "DropDown",
+          "name": "Color"
+        },
+        {
+          "type": "TextField",
+          "name": "Top Line"
+        },
+        {
+          "type": "TextField",
+          "name": "Bottom Line"
+        }
+      ],
+      "Voiceover (Optional)": [
+        {
+          "type": "DropDown",
+          "name": "Voices"
+        },
+        {
+          "type": "TextField",
+          "name": "What To Say"
+        }
+      ]
+    }
+  ]
+}
