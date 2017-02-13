@@ -6,15 +6,19 @@
 
 .reactBasicTemplateEditor-Confirm {
   @extend %confirm-modal;
-  
+
+  > p {
+    margin-top: 1.5em
+  }
+
   .buttons {
     text-align: center;
-    
+
     button {
       margin: ($bigPad * 2) $medPad;
     }
   }
-  
+
 }
 
 .reactBasicTemplateEditor-Confirm-overlay {

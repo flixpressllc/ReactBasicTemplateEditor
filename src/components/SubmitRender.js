@@ -33,20 +33,19 @@ export default React.createClass({
       resultingBalance = '';
     } else {
       balanceType = 'minutes';
-      depletionMessage = `render ${round(sd.minimumTemplateDuration)} ${balanceType} of video`;
+      depletionMessage = `use ${round(sd.minimumTemplateDuration)} ${balanceType} of your monthly video`;
       balance = `${round(sd.minutesRemainingInContract)} ${balanceType}`;
       resultingBalance = `${round(sd.minutesRemainingInContract - sd.minimumTemplateDuration)} ${balanceType}`;
     }
-    var balanceMessage = (isChargePerOrder) ? '' : `You currently have ${balance} in your account right now, and if you place an order, you'd have ${resultingBalance} remaining.`
-    var message = <div>
-      <p>You are about to place an order which would {depletionMessage}. {balanceMessage} All orders are final.</p>
+    var message = <div className="reactBasicTemplateEditor-SubmitRender-orderConfirmationMessage">
+      <p>You are about to place an order which would {depletionMessage}. All orders are final.</p>
       <p>If you would like to create a preview instead, check the preview checkbox.</p>
       <p>Are you sure you want to place an order?</p>
       </div>;
 
     var options = {
       otherAction: this.props.placePreviewOrder,
-      otherActionLabel: 'Make a Free Preview',
+      otherActionLabel: 'Make a Preview instead',
       proceedLabel:'Yes: Place Order'
     };
 
