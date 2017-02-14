@@ -54,6 +54,10 @@ npm run start
 
 This will spin up a local server and open your default browser to the url for the project. Without a query param in the url, it will default to template 1000 because that is the development template. Making changes to the code here will not require you to refresh the browser page. It'll just hot swap the code and the styles.
 
+## Publish Dev to AWS
+
+We can build and push the non-minified file to AWS via `npm run aws`. You must have a `.env` file in the root directory of this repo that matches the structure of the `.env.example` file. The `.env` file is ignored by Git. This is important because it contains S3 credentials.
+
 ### Convenience Commands
 
 To open a specific browser, use the `openWith` option:
@@ -96,7 +100,7 @@ Below is the bare minimum needed on the page.
 
 ```html
 <head>
-  
+
   ...
   <!-- optional, but a good idea: -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -116,7 +120,7 @@ Below is the bare minimum needed on the page.
 <script type="text/javascript">
   ReactDOM.render(
     React.createElement(EditorUserInterface, {
-      uiSettingsJsonUrl: "/templates/Template79.js", 
+      uiSettingsJsonUrl: "/templates/Template79.js",
       userSettingsData: {
         templateType: 'text', // Always 'text' for now
         username: 'DonDenton',
