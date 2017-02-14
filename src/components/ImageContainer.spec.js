@@ -99,4 +99,20 @@ describe('ImageContainer', () => {
     expect(fakeChangeArray).toHaveBeenCalledWith([{file: 'eggs.jpg', id:0}]);
   });
 
+  describe('when the image bank has 1 image', () => {
+    it('will not display the Change Image button', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'}
+        ],
+        imageBank: [
+          'toast.jpg'
+        ],
+      };
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find('button').length).toEqual(0);
+    });
+  });
+
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
-import { clone } from '../utils/helper-functions';
+import { clone, toType } from '../utils/helper-functions';
 
 import './ImageContainer.scss';
 
@@ -70,17 +70,26 @@ const ListImage = SortableElement( React.createClass({
     });
     return captions;
   },
+
+  renderChangeImageButton: function () {
+
+    if (toType(this.props.onChangeImage) !== 'function') { return null; }
+    return (<button className="reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton"
+      type="button"
+      onClick={ this.handleChangeImage }>
+      Change Image
+    </button>);
+
+  },
+
   render: function () {
     const captions = this.renderCaptions();
+    const button = this.renderChangeImageButton();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
         <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
-          <button className="reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton"
-            type="button"
-            onClick={ this.handleChangeImage }>
-            Change Image
-          </button>
+          { button }
           { captions }
         </div>
         <DragHandle />
@@ -201,7 +210,8 @@ const ImageContainer = React.createClass({
   },
 
   renderImageList: function () {
-    let images = this.state.images;
+    const images = this.state.images;
+    const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
     return (
       <SortableList
         items={ images }
@@ -209,7 +219,7 @@ const ImageContainer = React.createClass({
         captions={ this.props.captions }
         onCaptionChange={ this.handleCaptionChange }
         useDragHandle={ true }
-        onChangeImage={ this.handleChangeImage }
+        onChangeImage={ changeImageFunc }
       />
     );
   },
