@@ -210,9 +210,9 @@ describe('EditorUserInterface', () => {
           let containedImages = component.state().userImageChoosers['Your Two Images'].containedImages;
 
           let expected = [
-            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png'},
-            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg'},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png'},
+            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','','']},
+            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: ['','','']},
+            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','','']},
           ];
 
           expect(containedImages).toEqual(expected);
