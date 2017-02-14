@@ -39,7 +39,6 @@ export default React.createClass({
     }
     var message = <div className="reactBasicTemplateEditor-SubmitRender-orderConfirmationMessage">
       <p>You are about to place an order which would {depletionMessage}. All orders are final.</p>
-      <p>If you would like to create a preview instead, check the preview checkbox.</p>
       <p>Are you sure you want to place an order?</p>
       </div>;
 
