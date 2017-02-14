@@ -16,4 +16,4 @@ export default function MyDeferred () {
     'fail'    : function() { capturedPromise.catch.apply(capturedPromise, arguments); return returnObj; }
   };
   return returnObj;
-};
+}

@@ -24,18 +24,14 @@ export default React.createClass({
     // .NET normalize
     var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
 
-    var depletionMessage, balance, resultingBalance, balanceType;
+    var depletionMessage, balanceType;
 
     if (isChargePerOrder) {
       balanceType = '(USD)';
       depletionMessage = `cost $${sd.renderCost} ${balanceType}`;
-      balance = '';
-      resultingBalance = '';
     } else {
       balanceType = 'minutes';
       depletionMessage = `use ${round(sd.minimumTemplateDuration)} ${balanceType} of your monthly video`;
-      balance = `${round(sd.minutesRemainingInContract)} ${balanceType}`;
-      resultingBalance = `${round(sd.minutesRemainingInContract - sd.minimumTemplateDuration)} ${balanceType}`;
     }
     var message = <div className="reactBasicTemplateEditor-SubmitRender-orderConfirmationMessage">
       <p>You are about to place an order which would {depletionMessage}. All orders are final.</p>
