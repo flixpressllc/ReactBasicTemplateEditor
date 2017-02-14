@@ -50,7 +50,7 @@ const ListImage = SortableElement( React.createClass({
     this.props.onChangeImage(this.props.item.id);
   },
   renderCaptions: function () {
-    if (this.props.captions === undefined) {
+    if (this.props.captions === undefined || this.props.item.captions === undefined) {
       return null;
     }
     const captionValues = clone(this.props.item.captions);
