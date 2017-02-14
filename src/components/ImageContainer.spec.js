@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import ImageContainer from './ImageContainer';
 import { isObject } from '../utils/helper-functions';
 
@@ -46,8 +46,8 @@ describe('ImageContainer', () => {
         'toast.jpg',
         'coffee.jpg',
         'eggs.jpg',
-        'milk.jpg',
-      ],
+        'milk.jpg'
+      ]
     };
     let component = mount(<ImageContainer {...getSettings(settings)}/>);
     expect(component.find('img').length).toEqual(2);
@@ -63,8 +63,8 @@ describe('ImageContainer', () => {
         'toast.jpg',
         'coffee.jpg',
         'eggs.jpg',
-        'milk.jpg',
-      ],
+        'milk.jpg'
+      ]
     };
     const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
@@ -81,13 +81,13 @@ describe('ImageContainer', () => {
     const fakeChangeArray = jest.fn();
     let settings = {
       images: [
-        {file: 'toast.jpg'},
+        {file: 'toast.jpg'}
       ],
       imageBank: [
         'toast.jpg',
         'coffee.jpg',
         'eggs.jpg',
-        'milk.jpg',
+        'milk.jpg'
       ],
       onUpdateImages: fakeChangeArray
     };
@@ -107,7 +107,7 @@ describe('ImageContainer', () => {
         ],
         imageBank: [
           'toast.jpg'
-        ],
+        ]
       };
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 

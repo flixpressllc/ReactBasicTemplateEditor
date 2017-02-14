@@ -1,4 +1,4 @@
-import { toType } from './helper-functions';
+// import { toType } from './helper-functions';
 import {
   registerDataType,
   getDataTypeNames,
@@ -10,8 +10,7 @@ import {
 
   _resetValues,
   _createGenericToRenderStringFunction,
-  _createGenericToDataObjectFunction,
-  __privateVars
+  _createGenericToDataObjectFunction
 } from './globalContainerConcerns';
 
 describe('registerDataType', () => {

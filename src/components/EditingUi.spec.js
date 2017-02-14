@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { shallow } from 'enzyme';
 import EditingUi from './EditingUi';
 
 let editingUiProps = {
@@ -17,7 +17,7 @@ let editingUiProps = {
   onDropDownChange: () => {},
   onColorPickerChange: () => {},
   imageBank:  [],
-  onUpdateImages:  () => {},
+  onUpdateImages:  () => {}
 }
 
 // need to really mock out lost of jquery stuff

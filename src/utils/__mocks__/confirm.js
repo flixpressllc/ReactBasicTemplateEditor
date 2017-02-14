@@ -3,7 +3,7 @@
 
 let thenMock = jest.fn();
 let testCall = jest.fn();
-let confirm = jest.fn ((confirmationReactElement, options) => {
+let confirm = jest.fn (() => {
   testCall();
   return {then: getThenMock};
 });

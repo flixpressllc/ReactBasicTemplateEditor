@@ -33,6 +33,16 @@
     "react/jsx-uses-vars": 1
   },
   "globals": {
-    "$": true
+    "$": true,
+
+    "jest": true,
+    "pending": true,
+    "describe": true,
+    "beforeAll": true,
+    "beforeEach": true,
+    "afterAll": true,
+    "afterEach": true,
+    "expect": true,
+    "it": true
   }
 }

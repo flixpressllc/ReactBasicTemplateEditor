@@ -1,7 +1,6 @@
 import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
-import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
-  TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY } from '../stores/app-settings';
+import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getSubmissionXmlFor, getMockOrderObject } from '../../specs/spec-helpers';
 
 jest.mock('./dom-queries');

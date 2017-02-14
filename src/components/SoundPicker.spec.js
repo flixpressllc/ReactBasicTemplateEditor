@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import SoundPicker from './SoundPicker'
 
 jest.mock('../utils/getAudioOptions');

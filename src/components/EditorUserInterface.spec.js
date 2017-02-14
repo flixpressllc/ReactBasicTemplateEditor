@@ -47,23 +47,23 @@ function baseMockReturnForGetStartingData () { return [{
   resolutions: [
     {
       id: 5,
-      name: '720p',
+      name: '720p'
     },
     {
       id: 3,
-      name: '1080p',
+      name: '1080p'
     },
     {
       id: 4,
-      name: '4K',
-    },
+      name: '4K'
+    }
   ],
   audioInfo: {
     audioType: 'NoAudio',
     audioUrl: '',
     id: 0,
     length: 0,
-    name: '',
+    name: ''
   }
 }];}
 
@@ -79,24 +79,24 @@ function imagesMockReturnForGetStartingData () {
 
 function baseMockReturnForGetStartingDataOffPreview () { return [
   {
-    "audioInfo": {
-      "audioType": "StockAudio",
-      "audioUrl": "https://fpsound.s3.amazonaws.com/13.mp3",
-      "id": 13,
-      "length": 3,
-      "name": "Bunny Garden",
+    'audioInfo': {
+      'audioType': 'StockAudio',
+      'audioUrl': 'https://fpsound.s3.amazonaws.com/13.mp3',
+      'id': 13,
+      'length': 3,
+      'name': 'Bunny Garden'
     },
-    "isPreview": true,
-    "resolutionId": 5,
-    "resolutions": [
+    'isPreview': true,
+    'resolutionId': 5,
+    'resolutions': [
       {
-        "id": 5,
-        "name": "720p",
+        'id': 5,
+        'name': '720p'
       },
       {
-        "id": 3,
-        "name": "1080p",
-      },
+        'id': 3,
+        'name': '1080p'
+      }
     ]
   },
   {
@@ -108,7 +108,7 @@ function baseMockReturnForGetStartingDataOffPreview () { return [
     'Subtitle Text Color': '0.0.0.50',
     'Text Left of Icon': 'Left',
     'Text Right of Icon': 'Right',
-    'Subtitle': 'Bottom',
+    'Subtitle': 'Bottom'
   }
 ];}
 
@@ -119,19 +119,19 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
       audioUrl: 'https://fpsound.s3.amazonaws.com/13.mp3',
       id: 13,
       length: 3,
-      name: 'Bunny Garden',
+      name: 'Bunny Garden'
     },
     isPreview: true,
     resolutionId: 5,
     resolutions: [
       {
         id: 5,
-        name: '720p',
+        name: '720p'
       },
       {
         id: 3,
-        name: '1080p',
-      },
+        name: '1080p'
+      }
     ]
   },
   {
@@ -140,15 +140,15 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
     ImageContainer: [ // This name will be wrong if we ever assume more than one
       {
         captions: [ 'marmet' ],
-        file: 'DonDentonAdmin_1-23-2017_94956756.png',
+        file: 'DonDentonAdmin_1-23-2017_94956756.png'
       },
       {
         captions: [''],
-        file: 'DonDentonAdmin_1-23-2017_9502787.jpg',
+        file: 'DonDentonAdmin_1-23-2017_9502787.jpg'
       },
       {
         captions: [''],
-        file: 'DonDentonAdmin_1-23-2017_9505506.png',
+        file: 'DonDentonAdmin_1-23-2017_9505506.png'
       }
     ]
   }
@@ -212,7 +212,7 @@ describe('EditorUserInterface', () => {
           let expected = [
             {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','','']},
             {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: ['','','']},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','','']},
+            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','','']}
           ];
 
           expect(containedImages).toEqual(expected);

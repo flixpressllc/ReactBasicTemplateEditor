@@ -24,6 +24,7 @@ describe('traverseObject', () => {
     let originalObj = {one: {value:1}, two: {value:2}};
     let returnedObj = traverseObject(originalObj, (key, prop) => {prop.value = 3});
     expect(originalObj).toEqual({one: {value:1}, two: {value:2}});
+    expect(returnedObj).not.toBe(originalObj);
   });
 
   it('returns an empty object by default', () => {
@@ -84,7 +85,7 @@ describe('nestedPropertyTest', () => {
   it('returns false if a prop does not exist at some level', () => {
     let obj = {level1: {level2: 'I am here'}};
 
-    expect(nestedPropertyTest(obj,'level1.level2.level3', (val) => true )).toEqual(false);
+    expect(nestedPropertyTest(obj,'level1.level2.level3', () => true )).toEqual(false);
   });
   it('returns true for a successfull callback on an existing prop', () => {
     let obj = {level1: {level2: 'I am here'}};
