@@ -50,6 +50,9 @@ export default React.createClass({
 
     } else if (type === 'DropDown') {
       let value = this.props.fields.dropDowns[identifier].value;
+      if (value === undefined) {
+        value = this.props.fields.dropDowns[identifier].default;
+      }
       for (var i = this.props.fields.dropDowns[identifier].options.length - 1; i >= 0; i--) {
         if (this.props.fields.dropDowns[identifier].options[i].value === value) {
           return URL_PARTIAL + this.props.fields.dropDowns[identifier].options[i].previewImage;
