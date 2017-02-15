@@ -163,3 +163,12 @@ export function objectKeyForValue (val, obj) {
     return a;
   }, '');
 }
+
+export function forceArray (val) {
+  const emptyReturns = ['null', 'undefined'];
+  if (emptyReturns.indexOf(toType(val)) != -1) return [];
+  if (toType(val) !== 'array') {
+    return [val];
+  }
+  return val;
+}
