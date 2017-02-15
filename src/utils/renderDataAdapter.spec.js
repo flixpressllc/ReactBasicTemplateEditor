@@ -1,5 +1,6 @@
 import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
+import { clone, toType } from './helper-functions';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getSubmissionXmlFor, getMockOrderObject } from '../../specs/spec-helpers';
 
@@ -77,6 +78,33 @@ describe('DataAdapter', () => {
       let expected = pretty(getSubmissionXmlFor(92));
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('private functions', () => {
+    describe('getImagesFromUnusedRenderData', () => {
+      const getImagesFromUnusedRenderData = DataAdapter._private.getImagesFromUnusedRenderData;
+      function prepObj (data) {
+        return {RenderedData: {UnusedImageUrls: {String: data}}};
+      }
+      describe('when given an empty object', () => {
+        it('returns an empty array', () => {
+          let obj = prepObj(null);
+          expect(getImagesFromUnusedRenderData(obj)).toEqual([]);
+        });
+      });
+      describe('when given a string', () => {
+        it('returns an array containing the string', () => {
+          let obj = prepObj('string');
+          expect(getImagesFromUnusedRenderData(obj)).toEqual(['string']);
+        });
+      });
+      describe('when given an array', () => {
+        it('returns the array', () => {
+          let obj = prepObj(['array', 'of', 'strings']);
+          expect(getImagesFromUnusedRenderData(obj)).toEqual(['array', 'of', 'strings']);
+        });
+      });
     });
   });
 });

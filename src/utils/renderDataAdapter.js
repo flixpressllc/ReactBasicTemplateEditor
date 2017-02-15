@@ -158,7 +158,11 @@ function getImagesFromHiddenField () {
 
 function getImagesFromUnusedRenderData (obj) {
   if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls.String', isNotEmpty)) {
-    return obj.RenderedData.UnusedImageUrls.String;
+    if (toType(obj.RenderedData.UnusedImageUrls.String) !== 'array') {
+      return [obj.RenderedData.UnusedImageUrls.String];
+    } else {
+      return obj.RenderedData.UnusedImageUrls.String;
+    }
   } else {
     return [];
   }
@@ -451,4 +455,8 @@ function updateXmlForOrder (reactObj) {
 export {
   getReactStartingData,
   updateXmlForOrder
+};
+
+export let _private = {
+  getImagesFromUnusedRenderData
 };
