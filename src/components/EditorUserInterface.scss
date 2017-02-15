@@ -4,7 +4,10 @@
   @extend %base-container-styles;
   
   padding-top: iH($xs-image);
+  background-color: #dddddd;
+  height:100%;
   
+
   @include breakpoint($sm) {
     padding-top: iH($sm-image);
   }
@@ -54,7 +57,9 @@
   .reactBasicTemplateEditor-EditorUserInterface-column {
     width: 50%;
     float: left;
+    margin-top:15px;
     
+
     &:first-child {
       padding-right: $viewportPad / 2;
     }

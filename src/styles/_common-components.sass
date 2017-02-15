@@ -37,20 +37,24 @@
 
 %input-component
   margin-top: $medPad
-  font-size: 16px
-
+  font-size: 0.9em
+  
   +breakpoint($sm)
     +pie-clearfix
     max-width: 400px
-    margin: $bigPad auto
+    margin: 15px auto
 
 
 %textbox
   border: 1px solid #bbb
-  font-size: 16px
+  font-size: 14px
 
 %label
   margin-right: 1em
+  font-size: .9em
+  color: #777777
+
+  
   &:after
     content: ':'
 
@@ -76,14 +80,17 @@
     margin-right: 0
 
 %component-title
-  margin: $bigPad auto
-  padding: $medPad 0
+  margin: 0px auto
+  padding: 8px 0
   background-color: #bbb
   text-align: center
   text-transform: uppercase
   letter-spacing: 0.05em
   font-weight: bold
-  color: darken(#bbb, 25)
+  font-size: 0.9em
+  background-color: #777777;
+  color: #eeeeee;
+  font-size: 0.75em;
   +fw-bars
 
   +breakpoint($md)
