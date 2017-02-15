@@ -1,6 +1,5 @@
 import * as DataAdapter from './renderDataAdapter';
 import jsb from 'js-beautify';
-import { clone, toType } from './helper-functions';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getSubmissionXmlFor, getMockOrderObject } from '../../specs/spec-helpers';
 
