@@ -11,6 +11,7 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
+import RenderDataStore from '../stores/RenderDataStore';
 
 import './EditorUserInterface.scss';
 
@@ -18,7 +19,8 @@ var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
       allowSubmit: false,
-      caughtErrors: []
+      caughtErrors: [],
+      containersFromStore: RenderDataStore.getAll()
     };
   },
 
@@ -208,6 +210,12 @@ var EditorUserInterface = React.createClass({
 
   componentDidMount: function () {
     this.setupEditor();
+  },
+
+  componentWillMount: function () {
+    RenderDataStore.on('change', () => {
+      this.setState({containersFromStore: RenderDataStore.getAll()})
+    });
   },
 
   componentWillUnmount: function () {
