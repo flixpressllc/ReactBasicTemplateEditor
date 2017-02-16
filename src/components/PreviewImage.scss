@@ -69,12 +69,14 @@
   
   @include breakpoint($md) {
     position: absolute;
-    width: iW($md-image);
-    height: iH($md-image);
+    width: iW(19);
+    height: iH(19);
     @include sides(auto);
     top: $bigPad;
     right: 25%;
     transform: translateX(50%);
     z-index: 0;
+    border:2px solid #ffffff;
+    
   }
 }

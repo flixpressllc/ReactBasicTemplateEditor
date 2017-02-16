@@ -2,6 +2,9 @@
 
 .reactBasicTemplateEditor-ResolutionPicker {
   text-align: center;
+    background-color:#bbbbbb;
+  margin:10px auto 10px auto;
+  
 }
 
 .reactBasicTemplateEditor-ResolutionPicker-title {
@@ -10,4 +13,10 @@
 
 .reactBasicTemplateEditor-ResolutionPicker-explain {
   @extend %explanation-text;
+  font-size: 12px;
+  padding:10px;
+}
+
+.reactBasicTemplateEditor-ResolutionPicker-RadioGroup {
+  padding:10px;
 }
