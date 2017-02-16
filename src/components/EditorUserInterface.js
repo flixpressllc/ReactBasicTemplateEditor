@@ -11,7 +11,11 @@ import ResolutionPicker from './ResolutionPicker';
 import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
+
+// This must be called after all the actual containers are called so they can
+// register themselves before RenderDataStore tries to get them all...
 import RenderDataStore from '../stores/RenderDataStore';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './EditorUserInterface.scss';
 
@@ -226,30 +230,35 @@ var EditorUserInterface = React.createClass({
     var fields = this.state.textFields;
     fields[fieldName].value = userText;
     this.setState({textFields: fields});
+    ContainerActions.changeContainer('textField', fieldName, {value: userText});
   },
 
   handleYouTubeLinksChange: function (fieldName, userText) {
     var fields = this.state.youTubeLinks;
     fields[fieldName].value = userText;
     this.setState({youTubeLinks: fields});
+    ContainerActions.changeContainer('youTubeLink', fieldName, {value: userText});
   },
 
   handleTextBoxesChange: function (fieldName, userText) {
     var textBoxes = this.state.textBoxes;
     textBoxes[fieldName].value = userText;
     this.setState({textBoxes: textBoxes});
+    ContainerActions.changeContainer('textBox', fieldName, {value: userText});
   },
 
-  handleDropDownChange: function (e, ddName, callback) {
+  handleDropDownChange: function (e, fieldName, callback) {
     var ddState = clone(this.state.dropDowns);
-    ddState[ddName].value = e.target.value;
+    ddState[fieldName].value = e.target.value;
     this.setState({dropDowns: ddState}, callback);
+    ContainerActions.changeContainer('dropDown', fieldName, {value: e.target.value}); // can't callback?
   },
 
   handleColorPickerChange: function (fieldName, userColor) {
     var pickerState = this.state.colorPickers;
     pickerState[fieldName].value = userColor;
     this.setState({colorPickers: pickerState});
+    ContainerActions.changeContainer('colorPicker', fieldName, {value: userColor});
   },
 
   handleValidVideoFound: function (fieldName, videoId, title) {
@@ -257,6 +266,7 @@ var EditorUserInterface = React.createClass({
     youTubeLinksState[fieldName].videoId = videoId;
     youTubeLinksState[fieldName].title = title;
     this.setState({youTubeLinks: youTubeLinksState});
+    ContainerActions.changeContainer('youTubeLink', fieldName, {videoId: videoId, title: title});
   },
 
   handleResolutionIdChange: function (id) {

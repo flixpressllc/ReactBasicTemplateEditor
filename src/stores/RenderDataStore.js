@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import dispatcher from './dispatcher';
 import * as Containers from '../utils/globalContainerConcerns';
 
 import { clone } from '../utils/helper-functions';
@@ -21,8 +22,17 @@ class RenderDataStore extends EventEmitter {
   getAll() {
     return this.containers;
   }
+  
+  handleActions(action) {
+    switch(action.type) {
+      case 'CHANGE_CONTAINER':
+        this.changeContainer(action.dataType, action.fieldName, action.newData);
+        break;
+    }
+  }
 }
 
 const renderDataStore = new RenderDataStore;
-window.RenderDataStore = renderDataStore;
+dispatcher.register(renderDataStore.handleActions.bind(renderDataStore))
+
 export default renderDataStore;
