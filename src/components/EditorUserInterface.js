@@ -55,26 +55,24 @@ var EditorUserInterface = React.createClass({
     }, {});
   },
 
-  populateContainersWithPreviewData: function (containersObj, nameValuePairsObj) {
-    let newContainersObj = clone(containersObj);
+  populateContainersWithPreviewData: function (nameValuePairsObj) {
+    let containersObj = this.getCurrentContainerState();
     dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
-      let container = newContainersObj[containerName];
+      let container = containersObj[containerName];
       if (!isEmpty(container)) {
-        newContainersObj[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
+        containersObj[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
       }
     });
-    return newContainersObj;
+    return containersObj;
   },
 
-  extractAndReplacePreviewRenderValues: function (stateToMerge, nameValuePairsObj) {
-    stateToMerge = clone(stateToMerge);
-
+  extractAndReplacePreviewRenderValues: function (highLevelData, nameValuePairsObj) {
+    let stateToMerge = clone(highLevelData);
     if (isNotEmpty(nameValuePairsObj)) {
-      let populatedContainers = this.populateContainersWithPreviewData(
-        this.getCurrentContainerState(), nameValuePairsObj);
-      stateToMerge = Object.assign({}, stateToMerge, populatedContainers);
+      let populatedContainers = this.populateContainersWithPreviewData(nameValuePairsObj);
+      stateToMerge = Object.assign({}, highLevelData, populatedContainers);
     }
     stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj);
 
@@ -156,10 +154,11 @@ var EditorUserInterface = React.createClass({
     return imageChooser;
   },
 
-  getStartingData: function () { return new Promise((resolve) => {
-    let [stateToMerge, nameValPairsObj] = renderDataAdapter.getReactStartingData();
-    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge, nameValPairsObj);
+  getStartingData: function (uiData) { return new Promise((resolve) => {
+    let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
+    let stateToMerge = this.extractAndReplacePreviewRenderValues(highLevelData, specsNameValuePairs);
     this.setState(stateToMerge, resolve);
+    ContainerActions.setInitialContainerValues(Object.assign(stateToMerge, uiData))
   })},
 
   // Returns true if it passes, or an array of strings describing
@@ -184,7 +183,7 @@ var EditorUserInterface = React.createClass({
     .then( result => {
       var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
-        this.setState(result.data, resolve);
+        this.setState(result.data, () => resolve(result.data) );
       } else {
         // Post Errors
         var errors = [];
@@ -199,7 +198,7 @@ var EditorUserInterface = React.createClass({
   setupEditor: function () { return new Promise((resolve) => {
     let defineUi = this.defineUi();
     defineUi
-      .then(() => this.getStartingData())
+      .then(uiData => this.getStartingData(uiData))
       .then(() => resolve());
 
     defineUi.catch((possibleReason)=>{

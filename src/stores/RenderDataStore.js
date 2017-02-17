@@ -20,13 +20,17 @@ class RenderDataStore extends EventEmitter {
   }
 
   getAll() {
-    return this.containers;
+    return clone(this.containers);
   }
   
   handleActions(action) {
     switch(action.type) {
       case 'CHANGE_CONTAINER':
         this.changeContainer(action.dataType, action.fieldName, action.newData);
+        break;
+      case 'RECEIVE_INITIAL_CONTAINER_VALUES':
+        this.containers = action.containers;
+        this.emit('change');
         break;
     }
   }
