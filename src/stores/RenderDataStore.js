@@ -5,14 +5,6 @@ import * as Containers from '../utils/globalContainerConcerns';
 import { clone } from '../utils/helper-functions';
 
 class RenderDataStore extends EventEmitter {
-  constructor() {
-    super();
-    this.containers = Containers.getContainerNames().reduce( (a, name) => {
-      a[name] = {};
-      return a;
-    }, {})
-  }
-
   changeContainer(dataType, fieldName, newData) {
     let containerName = Containers.getContainerNameFor(dataType);
     Object.assign(this.containers[containerName][fieldName], newData);
@@ -20,7 +12,7 @@ class RenderDataStore extends EventEmitter {
   }
 
   getAll() {
-    return clone(this.containers);
+    return this.containers ? clone(this.containers) : {};
   }
   
   handleActions(action) {

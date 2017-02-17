@@ -40,15 +40,6 @@ var EditingUi = React.createClass({
     this.setState({previewImageName: fieldName, previewImageType: 'DropDown'});
   },
 
-  getFieldsForPreviewImage: function () {
-    return {
-      dropDowns: this.props.allDropDowns,
-      textFields: this.props.allTextFields,
-      youTubeLinks: this.props.allYouTubeLinks,
-      textBoxes: this.props.allTextBoxes
-    }
-  },
-
   createTextField: function (name, object) {
     var safeName = name.replace(' ','-');
     // TODO: The object passed in contains the value and settings all in the same
@@ -156,7 +147,6 @@ var EditingUi = React.createClass({
 
   render: function () {
     var uiSections = this.props.uiSections
-    let fieldsObj = this.getFieldsForPreviewImage();
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
       for (var sectionName in uiSections[i]){
@@ -170,8 +160,7 @@ var EditingUi = React.createClass({
         </div>
         <PreviewImage
           name={this.state.previewImageName}
-          type={ this.state.previewImageType }
-          fields={ fieldsObj }/>
+          type={ this.state.previewImageType }/>
       </div>
     );
   }
