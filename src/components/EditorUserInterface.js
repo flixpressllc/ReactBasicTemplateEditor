@@ -23,8 +23,7 @@ var EditorUserInterface = React.createClass({
   getInitialState: function() {
     return {
       allowSubmit: false,
-      caughtErrors: [],
-      containersFromStore: RenderDataStore.getAll()
+      caughtErrors: []
     };
   },
 
@@ -216,59 +215,41 @@ var EditorUserInterface = React.createClass({
   })},
 
   componentDidMount: function () {
+    function updateContainerState () {
+      this.setState(RenderDataStore.getAll())
+    }
+    updateContainerState = updateContainerState.bind(this);
+    RenderDataStore.on('change', updateContainerState);
     this.setupEditor();
-  },
-
-  componentWillMount: function () {
-    RenderDataStore.on('change', () => {
-      this.setState({containersFromStore: RenderDataStore.getAll()})
-    });
   },
 
   componentWillUnmount: function () {
     this.serverRequest.abort();
+    RenderDataStore.removeEventListener('change', updateContainerState);
   },
 
   handleFieldsChange: function (fieldName, userText) {
-    var fields = this.state.textFields;
-    fields[fieldName].value = userText;
-    this.setState({textFields: fields});
     ContainerActions.changeContainer('textField', fieldName, {value: userText});
   },
 
   handleYouTubeLinksChange: function (fieldName, userText) {
-    var fields = this.state.youTubeLinks;
-    fields[fieldName].value = userText;
-    this.setState({youTubeLinks: fields});
     ContainerActions.changeContainer('youTubeLink', fieldName, {value: userText});
   },
 
   handleTextBoxesChange: function (fieldName, userText) {
-    var textBoxes = this.state.textBoxes;
-    textBoxes[fieldName].value = userText;
-    this.setState({textBoxes: textBoxes});
     ContainerActions.changeContainer('textBox', fieldName, {value: userText});
   },
 
   handleDropDownChange: function (e, fieldName, callback) {
-    var ddState = clone(this.state.dropDowns);
-    ddState[fieldName].value = e.target.value;
-    this.setState({dropDowns: ddState}, callback);
-    ContainerActions.changeContainer('dropDown', fieldName, {value: e.target.value}); // can't callback?
+    ContainerActions.changeContainer('dropDown', fieldName, {value: e.target.value});
+    setTimeout(callback, 100); // TODO: fix this hack once this is in the proper component.
   },
 
   handleColorPickerChange: function (fieldName, userColor) {
-    var pickerState = this.state.colorPickers;
-    pickerState[fieldName].value = userColor;
-    this.setState({colorPickers: pickerState});
     ContainerActions.changeContainer('colorPicker', fieldName, {value: userColor});
   },
 
   handleValidVideoFound: function (fieldName, videoId, title) {
-    var youTubeLinksState = this.state.youTubeLinks;
-    youTubeLinksState[fieldName].videoId = videoId;
-    youTubeLinksState[fieldName].title = title;
-    this.setState({youTubeLinks: youTubeLinksState});
     ContainerActions.changeContainer('youTubeLink', fieldName, {videoId: videoId, title: title});
   },
 

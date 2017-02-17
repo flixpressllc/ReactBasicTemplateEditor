@@ -15,8 +15,8 @@ class RenderDataStore extends EventEmitter {
 
   changeContainer(dataType, fieldName, newData) {
     let containerName = Containers.getContainerNameFor(dataType);
-    this.containers[containerName][fieldName] = clone(newData);
-    this.emit('change');
+    Object.assign(this.containers[containerName][fieldName], newData);
+    this.emit('change', {containerName, dataType, fieldName});
   }
 
   getAll() {
