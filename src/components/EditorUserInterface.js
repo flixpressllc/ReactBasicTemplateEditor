@@ -275,6 +275,7 @@ var EditorUserInterface = React.createClass({
 
   populateOrderUi: function () {
     let orderUi = clone(this.state.ui);
+    let containers = RenderDataStore.getAll();
     // add values to order.ui
     orderUi = orderUi.map(sectionObjContainerObj =>{
       sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataObjectArray) => {
@@ -283,7 +284,7 @@ var EditorUserInterface = React.createClass({
           let type = firstCharToLower(formDataObj.type);   // 'TextField' to 'textField'
           let containerName = dc.getContainerNameFor(type);
 
-          formDataObj.value = dc.getToRenderStringFunctionFor(type)(this.state[containerName][formIdName]);
+          formDataObj.value = dc.getToRenderStringFunctionFor(type)(containers[containerName][formIdName]);
           return formDataObj;
         });
         return [sectionName, formDataObjectArray];
