@@ -2,6 +2,9 @@ import React from 'react';
 import { mount, render, shallow } from 'enzyme';
 import TextField from './TextField';
 
+jest.mock('../actions/ContainerActions');
+const FakeContainerActions = require('../actions/ContainerActions');
+
 describe('TextField', () => {
   it('renders without crashing', () => {
     expect(() => mount(
@@ -23,12 +26,11 @@ describe('TextField', () => {
 
   it('calls the onUserInput function when text is altered', () => {
     const fakeEvent = {target:{value:'new value'}};
-    const fakeFn = jest.fn(() => {});
-    const component = shallow(<TextField onUserInput={ fakeFn } />)
+    const component = shallow(<TextField fieldName='myName'/>)
 
     component.find('input').simulate('change', fakeEvent);
 
-    expect(fakeFn).toHaveBeenCalled();
+    expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'myName', {value: 'new value'})
   });
 
   it('calls the onTextFieldFocus function when the input field is focused', () => {
@@ -45,31 +47,27 @@ describe('TextField', () => {
   describe('filter options', () => {
     describe('maxCharacters', () => {
       it('allows only last character typed if set to 1', () => {
-        const fakeEvent = {target:{value:'new value'}};
-        const fakeFn = jest.fn(() => {});
+        const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 1};
         const component = shallow(<TextField
           fieldName='mario'
-          onUserInput={ fakeFn }
           settings={ settings }/>);
 
         component.find('input').simulate('change', fakeEvent);
 
-        expect(fakeFn).toHaveBeenCalledWith('mario', 'e');
+        expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'mario', {value: 'g'})
       });
 
       it('allows only first n characters when set to n > 1', () => {
-        const fakeEvent = {target:{value:'new value'}};
-        const fakeFn = jest.fn(() => {});
+        const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 2};
         const component = shallow(<TextField
           fieldName='mario'
-          onUserInput={ fakeFn }
           settings={ settings }/>);
 
         component.find('input').simulate('change', fakeEvent);
 
-        expect(fakeFn).toHaveBeenCalledWith('mario', 'ne');
+        expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'mario', {value: 'ab'})
       });
     });
   });
