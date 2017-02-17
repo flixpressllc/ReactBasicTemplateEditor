@@ -233,10 +233,6 @@ var EditorUserInterface = React.createClass({
     setTimeout(callback, 100); // TODO: fix this hack once this is in the proper component.
   },
 
-  handleColorPickerChange: function (fieldName, userColor) {
-    ContainerActions.changeContainer('colorPicker', fieldName, {value: userColor});
-  },
-
   handleResolutionIdChange: function (id) {
     this.setState({
       resolutionId: id
@@ -340,7 +336,6 @@ var EditorUserInterface = React.createClass({
           allDropDowns={this.state.dropDowns}
           allColorPickers={this.state.colorPickers}
           onDropDownChange={this.handleDropDownChange}
-          onColorPickerChange={this.handleColorPickerChange}
           allUserImageChoosers={ this.state.userImageChoosers }
           onUpdateImages={ this.handleUpdateImages }
           imageBank={ this.state.imageBank }

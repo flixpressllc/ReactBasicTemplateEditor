@@ -103,7 +103,6 @@ var EditingUi = React.createClass({
     return (<ColorPicker
       fieldName={name}
       color={object.value}
-      onColorChange={this.props.onColorPickerChange}
       key={`color-picker-${safeName}`}
     />);
   },

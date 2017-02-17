@@ -4,10 +4,13 @@ import { SketchPicker } from 'react-color';
 import { Checkboard } from 'react-color/lib/components/common';
 import reactCSS from 'reactcss';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './ColorPicker.scss';
 
-registerDataType('colorPicker');
+const DATA_TYPE_NAME = 'colorPicker';
+
+registerDataType(DATA_TYPE_NAME);
 
 var ColorPicker = React.createClass({
   getInitialState: function () {
@@ -74,9 +77,10 @@ var ColorPicker = React.createClass({
   },
 
   handleColorChange: function(color){
-    this.props.onColorChange(
+    ContainerActions.changeContainer(
+      DATA_TYPE_NAME,
       this.props.fieldName,
-      this.makeString(color.rgb)
+      {value: this.makeString(color.rgb)}
     );
   },
 
