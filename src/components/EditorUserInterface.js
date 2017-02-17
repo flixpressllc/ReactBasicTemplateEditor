@@ -54,8 +54,7 @@ var EditorUserInterface = React.createClass({
     }, {});
   },
 
-  populateContainersWithPreviewData: function (nameValuePairsObj) {
-    let containersObj = this.getCurrentContainerState();
+  populateContainersWithPreviewData: function (containersObj, nameValuePairsObj) {
     dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
@@ -67,14 +66,13 @@ var EditorUserInterface = React.createClass({
     return containersObj;
   },
 
-  extractAndReplacePreviewRenderValues: function (highLevelData, nameValuePairsObj) {
-    let stateToMerge = clone(highLevelData);
+  extractAndReplacePreviewRenderValues: function (emptyUiContainers, nameValuePairsObj, imageBank) {
+    let stateToMerge = clone(emptyUiContainers);
     if (isNotEmpty(nameValuePairsObj)) {
-      let populatedContainers = this.populateContainersWithPreviewData(nameValuePairsObj);
-      stateToMerge = Object.assign({}, highLevelData, populatedContainers);
+      let populatedContainers = this.populateContainersWithPreviewData(emptyUiContainers, nameValuePairsObj);
+      stateToMerge = Object.assign({}, emptyUiContainers, populatedContainers);
     }
-    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj);
-
+    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj, imageBank);
     return stateToMerge;
   },
 
@@ -113,11 +111,11 @@ var EditorUserInterface = React.createClass({
     });
   },
 
-  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj) {
+  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj, imageBank) {
     if (!this.isImageTemplate()) return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
 
-    let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
+    let singlePopulatedChooser = traverseObject(newStateToMerge.userImageChoosers, (key, imageChooser) => {
       if (isNotEmpty(nameValuePairsObj['ImageContainer'])) {
         // imageChooser.containedImages = nameValuePairsObj[key];
         // This is a workaround for now. We always will have only one image container
@@ -125,13 +123,13 @@ var EditorUserInterface = React.createClass({
         imageChooser.containedImages = nameValuePairsObj['ImageContainer'];
       } else {
         // just use all available images...
-        imageChooser.containedImages = newStateToMerge.imageBank.map(val => {
+        imageChooser.containedImages = imageBank.map(val => {
           return {file: val};
         });
       }
 
       imageChooser = this.respectMaximumImageValue(imageChooser);
-      imageChooser = this.respectMinimumImageValue(imageChooser, stateToMerge.imageBank);
+      imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
       imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
 
@@ -154,14 +152,20 @@ var EditorUserInterface = React.createClass({
   },
 
   getStartingData: function (uiData) { return new Promise((resolve) => {
+    let containerNames = dc.getContainerNames();
+    let emptyContainers = traverseObject(uiData, (key, val) => {
+      if (containerNames.indexOf(key) !== -1) {
+        return [key, val];
+      }
+    })
     let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
-    let stateToMerge = this.extractAndReplacePreviewRenderValues(highLevelData, specsNameValuePairs);
-    this.setState(stateToMerge, resolve);
+    let stateToMerge = this.extractAndReplacePreviewRenderValues(emptyContainers, specsNameValuePairs, highLevelData.imageBank);
 
     let containers = traverseObject(Object.assign(uiData, stateToMerge), (key, val) => {
       if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
     });
     ContainerActions.setInitialContainerValues(containers);
+    this.setState(Object.assign({ui: uiData.ui}, highLevelData), resolve);
   })},
 
   // Returns true if it passes, or an array of strings describing
@@ -186,7 +190,7 @@ var EditorUserInterface = React.createClass({
     .then( result => {
       var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
-        this.setState(result.data, () => resolve(result.data) );
+        resolve(result.data);
       } else {
         // Post Errors
         var errors = [];
@@ -317,12 +321,6 @@ var EditorUserInterface = React.createClass({
         <EditingUi
           templateType={ this.props.templateType}
           uiSections={this.state.ui}
-          allTextFields={this.state.textFields}
-          allYouTubeLinks={this.state.youTubeLinks}
-          allTextBoxes={this.state.textBoxes}
-          allDropDowns={this.state.dropDowns}
-          allColorPickers={this.state.colorPickers}
-          allUserImageChoosers={ this.state.userImageChoosers }
           imageBank={ this.state.imageBank }
         />
       );

@@ -27,7 +27,7 @@ function toRenderString (imageChooserObj) {
   return renderValue;
 }
 
-function toDataObject (object) {
+function toDataObject (valueObject, object) {
   // For now, this is a special case taken care of in the EditorUserInterface
   return object;
 }

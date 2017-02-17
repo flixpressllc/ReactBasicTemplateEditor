@@ -6,9 +6,10 @@ import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
 import DropDown from './DropDown';
+import RenderDataStore from '../stores/RenderDataStore';
 
 import { getContainerNameFor } from '../utils/globalContainerConcerns';
-import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
+import { firstCharToLower, isEmpty } from '../utils/helper-functions';
 
 import './EditingUi.scss';
 
@@ -128,12 +129,13 @@ var EditingUi = React.createClass({
 
   createSection: function (sectionName, inputArray) {
     var components = [];
+    let containers = RenderDataStore.getAll();
     for (var i = 0; i < inputArray.length; i++) {
-      var name = inputArray[i].name;
+      var fieldName = inputArray[i].name;
       var type = inputArray[i].type;
-      var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
-      var object = this.props[container][name];
-      components.push(this['create' + type](name, object));
+      var containerName = getContainerNameFor(firstCharToLower(type));
+      var object = containers[containerName][fieldName];
+      components.push(this['create' + type](fieldName, object));
     }
     var safeName = sectionName.replace(' ','-');
     return (
