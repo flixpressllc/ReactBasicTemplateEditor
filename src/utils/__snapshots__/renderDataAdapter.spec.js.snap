@@ -61,7 +61,7 @@ Array [
       "length": 0,
       "name": "Bunny Garden",
     },
-    "isPreview": true,
+    "isPreview": false,
     "resolutionId": 5,
     "resolutions": Array [
       Object {
@@ -108,7 +108,7 @@ Array [
       "DonDentonAdmin_1-30-2017_115158937.jpg",
       "DonDentonAdmin_1-30-2017_11520968.jpg",
     ],
-    "isPreview": true,
+    "isPreview": false,
     "resolutionId": 5,
     "resolutions": Array [
       Object {
@@ -208,7 +208,7 @@ Array [
       "DonDentonAdmin_2-10-2017_102223703.jpg",
       "DonDentonAdmin_2-10-2017_102224328.jpg",
     ],
-    "isPreview": true,
+    "isPreview": false,
     "resolutionId": 5,
     "resolutions": Array [
       Object {

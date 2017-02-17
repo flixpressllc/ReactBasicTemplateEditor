@@ -1,5 +1,4 @@
 import React from 'react';
-import {CheckBox} from './imports';
 import confirm from '../utils/confirm';
 import {round} from '../utils/helper-functions';
 import AccountBalance from './AccountBalance';
@@ -57,7 +56,6 @@ export default React.createClass({
   },
 
   render: function () {
-    var text = (this.props.isPreview) ? 'Render Preview' : 'Submit Order'
     return (
       <div className="reactBasicTemplateEditor-SubmitRender">
         <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={false}/>
