@@ -228,11 +228,6 @@ var EditorUserInterface = React.createClass({
     RenderDataStore.removeEventListener('change', this.updateContainerState);
   },
 
-  handleDropDownChange: function (e, fieldName, callback) {
-    ContainerActions.changeContainer('dropDown', fieldName, {value: e.target.value});
-    setTimeout(callback, 100); // TODO: fix this hack once this is in the proper component.
-  },
-
   handleResolutionIdChange: function (id) {
     this.setState({
       resolutionId: id
@@ -327,7 +322,6 @@ var EditorUserInterface = React.createClass({
           allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
           allColorPickers={this.state.colorPickers}
-          onDropDownChange={this.handleDropDownChange}
           allUserImageChoosers={ this.state.userImageChoosers }
           imageBank={ this.state.imageBank }
         />

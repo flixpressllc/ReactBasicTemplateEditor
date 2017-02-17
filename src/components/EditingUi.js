@@ -113,7 +113,6 @@ var EditingUi = React.createClass({
       defaultValue={ object.default }
       value={ object.value }
       options={ object.options }
-      onDropDownChange={ this.props.onDropDownChange }
       onDropDownFocus={ this.handleDropDownFocus }
       key={`drop-down-${safeName}`} />
     );
