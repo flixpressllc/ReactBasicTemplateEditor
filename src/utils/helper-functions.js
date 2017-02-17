@@ -171,3 +171,12 @@ export function mediaWidth () {
 export function mediaHeight () {
   return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }
+
+export function forceArray (val) {
+  const emptyReturns = ['null', 'undefined'];
+  if (emptyReturns.indexOf(toType(val)) != -1) return [];
+  if (toType(val) !== 'array') {
+    return [val];
+  }
+  return val;
+}
