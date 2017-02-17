@@ -266,11 +266,11 @@ var EditorUserInterface = React.createClass({
   },
 
   handleUpdateImages: function (newArrayOfImages) {
-    let imageChoosers = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      imageChooser.containedImages = newArrayOfImages;
-      return [key, imageChooser];
+    let fieldName;
+    traverseObject(this.state.userImageChoosers, (key) => {
+      fieldName = key;
     });
-    this.setState({userImageChoosers: imageChoosers});
+    ContainerActions.changeContainer('userImageChooser', fieldName, {containedImages: newArrayOfImages});
   },
 
   populateOrderUi: function () {
