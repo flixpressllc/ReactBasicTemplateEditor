@@ -158,7 +158,11 @@ var EditorUserInterface = React.createClass({
     let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
     let stateToMerge = this.extractAndReplacePreviewRenderValues(highLevelData, specsNameValuePairs);
     this.setState(stateToMerge, resolve);
-    ContainerActions.setInitialContainerValues(Object.assign(stateToMerge, uiData))
+
+    let containers = traverseObject(Object.assign(stateToMerge, uiData), (key, val) => {
+      if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
+    });
+    ContainerActions.setInitialContainerValues(containers);
   })},
 
   // Returns true if it passes, or an array of strings describing

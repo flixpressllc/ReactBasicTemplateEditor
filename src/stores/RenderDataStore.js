@@ -38,5 +38,5 @@ class RenderDataStore extends EventEmitter {
 
 const renderDataStore = new RenderDataStore;
 dispatcher.register(renderDataStore.handleActions.bind(renderDataStore))
-
+window.renderDataStore = renderDataStore;
 export default renderDataStore;
