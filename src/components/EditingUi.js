@@ -20,9 +20,26 @@ var EditingUi = React.createClass({
       previewImageType: ''
     };
   },
+  
+  subscribeToChanges: function () {
+    const forceUpdate = this.forceUpdate.bind(this);
+    this.forceUpdateAfterChange = function () {
+      forceUpdate();
+    }
+    RenderDataStore.on('change', this.forceUpdateAfterChange);
+  },
+  
+  unsubscribeFromChanges: function () {
+    RenderDataStore.removeEventListener('change', this.forceUpdateAfterChange);
+  },
 
   componentDidMount: function () {
     this.findFirstPreviewImage();
+    this.subscribeToChanges();
+  },
+  
+  componentWillUnmount: function () {
+    this.unsubscribeFromChanges();
   },
 
   handleTextFocus: function (fieldName) {

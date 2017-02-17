@@ -218,18 +218,12 @@ var EditorUserInterface = React.createClass({
     });
   })},
 
-  updateContainerState: function () {
-    this.setState(RenderDataStore.getAll())
-  },
-  
   componentDidMount: function () {
-    RenderDataStore.on('change', this.updateContainerState);
     this.setupEditor();
   },
 
   componentWillUnmount: function () {
     this.serverRequest.abort();
-    RenderDataStore.removeEventListener('change', this.updateContainerState);
   },
 
   handleResolutionIdChange: function (id) {
