@@ -163,3 +163,11 @@ export function objectKeyForValue (val, obj) {
     return a;
   }, '');
 }
+
+export function mediaWidth () {
+  return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
+
+export function mediaHeight () {
+  return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+}
