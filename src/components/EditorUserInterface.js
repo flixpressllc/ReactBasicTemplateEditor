@@ -245,14 +245,6 @@ var EditorUserInterface = React.createClass({
     })
   },
 
-  handleUpdateImages: function (newArrayOfImages) {
-    let fieldName;
-    traverseObject(this.state.userImageChoosers, (key) => {
-      fieldName = key;
-    });
-    ContainerActions.changeContainer('userImageChooser', fieldName, {containedImages: newArrayOfImages});
-  },
-
   populateOrderUi: function () {
     let orderUi = clone(this.state.ui);
     let containers = RenderDataStore.getAll();
@@ -337,7 +329,6 @@ var EditorUserInterface = React.createClass({
           allColorPickers={this.state.colorPickers}
           onDropDownChange={this.handleDropDownChange}
           allUserImageChoosers={ this.state.userImageChoosers }
-          onUpdateImages={ this.handleUpdateImages }
           imageBank={ this.state.imageBank }
         />
       );

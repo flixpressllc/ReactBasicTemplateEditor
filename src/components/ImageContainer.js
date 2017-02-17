@@ -3,8 +3,11 @@ import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'rea
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from '../utils/helper-functions';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './ImageContainer.scss';
+
+const DATA_TYPE_NAME = 'userImageChooser';
 
 function toRenderString (imageChooserObj) {
   // This won't really be a string. That's okay, though.
@@ -29,7 +32,7 @@ function toDataObject (object) {
   return object;
 }
 
-registerDataType('userImageChooser', {toRenderString, toDataObject});
+registerDataType(DATA_TYPE_NAME, {toRenderString, toDataObject});
 
 const DragHandle = SortableHandle(() => {
   return (
@@ -148,7 +151,7 @@ const ImageContainer = React.createClass({
 
   handleSortEnd: function ({oldIndex, newIndex}) {
     let newArray = arrayMove(this.props.images, oldIndex, newIndex);
-    this.props.onUpdateImages(newArray);
+    this.updateImages(newArray);
   },
 
   componentWillReceiveProps: function (newProps) {
@@ -167,7 +170,15 @@ const ImageContainer = React.createClass({
       }
       return image;
     });
-    this.props.onUpdateImages(newArray);
+    this.updateImages(newArray);
+  },
+
+  updateImages: function (newArrayOfImages) {
+    ContainerActions.changeContainer(
+      DATA_TYPE_NAME,
+      this.props.fieldName,
+      {containedImages: newArrayOfImages}
+    );
   },
 
   openModal: function () {
@@ -193,7 +204,7 @@ const ImageContainer = React.createClass({
       return image;
     });
 
-    this.props.onUpdateImages(newImageArray);
+    this.updateImages(newImageArray);
     this.closeModal();
   },
 

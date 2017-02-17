@@ -72,7 +72,6 @@ var EditingUi = React.createClass({
         images={ object.containedImages }
         captions={ object.captions }
         imageBank={ this.props.imageBank }
-        onUpdateImages={ this.props.onUpdateImages }
         key={`text-field-${safeName}`}
       />
     );
