@@ -214,18 +214,18 @@ var EditorUserInterface = React.createClass({
     });
   })},
 
+  updateContainerState: function () {
+    this.setState(RenderDataStore.getAll())
+  },
+  
   componentDidMount: function () {
-    function updateContainerState () {
-      this.setState(RenderDataStore.getAll())
-    }
-    updateContainerState = updateContainerState.bind(this);
-    RenderDataStore.on('change', updateContainerState);
+    RenderDataStore.on('change', this.updateContainerState);
     this.setupEditor();
   },
 
   componentWillUnmount: function () {
     this.serverRequest.abort();
-    RenderDataStore.removeEventListener('change', updateContainerState);
+    RenderDataStore.removeEventListener('change', this.updateContainerState);
   },
 
   handleFieldsChange: function (fieldName, userText) {
