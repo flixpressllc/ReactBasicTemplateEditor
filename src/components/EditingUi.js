@@ -6,9 +6,10 @@ import ColorPicker from './ColorPicker';
 import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
 import DropDown from './DropDown';
+import RenderDataStore from '../stores/RenderDataStore';
 
 import { getContainerNameFor } from '../utils/globalContainerConcerns';
-import { firstCharToLower, firstCharToUpper, isEmpty } from '../utils/helper-functions';
+import { firstCharToLower, isEmpty } from '../utils/helper-functions';
 
 import './EditingUi.scss';
 
@@ -19,9 +20,26 @@ var EditingUi = React.createClass({
       previewImageType: ''
     };
   },
+  
+  subscribeToChanges: function () {
+    const forceUpdate = this.forceUpdate.bind(this);
+    this.forceUpdateAfterChange = function () {
+      forceUpdate();
+    }
+    RenderDataStore.on('change', this.forceUpdateAfterChange);
+  },
+  
+  unsubscribeFromChanges: function () {
+    RenderDataStore.removeEventListener('change', this.forceUpdateAfterChange);
+  },
 
   componentDidMount: function () {
     this.findFirstPreviewImage();
+    this.subscribeToChanges();
+  },
+  
+  componentWillUnmount: function () {
+    this.unsubscribeFromChanges();
   },
 
   handleTextFocus: function (fieldName) {
@@ -40,15 +58,6 @@ var EditingUi = React.createClass({
     this.setState({previewImageName: fieldName, previewImageType: 'DropDown'});
   },
 
-  getFieldsForPreviewImage: function () {
-    return {
-      dropDowns: this.props.allDropDowns,
-      textFields: this.props.allTextFields,
-      youTubeLinks: this.props.allYouTubeLinks,
-      textBoxes: this.props.allTextBoxes
-    }
-  },
-
   createTextField: function (name, object) {
     var safeName = name.replace(' ','-');
     // TODO: The object passed in contains the value and settings all in the same
@@ -58,7 +67,6 @@ var EditingUi = React.createClass({
       fieldName={name}
       settings={object}
       value={ object.value }
-      onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
     />);
@@ -73,7 +81,6 @@ var EditingUi = React.createClass({
         images={ object.containedImages }
         captions={ object.captions }
         imageBank={ this.props.imageBank }
-        onUpdateImages={ this.props.onUpdateImages }
         key={`text-field-${safeName}`}
       />
     );
@@ -84,9 +91,7 @@ var EditingUi = React.createClass({
     return (<YouTubeLink
       fieldName={name}
       userText={object.value}
-      onUserInput={this.props.onYouTubeLinksChange}
       onTextFieldFocus={this.handleYouTubeLinkFocus}
-      onValidVideoFound={this.props.onValidVideoFound}
       key={`you-tube-link-${safeName}`}
     />);
   },
@@ -96,7 +101,6 @@ var EditingUi = React.createClass({
     return (<TextBox
       fieldName={name}
       userText={object.value}
-      onUserInput={this.props.onTextBoxesChange}
       onTextBoxFocus={this.handleTextBoxFocus}
       key={`text-box-${safeName}`}
     />);
@@ -107,7 +111,6 @@ var EditingUi = React.createClass({
     return (<ColorPicker
       fieldName={name}
       color={object.value}
-      onColorChange={this.props.onColorPickerChange}
       key={`color-picker-${safeName}`}
     />);
   },
@@ -119,7 +122,6 @@ var EditingUi = React.createClass({
       defaultValue={ object.default }
       value={ object.value }
       options={ object.options }
-      onDropDownChange={ this.props.onDropDownChange }
       onDropDownFocus={ this.handleDropDownFocus }
       key={`drop-down-${safeName}`} />
     );
@@ -144,12 +146,13 @@ var EditingUi = React.createClass({
 
   createSection: function (sectionName, inputArray) {
     var components = [];
+    let containers = RenderDataStore.getAll();
     for (var i = 0; i < inputArray.length; i++) {
-      var name = inputArray[i].name;
+      var fieldName = inputArray[i].name;
       var type = inputArray[i].type;
-      var container = 'all' + firstCharToUpper(getContainerNameFor(firstCharToLower(type)));
-      var object = this.props[container][name];
-      components.push(this['create' + type](name, object));
+      var containerName = getContainerNameFor(firstCharToLower(type));
+      var object = containers[containerName][fieldName];
+      components.push(this['create' + type](fieldName, object));
     }
     var safeName = sectionName.replace(' ','-');
     return (
@@ -163,7 +166,6 @@ var EditingUi = React.createClass({
 
   render: function () {
     var uiSections = this.props.uiSections
-    let fieldsObj = this.getFieldsForPreviewImage();
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
       for (var sectionName in uiSections[i]){
@@ -177,8 +179,7 @@ var EditingUi = React.createClass({
         </div>
         <PreviewImage
           name={this.state.previewImageName}
-          type={ this.state.previewImageType }
-          fields={ fieldsObj }/>
+          type={ this.state.previewImageType }/>
       </div>
     );
   }
