@@ -232,7 +232,7 @@ function getReactStartingData () {
       getImageBankObject(xmlObj),
       getStartingResolutionsObject(xmlObj),
       getStartingAudioObject(xmlObj),
-      {isPreview: xmlObj.IsPreview},
+      {isPreview: false},
     ),
     getNameValuePairsObj(xmlObj)
   ];
