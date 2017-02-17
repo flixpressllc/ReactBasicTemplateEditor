@@ -2,8 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import './TextField.scss';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import * as ContainerActions from '../actions/ContainerActions';
 
-registerDataType('textField');
+const DATA_TYPE_NAME = 'textField';
+
+registerDataType(DATA_TYPE_NAME);
 
 export default React.createClass({
   displayName: 'TextField',
@@ -16,9 +19,10 @@ export default React.createClass({
   handleTextEdit: function(event){
     let newValue = this.filterChange(event.target.value);
     if (newValue !== this.props.value) {
-      this.props.onUserInput(
+      ContainerActions.changeContainer(
+        DATA_TYPE_NAME,
         this.props.fieldName,
-        newValue
+        {value: newValue}
       );
     }
   },

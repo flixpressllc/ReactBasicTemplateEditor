@@ -58,7 +58,6 @@ var EditingUi = React.createClass({
       fieldName={name}
       settings={object}
       value={ object.value }
-      onUserInput={this.props.onFieldsChange}
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
     />);
@@ -84,9 +83,7 @@ var EditingUi = React.createClass({
     return (<YouTubeLink
       fieldName={name}
       userText={object.value}
-      onUserInput={this.props.onYouTubeLinksChange}
       onTextFieldFocus={this.handleYouTubeLinkFocus}
-      onValidVideoFound={this.props.onValidVideoFound}
       key={`you-tube-link-${safeName}`}
     />);
   },
@@ -96,7 +93,6 @@ var EditingUi = React.createClass({
     return (<TextBox
       fieldName={name}
       userText={object.value}
-      onUserInput={this.props.onTextBoxesChange}
       onTextBoxFocus={this.handleTextBoxFocus}
       key={`text-box-${safeName}`}
     />);

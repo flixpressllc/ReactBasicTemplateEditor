@@ -1,17 +1,21 @@
 import React from 'react';
 import cx from 'classnames';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './TextBox.scss';
 
-registerDataType('textBox', {containerName: 'textBoxes'});
+const DATA_TYPE_NAME = 'textBox';
+
+registerDataType(DATA_TYPE_NAME, {containerName: 'textBoxes'});
 
 export default React.createClass({
   displayName: 'TextBox',
-  handleTextEdit: function(event){
-    this.props.onUserInput(
+  handleTextEdit: function(e){
+    ContainerActions.changeContainer(
+      DATA_TYPE_NAME,
       this.props.fieldName,
-      event.target.value
+      {value: e.target.value}
     );
   },
 

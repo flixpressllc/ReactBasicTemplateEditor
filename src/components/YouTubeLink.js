@@ -3,8 +3,11 @@ import cx from 'classnames';
 import { YOU_TUBE_API_KEY } from '../stores/app-settings';
 import { getJSON } from '../utils/ajax';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './YouTubeLink.scss';
+
+const DATA_TYPE_NAME = 'youTubeLink';
 
 function youTubeRenderStringToData (renderString, obj) {
   let linkObj = {};
@@ -26,16 +29,17 @@ function youTubeDataToRenderString (linkObj) {
   return [linkObj.title, linkObj.videoId, linkObj.time].join('|');
 }
 
-registerDataType('youTubeLink', {
+registerDataType(DATA_TYPE_NAME, {
   toRenderString: youTubeDataToRenderString,
   toDataObject: youTubeRenderStringToData
 });
 
 const YouTubeLink = React.createClass({
-  handleTextEdit: function(event){
-    this.props.onUserInput(
+  handleTextEdit: function(e){
+    ContainerActions.changeContainer(
+      DATA_TYPE_NAME,
       this.props.fieldName,
-      event.target.value
+      {value: e.target.value}
     );
   },
 
@@ -75,10 +79,10 @@ const YouTubeLink = React.createClass({
   },
 
   reportValidVideoData: function () {
-    this.props.onValidVideoFound(
+    ContainerActions.changeContainer(
+      DATA_TYPE_NAME,
       this.props.fieldName,
-      this.state.videoId,
-      this.state.title
+      {videoId: this.state.videoId, title: this.state.title}
     );
   },
 

@@ -228,18 +228,6 @@ var EditorUserInterface = React.createClass({
     RenderDataStore.removeEventListener('change', this.updateContainerState);
   },
 
-  handleFieldsChange: function (fieldName, userText) {
-    ContainerActions.changeContainer('textField', fieldName, {value: userText});
-  },
-
-  handleYouTubeLinksChange: function (fieldName, userText) {
-    ContainerActions.changeContainer('youTubeLink', fieldName, {value: userText});
-  },
-
-  handleTextBoxesChange: function (fieldName, userText) {
-    ContainerActions.changeContainer('textBox', fieldName, {value: userText});
-  },
-
   handleDropDownChange: function (e, fieldName, callback) {
     ContainerActions.changeContainer('dropDown', fieldName, {value: e.target.value});
     setTimeout(callback, 100); // TODO: fix this hack once this is in the proper component.
@@ -247,10 +235,6 @@ var EditorUserInterface = React.createClass({
 
   handleColorPickerChange: function (fieldName, userColor) {
     ContainerActions.changeContainer('colorPicker', fieldName, {value: userColor});
-  },
-
-  handleValidVideoFound: function (fieldName, videoId, title) {
-    ContainerActions.changeContainer('youTubeLink', fieldName, {videoId: videoId, title: title});
   },
 
   handleResolutionIdChange: function (id) {
@@ -355,10 +339,6 @@ var EditorUserInterface = React.createClass({
           allTextBoxes={this.state.textBoxes}
           allDropDowns={this.state.dropDowns}
           allColorPickers={this.state.colorPickers}
-          onFieldsChange={this.handleFieldsChange}
-          onYouTubeLinksChange={this.handleYouTubeLinksChange}
-          onValidVideoFound={this.handleValidVideoFound}
-          onTextBoxesChange={this.handleTextBoxesChange}
           onDropDownChange={this.handleDropDownChange}
           onColorPickerChange={this.handleColorPickerChange}
           allUserImageChoosers={ this.state.userImageChoosers }
