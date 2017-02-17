@@ -96,10 +96,10 @@ var getTopLevelXmlName = function () {
 
 
 var convertSpecsToReactData = function (givenXmlObj) {
-  if (!nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', Array.isArray)) {
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', isEmpty)) {
     return [];
   }
-  let specs = clone(givenXmlObj.RenderedData.Specs.SpCx.CSp);
+  let specs = forceArray(clone(givenXmlObj.RenderedData.Specs.SpCx.CSp));
 
   let nameValuePairs = [];
   for (var i = 0; i < specs.length; i++) {
