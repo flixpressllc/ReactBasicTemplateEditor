@@ -158,7 +158,7 @@ var EditorUserInterface = React.createClass({
     let stateToMerge = this.extractAndReplacePreviewRenderValues(highLevelData, specsNameValuePairs);
     this.setState(stateToMerge, resolve);
 
-    let containers = traverseObject(Object.assign(stateToMerge, uiData), (key, val) => {
+    let containers = traverseObject(Object.assign(uiData, stateToMerge), (key, val) => {
       if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
     });
     ContainerActions.setInitialContainerValues(containers);
