@@ -32,3 +32,5 @@ bower_components/
 
 # Don't store .env
 .env
+
+dist
