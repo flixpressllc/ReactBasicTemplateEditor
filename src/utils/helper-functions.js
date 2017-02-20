@@ -107,6 +107,10 @@ export function nestedPropertyTest (obj, path, callback) {
   return false;
 }
 
+export function nestedPropertyExists (obj, path) {
+  return nestedPropertyDetails(obj, path).exists;
+}
+
 export function changePropsInitialCase (obj, whichCase, recursive = false, preserveOriginal = true) {
   var makeAspVersion = (whichCase === 'UpperFirst') ? true : false ;
   var newObj = preserveOriginal ? clone(obj) : obj;
