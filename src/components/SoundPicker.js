@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
+import LoadingSpinner from './LoadingSpinner';
 import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
 import getAudioOptions from '../utils/getAudioOptions';
@@ -140,6 +141,7 @@ var SoundPicker = React.createClass({
     var customAudioItems = [];
     var tabNames = [];
     var tabPanels = [];
+    let spinner = null;
 
     if (this.state.audioOptions !== undefined) {
       if (this.state.audioOptions.categories !== undefined) {
@@ -221,6 +223,13 @@ var SoundPicker = React.createClass({
           </TabPanel>
         );
       }
+    } else {
+      spinner = (
+        <div style={{maxWidth: '200px', margin: '24px auto', textAlign: 'center'}}>
+          <LoadingSpinner/>
+          Loading...
+        </div>
+      );
     }
 
     var playerStyle = this.getPlayerStyle();
@@ -255,6 +264,8 @@ var SoundPicker = React.createClass({
           overlayClassName="sound-picker-modal-overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
+
+          { spinner }
 
           <button className="reactBasicTemplateEditor-SoundPicker-modalCancel cancel" type="button" onClick={this.closeModal}> Cancel </button>
           <Tabs>
