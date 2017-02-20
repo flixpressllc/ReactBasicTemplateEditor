@@ -26,8 +26,8 @@ export default React.createClass({
 
   setMissingViaResponse: function (res) {
     let isMissing = true;
-    let fileIsImage = res.jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
-    if (res.jqXHR.status === 200 && fileIsImage) {
+    let fileIsImage = res.getResponseHeader('Content-Type').indexOf('image') !== -1;
+    if (res.status === 200 && fileIsImage) {
       isMissing = false;
     }
     this.setState({
