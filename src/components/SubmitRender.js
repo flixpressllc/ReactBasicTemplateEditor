@@ -60,9 +60,9 @@ export default React.createClass({
     var text = (this.props.isPreview) ? 'Render Preview' : 'Submit Order'
     return (
       <div className="reactBasicTemplateEditor-SubmitRender">
-        <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={this.props.isPreview}/>
-        <CheckBox onChange={this.props.onChange} checked={!!this.props.isPreview}>Preview</CheckBox>
-        <input name="Submit_BT" value={text} type="submit" id="Submit_BT" />
+        <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={false}/>
+        <input className="reactBasicTemplateEditor-SubmitRender-previewButton" value="Create Preview" type="button" onClick={this.props.placePreviewOrder} />
+        <input name="Submit_BT" value="Submit Order" type="submit" id="Submit_BT" />
       </div>
     )
   }

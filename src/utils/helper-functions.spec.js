@@ -186,3 +186,37 @@ describe('isEmpty', () => {
     expect(isEmpty(true)).toEqual(false);
   });
 });
+
+describe('forceArray', () => {
+  let forceArray = hf.forceArray;
+  describe('when given a string', () => {
+    it('returns the string wrapped in an array', () => {
+      let val = 'string';
+      expect(forceArray(val)).toEqual(['string']);
+    });
+  });
+  describe('when given an array', () => {
+    it('returns the array', () => {
+      let val = ['string'];
+      expect(forceArray(val)).toEqual(['string']);
+    });
+  });
+  describe('when given an object', () => {
+    it('returns the object wrapped in an array', () => {
+      let val = {things: ['one', 'two']};
+      expect(forceArray(val)).toEqual([{things: ['one', 'two']}]);
+    });
+  });
+  describe('when given null', () => {
+    it('returns an empty array', () => {
+      let val = null;
+      expect(forceArray(val)).toEqual([]);
+    });
+  });
+  describe('when given undefined', () => {
+    it('returns an empty array', () => {
+      let val = undefined;
+      expect(forceArray(val)).toEqual([]);
+    });
+  });
+});

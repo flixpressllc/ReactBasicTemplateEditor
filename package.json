@@ -8,7 +8,7 @@
     "clean": "rimraf dist/*",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "webpack --env=dist && webpack --env=dist-min",
-    "aws": "webpack --env=dist && gulp aws",
+    "aws": "webpack --env=dist && gulp aws && npm run clean",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
     "release:major": "npm version major && git push --follow-tags",

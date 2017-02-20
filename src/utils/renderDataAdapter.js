@@ -4,7 +4,7 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
-  traverseObject, wrapObjectWithProperty, toType } from './helper-functions';
+  traverseObject, wrapObjectWithProperty, forceArray } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -123,13 +123,7 @@ function getStartingResolutionsObject (obj) {
     throw new Error('No resolutions available');
   }
 
-  let givenResolutions = clone(obj.ResolutionOptions.ListItemViewModel);
-
-  // jxon will only create an array if there is more than one value.
-  // We want an array every time.
-  if (givenResolutions.length === undefined) {
-    givenResolutions = [givenResolutions];
-  }
+  let givenResolutions = forceArray(clone(obj.ResolutionOptions.ListItemViewModel));
 
   // Eventual refactor for arrays of Objects?
   let resolutions = []
@@ -158,7 +152,7 @@ function getImagesFromHiddenField () {
 
 function getImagesFromUnusedRenderData (obj) {
   if (nestedPropertyTest(obj, 'RenderedData.UnusedImageUrls.String', isNotEmpty)) {
-    return obj.RenderedData.UnusedImageUrls.String;
+    return forceArray(obj.RenderedData.UnusedImageUrls.String);
   } else {
     return [];
   }
@@ -179,10 +173,7 @@ function getImageBankObject (obj) {
 function getNameValuePairsForMainCaptionFields (givenXmlObj) {
   let nameValuePairs = [];
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Captions.CaptionField', isNotEmpty)) {
-    let rDataCaptionFields = givenXmlObj.RenderedData.Captions.CaptionField;
-    if (! Array.isArray(rDataCaptionFields)) {
-      rDataCaptionFields = [rDataCaptionFields];
-    }
+    let rDataCaptionFields = forceArray(givenXmlObj.RenderedData.Captions.CaptionField);
 
     rDataCaptionFields.map((captionField) => {
       let o = {};
@@ -196,14 +187,10 @@ function getNameValuePairsForMainCaptionFields (givenXmlObj) {
 
 function returnNameValuePairForSingleImageContainer (givenXmlObj) {
   if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
-    let captionedImages = givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage;
-    if (! Array.isArray(captionedImages)) captionedImages = [captionedImages];
+    let captionedImages = forceArray(givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage);
     let mainImageData = [];
     captionedImages.map( (capImage, i) => {
-      let capFields = capImage.Captions.CaptionField;
-      if (!isEmpty(capFields) && toType(capFields) !== 'array') {
-        capFields = [capFields];
-      }
+      let capFields = forceArray(capImage.Captions.CaptionField);
       if (isEmpty(capFields)) {
         mainImageData.push({id: i, file: capImage.Filename});
       } else {
@@ -245,7 +232,7 @@ function getReactStartingData () {
       getImageBankObject(xmlObj),
       getStartingResolutionsObject(xmlObj),
       getStartingAudioObject(xmlObj),
-      {isPreview: xmlObj.IsPreview},
+      {isPreview: false},
     ),
     getNameValuePairsObj(xmlObj)
   ];
@@ -451,4 +438,8 @@ function updateXmlForOrder (reactObj) {
 export {
   getReactStartingData,
   updateXmlForOrder
+};
+
+export let _private = {
+  getImagesFromUnusedRenderData
 };
