@@ -238,7 +238,7 @@ var SoundPicker = React.createClass({
         <h3 className="reactBasicTemplateEditor-SoundPicker-title">Choose Your Audio</h3>
         <div className="reactBasicTemplateEditor-SoundPicker-playerWrapper" style={playerStyle}>
           <div className="reactBasicTemplateEditor-SoundPicker-chosenAudioTitle">{name}</div>
-          <audio src={url} controls ref="frontPlayer">
+          <audio src={url} controls ref="frontPlayer" preload="none">
             <p>Your browser does not support the <code>audio</code> element.</p>
           </audio>
         </div>
