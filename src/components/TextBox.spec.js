@@ -2,6 +2,8 @@ import React from 'react';
 import { mount, render, shallow } from 'enzyme';
 import TextBox from './TextBox';
 
+jest.mock('../actions/ContainerActions');
+const FakeContainerActions = require('../actions/ContainerActions');
 
 describe('TextBox', () => {
   it('renders without crashing', () => {
@@ -24,12 +26,11 @@ describe('TextBox', () => {
   
   it('calls the onUserInput function when text is altered', () => {
     const fakeEvent = {target:{value:'new value'}};
-    const fakeFn = jest.fn(() => {});
-    const component = shallow(<TextBox onUserInput={ fakeFn } userText={ 'text' }/>)
+    const component = shallow(<TextBox fieldName='myField' userText={ 'text' }/>)
 
     component.find('textarea').simulate('change', fakeEvent);
     
-    expect(fakeFn).toHaveBeenCalled();
+    expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textBox', 'myField', {value: 'new value'})
   });
 
   it('calls the onTextBoxFocus function when the input field is focused', () => {

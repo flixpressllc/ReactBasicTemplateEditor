@@ -1,10 +1,11 @@
 import React from 'react';
-import { clone, mediaWidth } from '../utils/helper-functions';
+import { clone, mediaWidth, isEmpty } from '../utils/helper-functions';
 import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
 import { ajax } from '../utils/ajax';
 import './PreviewImage.scss';
+import RenderDataStore from '../stores/RenderDataStore';
 
 const URL_PARTIAL = '/templates/images/';
 
@@ -37,8 +38,8 @@ export default React.createClass({
 
   setMissingViaResponse: function (res) {
     let isMissing = true;
-    let fileIsImage = res.jqXHR.getResponseHeader('Content-Type').indexOf('image') !== -1;
-    if (res.jqXHR.status === 200 && fileIsImage) {
+    let fileIsImage = res.getResponseHeader('Content-Type').indexOf('image') !== -1;
+    if (res.status === 200 && fileIsImage) {
       isMissing = false;
     }
     this.setState({
@@ -47,27 +48,29 @@ export default React.createClass({
   },
 
   getPreviewImage: function (type, identifier) {
+    const containers = RenderDataStore.getAll();
+    if (isEmpty(containers)) return '';
     if (type === 'TextField') {
-      return URL_PARTIAL + this.props.fields.textFields[identifier].previewImage
+      return URL_PARTIAL + containers.textFields[identifier].previewImage
 
     } else if (type === 'YouTubeLink') {
-      let videoId = this.props.fields.youTubeLinks[identifier].videoId
+      let videoId = containers.youTubeLinks[identifier].videoId
       if (videoId) {
         return `https://img.youtube.com/vi/${ videoId }/hqdefault.jpg`;
       }
       return '';
 
     } else if (type === 'TextBox') {
-        return URL_PARTIAL + this.props.fields.textBoxes[identifier].previewImage
+        return URL_PARTIAL + containers.textBoxes[identifier].previewImage
 
     } else if (type === 'DropDown') {
-      let value = this.props.fields.dropDowns[identifier].value;
+      let value = containers.dropDowns[identifier].value;
       if (value === undefined) {
-        value = this.props.fields.dropDowns[identifier].default;
+        value = containers.dropDowns[identifier].default;
       }
-      for (var i = this.props.fields.dropDowns[identifier].options.length - 1; i >= 0; i--) {
-        if (this.props.fields.dropDowns[identifier].options[i].value === value) {
-          return URL_PARTIAL + this.props.fields.dropDowns[identifier].options[i].previewImage;
+      for (var i = containers.dropDowns[identifier].options.length - 1; i >= 0; i--) {
+        if (containers.dropDowns[identifier].options[i].value === value) {
+          return URL_PARTIAL + containers.dropDowns[identifier].options[i].previewImage;
         }
       }
     }

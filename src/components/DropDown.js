@@ -1,9 +1,12 @@
 import React from 'react';
 import { registerDataType } from '../utils/globalContainerConcerns';
+import * as ContainerActions from '../actions/ContainerActions';
 
 import './DropDown.scss';
 
-registerDataType('dropDown');
+const DATA_TYPE_NAME = 'dropDown'
+
+registerDataType(DATA_TYPE_NAME);
 
 export default React.createClass({
   displayName: 'DropDown',
@@ -11,9 +14,6 @@ export default React.createClass({
     return {
       options: [],
       fieldName: '',
-      onDropDownChange: () => {
-        throw new Error('DropDown was not given an `onDropDownChange` function');
-      },
       onDropDownFocus: () => {
         throw new Error('DropDown was not given an `onDropDownFocus` function');
       }
@@ -21,11 +21,8 @@ export default React.createClass({
   },
 
   handleDropDownChange: function (e) {
-    this.props.onDropDownChange(e, this.props.fieldName,
-    ()=> {
-      // This will update PreviewImage... should find a better way...
-      this.props.onDropDownFocus(this.props.fieldName);
-    });
+    ContainerActions.changeContainer(DATA_TYPE_NAME, this.props.fieldName, {value: e.target.value});
+    setTimeout(() => this.props.onDropDownFocus(this.props.fieldName), 100); // TODO: fix this hack
   },
 
   render: function(){

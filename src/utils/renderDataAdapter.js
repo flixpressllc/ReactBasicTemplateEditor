@@ -4,7 +4,7 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
-  traverseObject, wrapObjectWithProperty, forceArray } from './helper-functions';
+  traverseObject, wrapObjectWithProperty, forceArray, nestedPropertyExists } from './helper-functions';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
@@ -96,10 +96,10 @@ var getTopLevelXmlName = function () {
 
 
 var convertSpecsToReactData = function (givenXmlObj) {
-  if (!nestedPropertyTest(givenXmlObj,'RenderedData.Specs.SpCx.CSp', Array.isArray)) {
+  if (!nestedPropertyExists(givenXmlObj,'RenderedData.Specs.SpCx.CSp')) {
     return [];
   }
-  let specs = clone(givenXmlObj.RenderedData.Specs.SpCx.CSp);
+  let specs = forceArray(clone(givenXmlObj.RenderedData.Specs.SpCx.CSp));
 
   let nameValuePairs = [];
   for (var i = 0; i < specs.length; i++) {

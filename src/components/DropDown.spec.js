@@ -2,6 +2,8 @@ import React from 'react';
 import { mount, render, shallow } from 'enzyme';
 import DropDown from './DropDown';
 
+jest.mock('../actions/ContainerActions');
+const FakeContainerActions = require('../actions/ContainerActions');
 
 describe('DropDown', () => {
   it('renders without crashing', () => {
@@ -30,12 +32,11 @@ describe('DropDown', () => {
 
   it('calls the onDropDownChange function when a change is made', () => {
     const fakeChange = {target: {value: 'stuff'}};
-    const fakeFn = jest.fn(() => {});
-    const component = mount(<DropDown onDropDownChange={ fakeFn } fieldName='myName' />)
+    const component = mount(<DropDown fieldName='myName' />)
 
     component.find('select').simulate('change', fakeChange);
 
-    expect(fakeFn).toHaveBeenCalled();
+    expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('dropDown', 'myName', {value: 'stuff'})
   });
 
   it('calls the onDropDownFocus function when the input field is focused', () => {

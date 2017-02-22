@@ -80,6 +80,18 @@ describe('nestedPropertyDetails', () => {
   });
 });
 
+describe('nestedPropertyExists', () => {
+  let nestedPropertyExists = hf.nestedPropertyExists;
+  it('marks an existing property as true', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyExists(obj, 'level1.level2')).toEqual(true);
+  });
+  it('marks a missing property as false', () => {
+    let obj = {level1: {level2: 'I am here'}};
+    expect(nestedPropertyExists(obj, 'level1.level2.level3')).toEqual(false);
+  });
+});
+
 describe('nestedPropertyTest', () => {
   let nestedPropertyTest = hf.nestedPropertyTest;
   it('returns false if a prop does not exist at some level', () => {

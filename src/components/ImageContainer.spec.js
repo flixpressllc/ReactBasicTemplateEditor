@@ -3,6 +3,9 @@ import { mount } from 'enzyme';
 import ImageContainer from './ImageContainer';
 import { isObject } from '../utils/helper-functions';
 
+jest.mock('../actions/ContainerActions');
+const FakeContainerActions = require('../actions/ContainerActions');
+
 // <ImageContainer
 //   images={ [ arrayOfImages ] }
 //   onUpdateImages={ () => {} }
@@ -78,25 +81,24 @@ describe('ImageContainer', () => {
   });
 
   it('swaps out the image when a new one is chosen', () => {
-    const fakeChangeArray = jest.fn();
     let settings = {
       images: [
         {file: 'toast.jpg'}
       ],
+      fieldName: 'myField',
       imageBank: [
         'toast.jpg',
         'coffee.jpg',
         'eggs.jpg',
         'milk.jpg'
-      ],
-      onUpdateImages: fakeChangeArray
+      ]
     };
     const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
     component.find('button').at(0).simulate('click');
     component.find('img').at(2).simulate('click');
 
-    expect(fakeChangeArray).toHaveBeenCalledWith([{file: 'eggs.jpg', id:0}]);
+    expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('userImageChooser', 'myField', {'containedImages': [{'file': 'eggs.jpg', 'id': 0}]});
   });
 
   describe('when the image bank has 1 image', () => {

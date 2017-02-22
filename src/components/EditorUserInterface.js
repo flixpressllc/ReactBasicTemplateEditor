@@ -12,6 +12,11 @@ import EditingUi from './EditingUi';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 
+// This must be called after all the actual containers are called so they can
+// register themselves before RenderDataStore tries to get them all...
+import RenderDataStore from '../stores/RenderDataStore';
+import * as ContainerActions from '../actions/ContainerActions';
+
 import './EditorUserInterface.scss';
 
 var EditorUserInterface = React.createClass({
@@ -50,28 +55,24 @@ var EditorUserInterface = React.createClass({
   },
 
   populateContainersWithPreviewData: function (containersObj, nameValuePairsObj) {
-    let newContainersObj = clone(containersObj);
     dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
-      let container = newContainersObj[containerName];
+      let container = containersObj[containerName];
       if (!isEmpty(container)) {
-        newContainersObj[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
+        containersObj[containerName] = this.mergeAllNodesInContainerWithPreviewData(container, dataTypeName, nameValuePairsObj);
       }
     });
-    return newContainersObj;
+    return containersObj;
   },
 
-  extractAndReplacePreviewRenderValues: function (stateToMerge, nameValuePairsObj) {
-    stateToMerge = clone(stateToMerge);
-
+  extractAndReplacePreviewRenderValues: function (emptyUiContainers, nameValuePairsObj, imageBank) {
+    let stateToMerge = clone(emptyUiContainers);
     if (isNotEmpty(nameValuePairsObj)) {
-      let populatedContainers = this.populateContainersWithPreviewData(
-        this.getCurrentContainerState(), nameValuePairsObj);
-      stateToMerge = Object.assign({}, stateToMerge, populatedContainers);
+      let populatedContainers = this.populateContainersWithPreviewData(emptyUiContainers, nameValuePairsObj);
+      stateToMerge = Object.assign({}, emptyUiContainers, populatedContainers);
     }
-    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj);
-
+    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj, imageBank);
     return stateToMerge;
   },
 
@@ -110,11 +111,11 @@ var EditorUserInterface = React.createClass({
     });
   },
 
-  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj) {
+  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj, imageBank) {
     if (!this.isImageTemplate()) return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
 
-    let singlePopulatedChooser = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
+    let singlePopulatedChooser = traverseObject(newStateToMerge.userImageChoosers, (key, imageChooser) => {
       if (isNotEmpty(nameValuePairsObj['ImageContainer'])) {
         // imageChooser.containedImages = nameValuePairsObj[key];
         // This is a workaround for now. We always will have only one image container
@@ -122,13 +123,13 @@ var EditorUserInterface = React.createClass({
         imageChooser.containedImages = nameValuePairsObj['ImageContainer'];
       } else {
         // just use all available images...
-        imageChooser.containedImages = newStateToMerge.imageBank.map(val => {
+        imageChooser.containedImages = imageBank.map(val => {
           return {file: val};
         });
       }
 
       imageChooser = this.respectMaximumImageValue(imageChooser);
-      imageChooser = this.respectMinimumImageValue(imageChooser, stateToMerge.imageBank);
+      imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
       imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
 
@@ -150,10 +151,21 @@ var EditorUserInterface = React.createClass({
     return imageChooser;
   },
 
-  getStartingData: function () { return new Promise((resolve) => {
-    let [stateToMerge, nameValPairsObj] = renderDataAdapter.getReactStartingData();
-    stateToMerge = this.extractAndReplacePreviewRenderValues(stateToMerge, nameValPairsObj);
-    this.setState(stateToMerge, resolve);
+  getStartingData: function (uiData) { return new Promise((resolve) => {
+    let containerNames = dc.getContainerNames();
+    let emptyContainers = traverseObject(uiData, (key, val) => {
+      if (containerNames.indexOf(key) !== -1) {
+        return [key, val];
+      }
+    })
+    let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
+    let stateToMerge = this.extractAndReplacePreviewRenderValues(emptyContainers, specsNameValuePairs, highLevelData.imageBank);
+
+    let containers = traverseObject(Object.assign(uiData, stateToMerge), (key, val) => {
+      if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
+    });
+    ContainerActions.setInitialContainerValues(containers);
+    this.setState(Object.assign({ui: uiData.ui}, highLevelData), resolve);
   })},
 
   // Returns true if it passes, or an array of strings describing
@@ -178,7 +190,7 @@ var EditorUserInterface = React.createClass({
     .then( result => {
       var checkedResults = this.checkResult(result.data);
       if (checkedResults === true) {
-        this.setState(result.data, resolve);
+        resolve(result.data);
       } else {
         // Post Errors
         var errors = [];
@@ -193,7 +205,7 @@ var EditorUserInterface = React.createClass({
   setupEditor: function () { return new Promise((resolve) => {
     let defineUi = this.defineUi();
     defineUi
-      .then(() => this.getStartingData())
+      .then(uiData => this.getStartingData(uiData))
       .then(() => resolve());
 
     defineUi.catch((possibleReason)=>{
@@ -214,43 +226,6 @@ var EditorUserInterface = React.createClass({
     this.serverRequest.abort();
   },
 
-  handleFieldsChange: function (fieldName, userText) {
-    var fields = this.state.textFields;
-    fields[fieldName].value = userText;
-    this.setState({textFields: fields});
-  },
-
-  handleYouTubeLinksChange: function (fieldName, userText) {
-    var fields = this.state.youTubeLinks;
-    fields[fieldName].value = userText;
-    this.setState({youTubeLinks: fields});
-  },
-
-  handleTextBoxesChange: function (fieldName, userText) {
-    var textBoxes = this.state.textBoxes;
-    textBoxes[fieldName].value = userText;
-    this.setState({textBoxes: textBoxes});
-  },
-
-  handleDropDownChange: function (e, ddName, callback) {
-    var ddState = clone(this.state.dropDowns);
-    ddState[ddName].value = e.target.value;
-    this.setState({dropDowns: ddState}, callback);
-  },
-
-  handleColorPickerChange: function (fieldName, userColor) {
-    var pickerState = this.state.colorPickers;
-    pickerState[fieldName].value = userColor;
-    this.setState({colorPickers: pickerState});
-  },
-
-  handleValidVideoFound: function (fieldName, videoId, title) {
-    var youTubeLinksState = this.state.youTubeLinks;
-    youTubeLinksState[fieldName].videoId = videoId;
-    youTubeLinksState[fieldName].title = title;
-    this.setState({youTubeLinks: youTubeLinksState});
-  },
-
   handleResolutionIdChange: function (id) {
     this.setState({
       resolutionId: id
@@ -263,16 +238,9 @@ var EditorUserInterface = React.createClass({
     })
   },
 
-  handleUpdateImages: function (newArrayOfImages) {
-    let imageChoosers = traverseObject(this.state.userImageChoosers, (key, imageChooser) => {
-      imageChooser.containedImages = newArrayOfImages;
-      return [key, imageChooser];
-    });
-    this.setState({userImageChoosers: imageChoosers});
-  },
-
   populateOrderUi: function () {
     let orderUi = clone(this.state.ui);
+    let containers = RenderDataStore.getAll();
     // add values to order.ui
     orderUi = orderUi.map(sectionObjContainerObj =>{
       sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataObjectArray) => {
@@ -281,7 +249,7 @@ var EditorUserInterface = React.createClass({
           let type = firstCharToLower(formDataObj.type);   // 'TextField' to 'textField'
           let containerName = dc.getContainerNameFor(type);
 
-          formDataObj.value = dc.getToRenderStringFunctionFor(type)(this.state[containerName][formIdName]);
+          formDataObj.value = dc.getToRenderStringFunctionFor(type)(containers[containerName][formIdName]);
           return formDataObj;
         });
         return [sectionName, formDataObjectArray];
@@ -347,19 +315,6 @@ var EditorUserInterface = React.createClass({
         <EditingUi
           templateType={ this.props.templateType}
           uiSections={this.state.ui}
-          allTextFields={this.state.textFields}
-          allYouTubeLinks={this.state.youTubeLinks}
-          allTextBoxes={this.state.textBoxes}
-          allDropDowns={this.state.dropDowns}
-          allColorPickers={this.state.colorPickers}
-          onFieldsChange={this.handleFieldsChange}
-          onYouTubeLinksChange={this.handleYouTubeLinksChange}
-          onValidVideoFound={this.handleValidVideoFound}
-          onTextBoxesChange={this.handleTextBoxesChange}
-          onDropDownChange={this.handleDropDownChange}
-          onColorPickerChange={this.handleColorPickerChange}
-          allUserImageChoosers={ this.state.userImageChoosers }
-          onUpdateImages={ this.handleUpdateImages }
           imageBank={ this.state.imageBank }
         />
       );
