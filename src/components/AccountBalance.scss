@@ -42,9 +42,8 @@
 
 .reactBasicTemplateEditor-AccountBalance-balanceAmount,
 .reactBasicTemplateEditor-AccountBalance-costAmount {
-  font-variant: small-caps;
-
-  &.free {
-    font-variant: normal;
-  }
+  
+padding:5px 0;
+background-color:#ffffff;
+margin:5px auto;
 }

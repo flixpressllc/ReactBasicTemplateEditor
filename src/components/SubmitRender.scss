@@ -3,7 +3,7 @@
 .reactBasicTemplateEditor-SubmitRender {
   text-align: center;
   background-color: #ddd;
-  border: $medPad solid white;
+
   padding: $medPad;
 
   // Using an ID here for DNN/legacy reasons
@@ -11,6 +11,7 @@
     @extend %button;
     width: 12em;
     margin-left: 6px;
+    padding:7px;
     background-color: $flixpress-red;
     &:hover {
       background-color: lighten($flixpress-red, 10);
@@ -20,4 +21,5 @@
 
 .reactBasicTemplateEditor-SubmitRender-previewButton {
   @extend %button;
+  padding:7px;
 }
