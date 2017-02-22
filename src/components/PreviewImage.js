@@ -22,11 +22,11 @@ export default React.createClass({
       missing: false
     };
   },
-  
+
   isLargeSize: function () {
     return mediaWidth() >= 670;
   },
-  
+
   checkWidth: function () {
     if (this.isLargeSize()) {
       this.setState({largeSize: true});
@@ -101,14 +101,14 @@ export default React.createClass({
       this.setImage(image);
     }
   },
-  
+
   componentDidMount: function () {
     if (window) {
       window.addEventListener('resize', this.checkWidth);
     }
     this.checkWidth();
   },
-  
+
   componentWillUnmount: function () {
     if (window) {
       window.removeEventListener('resize', this.checkWidth);
@@ -128,7 +128,7 @@ export default React.createClass({
   render: function(){
     var message = 'click to enlarge';
     if (this.state.largeSize) {
-      message = ''
+      message = '';
     }
     if (this.state.missing === true) {
       message = 'Preview unavailable. Continue editing.';

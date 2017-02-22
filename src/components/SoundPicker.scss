@@ -2,15 +2,9 @@
 
 .reactBasicTemplateEditor-SoundPicker {
   text-align: center;
-  background-color:#bbbbbb;
-  margin:30px auto 10px auto;
+  background-color: #bbb;
+  margin: 30px auto 10px;
   padding: 5px;
-}
-
-.reactBasicTemplateEditor-SoundPicker-title {
-  @extend %component-title;
-  display:none;
-
 }
 
 .reactBasicTemplateEditor-SoundPicker-modalOverlay {
@@ -80,7 +74,7 @@
 
 // Buttons
 
-
+.reactBasicTemplateEditor-SoundPicker-addAudioButton,
 .reactBasicTemplateEditor-SoundPicker-removeAudio,
 .reactBasicTemplateEditor-SoundPicker-songPlayToggle,
 .reactBasicTemplateEditor-SoundPicker-songSelect,
@@ -88,9 +82,7 @@
   @extend %button;
 }
 
-.reactBasicTemplateEditor-SoundPicker-addAudioButton
- {
-  @extend %button;
+.reactBasicTemplateEditor-SoundPicker-addAudioButton {
   padding:8px 20px;
 }
 

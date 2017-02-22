@@ -22,12 +22,12 @@ export default React.createClass({
     return (
       <div className="reactBasicTemplateEditor-ResolutionPicker">
         <h3 className="reactBasicTemplateEditor-ResolutionPicker-title">Choose Resolution</h3>
-        <RadioGroup className="reactBasicTemplateEditor-ResolutionPicker-RadioGroup"
-          options={options}
-          value={checked}
+        <RadioGroup className="reactBasicTemplateEditor-ResolutionPicker-radioGroup"
+          options={ options }
+          value={ checked }
           valueName="id"
           labelName="name"
-          onChange={this.handleResolutionChange}
+          onChange={ this.handleResolutionChange }
         />
       </div>
     );

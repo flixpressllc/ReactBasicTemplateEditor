@@ -2,25 +2,24 @@
 
 .reactBasicTemplateEditor-EditingUi-sectionTitle {
   @extend %component-title;
-  background-color: #777777;
-  color: #eeeeee;
+  background-color: #777;
+  color: #eee;
   font-size: 0.75em;
-  font-weight:bold
+  font-weight: bold;
 }
 
 .reactBasicTemplateEditor-EditingUi-section {
-    
-    margin-bottom:20px;
-    background-color:#efefef;
-    padding: 5px;
-    border:1px solid #cccccc;
-    margin-right: 5px;
+  margin-bottom: 20px;
+  background-color: #efefef;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
 
-      @include breakpoint($sm) {
-    margin-right:0;
+  @include breakpoint($sm) {
+    margin-right: 0;
   }
 
-            @include breakpoint($md) {
-    margin-right:5px;
+  @include breakpoint($md) {
+    margin-right: 5px;
   }
 }
