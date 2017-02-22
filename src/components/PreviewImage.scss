@@ -12,7 +12,7 @@
 }
 
 .reactBasicTemplateEditor-PreviewImage-modalOverlay {
-  @extend %overlay
+  @extend %overlay;
 }
 
 .reactBasicTemplateEditor-PreviewImage-modalExplain {
@@ -44,29 +44,29 @@
   -webkit-font-smoothing: antialiased;
   cursor: pointer;
   padding: $tinyPad;
-  
+
   &.missing {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: darken($flixpress-blue, 10);
-    
+
     .reactBasicTemplateEditor-PreviewImage-mainImageMessage,
     &:hover .reactBasicTemplateEditor-PreviewImage-mainImageMessage {
       color: white;
     }
   }
-  
-  
+
+
   &:hover .reactBasicTemplateEditor-PreviewImage-mainImageMessage {
     color: $flixpress-blue;
   }
-  
+
   @include breakpoint($sm) {
     width: iW($sm-image);
     height: iH($sm-image);
   }
-  
+
   @include breakpoint($md) {
     position: absolute;
     width: iW($md-image);
@@ -76,5 +76,7 @@
     right: 25%;
     transform: translateX(50%);
     z-index: 0;
+    border:2px solid #ffffff;
+
   }
 }

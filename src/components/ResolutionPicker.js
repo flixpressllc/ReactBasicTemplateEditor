@@ -21,17 +21,13 @@ export default React.createClass({
     })
     return (
       <div className="reactBasicTemplateEditor-ResolutionPicker">
-        <h3 className="reactBasicTemplateEditor-ResolutionPicker-title">Resolution Options</h3>
-        Choose the resoution for your final order.
-        <div className="reactBasicTemplateEditor-ResolutionPicker-explain">
-          Previews always render at 360p with a watermark.
-        </div>
-        <RadioGroup
-          options={options}
-          value={checked}
+        <h3 className="reactBasicTemplateEditor-ResolutionPicker-title">Choose Resolution</h3>
+        <RadioGroup className="reactBasicTemplateEditor-ResolutionPicker-radioGroup"
+          options={ options }
+          value={ checked }
           valueName="id"
           labelName="name"
-          onChange={this.handleResolutionChange}
+          onChange={ this.handleResolutionChange }
         />
       </div>
     );

@@ -2,10 +2,9 @@
 
 .reactBasicTemplateEditor-SoundPicker {
   text-align: center;
-}
-
-.reactBasicTemplateEditor-SoundPicker-title {
-  @extend %component-title;
+  background-color: #bbb;
+  margin: 30px auto 10px;
+  padding: 5px;
 }
 
 .reactBasicTemplateEditor-SoundPicker-modalOverlay {
@@ -81,6 +80,10 @@
 .reactBasicTemplateEditor-SoundPicker-songSelect,
 .reactBasicTemplateEditor-SoundPicker-modalCancel {
   @extend %button;
+}
+
+.reactBasicTemplateEditor-SoundPicker-addAudioButton {
+  padding:8px 20px;
 }
 
 .reactBasicTemplateEditor-SoundPicker-modalCancel {

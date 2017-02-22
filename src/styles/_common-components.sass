@@ -37,20 +37,24 @@
 
 %input-component
   margin-top: $medPad
-  font-size: 16px
+  font-size: 0.9em
 
   +breakpoint($sm)
     +pie-clearfix
     max-width: 400px
-    margin: $bigPad auto
+    margin: 15px auto
 
 
 %textbox
   border: 1px solid #bbb
-  font-size: 16px
+  font-size: 14px
 
 %label
   margin-right: 1em
+  font-size: .9em
+  color: #777777
+  padding-left : 10px
+
   &:after
     content: ':'
 
@@ -61,8 +65,6 @@
     display: block
     float: left
     margin-left: 0
-    &::after
-      content: ''
 
 %input
   @extend %textbox
@@ -76,14 +78,17 @@
     margin-right: 0
 
 %component-title
-  margin: $bigPad auto
-  padding: $medPad 0
+  margin: 0px auto
+  padding: 8px 0
   background-color: #bbb
   text-align: center
   text-transform: uppercase
   letter-spacing: 0.05em
   font-weight: bold
-  color: darken(#bbb, 25)
+  font-size: 0.9em
+  background-color: #777
+  color: #eee
+  font-size: 0.75em
   +fw-bars
 
   +breakpoint($md)
@@ -116,6 +121,7 @@
 %confirm-modal
   @extend %modal
   box-shadow: 0 0 24px #000
+  text-align: center
 
   +breakpoint($sm)
     +sides($bigPad)

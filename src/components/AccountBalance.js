@@ -45,7 +45,8 @@ export default React.createClass({
 
     var costView = this.props.isPreview ? 'Free Preview' : cost;
     var tCostClassName = cx('reactBasicTemplateEditor-AccountBalance-costAmount', {free: this.props.isPreview})
-    var tCost = <div className={tCostClassName} >{costView}</div>;
+    var tCost = <div className={ tCostClassName }>{ costView }</div>;
+    var costLabel = isChargePerOrder ? 'Template Cost' : 'Template Duration';
 
     var accountBalanceDisplay;
     if (isChargePerOrder){
@@ -54,17 +55,17 @@ export default React.createClass({
       accountBalanceDisplay = (
         <div className={cx('reactBasicTemplateEditor-AccountBalance-balance', balanceData)}>
           <div className="reactBasicTemplateEditor-AccountBalance-balanceLabel">Account Balance</div>
-          <div className="reactBasicTemplateEditor-AccountBalance-balanceAmount">{balance}</div>
+          <div className="reactBasicTemplateEditor-AccountBalance-balanceAmount">{ balance }</div>
         </div>
       );
     }
     return(
       <div className={cx('reactBasicTemplateEditor-AccountBalance', {preview: this.props.isPreview, 'is-payg-user': isChargePerOrder})}>
         <div className="reactBasicTemplateEditor-AccountBalance-cost">
-          <div className="reactBasicTemplateEditor-AccountBalance-costLabel">Template Cost</div>
-          {tCost}
+          <div className="reactBasicTemplateEditor-AccountBalance-costLabel">{ costLabel }</div>
+          { tCost }
         </div>
-        {accountBalanceDisplay}
+        { accountBalanceDisplay }
       </div>
     );
   }

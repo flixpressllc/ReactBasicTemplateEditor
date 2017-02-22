@@ -2,6 +2,7 @@
 
 .reactBasicTemplateEditor-TextField {
   @extend %input-component;
+  margin: 20px auto;
   
   > label {
     @extend %label;

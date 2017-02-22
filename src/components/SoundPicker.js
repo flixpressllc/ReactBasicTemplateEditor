@@ -244,7 +244,6 @@ var SoundPicker = React.createClass({
 
     return (
       <div className="reactBasicTemplateEditor-SoundPicker">
-        <h3 className="reactBasicTemplateEditor-SoundPicker-title">Choose Your Audio</h3>
         <div className="reactBasicTemplateEditor-SoundPicker-playerWrapper" style={playerStyle}>
           <div className="reactBasicTemplateEditor-SoundPicker-chosenAudioTitle">{name}</div>
           <audio src={url} controls ref="frontPlayer" preload="none">

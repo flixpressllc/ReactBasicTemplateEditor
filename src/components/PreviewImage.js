@@ -1,5 +1,5 @@
 import React from 'react';
-import { clone, isEmpty } from '../utils/helper-functions';
+import { clone, mediaWidth, isEmpty } from '../utils/helper-functions';
 import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
@@ -22,6 +22,18 @@ export default React.createClass({
       modalIsOpen: false,
       missing: false
     };
+  },
+
+  isLargeSize: function () {
+    return mediaWidth() >= 670;
+  },
+
+  checkWidth: function () {
+    if (this.isLargeSize()) {
+      this.setState({largeSize: true});
+    } else {
+      this.setState({largeSize: false});
+    }
   },
 
   setMissingViaResponse: function (res) {
@@ -93,8 +105,21 @@ export default React.createClass({
     }
   },
 
+  componentDidMount: function () {
+    if (window) {
+      window.addEventListener('resize', this.checkWidth);
+    }
+    this.checkWidth();
+  },
+
+  componentWillUnmount: function () {
+    if (window) {
+      window.removeEventListener('resize', this.checkWidth);
+    }
+  },
+
   openModal: function () {
-    if (this.state.missing) return;
+    if (this.state.missing || this.state.largeSize) return;
     this.setState({modalIsOpen: true})
   },
 
@@ -105,6 +130,9 @@ export default React.createClass({
 
   render: function(){
     var message = 'click to enlarge';
+    if (this.state.largeSize) {
+      message = '';
+    }
     if (this.state.missing === true) {
       message = 'Preview unavailable. Continue editing.';
     }

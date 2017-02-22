@@ -168,6 +168,14 @@ export function objectKeyForValue (val, obj) {
   }, '');
 }
 
+export function mediaWidth () {
+  return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
+
+export function mediaHeight () {
+  return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+}
+
 export function forceArray (val) {
   const emptyReturns = ['null', 'undefined'];
   if (emptyReturns.indexOf(toType(val)) != -1) return [];
