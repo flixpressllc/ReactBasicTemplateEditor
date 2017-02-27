@@ -26,7 +26,7 @@ module.exports = {
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()
   ],
-  
+
   minPlugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
@@ -35,7 +35,10 @@ module.exports = {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    new webpack.optimize.UglifyJsPlugin({minimize: true, include: /\.min\.js$/}),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false },
+      include: /\.min\.js$/
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin()

@@ -16,8 +16,8 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: path.join(__dirname, '/../../dist'),
-    filename: '[name].js',
-    chunkFilename: '[id].js',
+    filename: '[name].[hash].js',
+    chunkFilename: '[id].[hash].js',
     publicPath: `.${defaultSettings.publicPath}`
   },
   devServer: {
