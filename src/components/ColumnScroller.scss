@@ -22,7 +22,7 @@
     &-column:last-child { // just for fixed pos
       position: fixed;
       max-width: ($max-app-width * .49); // getting 49% from above
-      margin-left: ($max-app-width * .51);
+      margin-left: ($max-app-width * .505);
     }
   }
 }

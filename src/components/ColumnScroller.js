@@ -65,7 +65,7 @@ class ColumnScroller extends Component {
   }
 
   getColumnWidth() {
-    return this.getAvailableWidth() / 2
+    return this.getAvailableWidth() * .49;
   }
 
   render() {
