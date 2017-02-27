@@ -8,7 +8,7 @@ import * as dc from '../utils/globalContainerConcerns';
 import Messages from './UserMessages';
 import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
-import EditingUi from './EditingUi';
+import SpecFields from './SpecFields';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 
@@ -17,9 +17,9 @@ import Modal from 'react-modal';
 import RenderDataStore from '../stores/RenderDataStore';
 import * as ContainerActions from '../actions/ContainerActions';
 
-import './EditorUserInterface.scss';
+import './App.scss';
 
-var EditorUserInterface = React.createClass({
+var App = React.createClass({
   getInitialState: function() {
     return {
       allowSubmit: false,
@@ -309,10 +309,10 @@ var EditorUserInterface = React.createClass({
         />
       );
     }
-    var editingUi = (<span></span>);
+    var specFields = (<span></span>);
     if (this.state.ui !== undefined) {
-      editingUi = (
-        <EditingUi
+      specFields = (
+        <SpecFields
           templateType={ this.props.templateType}
           uiSections={this.state.ui}
           imageBank={ this.state.imageBank }
@@ -321,16 +321,16 @@ var EditorUserInterface = React.createClass({
     }
 
     return (
-      <div className="reactBasicTemplateEditor-EditorUserInterface">
-        <h1 className="reactBasicTemplateEditor-EditorUserInterface-title">
+      <div className="reactBasicTemplateEditor-App">
+        <h1 className="reactBasicTemplateEditor-App-title">
           <span>Template {this.props.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
-        <div className="reactBasicTemplateEditor-EditorUserInterface-formArea">
-            <div className="reactBasicTemplateEditor-EditorUserInterface-column">
-            {editingUi}
+        <div className="reactBasicTemplateEditor-App-formArea">
+            <div className="reactBasicTemplateEditor-App-column">
+            { specFields }
           </div>
-          <div className="reactBasicTemplateEditor-EditorUserInterface-column">
+          <div className="reactBasicTemplateEditor-App-column">
             <SoundPicker
               audioInfo={this.state.audioInfo}
               username={this.props.userSettingsData.username}
@@ -349,8 +349,8 @@ var EditorUserInterface = React.createClass({
         </div>
         <Modal
           isOpen={this.state.allowSubmit}
-          className="reactBasicTemplateEditor-EditorUserInterface-submissionModal"
-          overlayClassName="reactBasicTemplateEditor-EditorUserInterface-submissionModalOverlay"
+          className="reactBasicTemplateEditor-App-submissionModal"
+          overlayClassName="reactBasicTemplateEditor-App-submissionModalOverlay"
           contentLabel="Submission Modal"
         >
           Your order is being submitted.
@@ -360,4 +360,4 @@ var EditorUserInterface = React.createClass({
   }
 });
 
-export default EditorUserInterface;
+export default App;

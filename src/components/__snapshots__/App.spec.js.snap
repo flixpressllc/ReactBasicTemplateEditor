@@ -1,4 +1,4 @@
-exports[`EditorUserInterface when an images template and when starting fresh prepares the data for order as expected 1`] = `
+exports[`App when an images template and when starting fresh prepares the data for order as expected 1`] = `
 Array [
   Object {
     "audioInfo": Object {
@@ -113,7 +113,7 @@ Array [
 ]
 `;
 
-exports[`EditorUserInterface when an images template and when starting from preview passes the info into the correct containers 1`] = `
+exports[`App when an images template and when starting from preview passes the info into the correct containers 1`] = `
 Array [
   Object {
     "captions": Array [
@@ -139,7 +139,7 @@ Array [
 ]
 `;
 
-exports[`EditorUserInterface when an images template and when starting from preview prepares the data for order as expected 1`] = `
+exports[`App when an images template and when starting from preview prepares the data for order as expected 1`] = `
 Array [
   Object {
     "audioInfo": Object {
@@ -246,7 +246,7 @@ Array [
 ]
 `;
 
-exports[`EditorUserInterface when text only and when starting fresh prepares the data for order as expected 1`] = `
+exports[`App when text only and when starting fresh prepares the data for order as expected 1`] = `
 Array [
   Object {
     "audioInfo": Object {
@@ -336,7 +336,7 @@ Array [
 ]
 `;
 
-exports[`EditorUserInterface when text only and when starting with a preview prepares the data for order as expected 1`] = `
+exports[`App when text only and when starting with a preview prepares the data for order as expected 1`] = `
 Array [
   Object {
     "audioInfo": Object {
