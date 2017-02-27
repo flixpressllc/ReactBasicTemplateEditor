@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import { mount, render } from 'enzyme';
 import TextBox from './TextBox';
 
 jest.mock('../actions/ContainerActions');
@@ -26,7 +26,7 @@ describe('TextBox', () => {
 
   it('calls the onUserInput function when text is altered', () => {
     const fakeEvent = {target:{value:'new value'}};
-    const component = shallow(<TextBox fieldName='myField' userText={ 'text' }/>)
+    const component = mount(<TextBox fieldName='myField' userText={ 'text' }/>)
 
     component.find('textarea').simulate('change', fakeEvent);
 
@@ -35,7 +35,7 @@ describe('TextBox', () => {
 
   it('calls the onTextBoxFocus function when the input field is focused', () => {
     const fakeFn = jest.fn(() => {});
-    const component = shallow(<TextBox onTextBoxFocus={ fakeFn }
+    const component = mount(<TextBox onTextBoxFocus={ fakeFn }
       fieldName='Name of this field'
       userText={ 'text' }/>)
 
@@ -49,7 +49,7 @@ describe('TextBox', () => {
       it('allows only last character typed if set to 1', () => {
         const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 1};
-        const component = shallow(<TextBox
+        const component = mount(<TextBox
           fieldName='mario'
           settings={ settings }/>);
 
@@ -61,7 +61,7 @@ describe('TextBox', () => {
       it('allows only first n characters when set to n > 1', () => {
         const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 2};
-        const component = shallow(<TextBox
+        const component = mount(<TextBox
           fieldName='mario'
           settings={ settings }/>);
 

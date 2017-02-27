@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import { mount, render } from 'enzyme';
 import TextField from './TextField';
 
 jest.mock('../actions/ContainerActions');
@@ -26,7 +26,7 @@ describe('TextField', () => {
 
   it('calls the onUserInput function when text is altered', () => {
     const fakeEvent = {target:{value:'new value'}};
-    const component = shallow(<TextField fieldName='myName'/>)
+    const component = mount(<TextField fieldName='myName'/>)
 
     component.find('input').simulate('change', fakeEvent);
 
@@ -35,7 +35,7 @@ describe('TextField', () => {
 
   it('calls the onTextFieldFocus function when the input field is focused', () => {
     const fakeFn = jest.fn(() => {});
-    const component = shallow(<TextField onTextFieldFocus={ fakeFn }
+    const component = mount(<TextField onTextFieldFocus={ fakeFn }
       fieldName='Name of this field'
       />)
 
@@ -49,7 +49,7 @@ describe('TextField', () => {
       it('allows only last character typed if set to 1', () => {
         const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 1};
-        const component = shallow(<TextField
+        const component = mount(<TextField
           fieldName='mario'
           settings={ settings }/>);
 
@@ -61,7 +61,7 @@ describe('TextField', () => {
       it('allows only first n characters when set to n > 1', () => {
         const fakeEvent = {target:{value:'abcdefg'}};
         const settings = {maxCharacters: 2};
-        const component = shallow(<TextField
+        const component = mount(<TextField
           fieldName='mario'
           settings={ settings }/>);
 

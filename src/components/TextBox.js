@@ -1,4 +1,5 @@
 import React from 'react';
+import InputFilter from './hoc/InputFilter';
 import cx from 'classnames';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import * as ContainerActions from '../actions/ContainerActions';
@@ -9,36 +10,22 @@ const DATA_TYPE_NAME = 'textBox';
 
 registerDataType(DATA_TYPE_NAME, {containerName: 'textBoxes'});
 
-export default React.createClass({
+const TextBox = React.createClass({
   displayName: 'TextBox',
 
   getDefaultProps: function () {
     return {
-      value: '',
-      settings: {}
+      value: ''
     };
   },
 
   handleTextEdit: function (e) {
-    let newValue = this.filterChange(e.target.value);
+    let newValue = this.props.filterInput(e.target.value);
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {value: newValue}
     );
-  },
-
-  filterChange: function (newValue) {
-    return this.characterLimit(newValue);
-  },
-
-  characterLimit: function (string) {
-    let limit = this.props.settings.maxCharacters;
-    if (!limit || limit <= 0) return string;
-    if (limit === 1) {
-      return string.charAt(string.length - 1);
-    }
-    return string.slice(0, this.props.settings.maxCharacters);
   },
 
   handleFocus: function () {
@@ -61,3 +48,5 @@ export default React.createClass({
     )
   }
 });
+
+export default InputFilter(TextBox);
