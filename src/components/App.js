@@ -8,7 +8,7 @@ import * as dc from '../utils/globalContainerConcerns';
 import Messages from './UserMessages';
 import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
-import EditingUi from './EditingUi';
+import SpecFields from './SpecFields';
 import SoundPicker from './SoundPicker';
 import Modal from 'react-modal';
 
@@ -309,10 +309,10 @@ var App = React.createClass({
         />
       );
     }
-    var editingUi = (<span></span>);
+    var specFields = (<span></span>);
     if (this.state.ui !== undefined) {
-      editingUi = (
-        <EditingUi
+      specFields = (
+        <SpecFields
           templateType={ this.props.templateType}
           uiSections={this.state.ui}
           imageBank={ this.state.imageBank }
@@ -328,7 +328,7 @@ var App = React.createClass({
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
         <div className="reactBasicTemplateEditor-App-formArea">
             <div className="reactBasicTemplateEditor-App-column">
-            {editingUi}
+            { specFields }
           </div>
           <div className="reactBasicTemplateEditor-App-column">
             <SoundPicker

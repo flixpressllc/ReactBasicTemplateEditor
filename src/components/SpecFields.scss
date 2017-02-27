@@ -1,6 +1,6 @@
 @import "../styles/_common-components";
 
-.reactBasicTemplateEditor-EditingUi-sectionTitle {
+.reactBasicTemplateEditor-SpecFields-sectionTitle {
   @extend %component-title;
   background-color: #777;
   color: #eee;
@@ -8,7 +8,7 @@
   font-weight: bold;
 }
 
-.reactBasicTemplateEditor-EditingUi-section {
+.reactBasicTemplateEditor-SpecFields-section {
   margin-bottom: 20px;
   background-color: #efefef;
   padding: 5px;

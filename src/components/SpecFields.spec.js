@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import EditingUi from './EditingUi';
+import SpecFields from './SpecFields';
 
-let editingUiProps = {
+let specFieldsProps = {
   templateType:  'images',
   uiSections: [],
   allTextFields: [],
@@ -21,22 +21,22 @@ let editingUiProps = {
 }
 
 // need to really mock out lost of jquery stuff
-describe('EditingUi', () => {
+describe('SpecFields', () => {
   it('does not render images if the template type is textOnly', () => {
-    let props = editingUiProps;
+    let props = specFieldsProps;
     props.templateType = 'textOnly';
 
-    const component = shallow(<EditingUi {...props} />);
+    const component = shallow(<SpecFields {...props} />);
 
     expect(component.find('ImageContainer').length).toEqual(0);
   });
   it('renders images if the template type is images', () => {
     pending();
-    let props = editingUiProps;
+    let props = specFieldsProps;
     props.templateType = 'images';
     props.allUserImageChoosers = {};
 
-    const component = shallow(<EditingUi {...props} />);
+    const component = shallow(<SpecFields {...props} />);
 
     expect(component.find('ImageContainer').length).toEqual(1);
   });

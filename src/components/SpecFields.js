@@ -11,9 +11,9 @@ import RenderDataStore from '../stores/RenderDataStore';
 import { getContainerNameFor } from '../utils/globalContainerConcerns';
 import { firstCharToLower, isEmpty } from '../utils/helper-functions';
 
-import './EditingUi.scss';
+import './SpecFields.scss';
 
-var EditingUi = React.createClass({
+var SpecFields = React.createClass({
   getInitialState: function () {
     return {
       previewImageName: '',
@@ -156,9 +156,9 @@ var EditingUi = React.createClass({
     }
     var safeName = sectionName.replace(' ','-');
     return (
-      <div className="reactBasicTemplateEditor-EditingUi-section"
+      <div className="reactBasicTemplateEditor-SpecFields-section"
         key={`section-${safeName}`}>
-        <h3 className="reactBasicTemplateEditor-EditingUi-sectionTitle">{sectionName}</h3>
+        <h3 className="reactBasicTemplateEditor-SpecFields-sectionTitle">{sectionName}</h3>
         {components}
       </div>
     )
@@ -174,7 +174,7 @@ var EditingUi = React.createClass({
     }
     return (
       <div id="editing-ui" className="editing-ui component">
-        <div className="reactBasicTemplateEditor-EditingUi-sections">
+        <div className="reactBasicTemplateEditor-SpecFields-sections">
           { sections }
         </div>
         <PreviewImage
@@ -185,4 +185,4 @@ var EditingUi = React.createClass({
   }
 });
 
-export default EditingUi;
+export default SpecFields;
