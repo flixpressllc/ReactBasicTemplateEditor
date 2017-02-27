@@ -1,6 +1,6 @@
 @import "../styles/base-includes";
 
-.reactBasicTemplateEditor-EditorUserInterface {
+.reactBasicTemplateEditor-App {
   @extend %base-container-styles;
   padding-top: iH($xs-image);
   background-color: #ddd;
@@ -15,7 +15,7 @@
   }
 }
 
-.reactBasicTemplateEditor-EditorUserInterface-title {
+.reactBasicTemplateEditor-App-title {
   position: fixed;
   color: #fff;
   display: flex;
@@ -44,7 +44,7 @@
 }
 
 @include breakpoint($md) {
-  .reactBasicTemplateEditor-EditorUserInterface-formArea {
+  .reactBasicTemplateEditor-App-formArea {
     position: relative;
     max-width: 850px;
     margin-left: auto;
@@ -52,7 +52,7 @@
     @include pie-clearfix;
   }
 
-  .reactBasicTemplateEditor-EditorUserInterface-column {
+  .reactBasicTemplateEditor-App-column {
     width: 49%;
     float: left;
     margin: 15px 0.5% 0;
@@ -70,7 +70,7 @@
 }
 
 
-  .reactBasicTemplateEditor-EditorUserInterface-column-right {
+  .reactBasicTemplateEditor-App-column-right {
     width: 49%;
     float: right;
     margin: 15px 0.5% 0;
@@ -87,10 +87,10 @@
     }
   }
 
-.reactBasicTemplateEditor-EditorUserInterface-submissionModal {
+.reactBasicTemplateEditor-App-submissionModal {
   @extend %confirm-modal;
 }
 
-.reactBasicTemplateEditor-EditorUserInterface-submissionModalOverlay {
+.reactBasicTemplateEditor-App-submissionModalOverlay {
   @extend %confirm-overlay;
 }

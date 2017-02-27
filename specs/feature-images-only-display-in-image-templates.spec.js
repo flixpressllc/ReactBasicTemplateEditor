@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, render } from 'enzyme';
-import EditorUserInterface from '../src/components/EditorUserInterface';
+import App from '../src/components/App';
 
 // need to really mock out lost of jquery stuff
 describe('Feature: Images only display in image templates', () => {
@@ -21,7 +21,7 @@ describe('Feature: Images only display in image templates', () => {
       }
     };
 
-    const component = mount(<EditorUserInterface
+    const component = mount(<App
       templateType={ settings.templateType }
       uiSettingsJsonUrl={ settings.uiSettingsJsonUrl }
       userSettingsData={ settings.userSettingsData }/>);

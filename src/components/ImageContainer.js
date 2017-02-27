@@ -28,7 +28,7 @@ function toRenderString (imageChooserObj) {
 }
 
 function toDataObject (valueObject, object) {
-  // For now, this is a special case taken care of in the EditorUserInterface
+  // For now, this is a special case taken care of in the App
   return object;
 }
 

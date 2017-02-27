@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import EditorUserInterface from './EditorUserInterface';
+import App from './App';
 import RenderDataStore from '../stores/RenderDataStore';
 
 jest.mock('../utils/renderDataAdapter');
@@ -155,11 +155,11 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
   }
 ];}
 
-describe('EditorUserInterface', () => {
+describe('App', () => {
   it('renders without crashing', () => {
     const settings = generalSettings();
     expect(() => {
-      shallow(<EditorUserInterface {...settings}/>);
+      shallow(<App {...settings}/>);
     }).not.toThrow();
   });
 
@@ -170,7 +170,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => baseMockReturnForGetStartingData() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           component.instance().handlePlaceOrder();
@@ -186,7 +186,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => baseMockReturnForGetStartingDataOffPreview() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           component.instance().handlePlaceOrder();
@@ -205,7 +205,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingData() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           let containedImages = RenderDataStore.getAll().userImageChoosers['Your Two Images'].containedImages;
@@ -224,7 +224,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingData() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           component.instance().handlePlaceOrder();
@@ -241,7 +241,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingDataOffPreview() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           let containedImages = RenderDataStore.getAll().userImageChoosers['Your Two Images'].containedImages;
@@ -253,7 +253,7 @@ describe('EditorUserInterface', () => {
         let renderDataAdapter = require('../utils/renderDataAdapter');
         renderDataAdapter.updateXmlForOrder.mockImplementation(() => {});
         renderDataAdapter.getReactStartingData.mockImplementation(() => imagesMockReturnForGetStartingDataOffPreview() );
-        const component = shallow(<EditorUserInterface {...settings}/>);
+        const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
           component.instance().handlePlaceOrder();

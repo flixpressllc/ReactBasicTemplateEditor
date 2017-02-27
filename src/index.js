@@ -1,7 +1,7 @@
 import '../cfg/polyfills';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EditorUserInterface from './components/EditorUserInterface';
+import App from './components/App';
 
 require('reset.css');
 
@@ -32,7 +32,7 @@ function initializeTemplateEditor (options) {
   };
   reactPromise.then(function () {
     ReactDOM.render(
-      React.createElement(EditorUserInterface, settings),
+      React.createElement(App, settings),
       document.getElementById(options.divToReplaceId)
     );
   });
