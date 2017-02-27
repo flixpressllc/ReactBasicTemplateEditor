@@ -9,7 +9,7 @@
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "npm run clean && webpack --env=dist && webpack --env=dist-min && gulp consolidateHashes",
     "build": "npm run dist",
-    "aws": "webpack --env=dist && gulp aws",
+    "aws": "npm run clean && webpack --env=dist && gulp removeHashes && gulp aws",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
     "release:major": "npm version major && git push --follow-tags",

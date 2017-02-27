@@ -27,9 +27,10 @@ gulp.task('aws', () => {
     .pipe( s3(awsCredentials, awsOptions) );
 });
 
+const MATCH_FIRST_TWO_PARTS = /([^.]*)\.([^.]*)/;
+
 gulp.task('consolidateHashes', () => {
   let hashToApply = '';
-  const MATCH_FIRST_TWO_PARTS = /([^.]*)\.([^.]*)/;
   const HASH_CHAR_LIMIT = 5;
   function setHashVia (basename) {
     hashToApply = basename
@@ -47,6 +48,16 @@ gulp.task('consolidateHashes', () => {
     .pipe(vp(del)) // delete everything in dist (files are in memory here)
     .pipe( rename(path => {
       path.basename = replaceHashOn(path.basename);
+    }))
+    .pipe(gulp.dest('dist')); // add back only renamed versions of files
+});
+
+gulp.task('removeHashes', () => {
+  // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
+  return gulp.src('./dist/*')
+    .pipe(vp(del)) // delete everything in dist (files are in memory here)
+    .pipe( rename(path => {
+      path.basename = path.basename.replace(MATCH_FIRST_TWO_PARTS, (match, p1) => p1);
     }))
     .pipe(gulp.dest('dist')); // add back only renamed versions of files
 });
