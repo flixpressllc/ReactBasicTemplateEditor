@@ -46,46 +46,12 @@
 @include breakpoint($md) {
   .reactBasicTemplateEditor-App-formArea {
     position: relative;
-    max-width: 850px;
+    max-width: $max-app-width;
     margin-left: auto;
     margin-right: auto;
     @include pie-clearfix;
   }
-
-  .reactBasicTemplateEditor-App-column {
-    width: 49%;
-    float: left;
-    margin: 15px 0.5% 0;
-
-    &:first-child {
-      padding-right: $viewportPad / 2;
-    }
-
-    &:last-child {
-      padding-left: $viewportPad / 2;
-      // Make room for image
-      margin-top: $medPad + iH($md-image);
-    }
-  }
 }
-
-
-  .reactBasicTemplateEditor-App-column-right {
-    width: 49%;
-    float: right;
-    margin: 15px 0.5% 0;
-    position: fixed;
-
-    &:first-child {
-      padding-right: $viewportPad / 2;
-    }
-
-    &:last-child {
-      padding-left: $viewportPad / 2;
-      // Make room for image
-      margin-top: $bigPad * 2 + iH($md-image);
-    }
-  }
 
 .reactBasicTemplateEditor-App-submissionModal {
   @extend %confirm-modal;

@@ -10,6 +10,7 @@ import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
 import SpecFields from './SpecFields';
 import SoundPicker from './SoundPicker';
+import ColumnScroller from './ColumnScroller';
 import Modal from 'react-modal';
 
 // This must be called after all the actual containers are called so they can
@@ -326,11 +327,11 @@ var App = React.createClass({
           <span>Template {this.props.templateId}</span>
         </h1>
         <Messages messages={this.state.caughtErrors} typeOverride="bad"/>
-        <div className="reactBasicTemplateEditor-App-formArea">
-            <div className="reactBasicTemplateEditor-App-column">
+        <ColumnScroller className="reactBasicTemplateEditor-App-formArea">
+          <div>
             { specFields }
           </div>
-          <div className="reactBasicTemplateEditor-App-column">
+          <div>
             <SoundPicker
               audioInfo={this.state.audioInfo}
               username={this.props.userSettingsData.username}
@@ -346,7 +347,7 @@ var App = React.createClass({
               placePreviewOrder={this.handlePlacePreviewOrder}
             />
           </div>
-        </div>
+        </ColumnScroller>
         <Modal
           isOpen={this.state.allowSubmit}
           className="reactBasicTemplateEditor-App-submissionModal"
