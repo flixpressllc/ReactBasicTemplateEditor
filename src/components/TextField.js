@@ -10,14 +10,16 @@ registerDataType(DATA_TYPE_NAME);
 
 export default React.createClass({
   displayName: 'TextField',
+
   getDefaultProps: function () {
     return {
       value: '',
       settings: {}
     };
   },
-  handleTextEdit: function(event){
-    let newValue = this.filterChange(event.target.value);
+
+  handleTextEdit: function (e) {
+    let newValue = this.filterChange(e.target.value);
     if (newValue !== this.props.value) {
       ContainerActions.changeContainer(
         DATA_TYPE_NAME,
@@ -38,7 +40,6 @@ export default React.createClass({
       return string.charAt(string.length - 1);
     }
     return string.slice(0, this.props.settings.maxCharacters);
-
   },
 
   handleFocus: function () {

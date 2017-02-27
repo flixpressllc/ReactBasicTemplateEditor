@@ -30,7 +30,7 @@ describe('TextField', () => {
 
     component.find('input').simulate('change', fakeEvent);
 
-    expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'myName', {value: 'new value'})
+    expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('textField', 'myName', {value: 'new value'})
   });
 
   it('calls the onTextFieldFocus function when the input field is focused', () => {
@@ -41,7 +41,7 @@ describe('TextField', () => {
 
     component.find('input').simulate('focus');
 
-    expect(fakeFn).toHaveBeenCalledWith('Name of this field');
+    expect(fakeFn).toHaveBeenLastCalledWith('Name of this field');
   });
 
   describe('filter options', () => {
@@ -55,7 +55,7 @@ describe('TextField', () => {
 
         component.find('input').simulate('change', fakeEvent);
 
-        expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'mario', {value: 'g'})
+        expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('textField', 'mario', {value: 'g'})
       });
 
       it('allows only first n characters when set to n > 1', () => {
@@ -67,7 +67,7 @@ describe('TextField', () => {
 
         component.find('input').simulate('change', fakeEvent);
 
-        expect(FakeContainerActions.changeContainer).toHaveBeenCalledWith('textField', 'mario', {value: 'ab'})
+        expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('textField', 'mario', {value: 'ab'})
       });
     });
   });

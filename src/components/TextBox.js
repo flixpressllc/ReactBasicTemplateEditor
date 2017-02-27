@@ -11,12 +11,34 @@ registerDataType(DATA_TYPE_NAME, {containerName: 'textBoxes'});
 
 export default React.createClass({
   displayName: 'TextBox',
-  handleTextEdit: function(e){
+
+  getDefaultProps: function () {
+    return {
+      value: '',
+      settings: {}
+    };
+  },
+
+  handleTextEdit: function (e) {
+    let newValue = this.filterChange(e.target.value);
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
-      {value: e.target.value}
+      {value: newValue}
     );
+  },
+
+  filterChange: function (newValue) {
+    return this.characterLimit(newValue);
+  },
+
+  characterLimit: function (string) {
+    let limit = this.props.settings.maxCharacters;
+    if (!limit || limit <= 0) return string;
+    if (limit === 1) {
+      return string.charAt(string.length - 1);
+    }
+    return string.slice(0, this.props.settings.maxCharacters);
   },
 
   handleFocus: function () {
