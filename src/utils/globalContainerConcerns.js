@@ -41,6 +41,9 @@ export function _createGenericToRenderStringFunction () {
       if (toType(containerDataNode.default) === 'string') {
         return containerDataNode.default;
       }
+      if (toType(containerDataNode.value === 'null')) {
+        return '';
+      }
       throw new Error(`The containerDataNode given did not have a "value" property containing a string. 'containerDataNode.value' was ${toType(containerDataNode.value)}. containerDataNode: ${JSON.stringify(containerDataNode)}`);
     }
     return containerDataNode.value;
