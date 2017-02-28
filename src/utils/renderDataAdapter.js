@@ -103,7 +103,7 @@ var convertSpecsToReactData = function (givenXmlObj) {
 
   let nameValuePairs = [];
   for (var i = 0; i < specs.length; i++) {
-    var currentFieldsArray = specs[i].SpCx.Sp;
+    var currentFieldsArray = forceArray(specs[i].SpCx.Sp);
     var name = '';
     var value = '';
     for ( var j = 0; currentFieldsArray.length > j; j++ ) {
