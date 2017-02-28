@@ -89,6 +89,7 @@
     "react-color": "^2.4.0",
     "react-dom": "^15.3.1",
     "react-sortable-hoc": "^0.4.7",
+    "react-textarea-autosize": "^4.0.5",
     "reactcss": "^1.0.9",
     "reset.css": "^2.0.2"
   },
