@@ -56,7 +56,7 @@ describe('TextBox', () => {
         component.find('textarea').simulate('change', fakeEvent);
 
         expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('textBox', 'mario', {value: 'g'})
-});
+      });
 
       it('allows only first n characters when set to n > 1', () => {
         const fakeEvent = {target:{value:'abcdefg'}};

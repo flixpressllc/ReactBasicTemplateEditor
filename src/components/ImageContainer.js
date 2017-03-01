@@ -1,5 +1,6 @@
 import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
+import CaptionInput from './CaptionInput';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from '../utils/helper-functions';
@@ -16,9 +17,13 @@ function toRenderString (imageChooserObj) {
       imgObj.captions = [];
     }
     if (imageChooserObj.captions === undefined) imageChooserObj.captions = [];
-    imgObj.captions = imageChooserObj.captions.map((capLabel, i) => {
+    imgObj.captions = imageChooserObj.captions.map((capLabelOrObj, i) => {
+      let label = capLabelOrObj;
+      if (toType(capLabelOrObj) === 'object') {
+        label = capLabelOrObj.label;
+      }
       return {
-        label: capLabel,
+        label: label,
         value: imgObj.captions[i] || ''
       };
     })
@@ -42,31 +47,31 @@ const DragHandle = SortableHandle(() => {
 });
 
 const ListImage = SortableElement( React.createClass({
-  handleChange: function (e) {
+  handleChange: function (val, index) {
     this.props.onCaptionChange({
       imageId: this.props.item.id,
-      captionIndex: e.target.getAttribute('data-index'),
-      newValue: e.target.value
+      captionIndex: index,
+      newValue: val
     });
   },
   handleChangeImage: function () {
     this.props.onChangeImage(this.props.item.id);
   },
   renderCaptions: function () {
-    if (this.props.captions === undefined || this.props.item.captions === undefined) {
+    if (this.props.captionsSettings === undefined || this.props.item.captions === undefined) {
       return null;
     }
     const captionValues = clone(this.props.item.captions);
-    const captions = this.props.captions.map((capName, i) => {
+    const captions = this.props.captionsSettings.map((capObj, i) => {
       captionValues[i] = captionValues[i] || '';
       return (
-        <input className='reactBasicTemplateEditor-ImageContainer-imageCaption'
+        <CaptionInput
           key={ i }
           type='text'
+          settings={ capObj.settings }
           data-index={ i }
-          name={ capName }
           value={ captionValues[i] }
-          placeholder={`Optional ${capName}`}
+          placeholder={`Optional ${capObj.label}`}
           onChange={ this.handleChange }
           />
       );
@@ -108,7 +113,7 @@ const SortableList = SortableContainer( React.createClass({
         {this.props.items.map((value, index) =>
           <ListImage
             key={`item-${index}`}
-            captions={ this.props.captions }
+            captionsSettings={ this.props.captionsSettings }
             onCaptionChange={ this.props.onCaptionChange }
             index={index}
             onChangeImage={ this.props.onChangeImage }
@@ -220,14 +225,24 @@ const ImageContainer = React.createClass({
     );
   },
 
+  deriveCaptionsSettings: function (captionsSettingsArr) {
+    if (toType(captionsSettingsArr) !== 'array') return captionsSettingsArr;
+    return captionsSettingsArr.map(val => {
+      if (toType(val) === 'string') return {label: val};
+      if (toType(val) === 'object') return val;
+      throw new Error(`The value passed in to the captionsDirective should be an array containing strings or objects, '${toType(val)}' given.`);
+    })
+  },
+
   renderImageList: function () {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
+    const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
     return (
       <SortableList
         items={ images }
         onSortEnd={ this.handleSortEnd }
-        captions={ this.props.captions }
+        captionsSettings={ captionsSettings }
         onCaptionChange={ this.handleCaptionChange }
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }

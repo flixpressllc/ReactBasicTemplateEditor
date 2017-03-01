@@ -16,7 +16,7 @@
       "minImages": 3,
       "captions": [
         "Top Text",
-        "Middle Text",
+        {"label": "Middle Text", "settings": {"maxCharacters": 5}},
         "Bottom Text"
       ],
       "value": ""
