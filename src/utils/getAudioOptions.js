@@ -65,6 +65,7 @@ export default function getAudioOptions (username) {
 
   getCustom.done(function (result) {
     var songs = jxon.xmlToJs(result).ResultSetOfCustomAudio.Records.CustomAudio;
+    songs = songs === undefined ? [] : songs;
     for (var i = 0; i < songs.length; i++) {
       customAudioArr.push(songs[i]);
     }
