@@ -131,6 +131,7 @@ const ImageBank = React.createClass({
     });
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
+      <h1>  Select a new image </h1>
         { imageList }
       </div>
     );

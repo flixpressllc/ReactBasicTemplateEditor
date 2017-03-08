@@ -15,6 +15,23 @@
   justify-content: space-between;
 }
 
+
+.reactBasicTemplateEditor-ImageContainer-imageBank {
+background-color: #ffffff;
+padding:10px;
+
+> img
+    {
+     
+    }
+>img:hover
+    {
+     cursor:pointer;
+    }
+
+}
+
+
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
   cursor: move;
   display: flex;
