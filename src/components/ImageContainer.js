@@ -217,11 +217,13 @@ const ImageContainer = React.createClass({
   renderFakeModal: function () {
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-modal">
-        <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
-          onClick={ this.closeModal } type="button">
-          Cancel</button>
+
 
         <ImageBank onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+
+                <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
+          onClick={ this.closeModal } type="button">
+          Cancel</button>
       </div>
     );
   },
