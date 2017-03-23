@@ -1,4 +1,4 @@
-import { isNotEmpty } from '../src/utils/helper-functions';
+import { isNotEmpty } from 'happy-helpers';
 import fs from 'fs';
 
 export function classes (classesString) {

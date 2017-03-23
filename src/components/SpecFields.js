@@ -9,7 +9,7 @@ import DropDown from './DropDown';
 import RenderDataStore from '../stores/RenderDataStore';
 
 import { getContainerNameFor } from '../utils/globalContainerConcerns';
-import { firstCharToLower, isEmpty } from '../utils/helper-functions';
+import { firstCharToLower, isEmpty } from 'happy-helpers';
 
 import './SpecFields.scss';
 
