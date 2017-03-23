@@ -4,6 +4,7 @@ import CaptionInput from './CaptionInput';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from 'happy-helpers';
+import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import * as ContainerActions from '../actions/ContainerActions';
 
 import './ImageContainer.scss';

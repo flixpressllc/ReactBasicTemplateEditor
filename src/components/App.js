@@ -16,6 +16,7 @@ import Modal from 'react-modal';
 // register themselves before RenderDataStore tries to get them all...
 import RenderDataStore from '../stores/RenderDataStore';
 import * as ContainerActions from '../actions/ContainerActions';
+import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 
 import './App.scss';
 
@@ -128,6 +129,14 @@ var App = React.createClass({
         });
       }
 
+      if (imageChooser.maxImages) {
+        TemplateSpecActions.setSpecs({maxImages: imageChooser.maxImages});
+      }
+
+      if (imageChooser.minImages) {
+        TemplateSpecActions.setSpecs({minImages: imageChooser.minImages});
+      }
+
       imageChooser = this.respectMaximumImageValue(imageChooser);
       imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
@@ -219,6 +228,7 @@ var App = React.createClass({
   })},
 
   componentDidMount: function () {
+    TemplateSpecActions.setSpecs({templateId: parseInt(this.props.templateId, 10)});
     this.setupEditor();
   },
 
