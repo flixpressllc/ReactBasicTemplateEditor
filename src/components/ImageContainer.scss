@@ -63,11 +63,31 @@
   margin-top: 10px;
 }
 
-.reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton {
-  font-size: 0.75em;
-  @extend %button;
-  padding: 0.35em 0.5em;
+.reactBasicTemplateEditor-ImageContainer-actionButtons {
+  display: flex;
+  margin-bottom: 3px;
 }
+.reactBasicTemplateEditor-ImageContainer-swapImageButton,
+.reactBasicTemplateEditor-ImageContainer-removeImageButton
+ {
+  @extend %button;
+  font-size: 0.75em;
+  padding: 0.35em 0.5em;
+  margin: 0;
+  margin-left: 3px;
+  flex-grow: 1;
+   &:first-child {
+     margin-left: 0;
+   }
+}
+
+.reactBasicTemplateEditor-ImageContainer-removeImageButton {
+  background-color: $flixpress-red;
+  &:hover {
+    background-color: lighten($flixpress-red, 10);
+  }
+}
+
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers {
   display: flex;
