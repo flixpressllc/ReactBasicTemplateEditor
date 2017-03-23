@@ -4,7 +4,7 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
-  traverseObject, wrapObjectWithProperty, forceArray, nestedPropertyExists } from './helper-functions';
+  traverseObject, wrapObjectWithProperty, forceArray, nestedPropertyExists } from 'happy-helpers';
 
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */

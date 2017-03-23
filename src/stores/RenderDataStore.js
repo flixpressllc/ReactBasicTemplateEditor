@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import dispatcher from './dispatcher';
 import * as Containers from '../utils/globalContainerConcerns';
 
-import { clone, isObject } from '../utils/helper-functions';
+import { clone, isObject } from 'happy-helpers';
 
 class RenderDataStore extends EventEmitter {
   constructor () {
@@ -16,7 +16,7 @@ class RenderDataStore extends EventEmitter {
     Object.assign(this.containers[containerName][fieldName], newData);
     this.emit('change', {containerName, dataType, fieldName});
   }
-  
+
   addMissingContainers() {
     if (!isObject(this.containers)) {
       this.containers = {};
@@ -32,7 +32,7 @@ class RenderDataStore extends EventEmitter {
     if ( ! this.state.receivedInitial) this.addMissingContainers();
     return this.containers ? clone(this.containers) : {};
   }
-  
+
   handleActions(action) {
     switch(action.type) {
       case 'CHANGE_CONTAINER':

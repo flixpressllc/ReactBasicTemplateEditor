@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import ImageContainer from './ImageContainer';
-import { isObject } from '../utils/helper-functions';
+import { isObject } from 'happy-helpers';
 
 jest.mock('../actions/ContainerActions');
 const FakeContainerActions = require('../actions/ContainerActions');
