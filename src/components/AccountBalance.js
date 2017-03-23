@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import {round} from '../utils/helper-functions';
+import {round} from 'happy-helpers';
 import './AccountBalance.scss';
 
 const minToTime = function (min) {

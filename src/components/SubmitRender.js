@@ -1,6 +1,6 @@
 import React from 'react';
 import confirm from '../utils/confirm';
-import {round} from '../utils/helper-functions';
+import {round} from 'happy-helpers';
 import AccountBalance from './AccountBalance';
 import { find } from '../utils/dom-queries';
 import './SubmitRender.scss';

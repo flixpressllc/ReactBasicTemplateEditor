@@ -1,5 +1,5 @@
 import React from 'react';
-import { clone, mediaWidth, isEmpty } from '../utils/helper-functions';
+import { clone, mediaWidth, isEmpty } from 'happy-helpers';
 import Modal from 'react-modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from '../utils/helper-functions';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from 'happy-helpers';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
 

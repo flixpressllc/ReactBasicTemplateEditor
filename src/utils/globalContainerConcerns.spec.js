@@ -1,4 +1,4 @@
-// import { toType } from './helper-functions';
+// import { toType } from 'happy-helpers';
 import {
   registerDataType,
   getDataTypeNames,

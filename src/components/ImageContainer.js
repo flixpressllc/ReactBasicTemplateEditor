@@ -3,7 +3,7 @@ import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'rea
 import CaptionInput from './CaptionInput';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
-import { clone, toType } from '../utils/helper-functions';
+import { clone, toType } from 'happy-helpers';
 import * as ContainerActions from '../actions/ContainerActions';
 
 import './ImageContainer.scss';

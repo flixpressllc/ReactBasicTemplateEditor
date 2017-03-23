@@ -1,6 +1,6 @@
 import {
   isObject, valuesArrayFromObject, objectContainsValue,
-  objectKeyForValue, toType, isEmpty, clone } from './helper-functions';
+  objectKeyForValue, toType, isEmpty, clone } from 'happy-helpers';
 
 let _dataTypeNames;
 let _toRenderStringFunctions;
