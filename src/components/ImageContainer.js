@@ -218,12 +218,11 @@ const ImageContainer = React.createClass({
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-modal">
 
-
         <ImageBank onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
-
-                <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
+        <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
           onClick={ this.closeModal } type="button">
-          Cancel</button>
+          Cancel
+        </button>
       </div>
     );
   },
