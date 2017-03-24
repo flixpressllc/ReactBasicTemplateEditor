@@ -55,7 +55,8 @@
   }
 }
 
-.reactBasicTemplateEditor-ImageContainer-modalCancel {
+.reactBasicTemplateEditor-ImageContainer-modalCancel,
+.reactBasicTemplateEditor-ImageContainer-addImageButton {
   @extend %button;
   display: block;
   text-align: center;

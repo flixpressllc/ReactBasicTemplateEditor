@@ -7,16 +7,26 @@ jest.mock('../actions/ContainerActions');
 const FakeContainerActions = require('../actions/ContainerActions');
 
 jest.mock('../stores/TemplateSpecificationsStore', () => {
-  let fakeMinReturn = 1;
+  let fakeMinReturn, fakeMaxReturn;
+  function reset() {
+    fakeMinReturn = 1;
+    fakeMaxReturn = 10;
+  }
+  reset();
   return {
-    getSpec: jest.fn(() => fakeMinReturn),
-    __minImagesReturn: val => {fakeMinReturn = val;}
+    getSpec: jest.fn(specName => {
+      return specName === 'minImages' ? fakeMinReturn : fakeMaxReturn;
+    }),
+    __minImagesReturn: val => {fakeMinReturn = val;},
+    __maxImagesReturn: val => {fakeMaxReturn = val;},
+    __reset: reset
   }
 });
 const FakeTStore = require('../stores/TemplateSpecificationsStore');
 
 const swapButtonSelector = '.reactBasicTemplateEditor-ImageContainer-swapImageButton';
 const removeButtonSelector = '.reactBasicTemplateEditor-ImageContainer-removeImageButton';
+const addButtonSelector = '.reactBasicTemplateEditor-ImageContainer-addImageButton';
 
 // <ImageContainer
 //   images={ [ arrayOfImages ] }
@@ -69,6 +79,7 @@ describe('ImageContainer', () => {
   });
 
   describe('remove button', () => {
+    beforeEach(FakeTStore.__reset);
     it('calls updateImages omitting the removed image', () => {
       let settings = {
         images: [
@@ -76,7 +87,6 @@ describe('ImageContainer', () => {
           {file: 'coffee.jpg'}
         ]
       };
-      FakeTStore.__minImagesReturn(1);
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
       component.find(removeButtonSelector).at(0).simulate('click');
@@ -84,7 +94,7 @@ describe('ImageContainer', () => {
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'coffee.jpg', 'id': 1}]});
     });
 
-    it('is not displayed if the minimum images number is met', () => {
+    it('is not displayed if too few images', () => {
       let settings = {
         images: [
           {file: 'toast.jpg'},
@@ -96,6 +106,90 @@ describe('ImageContainer', () => {
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
       expect(component.find(removeButtonSelector).length).toEqual(0);
+    });
+
+    it('is displayed if enough images', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'},
+          {file: 'coffee.jpg'}
+        ]
+      };
+
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find(removeButtonSelector).length).toEqual(2);
+    });
+  });
+
+  describe('add button', () => {
+    beforeEach(FakeTStore.__reset);
+    it('calls updateImages adding a new image', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'},
+          {file: 'coffee.jpg'}
+        ],
+        imageBank: [
+          'toast.jpg',
+          'coffee.jpg'
+        ]
+      };
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      component.find(addButtonSelector).at(0).simulate('click');
+
+      expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'toast.jpg', 'id': 0},{'file': 'coffee.jpg', 'id': 1},{'file': 'toast.jpg', 'id': 0}]});
+    });
+
+    it('adds a new image without any captions', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg', captions:['cap','','']},
+          {file: 'coffee.jpg', captions:['','','cap']}
+        ],
+        captions: [ 'one','two','three' ]
+      }
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      component.find(addButtonSelector).at(0).simulate('click');
+
+      expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith(
+        'userImageChooser',
+        'myImageContainer',
+        {'containedImages': [
+          {'file': 'toast.jpg', 'id': 0, captions:['cap','','']},
+          {'file': 'coffee.jpg', 'id': 1, captions:['','','cap']},
+          {'file': 'toast.jpg', 'id': 0, captions:['','','']}
+        ]
+      });
+    });
+
+    it('is not displayed if enough many images', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'},
+          {file: 'coffee.jpg'}
+        ]
+      };
+      FakeTStore.__maxImagesReturn(2);
+
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find(addButtonSelector).length).toEqual(0);
+    });
+
+    it('is displayed if few enough images', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'},
+          {file: 'coffee.jpg'}
+        ]
+      };
+
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find(addButtonSelector).length).toEqual(1);
     });
   });
 

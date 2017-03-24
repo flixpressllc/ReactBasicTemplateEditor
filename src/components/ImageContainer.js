@@ -237,6 +237,20 @@ const ImageContainer = React.createClass({
     this.updateImages(newImageArray);
   },
 
+  wipeCaptions: function (imageObj) {
+    if (imageObj.captions) {
+      imageObj.captions = imageObj.captions.map(()=>'');
+    }
+    return imageObj;
+  },
+
+  handleAddImage: function () {
+    let newImageArray = this.state.images.concat(
+      this.wipeCaptions(clone(this.state.images[0]))
+    )
+    this.updateImages(newImageArray);
+  },
+
   handleReplaceImage: function (incomingImage) {
     let outgoingId = this.state.imageIdToReplace;
 
@@ -278,6 +292,11 @@ const ImageContainer = React.createClass({
     return this.state.images.length > min;
   },
 
+  shouldAllowAdd: function () {
+    let max = TemplateSpecificationsStore.getSpec('maxImages');
+    return this.state.images.length < max;
+  },
+
   renderImageList: function () {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
@@ -307,6 +326,12 @@ const ImageContainer = React.createClass({
           { explanation }
         </div>
         { content }
+        {this.shouldAllowAdd() ? (<button
+          className="reactBasicTemplateEditor-ImageContainer-addImageButton"
+          type="button"
+          onClick={this.handleAddImage}>
+          Add Image
+        </button>): null}
       </div>
     );
   }
