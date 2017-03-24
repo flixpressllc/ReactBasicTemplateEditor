@@ -3,6 +3,8 @@ const s3 = require('gulp-s3');
 const rename = require('gulp-rename');
 const vp = require('vinyl-paths');
 const del = require('del');
+const gReplace = require('gulp-replace');
+const rs = require('run-sequence')
 
 // See the .example.env file to learn how to set up your required .env file.
 require('dotenv').load();
@@ -29,18 +31,40 @@ gulp.task('aws', () => {
 
 const MATCH_FIRST_TWO_PARTS = /([^.]*)\.([^.]*)/;
 
+let theHashToRemove = 'ssafetystring';
+let theHashToApply = 'ssafetystring';
+function getHashToRemove () {
+  console.log('got hash: ' + theHashToRemove)
+  return theHashToRemove;
+}
+function setHashToRemove (val) {
+  console.log('set hash from ' + theHashToRemove + ' to ' + val);
+  theHashToRemove = val;
+}
+
+function getHashToApply () {
+  console.log('got hash to apply: ' + theHashToApply)
+  return theHashToApply;
+}
+function setHashToApply (val) {
+  console.log('set hash to apply from ' + theHashToApply + ' to ' + val);
+  theHashToApply = val;
+}
+
 gulp.task('consolidateHashes', () => {
-  let hashToApply = '';
-  const HASH_CHAR_LIMIT = 5;
-  function setHashVia (basename) {
-    hashToApply = basename
-      .match(MATCH_FIRST_TWO_PARTS)[2]
-      .substring(0, HASH_CHAR_LIMIT);
-  }
+  rs('getCurrentFileHashNames', 'renameEverythingConsolidatingHashes');
+});
+
+const HASH_CHAR_LIMIT = 5;
+function setHashesVia (basename) {
+  setHashToRemove(basename.match(MATCH_FIRST_TWO_PARTS)[2]);
+  setHashToApply( getHashToRemove().substring(0, HASH_CHAR_LIMIT) );
+}
+
+gulp.task('renameEverythingConsolidatingHashes', () => {
   function replaceHashOn (basename) {
-    if (hashToApply === '') setHashVia(basename);
     return basename.replace(MATCH_FIRST_TWO_PARTS, (match, p1, p2) => {
-      return [p1, hashToApply].join('.');
+      return [p1, getHashToApply()].join('.');
     })
   }
   // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
@@ -49,15 +73,32 @@ gulp.task('consolidateHashes', () => {
     .pipe( rename(path => {
       path.basename = replaceHashOn(path.basename);
     }))
+    .pipe(gReplace(getHashToRemove(), getHashToApply())) // change inter-file references
     .pipe(gulp.dest('dist')); // add back only renamed versions of files
 });
 
 gulp.task('removeHashes', () => {
+  rs('getCurrentFileHashNames', 'renameEverythingRemovingHashes');
+});
+
+gulp.task('getCurrentFileHashNames', () => {
+  // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
+  return gulp.src('./dist/*')
+    .pipe( rename(path => {
+      setHashesVia(path.basename);
+      // don't actually change anything here using the reference to path
+    }))
+})
+
+gulp.task('renameEverythingRemovingHashes', () => {
   // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
   return gulp.src('./dist/*')
     .pipe(vp(del)) // delete everything in dist (files are in memory here)
     .pipe( rename(path => {
       path.basename = path.basename.replace(MATCH_FIRST_TWO_PARTS, (match, p1) => p1);
     }))
+    .pipe(gReplace(getHashToRemove() + '.', stringToReplace => {
+      return '';
+    })) // change inter-file references
     .pipe(gulp.dest('dist')); // add back only renamed versions of files
-});
+})
