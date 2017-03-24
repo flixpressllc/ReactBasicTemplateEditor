@@ -273,10 +273,15 @@ const ImageContainer = React.createClass({
     })
   },
 
+  shouldAllowRemove: function () {
+    let min = TemplateSpecificationsStore.getSpec('minImages');
+    return this.state.images.length > min;
+  },
+
   renderImageList: function () {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
-    const removeImageFunc = (true) ? this.handleRemoveImage : null;
+    const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
     const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
     return (
       <SortableList

@@ -6,6 +6,15 @@ import { isObject } from 'happy-helpers';
 jest.mock('../actions/ContainerActions');
 const FakeContainerActions = require('../actions/ContainerActions');
 
+jest.mock('../stores/TemplateSpecificationsStore', () => {
+  let fakeMinReturn = 1;
+  return {
+    getSpec: jest.fn(() => fakeMinReturn),
+    __minImagesReturn: val => {fakeMinReturn = val;}
+  }
+});
+const FakeTStore = require('../stores/TemplateSpecificationsStore');
+
 const swapButtonSelector = '.reactBasicTemplateEditor-ImageContainer-swapImageButton';
 const removeButtonSelector = '.reactBasicTemplateEditor-ImageContainer-removeImageButton';
 
@@ -67,11 +76,26 @@ describe('ImageContainer', () => {
           {file: 'coffee.jpg'}
         ]
       };
+      FakeTStore.__minImagesReturn(1);
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
       component.find(removeButtonSelector).at(0).simulate('click');
 
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'coffee.jpg', 'id': 1}]});
+    });
+
+    it('is not displayed if the minimum images number is met', () => {
+      let settings = {
+        images: [
+          {file: 'toast.jpg'},
+          {file: 'coffee.jpg'}
+        ]
+      };
+      FakeTStore.__minImagesReturn(2);
+
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find(removeButtonSelector).length).toEqual(0);
     });
   });
 
