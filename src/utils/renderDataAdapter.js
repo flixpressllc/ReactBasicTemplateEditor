@@ -1,4 +1,4 @@
-import jxon from './xmlAdapter';
+import {xmlStringToObject, objectToXml} from './xmlAdapter';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
   TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY} from '../stores/app-settings';
 import { getElementById } from './dom-queries';
@@ -74,7 +74,7 @@ var getLoadedXmlAsString = function () {
 };
 
 var getLoadedXmlAsObject = function () {
-  return jxon.stringToJs(getLoadedXmlAsString());
+  return xmlStringToObject(getLoadedXmlAsString());
 };
 
 function isImageTemplate () {
@@ -237,12 +237,12 @@ function getReactStartingData () {
 
 }
 
-function objectToXml (object) {
+function orderObjectToXml (object) {
   const FIND_ORDER_REQ_TAG = /<(OrderReq[A-z]+)>/;
   const firstString = '<?xml version="1.0" encoding="utf-16"?>\n'
   const typeDeclaration = 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"';
 
-  let xmlString = jxon.jsToString(object);
+  let xmlString = objectToXml(object);
   xmlString = xmlString.replace(FIND_ORDER_REQ_TAG, (match, capture) => {
     return `<${capture} ${typeDeclaration}>`;
   })
@@ -439,7 +439,7 @@ function updateXmlForOrder (reactObj) {
   orderObject = sortObjectByArray(sortArray, orderObject);
 
   orderObject = wrapObjectWithProperty(orderObject, getTopLevelXmlName());
-  setXmlContainerValue( objectToXml(orderObject) );
+  setXmlContainerValue( orderObjectToXml(orderObject) );
 }
 
 export {
