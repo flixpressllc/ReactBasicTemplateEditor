@@ -9,8 +9,6 @@ import { clone, convertPropKeysForJs, convertPropKeysForAsp,
 // The next comment line will tell JSHint to ignore double quotes for a bit
 /* eslint-disable quotes */
 let startingPoint = {
-  '$xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-  '$xmlns:xsd': 'http://www.w3.org/2001/XMLSchema',
   ResolutionId: 0,
   IsPreview: false
 };
@@ -240,7 +238,16 @@ function getReactStartingData () {
 }
 
 function objectToXml (object) {
-  return '<?xml version="1.0" encoding="utf-16"?>\n' + jxon.jsToString(object);
+  const FIND_ORDER_REQ_TAG = /<(OrderReq[A-z]+)>/;
+  const firstString = '<?xml version="1.0" encoding="utf-16"?>\n'
+  const typeDeclaration = 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"';
+
+  let xmlString = jxon.jsToString(object);
+  xmlString = xmlString.replace(FIND_ORDER_REQ_TAG, (match, capture) => {
+    return `<${capture} ${typeDeclaration}>`;
+  })
+
+  return firstString + xmlString;
 }
 
 function addResolutionToOrderObj (orderObj, reactObj) {
