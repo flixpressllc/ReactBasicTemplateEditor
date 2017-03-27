@@ -135,7 +135,7 @@ const RadioGroup = React.createClass({
                     </Radio>);
             })
         } else {
-            for (let item of options){
+            options.map(item => {
                 itemChecked = item[valueName] === value;
                 optionNodes.push(
                     <Radio key={item[valueName]}
@@ -146,7 +146,7 @@ const RadioGroup = React.createClass({
                             {item[labelName]}
                     </Radio>
                 );
-            }
+            });
         }
 
 

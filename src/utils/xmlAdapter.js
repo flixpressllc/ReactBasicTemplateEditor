@@ -4,4 +4,10 @@ jxon.config({
   parseValues: true
 });
 
-export default jxon;
+export function xmlStringToObject (string) {
+  return jxon.stringToJs(string);
+}
+
+export function objectToXml (obj) {
+  return jxon.jsToString(obj);
+}
