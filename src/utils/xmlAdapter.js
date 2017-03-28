@@ -11,3 +11,7 @@ export function xmlStringToObject (string) {
 export function objectToXml (obj) {
   return jxon.jsToString(obj);
 }
+
+export function nativeXmlToObject (xml) {
+  return jxon.xmlToJs(xml);
+}
