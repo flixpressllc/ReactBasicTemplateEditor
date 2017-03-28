@@ -6,7 +6,7 @@ let config = Object.assign({}, buildConfig, {
   plugins: require('./common/plugins').distPlugins,
 });
 
-config.output.filename = '[name].[hash].js';
-config.output.chunkFilename = '[id].[hash].js';
+config.output.filename = '[name].js';
+config.output.chunkFilename = '[id].js';
 
 module.exports = config;
