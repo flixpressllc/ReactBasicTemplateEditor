@@ -5,7 +5,7 @@
   "description": "Template Editor for Flixpress.com",
   "main": "",
   "scripts": {
-    "clean": "rimraf build/*",
+    "clean": "rimraf build/* && rimraf dist/*",
     "copy": "copyfiles -f ./build/* ./dist",
     "build": "npm run clean && webpack --env=dist && webpack --env=dist-min",
     "dist": "npm run automated-test && npm run build && npm run copy",
