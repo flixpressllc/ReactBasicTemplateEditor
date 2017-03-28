@@ -1,9 +1,5 @@
 const gulp = require('gulp');
 const s3 = require('gulp-s3');
-const rename = require('gulp-rename');
-const vp = require('vinyl-paths');
-const del = require('del');
-const gReplace = require('gulp-replace');
 const rs = require('run-sequence');
 const bump = require('gulp-bump');
 const argv = require('yargs').argv;
@@ -47,7 +43,7 @@ gulp.task('checkRepoIsClean', () => {
   });
 })
 
-let increment, currentVersion, releaseVersion, continuingVersion;
+let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
 gulp.task('release', () => {
   increment = argv.increment || 'patch';
@@ -57,8 +53,7 @@ gulp.task('release', () => {
   gitTagName = 'FAKEv' + releaseVersion
 
   git.pull((err) => {
-    console.log(err);
-    process.exit();
+    if (err) throw err;
   });
 
   rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushMasterAndNewTag')
@@ -77,21 +72,15 @@ gulp.task('commitAllForRelease', () => {
 })
 
 gulp.task('tagCurrentRelease', (cb) => {
-  git.tag(gitTagName, '', (e) => {
-    if (e) {
-      console.log(e);
-      process.exit();
-    }
+  git.tag(gitTagName, '', (err) => {
+    if (err) throw err;
     cb();
   });
 });
 
 gulp.task('undoCommit', (cb) => {
   git.reset('HEAD~1', {args:'--hard'}, function (err) {
-    if (err) {
-      console.log(err);
-      process.exit();
-    }
+    if (err) throw err;
     cb();
   });
 })
