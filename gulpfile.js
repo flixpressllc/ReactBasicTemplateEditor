@@ -49,6 +49,11 @@ gulp.task('release', () => {
   continuingVersion = semver.inc(releaseVersion, 'patch') + '-pre';
   console.log(increment, currentVersion, releaseVersion, continuingVersion);
 
+  git.pull((err) => {
+    console.log(err);
+    process.exit();
+  });
+
   rs('bumpToRelease', 'commitAllForRelease')
 });
 
