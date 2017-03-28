@@ -54,14 +54,14 @@ gulp.task('release', () => {
   currentVersion = getPackageJson().version;
   releaseVersion = semver.inc(currentVersion, increment);
   continuingVersion = semver.inc(releaseVersion, 'patch') + '-pre';
-  console.log(increment, currentVersion, releaseVersion, continuingVersion);
+  gitTagName = 'FAKEv' + releaseVersion
 
   git.pull((err) => {
     console.log(err);
     process.exit();
   });
 
-  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing')
+  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushMasterAndNewTag')
 });
 
 gulp.task('bumpToRelease', () => {
@@ -73,11 +73,11 @@ gulp.task('bumpToRelease', () => {
 gulp.task('commitAllForRelease', () => {
   return gulp.src(['./dist/*', './package.json'])
     .pipe(git.add())
-    .pipe(git.commit('Release Version v' + releaseVersion))
+    .pipe(git.commit('Release Version ' + gitTagName))
 })
 
 gulp.task('tagCurrentRelease', (cb) => {
-  git.tag('v'+releaseVersion, '', (e) => {
+  git.tag(gitTagName, '', (e) => {
     if (e) {
       console.log(e);
       process.exit();
@@ -105,6 +105,21 @@ gulp.task('bumpToContinuingVersion', () => {
 gulp.task('commitPkgForContinuing', () => {
   return gulp.src('./package.json')
     .pipe(git.add())
-    .pipe(git.commit('bump to v' + continuingVersion))
+    .pipe(git.commit('bump to ' + continuingVersion))
 })
+
+gulp.task('pushMasterAndNewTag', (cb) => {
+  let currentBranch = '';
+  git.exec({args : 'rev-parse --abbrev-ref HEAD'}, function (err, stdout) {
+    if (err) throw err;
+    currentBranch = stdout.trim();
+    git.push('origin', currentBranch, (err) => {
+      if (err) throw err;
+      git.push('origin', gitTagName, (err) => {
+        if (err) throw err;
+        cb();
+      })
+    });
+  });
+});
 
