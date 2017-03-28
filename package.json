@@ -1,7 +1,7 @@
 {
   "name": "ReactBasicTemplateEditor",
   "private": true,
-  "version": "2.2.1-pre",
+  "version": "2.1.3",
   "description": "Template Editor for Flixpress.com",
   "main": "",
   "scripts": {
