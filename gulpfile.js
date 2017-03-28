@@ -50,7 +50,7 @@ gulp.task('release', () => {
   currentVersion = getPackageJson().version;
   releaseVersion = semver.inc(currentVersion, increment);
   continuingVersion = semver.inc(releaseVersion, 'patch') + '-pre';
-  gitTagName = 'FAKEv' + releaseVersion
+  gitTagName = 'v' + releaseVersion
 
   git.pull((err) => {
     if (err) throw err;
