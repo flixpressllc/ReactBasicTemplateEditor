@@ -15,7 +15,7 @@ module.exports = {
   debug: true,
   devtool: 'eval',
   output: {
-    path: path.join(__dirname, '/../../dist'),
+    path: path.join(__dirname, '/../../build'),
     filename: '[name].js',
     chunkFilename: '[id].js',
     publicPath: `.${defaultSettings.publicPath}`

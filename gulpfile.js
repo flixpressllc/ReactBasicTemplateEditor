@@ -4,7 +4,16 @@ const rename = require('gulp-rename');
 const vp = require('vinyl-paths');
 const del = require('del');
 const gReplace = require('gulp-replace');
-const rs = require('run-sequence')
+const rs = require('run-sequence');
+const bump = require('gulp-bump');
+const argv = require('yargs').argv;
+const git = require('gulp-git');
+const fs = require('fs');
+const semver = require('semver');
+
+function getPackageJson () {
+  return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+}
 
 // See the .example.env file to learn how to set up your required .env file.
 require('dotenv').load();
@@ -29,76 +38,88 @@ gulp.task('aws', () => {
     .pipe( s3(awsCredentials, awsOptions) );
 });
 
-const MATCH_FIRST_TWO_PARTS = /([^.]*)\.([^.]*)/;
-
-let theHashToRemove = 'ssafetystring';
-let theHashToApply = 'ssafetystring';
-function getHashToRemove () {
-  console.log('got hash: ' + theHashToRemove)
-  return theHashToRemove;
-}
-function setHashToRemove (val) {
-  console.log('set hash from ' + theHashToRemove + ' to ' + val);
-  theHashToRemove = val;
-}
-
-function getHashToApply () {
-  console.log('got hash to apply: ' + theHashToApply)
-  return theHashToApply;
-}
-function setHashToApply (val) {
-  console.log('set hash to apply from ' + theHashToApply + ' to ' + val);
-  theHashToApply = val;
-}
-
-gulp.task('consolidateHashes', () => {
-  rs('getCurrentFileHashNames', 'renameEverythingConsolidatingHashes');
-});
-
-const HASH_CHAR_LIMIT = 5;
-function setHashesVia (basename) {
-  setHashToRemove(basename.match(MATCH_FIRST_TWO_PARTS)[2]);
-  setHashToApply( getHashToRemove().substring(0, HASH_CHAR_LIMIT) );
-}
-
-gulp.task('renameEverythingConsolidatingHashes', () => {
-  function replaceHashOn (basename) {
-    return basename.replace(MATCH_FIRST_TWO_PARTS, (match, p1, p2) => {
-      return [p1, getHashToApply()].join('.');
-    })
-  }
-  // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
-  return gulp.src('./dist/*')
-    .pipe(vp(del)) // delete everything in dist (files are in memory here)
-    .pipe( rename(path => {
-      path.basename = replaceHashOn(path.basename);
-    }))
-    .pipe(gReplace(getHashToRemove(), getHashToApply())) // change inter-file references
-    .pipe(gulp.dest('dist')); // add back only renamed versions of files
-});
-
-gulp.task('removeHashes', () => {
-  rs('getCurrentFileHashNames', 'renameEverythingRemovingHashes');
-});
-
-gulp.task('getCurrentFileHashNames', () => {
-  // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
-  return gulp.src('./dist/*')
-    .pipe( rename(path => {
-      setHashesVia(path.basename);
-      // don't actually change anything here using the reference to path
-    }))
+gulp.task('checkRepoIsClean', () => {
+  git.exec({args : 'diff-index HEAD --'}, function (err, stdout) {
+    if (err) throw err;
+    if (stdout.match(/[\S]/)) { // anything not whitespace
+      throw new Error('Uncommited changes in repo');
+    }
+  });
 })
 
-gulp.task('renameEverythingRemovingHashes', () => {
-  // warning: glob pattern `/**` matches all children and parent. That's why I am using `/*`
-  return gulp.src('./dist/*')
-    .pipe(vp(del)) // delete everything in dist (files are in memory here)
-    .pipe( rename(path => {
-      path.basename = path.basename.replace(MATCH_FIRST_TWO_PARTS, (match, p1) => p1);
-    }))
-    .pipe(gReplace(getHashToRemove() + '.', stringToReplace => {
-      return '';
-    })) // change inter-file references
-    .pipe(gulp.dest('dist')); // add back only renamed versions of files
+let increment, currentVersion, releaseVersion, continuingVersion;
+
+gulp.task('release', () => {
+  increment = argv.increment || 'patch';
+  currentVersion = getPackageJson().version;
+  releaseVersion = semver.inc(currentVersion, increment);
+  continuingVersion = semver.inc(releaseVersion, 'patch') + '-pre';
+  gitTagName = 'FAKEv' + releaseVersion
+
+  git.pull((err) => {
+    console.log(err);
+    process.exit();
+  });
+
+  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushMasterAndNewTag')
+});
+
+gulp.task('bumpToRelease', () => {
+  return gulp.src('./package.json')
+  .pipe(bump({version: releaseVersion}))
+  .pipe(gulp.dest('./'));
+});
+
+gulp.task('commitAllForRelease', () => {
+  return gulp.src(['./dist/*', './package.json'])
+    .pipe(git.add())
+    .pipe(git.commit('Release Version ' + gitTagName))
 })
+
+gulp.task('tagCurrentRelease', (cb) => {
+  git.tag(gitTagName, '', (e) => {
+    if (e) {
+      console.log(e);
+      process.exit();
+    }
+    cb();
+  });
+});
+
+gulp.task('undoCommit', (cb) => {
+  git.reset('HEAD~1', {args:'--hard'}, function (err) {
+    if (err) {
+      console.log(err);
+      process.exit();
+    }
+    cb();
+  });
+})
+
+gulp.task('bumpToContinuingVersion', () => {
+  return gulp.src('./package.json')
+  .pipe(bump({version: continuingVersion}))
+  .pipe(gulp.dest('./'));
+});
+
+gulp.task('commitPkgForContinuing', () => {
+  return gulp.src('./package.json')
+    .pipe(git.add())
+    .pipe(git.commit('bump to ' + continuingVersion))
+})
+
+gulp.task('pushMasterAndNewTag', (cb) => {
+  let currentBranch = '';
+  git.exec({args : 'rev-parse --abbrev-ref HEAD'}, function (err, stdout) {
+    if (err) throw err;
+    currentBranch = stdout.trim();
+    git.push('origin', currentBranch, (err) => {
+      if (err) throw err;
+      git.push('origin', gitTagName, (err) => {
+        if (err) throw err;
+        cb();
+      })
+    });
+  });
+});
+

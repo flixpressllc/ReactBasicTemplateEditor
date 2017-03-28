@@ -6,7 +6,7 @@ let config = Object.assign({}, distConfig, {
   plugins: require('./common/plugins').minPlugins,
 });
 
-config.output.filename = '[name].[hash].min.js';
-config.output.chunkFilename = '[id].[hash].min.js';
+config.output.filename = '[name].min.js';
+config.output.chunkFilename = '[id].min.js';
 
 module.exports = config;

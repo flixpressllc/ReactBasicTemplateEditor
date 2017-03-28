@@ -11,7 +11,19 @@ const jest = require('jest');
 const argv = process.argv.slice(2);
 
 // Watch unless on CI
-if (!process.env.CI) {
+function isOnCI() {
+  return process.env.CI;
+}
+
+function askedForNoWatch() {
+  return argv.indexOf('--noWatch') > -1
+}
+
+function shouldNotWatch() {
+  return isOnCI() || askedForNoWatch();
+}
+
+if (! shouldNotWatch() ) {
   argv.push('--watch');
 }
 
