@@ -1,7 +1,7 @@
 {
   "name": "ReactBasicTemplateEditor",
   "private": true,
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Template Editor for Flixpress.com",
   "main": "",
   "scripts": {
@@ -52,7 +52,6 @@
     "glob": "^7.0.6",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
     "gulp-s3": "^0.11.0",
     "jest": "^17.0.3",
     "jquery": "^1.12.4",
@@ -72,7 +71,6 @@
     "react-modal": "^1.4.0",
     "react-tabs": "^0.7.0",
     "rimraf": "^2.5.4",
-    "run-sequence": "^1.2.2",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -83,7 +81,6 @@
   },
   "dependencies": {
     "core-js": "^2.4.1",
-    "es6-symbol": "^3.1.1",
     "flux": "^3.1.2",
     "happy-helpers": "^1.0.0",
     "js-beautify": "^1.6.4",
