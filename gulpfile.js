@@ -59,7 +59,7 @@ gulp.task('bumpToRelease', () => {
 });
 
 gulp.task('commitAllForRelease', () => {
-  return gulp.src('./*')
+  return gulp.src(['./dist/*', './package.json'])
     .pipe(git.add())
     .pipe(git.commit('Release Version v' + releaseVersion))
 })
