@@ -54,7 +54,7 @@ gulp.task('release', () => {
     process.exit();
   });
 
-  rs('bumpToRelease', 'commitAllForRelease')
+  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit')
 });
 
 gulp.task('bumpToRelease', () => {
@@ -67,4 +67,24 @@ gulp.task('commitAllForRelease', () => {
   return gulp.src(['./dist/*', './package.json'])
     .pipe(git.add())
     .pipe(git.commit('Release Version v' + releaseVersion))
+})
+
+gulp.task('tagCurrentRelease', (cb) => {
+  git.tag('v'+releaseVersion, '', (e) => {
+    if (e) {
+      console.log(e);
+      process.exit();
+    }
+    cb();
+  });
+})
+
+gulp.task('undoCommit', (cb) => {
+  git.reset('HEAD~1', {args:'--hard'}, function (err) {
+    if (err) {
+      console.log(err);
+      process.exit();
+    }
+    cb();
+  });
 })
