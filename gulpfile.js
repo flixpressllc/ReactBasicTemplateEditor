@@ -38,7 +38,14 @@ gulp.task('aws', () => {
     .pipe( s3(awsCredentials, awsOptions) );
 });
 
-
+gulp.task('checkRepoIsClean', () => {
+  git.exec({args : 'diff-index HEAD --'}, function (err, stdout) {
+    if (err) throw err;
+    if (stdout.match(/[\S]/)) { // anything not whitespace
+      throw new Error('Uncommited changes in repo');
+    }
+  });
+})
 
 let increment, currentVersion, releaseVersion, continuingVersion;
 
@@ -54,7 +61,7 @@ gulp.task('release', () => {
     process.exit();
   });
 
-  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit')
+  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing')
 });
 
 gulp.task('bumpToRelease', () => {
@@ -77,7 +84,7 @@ gulp.task('tagCurrentRelease', (cb) => {
     }
     cb();
   });
-})
+});
 
 gulp.task('undoCommit', (cb) => {
   git.reset('HEAD~1', {args:'--hard'}, function (err) {
@@ -88,3 +95,16 @@ gulp.task('undoCommit', (cb) => {
     cb();
   });
 })
+
+gulp.task('bumpToContinuingVersion', () => {
+  return gulp.src('./package.json')
+  .pipe(bump({version: continuingVersion}))
+  .pipe(gulp.dest('./'));
+});
+
+gulp.task('commitPkgForContinuing', () => {
+  return gulp.src('./package.json')
+    .pipe(git.add())
+    .pipe(git.commit('bump to v' + continuingVersion))
+})
+
