@@ -17,7 +17,7 @@ require('dotenv').load();
 const awsCredentials = {
   key: process.env.AWS_ACCESS_KEY_ID,
   secret: process.env.AWS_SECRET_ACCESS_KEY,
-  bucket: 'FlixSamples'
+  bucket: getPackageJson().awsTesting.bucket
 }
 
 if (!awsCredentials.key || !awsCredentials.secret) {
@@ -26,7 +26,7 @@ if (!awsCredentials.key || !awsCredentials.secret) {
 }
 
 const awsOptions = {
-  uploadPath: 'development_files/Scripts/templateEditor/'
+  uploadPath: getPackageJson().awsTesting.path
 }
 
 gulp.task('aws', () => {
