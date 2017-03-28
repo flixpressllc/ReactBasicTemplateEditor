@@ -30,7 +30,7 @@ const awsOptions = {
 }
 
 gulp.task('aws', () => {
-  return gulp.src('dist/**')
+  return gulp.src('build/**')
     .pipe( s3(awsCredentials, awsOptions) );
 });
 
