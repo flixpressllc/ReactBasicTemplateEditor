@@ -8,7 +8,7 @@
     "clean": "rimraf build/*",
     "copy": "copyfiles -f ./build/* ./dist",
     "build": "npm run clean && webpack --env=dist && webpack --env=dist-min",
-    "dist": "npm run build && npm run copy",
+    "dist": "npm run automated-test && npm run build && npm run copy",
     "aws": "npm run clean && webpack --env=dist && gulp removeHashes && gulp aws",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
@@ -21,6 +21,7 @@
     "start": "node server.js --env=dev",
     "chrome": "node server.js --env=dev --openWith='google chrome'",
     "test": "node scripts/test.js --env=jsdom",
+    "automated-test": "node scripts/test.js --env=jsdom --noWatch",
     "dev": "webpack --env=flix-dev --watch"
   },
   "repository": "https://github.com/flixpressllc/ReactBasicTemplateEditor",
