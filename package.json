@@ -21,8 +21,7 @@
     "start": "node server.js --env=dev",
     "chrome": "node server.js --env=dev --openWith='google chrome'",
     "test": "node scripts/test.js --env=jsdom",
-    "automated-test": "node scripts/test.js --env=jsdom --noWatch",
-    "dev": "webpack --env=flix-dev --watch"
+    "automated-test": "node scripts/test.js --env=jsdom --noWatch"
   },
   "repository": "https://github.com/flixpressllc/ReactBasicTemplateEditor",
   "awsTesting": {
