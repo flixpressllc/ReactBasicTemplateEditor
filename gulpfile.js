@@ -35,9 +35,9 @@ gulp.task('aws', () => {
 });
 
 gulp.task('checkRepoIsClean', () => {
-  git.exec({args : 'diff-index HEAD --'}, function (err, stdout) {
+  git.exec({args : 'status'}, function (err, stdout) {
     if (err) throw err;
-    if (stdout.match(/[\S]/)) { // anything not whitespace
+    if (stdout.match(/working tree clean/) === null) { // uncommitted changes
       throw new Error('Uncommited changes in repo');
     }
   });
