@@ -18,7 +18,7 @@ describe('SoundPicker', () => {
   });
 
   describe('choosing a song', () => {
-    fit('opens a modal on Add Audio button click', () => {
+    it('opens a modal on Add Audio button click', () => {
       const component = mount(<SoundPicker onChooseSong={ jest.fn() }/>)
       component.instance().handleOnAfterOpenModal = jest.fn();
 
