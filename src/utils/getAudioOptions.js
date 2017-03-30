@@ -1,4 +1,4 @@
-import jxon from './xmlAdapter';
+import {nativeXmlToObject} from './xmlAdapter';
 
 var getCatSongs = function (categoryId, username) {
   var audioUrl = 'https://ws.flixpress.com/AudioWebService.asmx/GetAudio';
@@ -39,7 +39,7 @@ export default function getAudioOptions (username) {
 
   getCats.done(function(result){
     var getAllCats = [];
-    var categories = jxon.xmlToJs(result).ArrayOfCategory.Category.SubCategories.Category;
+    var categories = nativeXmlToObject(result).ArrayOfCategory.Category.SubCategories.Category;
 
     $.each(categories, function(arrPos, category){
       var catSongs = getCatSongs(category.Id, username)
@@ -47,7 +47,7 @@ export default function getAudioOptions (username) {
       catSongs.done(function(result){
         categoriesObj[category.Name] = {};
         categoriesObj[category.Name].id = category.Id;
-        categoriesObj[category.Name].songs = jxon.xmlToJs(result).ResultSetOfAudio.Records.Audio;
+        categoriesObj[category.Name].songs = nativeXmlToObject(result).ResultSetOfAudio.Records.Audio;
       });
     });
 
@@ -64,7 +64,7 @@ export default function getAudioOptions (username) {
   });
 
   getCustom.done(function (result) {
-    var songs = jxon.xmlToJs(result).ResultSetOfCustomAudio.Records.CustomAudio;
+    var songs = nativeXmlToObject(result).ResultSetOfCustomAudio.Records.CustomAudio;
     songs = songs === undefined ? [] : songs;
     for (var i = 0; i < songs.length; i++) {
       customAudioArr.push(songs[i]);

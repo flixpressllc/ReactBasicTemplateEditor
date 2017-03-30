@@ -16,34 +16,6 @@ From there, you can start making changes to the javascript (`src/components` for
 
 To see what your changes are actually doing, it is best to do one of the following below...
 
-## Develop Live (from Flixpress HQ)
-
-> This section is somewhat deprecated. There is very little reason to develop this way, now that the [Develop Locally system](#develop-locally) works so well.
-
-To develop code that you can actually run on the site for real server testing, you'll want to do the same as above, but instead of running the second command, run this one:
-
-```
-npm run dev -- --location "path/to/server/folder"
-```
-
-Path to server folder is the path to where the compiled (but not compressed) files should go so that the live server can access it. This path can be relative or absolute. For example on my computer, I'd use the following:
-
-```
-npm run dev -- --location "/Volumes/Don2/templates/Scripts"
-```
-
-The final folder is the one that `TextOnly.aspx` is using to get the file. (I mount my folder on the dev server at `/Volumes/Don2` on my local machine.)
-
-```html
- <!-- TextOnly.aspx file-->
-
-<script type="text/javascript" src="/templates/Scripts/templateEditor.js"></script>
-```
-
-Of course, you can set this script source to anything you like. Ultimately, it will be set to a local file and We'll have a `TextOnly.aspx` that will call out to a dev file. (More on that below)
-
-Changes you make while the Terminal/Command Prompt is watching the files will be compiled (not compressed) and loaded into the directory you specified.
-
 ## Develop Locally
 
 The process above is ok for testing live off the Flixpress dev server, but if you are mostly interested in tweaking the user interface (or you don't work at Flixpress and just want to play around with the thing), it is probably better and faster to use this command instead:
@@ -76,17 +48,13 @@ npm run chrome
 
 ## Build for Production
 
-When you are all done testing via one of the methods above, kill the Terminal/Command Prompt process that is watching the files. Push your changes to GitHub via a Pull Request so that we can all see them and we don't either duplicate or clobber each other's work. I'll handle pulling things into the Master Branch until you are all familiar with the process. For now, just worry about pushing to the development branch.
-
-Finally, at any time you are ready for a production build, run the following command:
+When you are all done testing via one of the methods above, kill the Terminal/Command Prompt process that is watching the files.
 
 ```
-npm run dist
+npm run build
 ```
 
-This will build all the files you need into the `dist` folder. Just move those to the server and you should be set. Please note that the files that are created here are truly for production. They suppress all the helpful warnings that are not show-stopping bugs and they pull the css out into it's own file. They also offer compressed version of the script and css files that will save BIG TIME on bandwidth.
-
-Incidentally, you can only get the css separately when building to production like this. If you use the development methods above this section, the css is actually embedded in the Javascript. This is a convenience for development and should not really be used in production.
+This will build all the files you need into the `build` folder. Just move those to the server and you should be set. Please note that the files created here are truly for production. They suppress all the helpful warnings that are not show-stopping bugs. They also are compressed.
 
 # Working with CSS
 

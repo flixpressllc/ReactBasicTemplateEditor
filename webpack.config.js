@@ -4,7 +4,7 @@ const path = require('path');
 const args = require('minimist')(process.argv.slice(2));
 
 // List of allowed environments
-const allowedEnvs = ['dev', 'dist', 'dist-min', 'test', 'flix-dev'];
+const allowedEnvs = ['dev', 'prod', 'test'];
 
 // Set the correct environment
 var env;

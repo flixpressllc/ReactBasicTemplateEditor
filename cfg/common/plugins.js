@@ -14,20 +14,7 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
 
-  distPlugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
-    new BowerWebpackPlugin({
-      searchResolveModulesDirectories: false
-    }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
-
-  minPlugins: [
+  prodPlugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
@@ -37,7 +24,7 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
-      include: /\.min\.js$/
+      include: /\.js$/
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
