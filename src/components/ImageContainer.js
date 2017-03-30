@@ -4,6 +4,7 @@ import CaptionInput from './CaptionInput';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from 'happy-helpers';
+import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import * as ContainerActions from '../actions/ContainerActions';
 
 import './ImageContainer.scss';
@@ -57,6 +58,9 @@ const ListImage = SortableElement( React.createClass({
   handleChangeImage: function () {
     this.props.onChangeImage(this.props.item.id);
   },
+  handleRemoveImage: function () {
+    this.props.onRemoveImage(this.props.item.id);
+  },
   renderCaptions: function () {
     if (this.props.captionsSettings === undefined || this.props.item.captions === undefined) {
       return null;
@@ -79,25 +83,49 @@ const ListImage = SortableElement( React.createClass({
     return captions;
   },
 
-  renderChangeImageButton: function () {
+  renderButtons: function () {
+    let swapButton, removeButton;
+    if (toType(this.props.onChangeImage) !== 'function') {
+      swapButton = null;
+    } else {
+      swapButton = (<button
+        key={'swap'} className="reactBasicTemplateEditor-ImageContainer-swapImageButton"
+        type="button"
+        onClick={ this.handleChangeImage }>
+        Swap Image
+      </button>);
+    }
 
-    if (toType(this.props.onChangeImage) !== 'function') { return null; }
-    return (<button className="reactBasicTemplateEditor-ImageContainer-imageListItemChangeButton"
-      type="button"
-      onClick={ this.handleChangeImage }>
-      Change Image
-    </button>);
+    if (this.props.onRemoveImage) {
+      removeButton = (<button
+        key={'remove'} className="reactBasicTemplateEditor-ImageContainer-removeImageButton"
+        type="button"
+        onClick={ this.handleRemoveImage }>
+        Remove
+      </button>);
+    } else {
+      removeButton = null;
+    }
 
+    if (swapButton || removeButton) {
+      return (
+        <div className="reactBasicTemplateEditor-ImageContainer-actionButtons">
+          {[swapButton, removeButton]}
+        </div>
+      );
+    } else {
+      return null;
+    }
   },
 
   render: function () {
     const captions = this.renderCaptions();
-    const button = this.renderChangeImageButton();
+    const buttons = this.renderButtons();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
         <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
-          { button }
+          { buttons }
           { captions }
         </div>
         <DragHandle />
@@ -117,6 +145,7 @@ const SortableList = SortableContainer( React.createClass({
             onCaptionChange={ this.props.onCaptionChange }
             index={index}
             onChangeImage={ this.props.onChangeImage }
+            onRemoveImage={ this.props.onRemoveImage }
             item={value} />
         )}
       </div>
@@ -196,8 +225,30 @@ const ImageContainer = React.createClass({
   },
 
   handleChangeImage: function (oldImageId) {
-    //something
     this.setState({imageIdToReplace: oldImageId}, this.openModal)
+  },
+
+  handleRemoveImage: function (removeImageId) {
+    let newImageArray = clone(this.state.images).filter(image => {
+      if (image.id === removeImageId) return false;
+      return true;
+    });
+
+    this.updateImages(newImageArray);
+  },
+
+  wipeCaptions: function (imageObj) {
+    if (imageObj.captions) {
+      imageObj.captions = imageObj.captions.map(()=>'');
+    }
+    return imageObj;
+  },
+
+  handleAddImage: function () {
+    let newImageArray = this.state.images.concat(
+      this.wipeCaptions(clone(this.state.images[0]))
+    )
+    this.updateImages(newImageArray);
   },
 
   handleReplaceImage: function (incomingImage) {
@@ -236,9 +287,20 @@ const ImageContainer = React.createClass({
     })
   },
 
+  shouldAllowRemove: function () {
+    let min = TemplateSpecificationsStore.getSpec('minImages');
+    return this.state.images.length > min;
+  },
+
+  shouldAllowAdd: function () {
+    let max = TemplateSpecificationsStore.getSpec('maxImages');
+    return this.state.images.length < max;
+  },
+
   renderImageList: function () {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
+    const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
     const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
     return (
       <SortableList
@@ -248,6 +310,7 @@ const ImageContainer = React.createClass({
         onCaptionChange={ this.handleCaptionChange }
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }
+        onRemoveImage={ removeImageFunc }
       />
     );
   },
@@ -263,6 +326,12 @@ const ImageContainer = React.createClass({
           { explanation }
         </div>
         { content }
+        {this.shouldAllowAdd() ? (<button
+          className="reactBasicTemplateEditor-ImageContainer-addImageButton"
+          type="button"
+          onClick={this.handleAddImage}>
+          Add Image
+        </button>): null}
       </div>
     );
   }

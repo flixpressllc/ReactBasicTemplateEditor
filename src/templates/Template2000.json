@@ -12,7 +12,7 @@
   },
   "userImageChoosers": {
     "Your Two Images": {
-      "maxImages": 4,
+      "maxImages": 8,
       "minImages": 3,
       "captions": [
         "Top Text",
