@@ -7,14 +7,6 @@
   display: block;
 }
 
-.reactBasicTemplateEditor-PreviewImage-modal {
-  @extend %modal;
-}
-
-.reactBasicTemplateEditor-PreviewImage-modalOverlay {
-  @extend %overlay;
-}
-
 .reactBasicTemplateEditor-PreviewImage-modalExplain {
   text-align: center;
 }

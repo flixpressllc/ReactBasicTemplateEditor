@@ -1,8 +1,7 @@
 import React from 'react';
-import Modal from 'react-modal';
+import Modal from './lib/Modal';
 import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
 import LoadingSpinner from './LoadingSpinner';
-import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import cx from 'classnames';
 import getAudioOptions from '../utils/getAudioOptions';
 import './SoundPicker.scss';
@@ -40,7 +39,6 @@ var SoundPicker = React.createClass({
   componentWillMount: function () {
     if (this.props.audioOptions === undefined) {
       this.props.onChooseSong(this.blankAudioInfo);
-      Modal.setAppElement('#' + CONTAINING_ELEMENT_ID);
     }
   },
 
@@ -259,10 +257,8 @@ var SoundPicker = React.createClass({
           contentLabel="Sound Picker Modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="reactBasicTemplateEditor-SoundPicker-modal"
-          overlayClassName="sound-picker-modal-overlay"
           onAfterOpen={this.handleOnAfterOpenModal}
-          onRequestClose={this.handleModalCloseRequest}>
+          onRequestClose={this.closeModal}>
 
           { spinner }
 

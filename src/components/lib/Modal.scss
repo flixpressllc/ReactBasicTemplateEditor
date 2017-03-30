@@ -1,0 +1,9 @@
+@import "../../styles/base-includes";
+
+.reactBasicTemplateEditor-Modal-overlay {
+  @extend %overlay;
+}
+
+.reactBasicTemplateEditor-Modal {
+  @extend %modal;
+}

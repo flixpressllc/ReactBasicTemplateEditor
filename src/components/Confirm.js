@@ -1,10 +1,8 @@
 import React from 'react';
-import Dialog from 'react-modal';
+import Dialog from './lib/Modal';
 import { confirmable } from 'react-confirm';
-import {CONTAINING_ELEMENT_ID} from '../config/unavoidable-constants';
 import './Confirm.scss'
 
-Dialog.setAppElement('#' + CONTAINING_ELEMENT_ID);
 class Confirmation extends React.Component {
 
   render() {
@@ -19,7 +17,8 @@ class Confirmation extends React.Component {
       show,
       proceed,
       dismiss,
-      cancel
+      cancel,
+      contentLabel
     } = this.props;
 
     var actions = [
@@ -30,7 +29,7 @@ class Confirmation extends React.Component {
         {proceedLabel}
       </button>
     ];
-    
+
     if (otherAction) {
       actions.push(
         <button key="preview" type="button" className="reactBasicTemplateEditor-Confirm-button confirm confirm-preview" onClick={otherAction}>
@@ -45,6 +44,7 @@ class Confirmation extends React.Component {
         onRequestClose={dismiss}
         className="reactBasicTemplateEditor-Confirm"
         overlayClassName="reactBasicTemplateEditor-Confirm-overlay"
+        contentLabel={contentLabel}
       >
         <div>
           {confirmation}

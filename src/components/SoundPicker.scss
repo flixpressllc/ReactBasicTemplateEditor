@@ -7,14 +7,6 @@
   padding: 5px;
 }
 
-.reactBasicTemplateEditor-SoundPicker-modalOverlay {
-  @extend %overlay;
-}
-
-.reactBasicTemplateEditor-SoundPicker-modal {
-  @extend %modal;
-}
-
 .reactBasicTemplateEditor-SoundPicker-stockCategoryTabList {
   margin-top: $bigPad;
   margin-bottom: $bigPad;

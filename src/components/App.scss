@@ -87,10 +87,10 @@
     }
   }
 
-.reactBasicTemplateEditor-App-submissionModal {
+.reactBasicTemplateEditor-App-submissionModalSuccess {
   @extend %confirm-modal;
 }
 
-.reactBasicTemplateEditor-App-submissionModalOverlay {
+.reactBasicTemplateEditor-App-submissionModalSuccessOverlay {
   @extend %confirm-overlay;
 }

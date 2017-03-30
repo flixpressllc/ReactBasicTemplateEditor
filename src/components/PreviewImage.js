@@ -1,6 +1,6 @@
 import React from 'react';
 import { clone, mediaWidth, isEmpty } from 'happy-helpers';
-import Modal from 'react-modal';
+import Modal from './lib/Modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
 import { ajax } from '../utils/ajax';
@@ -157,9 +157,7 @@ export default React.createClass({
           ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          className="reactBasicTemplateEditor-PreviewImage-modal"
-          contentLabel="Preview Image Modal"
-          overlayClassName="reactBasicTemplateEditor-PreviewImage-modalOverlay">
+          contentLabel="Preview Image Modal">
 
           <img
             className="reactBasicTemplateEditor-PreviewImage-modalImage"
