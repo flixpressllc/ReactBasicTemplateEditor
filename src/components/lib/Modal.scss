@@ -7,3 +7,8 @@
 .reactBasicTemplateEditor-Modal {
   @extend %modal;
 }
+
+// This style is universal, unforuntately
+.ReactModal__Body--open {
+  overflow: hidden;
+}
