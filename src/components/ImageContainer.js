@@ -124,10 +124,12 @@ const ListImage = SortableElement( React.createClass({
     const buttons = this.renderButtons();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
-        <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
-        <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
-          { buttons }
-          { captions }
+        <div className='reactBasicTemplateEditor-ImageContainer-imageListItemData'>
+          <img src={ THUMBNAIL_URL_PREFIX + this.props.item.file } />
+          <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
+            { buttons }
+            { captions }
+          </div>
         </div>
         <DragHandle />
       </div>
