@@ -1,6 +1,7 @@
 import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import CaptionInput from './CaptionInput';
+import Modal from './lib/Modal';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from 'happy-helpers';
@@ -153,7 +154,7 @@ const SortableList = SortableContainer( React.createClass({
   }
 }), {transitionDuration: 0} );
 
-const ImageBank = React.createClass({
+const ImageSelection = React.createClass({
   render: function () {
     let imageList = this.props.imageBank.map((image, i) => {
       return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { this.props.onChooseImage(image) }}/>;
@@ -265,19 +266,6 @@ const ImageContainer = React.createClass({
     this.closeModal();
   },
 
-  renderFakeModal: function () {
-    return (
-      <div className="reactBasicTemplateEditor-ImageContainer-modal">
-
-        <ImageBank onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
-        <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
-          onClick={ this.closeModal } type="button">
-          Cancel
-        </button>
-      </div>
-    );
-  },
-
   deriveCaptionsSettings: function (captionsSettingsArr) {
     if (toType(captionsSettingsArr) !== 'array') return captionsSettingsArr;
     return captionsSettingsArr.map(val => {
@@ -317,7 +305,7 @@ const ImageContainer = React.createClass({
 
   render: function () {
     if (this.state.images.length === 0) return null;
-    const content = this.state.modalIsOpen ? this.renderFakeModal() : this.renderImageList();
+    const imageList = this.renderImageList();
     const explanation = this.state.images.length > 1 ?
       'Change the order of the images by dragging up and down with the handles on the right.':'';
     return (
@@ -325,13 +313,25 @@ const ImageContainer = React.createClass({
         <div className="reactBasicTemplateEditor-ImageContainer-explainer">
           { explanation }
         </div>
-        { content }
+        { imageList }
         {this.shouldAllowAdd() ? (<button
           className="reactBasicTemplateEditor-ImageContainer-addImageButton"
           type="button"
           onClick={this.handleAddImage}>
           Add Image
         </button>): null}
+
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Choose a replacement image">
+
+          <ImageSelection onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+          <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
+            onClick={ this.closeModal } type="button">
+            Cancel
+          </button>
+        </Modal>
       </div>
     );
   }
