@@ -17,12 +17,7 @@
 
 
 .reactBasicTemplateEditor-ImageContainer-imageBank {
-  background-color: #ffffff;
-  padding:10px;
-
-  > h1 {
-    margin:5px 0 10px;
-  }
+  text-align: center;
   > img {
     border:1px solid #000;
     margin:4px;
@@ -34,7 +29,10 @@
     box-shadow:0 0 10px #aaaaaa;
     opacity:1;
   }
+}
 
+.reactBasicTemplateEditor-ImageContainer-imageBankInstructions {
+  margin: 1em 0;
 }
 
 

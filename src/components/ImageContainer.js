@@ -161,7 +161,7 @@ const ImageSelection = React.createClass({
     });
     return (
       <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
-      <h1>  Select a new image </h1>
+        <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">Select a new image</p>
         { imageList }
       </div>
     );
