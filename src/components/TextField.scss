@@ -10,5 +10,10 @@
   
   > input {
     @extend %input;
+
+   @include breakpoint($xs-only)
+   {
+       clear:left;
+   }
   }
 }
