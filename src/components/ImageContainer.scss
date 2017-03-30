@@ -1,5 +1,8 @@
 @import "../styles/base-includes";
 
+$dragHandleWidth: 1.5em;
+$listImageItemPadding: 5px;
+
 .reactBasicTemplateEditor-ImageContainer {
   padding: 0 1em;
 }
@@ -7,22 +10,25 @@
 .reactBasicTemplateEditor-ImageContainer-imageListItem {
   @extend %base-container-styles;
   @include clearfix;
+  position: relative;
   background-color: rgba(150,150,150,0.5);
-  padding: 5px;
+  padding: $listImageItemPadding;
+  padding-right: calc(#{$dragHandleWidth} + #{$listImageItemPadding * 2});
   margin: 10px 0;
+}
+
+.reactBasicTemplateEditor-ImageContainer-imageListItemData {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-wrap: wrap;
+  > * {
+    margin: 5px;
+  }
 }
 
-
 .reactBasicTemplateEditor-ImageContainer-imageBank {
-  background-color: #ffffff;
-  padding:10px;
-
-  > h1 {
-    margin:5px 0 10px;
-  }
+  text-align: center;
   > img {
     border:1px solid #000;
     margin:4px;
@@ -34,18 +40,25 @@
     box-shadow:0 0 10px #aaaaaa;
     opacity:1;
   }
+}
 
+.reactBasicTemplateEditor-ImageContainer-imageBankInstructions {
+  margin: 1em 0;
 }
 
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDragHandle {
   cursor: move;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: $listImageItemPadding;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   > div {
-    width: 1.5em;
+    width: $dragHandleWidth;
     height: 5px;
     background-color: rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255, 0.6);
@@ -91,9 +104,11 @@
 
 
 .reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
 }
 
 .reactBasicTemplateEditor-ImageContainer-explainer {

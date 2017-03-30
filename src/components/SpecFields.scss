@@ -6,6 +6,8 @@
   color: #eee;
   font-size: 0.75em;
   font-weight: bold;
+  margin: -6px;
+  margin-bottom: 0;
 }
 
 .reactBasicTemplateEditor-SpecFields-section {
@@ -13,11 +15,6 @@
   background-color: #efefef;
   padding: 5px;
   border: 1px solid #ccc;
-  margin-right: 5px;
-
-  @include breakpoint($sm) {
-    margin-right: 0;
-  }
 
   @include breakpoint($md) {
     margin-right: 5px;

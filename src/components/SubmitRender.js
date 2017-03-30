@@ -40,7 +40,8 @@ export default React.createClass({
     var options = {
       otherAction: this.props.placePreviewOrder,
       otherActionLabel: 'Make a Preview instead',
-      proceedLabel:'Yes: Place Order'
+      proceedLabel:'Yes: Place Order',
+      contentLabel: 'Confirm Order'
     };
 
     if (this.props.isPreview !== true) {

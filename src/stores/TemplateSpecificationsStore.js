@@ -53,7 +53,7 @@ class TemplateSpecificationsStore extends EventEmitter {
   }
 
   setInitialRecieved (obj) {
-    traverseObject(obj, (k,v) => {
+    traverseObject(obj, (k) => {
       this.initialRecieved[k] = true;
     });
   }
@@ -77,6 +77,7 @@ class TemplateSpecificationsStore extends EventEmitter {
         throw new Error(`TemplateSpecificationsStore was expecting the type of ${k} to be ${ALLOWED_SPECS[k]}. ${toType(v)} was given.`)
       }
       if (this.initialRecieved[k]) {
+        // eslint-disable-next-line no-console
         console.warn(`TemplateSpecificationsStore has already recieved an initial value for ${k}. It should not be changed.`)
       }
     })

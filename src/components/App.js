@@ -10,7 +10,7 @@ import SubmitRender from './SubmitRender';
 import ResolutionPicker from './ResolutionPicker';
 import SpecFields from './SpecFields';
 import SoundPicker from './SoundPicker';
-import Modal from 'react-modal';
+import Modal from './lib/Modal';
 
 // This must be called after all the actual containers are called so they can
 // register themselves before RenderDataStore tries to get them all...
@@ -359,8 +359,8 @@ var App = React.createClass({
         </div>
         <Modal
           isOpen={this.state.allowSubmit}
-          className="reactBasicTemplateEditor-App-submissionModal"
-          overlayClassName="reactBasicTemplateEditor-App-submissionModalOverlay"
+          className="reactBasicTemplateEditor-App-submissionModalSuccess"
+          overlayClassName="reactBasicTemplateEditor-App-submissionModalSuccessOverlay"
           contentLabel="Submission Modal"
         >
           Your order is being submitted.
