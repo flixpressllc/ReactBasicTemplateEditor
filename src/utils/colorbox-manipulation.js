@@ -4,7 +4,7 @@ function parentColorboxExists () {
 
 function shouldResize () {
   const defaultInnerCboxHeightInParent = 598;
-  const thisEditorHeightNow = document.body.clientHeight;
+  const thisEditorHeightNow = document.body.scrollHeight;
   return thisEditorHeightNow > defaultInnerCboxHeightInParent;
 }
 
