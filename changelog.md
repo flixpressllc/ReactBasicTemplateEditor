@@ -1,4 +1,11 @@
-### 2.1.4
+### 2.2.2
+* adds cbox adjustments when opened in iframe
+
+### 2.2.1
+* fixes a build tool issue
+* Upgrades for a bugfix for IE in happy-helpers
+
+### 2.2.0
 * Moves the project to jQuery style distribution
 * Users can now add and remove images within the template limits on image templates
 

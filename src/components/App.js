@@ -3,6 +3,7 @@ import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
 import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from 'happy-helpers';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
+import { adjustColorbox } from '../utils/colorbox-manipulation';
 import * as dc from '../utils/globalContainerConcerns';
 
 import Messages from './UserMessages';
@@ -229,7 +230,13 @@ var App = React.createClass({
 
   componentDidMount: function () {
     TemplateSpecActions.setSpecs({templateId: parseInt(this.props.templateId, 10)});
-    this.setupEditor();
+    this.setupEditor().then(() => this.editorSetupDidComplete());
+  },
+
+  editorSetupDidComplete () {
+    // This doesn't mean that the images and such have acutally loaded,
+    // so the height of the editor is not yet determined, etc.
+    setTimeout(() => adjustColorbox(), 500)
   },
 
   componentWillUnmount: function () {
