@@ -1,19 +1,25 @@
-import { nestedPropertyExists } from 'happy-helpers';
+function parentColorboxExists () {
+  return window.parent.$ && window.parent.$.colorbox;
+}
 
-export function makeColorboxFullHeight(){
-  if (! nestedPropertyExists(parent, '$.fn.colorbox')) {
-    return;
-  }
-  var desiredHeight = parent.document.body.clientHeight - 75;
+function shouldResize () {
+  const defaultInnerCboxHeightInParent = 598;
+  const thisEditorHeightNow = document.body.clientHeight;
+  return thisEditorHeightNow > defaultInnerCboxHeightInParent;
+}
+
+function makeColorboxFullHeight(){
+  const extraHeightOnColorboxChrome = 75;
+  const viewportHeight = parent.document.body.clientHeight;
+  const desiredHeight = viewportHeight - extraHeightOnColorboxChrome;
 
   parent.$.fn.colorbox.resize({
     innerHeight: desiredHeight
   });
 }
-//
-// $(document).ready(function(){
-//   if ($('#Template_FlashContent_Div').height > 600)
-//   {
-//     Resize_Box();
-//   }
-// });
+
+export function adjustColorbox () {
+  if ( parentColorboxExists() && shouldResize() ) {
+    makeColorboxFullHeight();
+  }
+}
