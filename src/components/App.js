@@ -3,6 +3,7 @@ import { getJSON } from '../utils/ajax';
 import { find } from '../utils/dom-queries';
 import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from 'happy-helpers';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
+import { makeColorboxFullHeight } from '../utils/colorbox-manipulation';
 import * as dc from '../utils/globalContainerConcerns';
 
 import Messages from './UserMessages';
@@ -229,7 +230,11 @@ var App = React.createClass({
 
   componentDidMount: function () {
     TemplateSpecActions.setSpecs({templateId: parseInt(this.props.templateId, 10)});
-    this.setupEditor();
+    this.setupEditor().then(() => {
+      if (document.body.clientHeight > 598 /* inner CBOX height on flixpress */) {
+        makeColorboxFullHeight();
+      }
+    });
   },
 
   componentWillUnmount: function () {
