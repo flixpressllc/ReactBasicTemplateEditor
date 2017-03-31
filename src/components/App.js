@@ -234,7 +234,9 @@ var App = React.createClass({
   },
 
   editorSetupDidComplete () {
-    adjustColorbox();
+    // This doesn't mean that the images and such have acutally loaded,
+    // so the height of the editor is not yet determined, etc.
+    setTimeout(() => adjustColorbox(), 500)
   },
 
   componentWillUnmount: function () {
