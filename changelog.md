@@ -1,5 +1,6 @@
 ### 2.2.2
 * adds cbox adjustments when opened in iframe
+* fixes Firefox highlighting when rearranging images
 
 ### 2.2.1
 * fixes a build tool issue
