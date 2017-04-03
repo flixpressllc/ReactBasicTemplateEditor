@@ -1,3 +1,6 @@
+### 2.2.3
+* fixes issue where custom audio wouldn't know it was playing
+
 ### 2.2.2
 * adds cbox adjustments when opened in iframe
 * fixes Firefox highlighting when rearranging images
