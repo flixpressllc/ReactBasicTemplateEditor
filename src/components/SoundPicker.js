@@ -186,7 +186,7 @@ var SoundPicker = React.createClass({
         for (let i = 0; i < this.state.audioOptions.customAudio.length; i++) {
           let song = this.state.audioOptions.customAudio[i];
           let isPlaying = false;
-          if (this.state.isPlaying && this.loadedSong === 'custom-' + song.Id){
+          if (this.state.isPlaying && this.state.loadedSong === 'custom-' + song.Id){
             isPlaying = true;
           }
           customAudioItems.push(
