@@ -6,13 +6,10 @@ import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
   traverseObject, wrapObjectWithProperty, forceArray, nestedPropertyExists } from 'happy-helpers';
 
-// The next comment line will tell JSHint to ignore double quotes for a bit
-/* eslint-disable quotes */
 let startingPoint = {
   ResolutionId: 0,
   IsPreview: false
 };
-/* eslint-enable quotes */
 
 let startingSpecs = {
   Specs: {

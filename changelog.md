@@ -1,5 +1,7 @@
 ### 2.2.3
 * fixes issue where custom audio wouldn't know it was playing
+* Adds browser compatibility check to eslint
+* Adds rudimentary browser compatibility check on built package
 
 ### 2.2.2
 * adds cbox adjustments when opened in iframe
