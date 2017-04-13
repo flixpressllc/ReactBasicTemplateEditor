@@ -6,6 +6,7 @@ import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
+import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
 
 import './ImageContainer.scss';
@@ -190,6 +191,11 @@ const ImageContainer = React.createClass({
   handleSortEnd: function ({oldIndex, newIndex}) {
     let newArray = arrayMove(this.props.images, oldIndex, newIndex);
     this.updateImages(newArray);
+    enableTextSelectionOnTheWholeBody();
+  },
+
+  handleSortStart: function () {
+    disableTextSelectionOnTheWholeBody();
   },
 
   componentWillReceiveProps: function (newProps) {
@@ -301,6 +307,7 @@ const ImageContainer = React.createClass({
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }
         onRemoveImage={ removeImageFunc }
+        onSortStart={ this.handleSortStart }
       />
     );
   },
