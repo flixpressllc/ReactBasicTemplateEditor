@@ -4,6 +4,7 @@
   "version": "2.2.2-pre",
   "description": "Template Editor for Flixpress.com",
   "main": "",
+  "browserslist": ["Chrome 49","Firefox 52", "last 2 versions"],
   "scripts": {
     "clean": "rimraf build/* && rimraf dist/*",
     "copy:dist": "copyfiles -f ./build/* ./dist && rimraf dist/*.map",
@@ -50,6 +51,7 @@
     "enzyme": "^2.6.0",
     "eslint": "^3.4.0",
     "eslint-loader": "^1.5.0",
+    "eslint-plugin-compat": "^1.0.2",
     "eslint-plugin-react": "^6.2.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",

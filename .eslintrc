@@ -1,7 +1,8 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "react"
+    "react",
+    "compat"
   ],
   "parserOptions": {
     "ecmaVersion": 6,
@@ -30,7 +31,8 @@
     "no-unreachable": 1,
     "no-alert": 0,
     "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1
+    "react/jsx-uses-vars": 1,
+    "compat/compat": 2
   },
   "globals": {
     "$": true,
