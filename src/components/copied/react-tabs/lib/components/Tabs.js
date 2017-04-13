@@ -82,14 +82,10 @@ module.exports = React.createClass({
       let index = this.state.selectedIndex;
       let preventDefault = false;
 
-      // Select next tab to the left
-      if (e.keyCode === 37 || e.keyCode === 38) {
+      if (e.keyCode === 37 || e.keyCode === 38) { // Select next tab to the left
         index = this.getPrevTab(index);
         preventDefault = true;
-      }
-      // Select next tab to the right
-      /* eslint brace-style:0 */
-      else if (e.keyCode === 39 || e.keyCode === 40) {
+      } else if (e.keyCode === 39 || e.keyCode === 40) { // Select next tab to the right
         index = this.getNextTab(index);
         preventDefault = true;
       }
@@ -313,7 +309,7 @@ module.exports = React.createClass({
     if ((node.nodeName === 'LI' && node.getAttribute('role') === 'tab') === false) {
       return false;
     }
-    
+
     let nodeAncestor = node.parentElement;
     let lastAncestor = node;
     do {
@@ -323,7 +319,7 @@ module.exports = React.createClass({
       lastAncestor = nodeAncestor;
       nodeAncestor = nodeAncestor.parentElement;
     } while (lastAncestor.getAttribute('role') !== 'tabs');
-    
+
     return false;
   },
 
