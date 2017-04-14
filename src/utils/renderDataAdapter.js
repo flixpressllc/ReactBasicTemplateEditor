@@ -235,15 +235,15 @@ function getReactStartingData () {
 }
 
 function orderObjectToXml (object) {
-  const FIND_ORDER_REQ_TAG = /<(OrderReq[A-z]+)>/;
+  const FIND_ORDER_REQ_TAG = /<(OrderReq[A-z]+)[^>]*>/;
   const firstString = '<?xml version="1.0" encoding="utf-16"?>\n'
   const typeDeclaration = 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"';
 
   let xmlString = objectToXml(object);
   xmlString = xmlString.replace(FIND_ORDER_REQ_TAG, (match, capture) => {
+    debugger;
     return `<${capture} ${typeDeclaration}>`;
   })
-
   return firstString + xmlString;
 }
 
