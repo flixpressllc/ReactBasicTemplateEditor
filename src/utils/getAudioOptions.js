@@ -86,20 +86,14 @@ function getCategoriesAndSongsForUser (username) {
 export default function getAudioOptions (username) {
   var everythingIsReady = $.Deferred();
 
-  var haveAllCats = $.Deferred();
-  var haveAllCustom = $.Deferred();
-
-  getCategoriesAndSongsForUser(username).then(catsObj => {
-    haveAllCats.resolve(catsObj)
-  })
-
-  getCustomSongsForUser(username).then(songs => {
-    haveAllCustom.resolve(songs);
-  })
-
-  $.when(haveAllCats, haveAllCustom).then((categories, customAudio) => {
+  Promise.all([
+    getCategoriesAndSongsForUser(username),
+    getCustomSongsForUser(username)
+  ])
+  .then(([categories, customAudio]) => {
     everythingIsReady.resolve({categories, customAudio});
-  });
+  })
+  .catch(err => everythingIsReady.reject(err));
 
   return everythingIsReady;
 }
