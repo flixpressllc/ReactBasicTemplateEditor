@@ -1,3 +1,6 @@
+### 2.2.4
+* fixes issue where one custom audio wouldn't appear
+
 ### 2.2.3
 * fixes issue where custom audio wouldn't know it was playing
 * Adds browser compatibility check to eslint
