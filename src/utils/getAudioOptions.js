@@ -14,7 +14,28 @@ function whenAll(arrayOfPromises) {
   });
 }
 
-function getCatSongs(categoryId, username) {
+function createCategoriesObjForUser (categories, username) {
+  return new Promise((res,rej) => {
+    var getAllCats = [];
+    var categoriesObj = {};
+
+    $.each(categories, function(arrPos, category){
+      var catSongs = getSongsFromCategoryForUser(category.Id, username)
+      catSongs.then(function(songs){
+        categoriesObj[category.Name] = {};
+        categoriesObj[category.Name].id = category.Id;
+        categoriesObj[category.Name].songs = songs;
+      });
+      getAllCats.push(catSongs);
+    });
+
+    Promise.all(getAllCats).then(function(){
+      res(categoriesObj);
+    }).catch(err => rej(err));
+  });
+}
+
+function getSongsFromCategoryForUser(categoryId, username) {
   return new Promise((res, rej) => {
     $.ajax({
       url: AUDIO_URL,
@@ -39,39 +60,28 @@ function getCustomSongsForUser (username) {
       var songs = nativeXmlToObject(result).ResultSetOfCustomAudio.Records.CustomAudio;
       songs = songs === undefined ? [] : songs;
       res(songs);
-    }).fail(function (err) { rej(err) });
+    }).fail(err => rej(err));
   });
 }
 
-function getCategoriesAndSongsForUser (username) {
+function getCategoriesForUser (username) {
   return new Promise((res, rej) => {
     $.ajax({
       url: CATEGORY_URL,
       dataType: 'xml',
       type: 'GET'
     }).done(function(result){
-      var getAllCats = [];
-      var categoriesObj = {};
-      var categories = nativeXmlToObject(result).ArrayOfCategory.Category.SubCategories.Category;
+      res(nativeXmlToObject(result).ArrayOfCategory.Category.SubCategories.Category);
+    }).fail(err => rej(err));
+  });
+}
 
-      $.each(categories, function(arrPos, category){
-        var catSongs = getCatSongs(category.Id, username)
-        getAllCats.push(catSongs);
-        catSongs.then(function(songs){
-          categoriesObj[category.Name] = {};
-          categoriesObj[category.Name].id = category.Id;
-          categoriesObj[category.Name].songs = songs;
-        });
-      });
-
-      Promise.all(getAllCats).then(function(){
-        res(categoriesObj);
-      }).catch(function (err) {
-        rej(err);
-      })
-    }).fail(function (err) {
-      rej(err);
-    });
+function getCategoriesAndSongsForUser (username) {
+  return new Promise((res, rej) => {
+    getCategoriesForUser(username)
+    .then(categories => createCategoriesObjForUser(categories, username))
+    .then(categoriesObj => res(categoriesObj))
+    .catch(err => rej(err));
   });
 }
 
