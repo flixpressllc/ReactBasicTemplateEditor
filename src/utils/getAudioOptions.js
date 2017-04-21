@@ -89,7 +89,7 @@ export default function getAudioOptions (username) {
   var haveAllCats = $.Deferred();
   var haveAllCustom = $.Deferred();
 
-  getCategoriesAndSongsForUser(username).done(catsObj => {
+  getCategoriesAndSongsForUser(username).then(catsObj => {
     haveAllCats.resolve(catsObj)
   })
 
