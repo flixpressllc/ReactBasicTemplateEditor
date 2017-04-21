@@ -62,7 +62,7 @@ function getCustomSongsForUser (username) {
   });
 }
 
-function getCategoriesForUser (username) {
+function getAllAvailableCategories () {
   return new Promise((res, rej) => {
     $.ajax({
       url: CATEGORY_URL,
@@ -76,7 +76,7 @@ function getCategoriesForUser (username) {
 
 function getCategoriesAndSongsForUser (username) {
   return new Promise((res, rej) => {
-    getCategoriesForUser(username)
+    getAllAvailableCategories()
     .then(categories => createCategoriesObjForUser(categories, username))
     .then(categoriesObj => res(categoriesObj))
     .catch(err => rej(err));
