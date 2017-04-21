@@ -34,7 +34,7 @@ function getSongsFromCategoryForUser(categoryId, username) {
       data: {username: username, categoryId: categoryId, page:1, pageSize: 1000},
       dataType: 'xml',
       type: 'GET'
-    }).done(function (result) {
+    }).done(result => {
       let songs = nativeXmlToObject(result).ResultSetOfAudio.Records.Audio;
       res(songs);
     }).fail(err => rej(err));
