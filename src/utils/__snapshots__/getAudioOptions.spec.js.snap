@@ -1,4 +1,4 @@
-exports[`getAutioOptions yields the expected data in done 1`] = `
+exports[`getAudioOptions yields the expected data in done 1`] = `
 Object {
   "categories": Object {
     "Classical": Object {

@@ -8,13 +8,13 @@ const CATEGORY_URL = 'https://ws.flixpress.com/AudioWebService.asmx/GetCategoryT
 const CUSTOM_URL = 'https://ws.flixpress.com/CustomAudioWebService.asmx/GetCustomAudio';
 const AUDIO_URL = 'https://ws.flixpress.com/AudioWebService.asmx/GetAudio';
 
-function createCategoriesObjForUser (categories, username) {
+export function _createCategoriesObjForUser (categories, username) {
   return new Promise((res,rej) => {
     var categoriesObj = {};
 
     Promise.all(
       categories.map(category => {
-        return getSongsFromCategoryForUser(category.Id, username)
+        return _getSongsFromCategoryForUser(category.Id, username)
         .then(songs => {
           categoriesObj[category.Name] = {};
           categoriesObj[category.Name].id = category.Id;
@@ -27,7 +27,7 @@ function createCategoriesObjForUser (categories, username) {
   }).catch(err => {throw err});
 }
 
-function getSongsFromCategoryForUser(categoryId, username) {
+export function _getSongsFromCategoryForUser(categoryId, username) {
   return new Promise((res, rej) => {
     $.ajax({
       url: AUDIO_URL,
@@ -41,7 +41,7 @@ function getSongsFromCategoryForUser(categoryId, username) {
   }).catch(err => {throw err});
 }
 
-function getCustomSongsForUser (username) {
+export function _getCustomSongsForUser (username) {
   return new Promise((res, rej) => {
     $.ajax({
       url: CUSTOM_URL,
@@ -56,7 +56,7 @@ function getCustomSongsForUser (username) {
   }).catch(err => {throw err});
 }
 
-function getAllAvailableCategories () {
+export function _getAllAvailableCategories () {
   return new Promise((res, rej) => {
     $.ajax({
       url: CATEGORY_URL,
@@ -68,10 +68,10 @@ function getAllAvailableCategories () {
   }).catch(err => {throw err});
 }
 
-function getCategoriesAndSongsForUser (username) {
+export function _getCategoriesAndSongsForUser (username) {
   return new Promise((res, rej) => {
-    getAllAvailableCategories()
-    .then(categories => createCategoriesObjForUser(categories, username))
+    _getAllAvailableCategories()
+    .then(categories => _createCategoriesObjForUser(categories, username))
     .then(categoriesObj => res(categoriesObj))
     .catch(err => rej(err));
   }).catch(err => {throw err});
@@ -81,8 +81,8 @@ export default function getAudioOptions (username) {
   var everythingIsReady = $.Deferred();
 
   Promise.all([
-    getCategoriesAndSongsForUser(username),
-    getCustomSongsForUser(username)
+    _getCategoriesAndSongsForUser(username),
+    _getCustomSongsForUser(username)
   ])
   .then(([categories, customAudio]) => {
     everythingIsReady.resolve({categories, customAudio});

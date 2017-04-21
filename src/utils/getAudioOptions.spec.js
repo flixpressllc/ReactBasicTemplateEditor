@@ -1,15 +1,16 @@
-import getAudioOptions from './getAudioOptions';
+import getAudioOptions, {_getCustomSongsForUser} from './getAudioOptions';
 
 global.window.$ = require('jquery');
 
-describe('getAutioOptions', () => {
-  describe('custom audio', () => {
-    it('returns an empty array if custom audio is unavailable', () => {
-      pending();
-      getAudioOptions.getAudioOptions('DonDenton');
+describe('_getCustomSongsForUser', () => {
+  it('returns an empty array if custom audio is unavailable', () => {
+    return _getCustomSongsForUser('devolved40').then(result => {
+      expect(result).toEqual([])
     });
   });
+});
 
+describe('getAudioOptions', () => {
   it('returns a promise that responds to done', () => {
     const done = getAudioOptions('bowdo').done
     expect(done).not.toEqual(undefined);
