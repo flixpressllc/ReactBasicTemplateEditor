@@ -1,4 +1,5 @@
 import {nativeXmlToObject} from './xmlAdapter';
+import { forceArray } from 'happy-helpers';
 
 // https://ws.flixpress.com/AudioWebService.asmx/GetAudio?categoryId=2&page=1&pageSize=100&username=bowdo
 
@@ -36,7 +37,7 @@ export function _getSongsFromCategoryForUser(categoryId, username) {
       type: 'GET'
     }).done(result => {
       let songs = nativeXmlToObject(result).ResultSetOfAudio.Records.Audio;
-      res(songs);
+      res(forceArray(songs));
     }).fail(err => rej(err));
   }).catch(err => {throw err});
 }
@@ -50,8 +51,7 @@ export function _getCustomSongsForUser (username) {
       data: {username: username, page:1, pageSize: 1000}
     }).done(result => {
       var songs = nativeXmlToObject(result).ResultSetOfCustomAudio.Records.CustomAudio;
-      songs = songs === undefined ? [] : songs;
-      res(songs);
+      res(forceArray(songs));
     }).fail(err => rej(err));
   }).catch(err => {throw err});
 }

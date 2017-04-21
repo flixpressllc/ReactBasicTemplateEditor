@@ -1,4 +1,5 @@
 import getAudioOptions, {_getCustomSongsForUser} from './getAudioOptions';
+import { toType } from 'happy-helpers';
 
 global.window.$ = require('jquery');
 
@@ -6,6 +7,13 @@ describe('_getCustomSongsForUser', () => {
   it('returns an empty array if custom audio is unavailable', () => {
     return _getCustomSongsForUser('devolved40').then(result => {
       expect(result).toEqual([])
+    });
+  });
+
+  it('returns an array if 1 result', () => {
+    return _getCustomSongsForUser('DonDentonAdmin').then(result => {
+      expect(toType(result)).toEqual('array')
+      expect(result.length).toEqual(1)
     });
   });
 });
