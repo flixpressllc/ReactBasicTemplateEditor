@@ -19,12 +19,12 @@ function createCategoriesObjForUser (categories, username) {
           categoriesObj[category.Name] = {};
           categoriesObj[category.Name].id = category.Id;
           categoriesObj[category.Name].songs = songs;
-        });
+        }).catch(err => rej(err));
       })
     ).then(() => {
       res(categoriesObj);
     }).catch(err => rej(err));
-  });
+  }).catch(err => {throw err});
 }
 
 function getSongsFromCategoryForUser(categoryId, username) {
@@ -38,7 +38,7 @@ function getSongsFromCategoryForUser(categoryId, username) {
       let songs = nativeXmlToObject(result).ResultSetOfAudio.Records.Audio;
       res(songs);
     }).fail(err => rej(err));
-  });
+  }).catch(err => {throw err});
 }
 
 function getCustomSongsForUser (username) {
@@ -53,7 +53,7 @@ function getCustomSongsForUser (username) {
       songs = songs === undefined ? [] : songs;
       res(songs);
     }).fail(err => rej(err));
-  });
+  }).catch(err => {throw err});
 }
 
 function getAllAvailableCategories () {
@@ -65,7 +65,7 @@ function getAllAvailableCategories () {
     }).done(result => {
       res(nativeXmlToObject(result).ArrayOfCategory.Category.SubCategories.Category);
     }).fail(err => rej(err));
-  });
+  }).catch(err => {throw err});
 }
 
 function getCategoriesAndSongsForUser (username) {
@@ -74,7 +74,7 @@ function getCategoriesAndSongsForUser (username) {
     .then(categories => createCategoriesObjForUser(categories, username))
     .then(categoriesObj => res(categoriesObj))
     .catch(err => rej(err));
-  });
+  }).catch(err => {throw err});
 }
 
 export default function getAudioOptions (username) {
