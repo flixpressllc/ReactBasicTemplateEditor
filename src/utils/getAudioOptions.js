@@ -8,12 +8,6 @@ const CATEGORY_URL = 'https://ws.flixpress.com/AudioWebService.asmx/GetCategoryT
 const CUSTOM_URL = 'https://ws.flixpress.com/CustomAudioWebService.asmx/GetCustomAudio';
 const AUDIO_URL = 'https://ws.flixpress.com/AudioWebService.asmx/GetAudio';
 
-function whenAll(arrayOfPromises) {
-  return $.when.apply($, arrayOfPromises).then(() => {
-    return Array.prototype.slice.call(arguments, 0);
-  });
-}
-
 function createCategoriesObjForUser (categories, username) {
   return new Promise((res,rej) => {
     var categoriesObj = {};
