@@ -9,27 +9,25 @@ const CUSTOM_URL = 'https://ws.flixpress.com/CustomAudioWebService.asmx/GetCusto
 const AUDIO_URL = 'https://ws.flixpress.com/AudioWebService.asmx/GetAudio';
 
 function whenAll(arrayOfPromises) {
-  return $.when.apply($, arrayOfPromises).then(function() {
+  return $.when.apply($, arrayOfPromises).then(() => {
     return Array.prototype.slice.call(arguments, 0);
   });
 }
 
 function createCategoriesObjForUser (categories, username) {
   return new Promise((res,rej) => {
-    var getAllCats = [];
     var categoriesObj = {};
 
-    $.each(categories, function(arrPos, category){
-      var catSongs = getSongsFromCategoryForUser(category.Id, username)
-      catSongs.then(function(songs){
-        categoriesObj[category.Name] = {};
-        categoriesObj[category.Name].id = category.Id;
-        categoriesObj[category.Name].songs = songs;
-      });
-      getAllCats.push(catSongs);
-    });
-
-    Promise.all(getAllCats).then(function(){
+    Promise.all(
+      categories.map(category => {
+        return getSongsFromCategoryForUser(category.Id, username)
+        .then(songs => {
+          categoriesObj[category.Name] = {};
+          categoriesObj[category.Name].id = category.Id;
+          categoriesObj[category.Name].songs = songs;
+        });
+      })
+    ).then(() => {
       res(categoriesObj);
     }).catch(err => rej(err));
   });
@@ -56,7 +54,7 @@ function getCustomSongsForUser (username) {
       dataType: 'xml',
       type: 'GET',
       data: {username: username, page:1, pageSize: 1000}
-    }).done(function (result) {
+    }).done(result => {
       var songs = nativeXmlToObject(result).ResultSetOfCustomAudio.Records.CustomAudio;
       songs = songs === undefined ? [] : songs;
       res(songs);
@@ -70,7 +68,7 @@ function getCategoriesForUser (username) {
       url: CATEGORY_URL,
       dataType: 'xml',
       type: 'GET'
-    }).done(function(result){
+    }).done(result => {
       res(nativeXmlToObject(result).ArrayOfCategory.Category.SubCategories.Category);
     }).fail(err => rej(err));
   });
@@ -99,7 +97,7 @@ export default function getAudioOptions (username) {
     haveAllCustom.resolve(songs);
   })
 
-  $.when(haveAllCats, haveAllCustom).then(function (categories, customAudio) {
+  $.when(haveAllCats, haveAllCustom).then((categories, customAudio) => {
     everythingIsReady.resolve({categories, customAudio});
   });
 
