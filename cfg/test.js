@@ -5,25 +5,14 @@ let srcPath = path.join(__dirname, '/../src/');
 
 let baseConfig = require('./common/base');
 
-// Add needed plugins here
-let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
   devtool: 'eval',
   module: {
-    // preLoaders: [
-    //   {
-    //     test: /\.(js|jsx)$/,
-    //     loader: 'isparta-loader',
-    //     include: [
-    //       path.join(__dirname, '/../src')
-    //     ]
-    //   }
-    // ],
-    loaders: [
+    rules: [
       {
         test: /\.(png|jpg|gif|woff|woff2|css|sass|scss|less|styl|json)$/,
-        loader: 'null-loader'
+        use: ['null-loader']
       },
       {
         test: /\.(js|jsx)$/,
@@ -51,8 +40,5 @@ module.exports = {
     }
   },
   plugins: [
-    new BowerWebpackPlugin({
-      searchResolveModulesDirectories: false
-    })
   ]
 };

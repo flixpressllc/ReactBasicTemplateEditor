@@ -13,13 +13,13 @@ const host = '0.0.0.0';
 config.devServer.hot = false;
 
 new WebpackDevServer(webpack(config), config.devServer)
-.listen(config.port, host, (err) => {
+.listen(8000, host, (err) => {
   if (err) {
     console.log(err);
   }
   var domain = host === '0.0.0.0' ? 'localhost' : host;
-  var href = 'http://' + domain + ':' + config.port + '/webpack-dev-server/';
-  console.log('Listening at ' + host + ':' + config.port);
+  var href = 'http://' + domain + ':' + 8000 + '/webpack-dev-server/';
+  console.log('Listening at ' + host + ':' + 8000);
   if (args.openWith === undefined) {
     console.log('Opening your system browser...');
     open(href);
