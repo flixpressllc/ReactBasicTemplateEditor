@@ -14,7 +14,7 @@ module.exports = {
     contentBase: ['./src/', './node_modules/'],
     historyApiFallback: true,
     hot: true,
-    port: 8000,
+    port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false,
     proxy: [

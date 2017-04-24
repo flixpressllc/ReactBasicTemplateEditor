@@ -55,6 +55,7 @@ function getDefaultModules() {
 }
 module.exports = {
   srcPath: srcPath,
+  port: 8000,
   publicPath: '/',
   getDefaultModules: getDefaultModules,
   postcss: function () {
