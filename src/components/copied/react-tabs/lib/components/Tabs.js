@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import cx from 'classnames';
 import jss from 'js-stylesheet';
 import uuid from '../helpers/uuid';
-import childrenPropType from '../helpers/childrenPropType';
+import {childrenPropType} from '../helpers/childrenPropType';
 
 // Determine if a tab node is disabled
 function isTabDisabled(node) {
@@ -12,7 +12,7 @@ function isTabDisabled(node) {
 
 let useDefaultStyles = true;
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Tabs',
 
   propTypes: {
