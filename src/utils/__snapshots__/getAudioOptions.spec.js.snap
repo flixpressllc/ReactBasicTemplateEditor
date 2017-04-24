@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`getAudioOptions yields the expected data in done 1`] = `
 Object {
   "categories": Object {

@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`ImageContainer captions: filter options maxCharacters allows only first n characters when set to n > 1 1`] = `[Function]`;
 
 exports[`ImageContainer captions: filter options maxCharacters allows only last character typed if set to 1 1`] = `[Function]`;
