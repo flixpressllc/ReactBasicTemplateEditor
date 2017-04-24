@@ -4,8 +4,7 @@ let webpack = require('webpack');
 
 module.exports = {
   devPlugins: [
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.optimize.AggressiveMergingPlugin()
   ],
 
   prodPlugins: [
