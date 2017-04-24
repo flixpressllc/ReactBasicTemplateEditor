@@ -5,7 +5,7 @@ global.window.$ = require('jquery');
 
 describe('_getCustomSongsForUser', () => {
   it('returns an empty array if custom audio is unavailable', () => {
-    return _getCustomSongsForUser('devolved40').then(result => {
+    return _getCustomSongsForUser('mine').then(result => {
       expect(result).toEqual([])
     });
   });
