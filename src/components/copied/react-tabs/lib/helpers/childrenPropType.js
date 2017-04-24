@@ -2,7 +2,7 @@ import React from 'react';
 import Tab from '../components/Tab';
 import TabList from '../components/TabList';
 
-module.exports = function childrenPropTypes(props, propName) {
+export function childrenPropType(props, propName) {
   let error;
   let tabsCount = 0;
   let panelsCount = 0;
@@ -48,4 +48,4 @@ module.exports = function childrenPropTypes(props, propName) {
   }
 
   return error;
-};
+}

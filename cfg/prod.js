@@ -3,7 +3,7 @@
 let buildConfig = require('./common/build');
 
 let config = Object.assign({}, buildConfig, {
-  plugins: require('./common/plugins').prodPlugins,
+  plugins: require('./common/plugins').prodPlugins
 });
 
 config.output.filename = '[name].js';

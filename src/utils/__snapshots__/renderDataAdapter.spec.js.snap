@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`DataAdapter getReactStartingData returns the expected object for a new Images template 1`] = `
 Array [
   Object {
@@ -150,14 +152,14 @@ Array [
       },
       Object {
         "captions": Array [
-          "The previous one wasn\'t captioned.",
+          "The previous one wasn't captioned.",
         ],
         "file": "DonDentonAdmin_1-30-2017_115152252.jpg",
         "id": 3,
       },
       Object {
         "captions": Array [
-          "This is the last caption I\'ll write.",
+          "This is the last caption I'll write.",
         ],
         "file": "DonDentonAdmin_1-30-2017_115154361.jpg",
         "id": 4,

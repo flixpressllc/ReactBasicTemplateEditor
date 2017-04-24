@@ -1,7 +1,6 @@
 'use strict';
 
 let path = require('path');
-let webpack = require('webpack');
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 let pathFinder = require('./pathFinder');
@@ -16,13 +15,10 @@ let config = Object.assign({}, baseConfig, {
 });
 
 // Add needed loaders to the defaults here
-config.module.loaders.push({
+config.module.rules.push({
   test: /\.(js|jsx)$/,
-  loader: 'babel',
-  include: [].concat(
-    config.additionalPaths,
-    [ path.join(__dirname, '/../../src') ]
-  )
+  loader: 'babel-loader',
+  include: path.join(__dirname, '/../../src')
 });
 
 config.output.path = pathFinder(config.output.path, process.cwd());

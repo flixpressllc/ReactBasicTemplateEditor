@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'TabPanel',
 
   propTypes: {

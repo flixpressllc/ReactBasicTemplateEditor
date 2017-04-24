@@ -15,7 +15,7 @@ function syncNodeAttributes(node, props) {
   }
 }
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Tab',
 
   propTypes: {
