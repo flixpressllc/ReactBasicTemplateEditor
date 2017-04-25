@@ -34,41 +34,43 @@ registerDataType(DATA_TYPE_NAME, {
   toDataObject: youTubeRenderStringToData
 });
 
-const YouTubeLink = React.createClass({
-  handleTextEdit: function(e){
+class YouTubeLink extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      linkIsValid: false,
+      linkWasChecked: false
+    };
+
+    this.handleTextEdit = this.handleTextEdit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleRemoveMarker = this.handleRemoveMarker.bind(this);
+  }
+
+  handleTextEdit (e){
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {value: e.target.value}
     );
-  },
+  }
 
-  handleFocus: function () {
+  handleFocus () {
     this.props.onTextFieldFocus(this.props.fieldName);
-  },
+  }
 
-  getInitialState: function () {
-    return {
-      linkIsValid: false,
-      linkWasChecked: false
-    };
-  },
-
-  getDefaultProps: function () {
-    return {userText: ''};
-  },
-
-  isYoutubeUrl: function (string) {
+  isYoutubeUrl (string) {
     const YOUTUBE_URL_MATCHER = /youtube\.com|youtu\.be/i;
     return !!string.match(YOUTUBE_URL_MATCHER);
-  },
+  }
 
-  isPossibleVideoId: function (string) {
+  isPossibleVideoId (string) {
     const POSSIBLE_VIDEO_ID = /[^#?&]+$/;
     return !!string.match(POSSIBLE_VIDEO_ID);
-  },
+  }
 
-  findVideoDataFromUrl: function (fullUserInput) {
+  findVideoDataFromUrl (fullUserInput) {
     // https://regex101.com/r/UGDLRS/3
     const YOUTUBE_ID_AND_TIME_MATCHER = /.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*?(?:[?&]t=([^#&?]*))?.*/;
     let result = fullUserInput.match(YOUTUBE_ID_AND_TIME_MATCHER);
@@ -76,35 +78,35 @@ const YouTubeLink = React.createClass({
       id: result[1],
       time: result[2]
     };
-  },
+  }
 
-  reportValidVideoData: function () {
+  reportValidVideoData () {
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {videoId: this.state.videoId, title: this.state.title}
     );
-  },
+  }
 
-  setInvalidWithError: function (e) {
+  setInvalidWithError (e) {
     this.setInvalid();
     throw e;
-  },
+  }
 
-  setInvalid: function () {
+  setInvalid () {
     this.setState({
       linkIsValid: false,
       linkWasChecked: true,
       isCheckingValidity: false
     })
-  },
+  }
 
-  setValidWithError: function (e, videoId, title) {
+  setValidWithError (e, videoId, title) {
     this.setValid(videoId, title);
     throw e;
-  },
+  }
 
-  setValid: function (videoId, title) {
+  setValid (videoId, title) {
     this.setState({
       linkIsValid: true,
       linkWasChecked: true,
@@ -112,9 +114,9 @@ const YouTubeLink = React.createClass({
       videoId: videoId,
       title: title
     }, this.reportValidVideoData);
-  },
+  }
 
-  validate: function () { return new Promise((resolve) => {
+  validate () { return new Promise((resolve) => {
     let userText = this.props.userText;
     let id, url;
 
@@ -142,9 +144,9 @@ const YouTubeLink = React.createClass({
     .catch(errorFromCheckYouTube => {
       this.setValidWithError(errorFromCheckYouTube);
     });
-  })},
+  })}
 
-  checkYouTubeForValidity: function (videoId) {return new Promise((resolve) => {
+  checkYouTubeForValidity (videoId) {return new Promise((resolve) => {
     this.setState({isCheckingValidity: true});
 
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
@@ -164,27 +166,27 @@ const YouTubeLink = React.createClass({
         this.setValidWithError(new Error('YouTube returned an error on an id check'), videoId);
       });
 
-  })},
+  })}
 
-  componentWillReceiveProps: function (newProps) {
+  componentWillReceiveProps (newProps) {
     if (newProps.userText !== this.props.userText) {
       this.setState({linkWasChecked: false});
     }
-  },
+  }
 
-  handleBlur: function () {
+  handleBlur () {
     if (!this.state.linkWasChecked || !this.state.linkIsValid) this.validate();
-  },
+  }
 
-  removeMarker: function () {
+  handleRemoveMarker () {
     this.setState({linkWasChecked:false}, () => {
       if (this.inputReference) {
         this.inputReference.focus();
       }
     });
-  },
+  }
 
-  render: function(){
+  render () {
     var isInvalid = !this.state.linkIsValid && this.state.linkWasChecked;
     var isValid = this.state.linkIsValid && this.state.linkWasChecked;
 
@@ -192,7 +194,7 @@ const YouTubeLink = React.createClass({
       <div className='reactBasicTemplateEditor-YouTubeLink-marker'>
         {this.state.title}
         <button className='reactBasicTemplateEditor-YouTubeLink-markerButton'
-          type='button' onClick={ this.removeMarker }> Edit </button>
+          type='button' onClick={ this.handleRemoveMarker }> Edit </button>
       </div>
     ) : (
       <input
@@ -216,6 +218,8 @@ const YouTubeLink = React.createClass({
       </div>
     )
   }
-});
+}
+
+YouTubeLink.defaultProps = { userText: '' };
 
 export default YouTubeLink;
