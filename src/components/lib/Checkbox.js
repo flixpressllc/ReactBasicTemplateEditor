@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 import cx from 'classnames';
 
 const CheckBox = (props) => {
@@ -13,10 +14,10 @@ const CheckBox = (props) => {
 };
 
 CheckBox.propTypes = {
-  onChange: React.PropTypes.func,
-  disabled: React.PropTypes.bool,
-  checked: React.PropTypes.bool,
-  className: React.PropTypes.string
+  onChange: PT.func,
+  disabled: PT.bool,
+  checked: PT.bool,
+  className: PT.string
 };
 
 export default CheckBox
