@@ -9,34 +9,37 @@ import RenderDataStore from '../stores/RenderDataStore';
 
 const URL_PARTIAL = '/templates/images/';
 
-export default React.createClass({
-  displayName: 'PreviewImage',
-  getInitialState: function () {
+export default class PreviewImage extends React.Component {
+  constructor (props) {
+    super(props);
     let image = '';
-    if (this.props.type && this.props.name){
-      image = this.getPreviewImage(this.props.type, this.props.name);
+    if (props.type && props.name){
+      image = this.getPreviewImage(props.type, props.name);
     }
-    return {
+    this.state = {
       image: image,
       style: {backgroundSize: 'contain', backgroundImage: image},
       modalIsOpen: false,
       missing: false
     };
-  },
 
-  isLargeSize: function () {
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
+
+  isLargeSize () {
     return mediaWidth() >= 670;
-  },
+  }
 
-  checkWidth: function () {
+  checkWidth () {
     if (this.isLargeSize()) {
       this.setState({largeSize: true});
     } else {
       this.setState({largeSize: false});
     }
-  },
+  }
 
-  setMissingViaResponse: function (res) {
+  setMissingViaResponse (res) {
     let isMissing = true;
     let fileIsImage = res.getResponseHeader('Content-Type').indexOf('image') !== -1;
     if (res.status === 200 && fileIsImage) {
@@ -45,9 +48,9 @@ export default React.createClass({
     this.setState({
       missing: isMissing
     });
-  },
+  }
 
-  getPreviewImage: function (type, identifier) {
+  getPreviewImage (type, identifier) {
     const containers = RenderDataStore.getAll();
     if (isEmpty(containers)) return '';
     if (type === 'TextField') {
@@ -76,9 +79,9 @@ export default React.createClass({
     }
 
     return this.state.image;
-  },
+  }
 
-  setImage: function (newImage) {
+  setImage (newImage) {
     if (newImage != this.state.image && newImage !== '') {
       if (this.currentCheck) this.currentCheck.abort();
       var style = clone(this.state.style);
@@ -96,39 +99,39 @@ export default React.createClass({
       .then( res => this.setMissingViaResponse(res) )
       .catch( () => this.setState({isMissing: true}) );
     }
-  },
+  }
 
-  componentWillReceiveProps: function(newProps) {
+  componentWillReceiveProps (newProps) {
     let image = this.getPreviewImage(newProps.type, newProps.name)
     if (this.state.image !== image) {
       this.setImage(image);
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount () {
     if (window) {
       window.addEventListener('resize', this.checkWidth);
     }
     this.checkWidth();
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount () {
     if (window) {
       window.removeEventListener('resize', this.checkWidth);
     }
-  },
+  }
 
-  openModal: function () {
+  handleOpenModal () {
     if (this.state.missing || this.state.largeSize) return;
     this.setState({modalIsOpen: true})
-  },
+  }
 
-  closeModal: function () {
+  handleCloseModal () {
     this.setState({modalIsOpen: false})
-  },
+  }
 
 
-  render: function(){
+  render () {
     var message = 'click to enlarge';
     if (this.state.largeSize) {
       message = '';
@@ -148,13 +151,12 @@ export default React.createClass({
       <div className="reactBasicTemplateEditor-PreviewImage">
         <div className={ mainImageClasses }
           style={m({cursor: 'default'},this.state.style)}
-          onClick={this.openModal}>
+          onClick={this.handleOpenModal}>
           <span className="reactBasicTemplateEditor-PreviewImage-mainImageMessage">
             {message}
           </span>
         </div>
         <Modal
-          ref="modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           contentLabel="Preview Image Modal">
@@ -166,7 +168,7 @@ export default React.createClass({
           <button
             className="reactBasicTemplateEditor-PreviewImage-modalCloseButton"
             type="button"
-            onClick={this.closeModal}>
+            onClick={this.handleCloseModal}>
             Close
           </button>
 
@@ -177,4 +179,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
