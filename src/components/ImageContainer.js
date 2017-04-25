@@ -49,21 +49,30 @@ const DragHandle = SortableHandle(() => {
     </div>);
 });
 
-const ListImage = SortableElement( React.createClass({
-  handleChange: function (val, index) {
+const SortableUserImage = SortableElement( class UserImage extends React.Component {
+  constructor (props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeImage = this.handleChangeImage.bind(this);
+    this.handleRemoveImage = this.handleRemoveImage.bind(this);
+  }
+  handleChange (val, index) {
     this.props.onCaptionChange({
       imageId: this.props.item.id,
       captionIndex: index,
       newValue: val
     });
-  },
-  handleChangeImage: function () {
+  }
+
+  handleChangeImage () {
     this.props.onChangeImage(this.props.item.id);
-  },
-  handleRemoveImage: function () {
+  }
+
+  handleRemoveImage () {
     this.props.onRemoveImage(this.props.item.id);
-  },
-  renderCaptions: function () {
+  }
+
+  renderCaptions () {
     if (this.props.captionsSettings === undefined || this.props.item.captions === undefined) {
       return null;
     }
@@ -83,9 +92,9 @@ const ListImage = SortableElement( React.createClass({
       );
     });
     return captions;
-  },
+  }
 
-  renderButtons: function () {
+  renderButtons () {
     let swapButton, removeButton;
     if (toType(this.props.onChangeImage) !== 'function') {
       swapButton = null;
@@ -118,9 +127,9 @@ const ListImage = SortableElement( React.createClass({
     } else {
       return null;
     }
-  },
+  }
 
-  render: function () {
+  render () {
     const captions = this.renderCaptions();
     const buttons = this.renderButtons();
     return (
@@ -136,74 +145,78 @@ const ListImage = SortableElement( React.createClass({
       </div>
     );
   }
-}) );
-
-const SortableList = SortableContainer( React.createClass({
-  render: function () {
-    return (
-      <div>
-        {this.props.items.map((value, index) =>
-          <ListImage
-            key={`item-${index}`}
-            captionsSettings={ this.props.captionsSettings }
-            onCaptionChange={ this.props.onCaptionChange }
-            index={index}
-            onChangeImage={ this.props.onChangeImage }
-            onRemoveImage={ this.props.onRemoveImage }
-            item={value} />
-        )}
-      </div>
-    );
-  }
-}), {transitionDuration: 0} );
-
-const ImageSelection = React.createClass({
-  render: function () {
-    let imageList = this.props.imageBank.map((image, i) => {
-      return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { this.props.onChooseImage(image) }}/>;
-    });
-    return (
-      <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
-        <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">Select a new image</p>
-        { imageList }
-      </div>
-    );
-  }
 });
 
-const ImageContainer = React.createClass({
-  componentWillMount: function () {
-  },
+const SortableListOfImages = SortableContainer( function ListOfImages (props) {
+  return (
+    <div>
+      {props.items.map((value, index) =>
+        <SortableUserImage
+          key={`item-${index}`}
+          captionsSettings={ props.captionsSettings }
+          onCaptionChange={ props.onCaptionChange }
+          index={index}
+          onChangeImage={ props.onChangeImage }
+          onRemoveImage={ props.onRemoveImage }
+          item={value} />
+      )}
+    </div>
+  );
+}, {transitionDuration: 0} );
 
-  getImagesStateFromImages: function (images) {
+const ImageSelection = (props) => {
+  let imageList = props.imageBank.map((image, i) => {
+    return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { props.onChooseImage(image) }}/>;
+  });
+  return (
+    <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
+      <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">Select a new image</p>
+      { imageList }
+    </div>
+  );
+};
+
+class ImageContainer extends React.Component {
+  constructor (props) {
+    super(props);
+    let imagesState = this.getImagesStateFromImages(this.props.images);
+    this.state = {modalIsOpen: false, images: imagesState};
+
+    this.handleSortEnd = this.handleSortEnd.bind(this);
+    this.handleSortStart = this.handleSortStart.bind(this);
+    this.handleCaptionChange = this.handleCaptionChange.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleChangeImage = this.handleChangeImage.bind(this);
+    this.handleRemoveImage = this.handleRemoveImage.bind(this);
+    this.handleAddImage = this.handleAddImage.bind(this);
+    this.handleReplaceImage = this.handleReplaceImage.bind(this);
+
+  }
+
+  getImagesStateFromImages (images) {
     images = images || [];
     return images.map((val, i) => {
       val.id = i;
       return val;
     });
-  },
+  }
 
-  getInitialState: function () {
-    let imagesState = this.getImagesStateFromImages(this.props.images);
-    return {modalIsOpen: false, images: imagesState};
-  },
-
-  handleSortEnd: function ({oldIndex, newIndex}) {
+  handleSortEnd ({oldIndex, newIndex}) {
     let newArray = arrayMove(this.props.images, oldIndex, newIndex);
     this.updateImages(newArray);
     enableTextSelectionOnTheWholeBody();
-  },
+  }
 
-  handleSortStart: function () {
+  handleSortStart () {
     disableTextSelectionOnTheWholeBody();
-  },
+  }
 
-  componentWillReceiveProps: function (newProps) {
+  componentWillReceiveProps (newProps) {
     if (newProps.images === this.props.images) return;
     this.setState({images: this.getImagesStateFromImages(newProps.images)});
-  },
+  }
 
-  handleCaptionChange: function (newCaptionObject) {
+  handleCaptionChange (newCaptionObject) {
     let newArray = this.props.images.map(image => {
       if (image.captions === undefined) {
         // be sure there is an array
@@ -215,52 +228,52 @@ const ImageContainer = React.createClass({
       return image;
     });
     this.updateImages(newArray);
-  },
+  }
 
-  updateImages: function (newArrayOfImages) {
+  updateImages (newArrayOfImages) {
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {containedImages: newArrayOfImages}
     );
-  },
+  }
 
-  openModal: function () {
+  openModal () {
     this.setState({modalIsOpen: true})
-  },
+  }
 
-  closeModal: function () {
+  handleCloseModal () {
     this.setState({modalIsOpen: false})
-  },
+  }
 
-  handleChangeImage: function (oldImageId) {
+  handleChangeImage (oldImageId) {
     this.setState({imageIdToReplace: oldImageId}, this.openModal)
-  },
+  }
 
-  handleRemoveImage: function (removeImageId) {
+  handleRemoveImage (removeImageId) {
     let newImageArray = clone(this.state.images).filter(image => {
       if (image.id === removeImageId) return false;
       return true;
     });
 
     this.updateImages(newImageArray);
-  },
+  }
 
-  wipeCaptions: function (imageObj) {
+  wipeCaptions (imageObj) {
     if (imageObj.captions) {
       imageObj.captions = imageObj.captions.map(()=>'');
     }
     return imageObj;
-  },
+  }
 
-  handleAddImage: function () {
+  handleAddImage () {
     let newImageArray = this.state.images.concat(
       this.wipeCaptions(clone(this.state.images[0]))
     )
     this.updateImages(newImageArray);
-  },
+  }
 
-  handleReplaceImage: function (incomingImage) {
+  handleReplaceImage (incomingImage) {
     let outgoingId = this.state.imageIdToReplace;
 
     let newImageArray = clone(this.state.images).map(image => {
@@ -271,35 +284,35 @@ const ImageContainer = React.createClass({
     });
 
     this.updateImages(newImageArray);
-    this.closeModal();
-  },
+    this.handleCloseModal();
+  }
 
-  deriveCaptionsSettings: function (captionsSettingsArr) {
+  deriveCaptionsSettings (captionsSettingsArr) {
     if (toType(captionsSettingsArr) !== 'array') return captionsSettingsArr;
     return captionsSettingsArr.map(val => {
       if (toType(val) === 'string') return {label: val};
       if (toType(val) === 'object') return val;
       throw new Error(`The value passed in to the captionsDirective should be an array containing strings or objects, '${toType(val)}' given.`);
     })
-  },
+  }
 
-  shouldAllowRemove: function () {
+  shouldAllowRemove () {
     let min = TemplateSpecificationsStore.getSpec('minImages');
     return this.state.images.length > min;
-  },
+  }
 
-  shouldAllowAdd: function () {
+  shouldAllowAdd () {
     let max = TemplateSpecificationsStore.getSpec('maxImages');
     return this.state.images.length < max;
-  },
+  }
 
-  renderImageList: function () {
+  renderImageList () {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
     const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
     const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
     return (
-      <SortableList
+      <SortableListOfImages
         items={ images }
         onSortEnd={ this.handleSortEnd }
         captionsSettings={ captionsSettings }
@@ -310,9 +323,9 @@ const ImageContainer = React.createClass({
         onSortStart={ this.handleSortStart }
       />
     );
-  },
+  }
 
-  render: function () {
+  render () {
     if (this.state.images.length === 0) return null;
     const imageList = this.renderImageList();
     const explanation = this.state.images.length > 1 ?
@@ -332,12 +345,12 @@ const ImageContainer = React.createClass({
 
         <Modal
           isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
+          onRequestClose={this.handleCloseModal}
           contentLabel="Choose a replacement image">
 
           <ImageSelection onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
           <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
-            onClick={ this.closeModal } type="button">
+            onClick={ this.handleCloseModal } type="button">
             Cancel
           </button>
         </Modal>
@@ -345,6 +358,6 @@ const ImageContainer = React.createClass({
     );
   }
 
-})
+}
 
 export default ImageContainer;
