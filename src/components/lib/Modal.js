@@ -7,21 +7,18 @@ import './Modal.scss';
 
 ReactModal.setAppElement('#' + CONTAINING_ELEMENT_ID);
 
-const Modal = React.createClass({
-  displayName: 'Modal',
-  getPropOverrides: function () {
-    return {
-      className: cx('reactBasicTemplateEditor-Modal', this.props.className),
-      overlayClassName: this.props.overlayClassName || 'reactBasicTemplateEditor-Modal-overlay'
-    }
-  },
-
-  render: function(){
-    const passAlong = Object.assign({}, this.props, this.getPropOverrides());
-    return(
-      <ReactModal {...passAlong} />
-    )
+function getPropOverrides (props) {
+  return {
+    className: cx('reactBasicTemplateEditor-Modal', props.className),
+    overlayClassName: props.overlayClassName || 'reactBasicTemplateEditor-Modal-overlay'
   }
-});
+}
+
+const Modal = (props) => {
+  const passAlong = Object.assign({}, props, getPropOverrides(props));
+  return(
+    <ReactModal {...passAlong} />
+  )
+}
 
 export default Modal;
