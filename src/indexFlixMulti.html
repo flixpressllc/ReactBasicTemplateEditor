@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>React Webpack Template Title</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="jquery/dist/jquery.js"></script>
+  <script type="text/javascript">
+    // This is just to simulate what the Flixpress server actually does with a url query.
+    var tid = window.location.search.match(/tid=([0-9]+)/i);
+    tid = tid && tid[1] ? tid[1] : 1000;
+  </script>
+</head>
+<body>
+<script src="./indexNavigation.js" charset="utf-8"></script>
+<form><!-- this form also helps simulate the DNN way of putting a form on every page. :-(  -->
+
+  <div id="Editor" style="padding: 0px; margin: 0px;">
+    <style>
+      .LoadingSpinner-spinner {
+        height: 100%;
+        width: 100%;
+        fill: #d61f26;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+          transform-origin: center;
+        }
+        100%{
+          transform: rotate(360deg);
+          transform-origin: center;
+        }
+      }
+
+      .LoadingSpinner-spinnerPartGear {
+        animation: spin 5s linear infinite;
+      }
+
+      .LoadingSpinner-spinnerPartPlayButtonTriangle {
+        fill: #fff;
+      }
+
+      .LoadingSpinner-container {
+        max-width: 200px;
+        margin: 60px auto;
+        text-align: center;
+      }
+    </style>
+    <div class="LoadingSpinner-container">
+      <svg class='LoadingSpinner-spinner' viewBox="0 0 239.34 239">
+        <g class="LoadingSpinner-spinnerPartPlayButton" data-name="Play Symbol">
+          <path d="M640.11,455.42a55.06,55.06,0,1,1,55.14-55.06A55.17,55.17,0,0,1,640.11,455.42Z" transform="translate(-520.5 -280.5)"/>
+          <path class="LoadingSpinner-spinnerPartPlayButtonTriangle" d="M623.75,382.74V418a4.53,4.53,0,0,0,6.71,4l31.6-17.35a4.52,4.52,0,0,0,.05-7.89l-31.6-17.92A4.53,4.53,0,0,0,623.75,382.74Z" transform="translate(-520.5 -280.5)"/>
+        </g>
+        <g class="LoadingSpinner-spinnerPartGear">
+          <g>
+            <path d="M639.91,489a88.46,88.46,0,1,1,88.59-88.46A88.63,88.63,0,0,1,639.91,489Zm0-161.37a72.9,72.9,0,1,0,73,72.9A73,73,0,0,0,639.91,327.61Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M618.15,318.78l6.73-38.28h29.53l7.25,38.8Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M682.65,327.37l31.87-22.31,20.88,20.85-22.35,32.56Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M721.5,378.53l38.34,6.73v29.49L721,422Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M712.9,442.42l22.35,31.82-20.88,20.85-32.6-22.31Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M661.67,481.22l-6.73,38.28H625.41l-7.25-38.8Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M597.69,472.63l-31.87,22.31-20.88-20.85,22.35-32.56Z" transform="translate(-520.5 -280.5)"/>
+            <path d="M520.5,385.77l38.85-7.24L558.84,422l-38.34-6.73" transform="translate(-520.5 -280.5)"/>
+            <path d="M567.44,358.1,545.1,326.28,566,305.43l32.6,22.31Z" transform="translate(-520.5 -280.5)"/>
+          </g>
+        </g>
+      </svg>
+      Loading...
+    </div>
+  </div>
+
+
+  <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
+  <script type="text/javascript" src="./templateEditor.js"></script> <!-- for `npm serve:dist` -->
+  <script type="text/javascript" src="./main.js"></script> <!-- for `npm serve` -->
+  <script type="text/javascript">
+    initializeTemplateEditor({
+      divToReplaceId: 'Editor',
+      uiSettingsJsonUrl: '/templates/Template' + tid + '.json',
+      templateType: 'text',
+      templateId: tid,
+      userSettingsData: {
+        username: 'DonDenton',
+        minutesRemainingInContract: 170.2819,
+        minimumTemplateDuration: 0.1667,
+        isChargePerOrder: false,
+        renderCost: 8
+      }
+    });
+  </script>
+
+</form>
+</body>
+</html>
