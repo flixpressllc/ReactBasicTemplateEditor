@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import dispatcher from './dispatcher';
+import dispatcher from '../actions/dispatcher';
 import * as Containers from '../utils/globalContainerConcerns';
 
 import { clone, isObject } from 'happy-helpers';
