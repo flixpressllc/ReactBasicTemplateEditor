@@ -12,40 +12,33 @@ const DATA_TYPE_NAME = 'colorPicker';
 
 registerDataType(DATA_TYPE_NAME);
 
-var ColorPicker = React.createClass({
-  getInitialState: function () {
-    return {
+class ColorPicker extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
       displayColorPicker: false,
-      allowsAlpha: this.containsAlpha(this.props.color)
+      allowsAlpha: this.containsAlpha(props.color)
     };
-  },
 
-  getDefaultProps: function () {
-    return {
-      presetColors: [
-        '#D0021B', '#F5A623', '#F8E71C',
-        '#8B572A', '#7ED321', '#417505',
-        '#BD10E0', '#9013FE', '#4A90E2',
-        '#50E3C2', '#B8E986', '#000000',
-        '#4A4A4A', '#9B9B9B', '#FFFFFF'
-      ]
-    }
-  },
+    this.handleClick = this.handleClick.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps (nextProps) {
     var containsAlpha = this.containsAlpha(nextProps.color);
     if (this.props.allowsAlpha !== containsAlpha) {
       this.setState({allowsAlpha: containsAlpha});
     }
-  },
+  }
 
-  containsAlpha: function (color) {
+  containsAlpha (color) {
     return color.split('.').length === 4;
-  },
+  }
 
   // expects a string like '100.93.45'
   // returns an object of those values, along with alpha, if not provided
-  makeColor: function (rgbaString) {
+  makeColor (rgbaString) {
     var rgbArr = rgbaString.split('.');
     var rgbObject = {
       r: rgbArr[0],
@@ -54,37 +47,37 @@ var ColorPicker = React.createClass({
       a: rgbArr[3]/100 || rgbArr[3] || 1  // First fallback value allows for zero.
     }
     return rgbObject;
-  },
+  }
 
-  makeString: function (rgbObject) {
+  makeString (rgbObject) {
     var rgbString = `${rgbObject.r}.${rgbObject.g}.${rgbObject.b}`;
     if (this.state.allowsAlpha) {
       return rgbString + `.${Math.round(rgbObject.a * 100)}`
     }
     return rgbString;
-  },
+  }
 
-  color: function () {
+  color () {
     return this.makeColor(this.props.color)
-  },
+  }
 
-  handleClick: function () {
+  handleClick () {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
-  },
+  }
 
-  handleClose: function () {
+  handleClose () {
     this.setState({ displayColorPicker: false });
-  },
+  }
 
-  handleColorChange: function(color){
+  handleColorChange (color){
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {value: this.makeString(color.rgb)}
     );
-  },
+  }
 
-  render: function(){
+  render (){
     const color = this.color();
     const styles = reactCSS({
       'default': {
@@ -151,6 +144,16 @@ var ColorPicker = React.createClass({
       </div>
     );
   }
-});
+}
+
+ColorPicker.defaultProps = {
+  presetColors: [
+    '#D0021B', '#F5A623', '#F8E71C',
+    '#8B572A', '#7ED321', '#417505',
+    '#BD10E0', '#9013FE', '#4A90E2',
+    '#50E3C2', '#B8E986', '#000000',
+    '#4A4A4A', '#9B9B9B', '#FFFFFF'
+  ]
+}
 
 export default ColorPicker;

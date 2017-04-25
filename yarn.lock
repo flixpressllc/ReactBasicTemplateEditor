@@ -5241,7 +5241,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.4, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
   dependencies:
@@ -5407,12 +5407,14 @@ react-sortable-hoc@^0.4.7:
     invariant "^2.2.1"
     lodash "^4.12.0"
 
-react-tabs@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-0.7.0.tgz#4da6a43315fa0c54fc011333b2a4aec21684c77c"
+react-tabs@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-0.8.3.tgz#40bdc14c725c4dbf4befdfddf1153a93af92a894"
   dependencies:
     classnames "^2.2.0"
+    create-react-class "^15.5.2"
     js-stylesheet "^0.0.1"
+    prop-types "^15.5.8"
 
 react-test-renderer@^15.5.4:
   version "15.5.4"

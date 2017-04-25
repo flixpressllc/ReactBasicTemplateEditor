@@ -13,52 +13,58 @@ import { firstCharToLower, isEmpty } from 'happy-helpers';
 
 import './SpecFields.scss';
 
-var SpecFields = React.createClass({
-  getInitialState: function () {
-    return {
+class SpecFields extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
       previewImageName: '',
       previewImageType: ''
     };
-  },
-  
-  subscribeToChanges: function () {
+
+    this.handleTextFocus = this.handleTextFocus.bind(this);
+    this.handleTextBoxFocus = this.handleTextBoxFocus.bind(this);
+    this.handleYouTubeLinkFocus = this.handleYouTubeLinkFocus.bind(this);
+    this.handleDropDownFocus = this.handleDropDownFocus.bind(this);
+  }
+
+  subscribeToChanges () {
     const forceUpdate = this.forceUpdate.bind(this);
     this.forceUpdateAfterChange = function () {
       forceUpdate();
     }
     RenderDataStore.on('change', this.forceUpdateAfterChange);
-  },
-  
-  unsubscribeFromChanges: function () {
-    RenderDataStore.removeEventListener('change', this.forceUpdateAfterChange);
-  },
+  }
 
-  componentDidMount: function () {
+  unsubscribeFromChanges () {
+    RenderDataStore.removeEventListener('change', this.forceUpdateAfterChange);
+  }
+
+  componentDidMount () {
     this.findFirstPreviewImage();
     this.subscribeToChanges();
-  },
-  
-  componentWillUnmount: function () {
+  }
+
+  componentWillUnmount () {
     this.unsubscribeFromChanges();
-  },
+  }
 
-  handleTextFocus: function (fieldName) {
+  handleTextFocus (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'TextField'});
-  },
+  }
 
-  handleYouTubeLinkFocus: function (fieldName) {
+  handleYouTubeLinkFocus (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'YouTubeLink'});
-  },
+  }
 
-  handleTextBoxFocus: function (fieldName) {
+  handleTextBoxFocus (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'TextBox'});
-  },
+  }
 
-  handleDropDownFocus: function (fieldName) {
+  handleDropDownFocus (fieldName) {
     this.setState({previewImageName: fieldName, previewImageType: 'DropDown'});
-  },
+  }
 
-  createTextField: function (name, object) {
+  createTextField (name, object) {
     var safeName = name.replace(' ','-');
     // TODO: The object passed in contains the value and settings all in the same
     // dimension. These maybe should be filtered or passed in in an actual settings
@@ -70,9 +76,9 @@ var SpecFields = React.createClass({
       onTextFieldFocus={this.handleTextFocus}
       key={`text-field-${safeName}`}
     />);
-  },
+  }
 
-  createUserImageChooser: function (name, object) {
+  createUserImageChooser (name, object) {
     var safeName = name.replace(' ','-');
     if (isEmpty(object.containedImages)) return null;
     return (
@@ -84,9 +90,9 @@ var SpecFields = React.createClass({
         key={`text-field-${safeName}`}
       />
     );
-  },
+  }
 
-  createYouTubeLink: function (name, object) {
+  createYouTubeLink (name, object) {
     var safeName = name.replace(' ','-');
     return (<YouTubeLink
       fieldName={name}
@@ -94,9 +100,9 @@ var SpecFields = React.createClass({
       onTextFieldFocus={this.handleYouTubeLinkFocus}
       key={`you-tube-link-${safeName}`}
     />);
-  },
+  }
 
-  createTextBox: function (name, object) {
+  createTextBox (name, object) {
     var safeName = name.replace(' ','-');
     return (<TextBox
       fieldName={name}
@@ -104,18 +110,18 @@ var SpecFields = React.createClass({
       onTextBoxFocus={this.handleTextBoxFocus}
       key={`text-box-${safeName}`}
     />);
-  },
+  }
 
-  createColorPicker: function (name, object) {
+  createColorPicker (name, object) {
     var safeName = name.replace(' ','-');
     return (<ColorPicker
       fieldName={name}
       color={object.value}
       key={`color-picker-${safeName}`}
     />);
-  },
+  }
 
-  createDropDown: function (name, object) {
+  createDropDown (name, object) {
     var safeName = name.replace(' ','-');
     return (<DropDown
       fieldName={ name }
@@ -125,9 +131,9 @@ var SpecFields = React.createClass({
       onDropDownFocus={ this.handleDropDownFocus }
       key={`drop-down-${safeName}`} />
     );
-  },
+  }
 
-  findFirstPreviewImage: function () {
+  findFirstPreviewImage () {
     let uiSections = this.props.uiSections;
     for (let i = 0; i < uiSections.length; i++) {
       for (let sectionName in uiSections[i]){
@@ -142,9 +148,9 @@ var SpecFields = React.createClass({
     // probably the first inner component with a preview image
     // hasn't mounted yet. This is a hack, but we'll call again...
     setTimeout(this.findFirstPreviewImage,500);
-  },
+  }
 
-  createSection: function (sectionName, inputArray) {
+  createSection (sectionName, inputArray) {
     var components = [];
     let containers = RenderDataStore.getAll();
     for (var i = 0; i < inputArray.length; i++) {
@@ -162,9 +168,9 @@ var SpecFields = React.createClass({
         {components}
       </div>
     )
-  },
+  }
 
-  render: function () {
+  render () {
     var uiSections = this.props.uiSections
     var sections = [];
     for (var i = 0; i < uiSections.length; i++) {
@@ -178,11 +184,11 @@ var SpecFields = React.createClass({
           { sections }
         </div>
         <PreviewImage
-          name={this.state.previewImageName}
+          name={ this.state.previewImageName }
           type={ this.state.previewImageType }/>
       </div>
     );
   }
-});
+}
 
 export default SpecFields;

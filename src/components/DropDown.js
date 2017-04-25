@@ -8,24 +8,18 @@ const DATA_TYPE_NAME = 'dropDown'
 
 registerDataType(DATA_TYPE_NAME);
 
-export default React.createClass({
-  displayName: 'DropDown',
-  getDefaultProps: function () {
-    return {
-      options: [],
-      fieldName: '',
-      onDropDownFocus: () => {
-        throw new Error('DropDown was not given an `onDropDownFocus` function');
-      }
-    };
-  },
+class DropDown extends React.Component {
+  constructor (props) {
+    super(props);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
+  }
 
-  handleDropDownChange: function (e) {
+  handleDropDownChange (e) {
     ContainerActions.changeContainer(DATA_TYPE_NAME, this.props.fieldName, {value: e.target.value});
     setTimeout(() => this.props.onDropDownFocus(this.props.fieldName), 100); // TODO: fix this hack
-  },
+  }
 
-  render: function(){
+  render () {
     let name = this.props.fieldName;
     var options = [];
     var safeName = name.replace(' ','-');
@@ -56,4 +50,14 @@ export default React.createClass({
       </div>
     )
   }
-});
+}
+
+DropDown.defaultProps = {
+  options: [],
+  fieldName: '',
+  onDropDownFocus: () => {
+    throw new Error('DropDown was not given an `onDropDownFocus` function');
+  }
+};
+
+export default DropDown;

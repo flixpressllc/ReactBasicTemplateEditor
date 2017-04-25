@@ -83,7 +83,7 @@
     "react-confirm": "^0.1.14",
     "react-hot-loader": "^3.0.0-beta.3",
     "react-modal": "^1.4.0",
-    "react-tabs": "^0.7.0",
+    "react-tabs": "^0.8.3",
     "rimraf": "^2.5.4",
     "run-sequence": "^1.2.2",
     "sass-loader": "^4.0.2",

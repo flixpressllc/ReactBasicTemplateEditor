@@ -18,55 +18,55 @@ const minToTime = function (min) {
   return time;
 };
 
-export default React.createClass({
-  displayName: 'AccountBalance',
-  render: function () {
-    var sd = this.props.userSettingsData;
+const AccountBalance = (props) => {
 
-    // .NET normalize
-    var isChargePerOrder = sd.isChargePerOrder;
+  var sd = props.userSettingsData;
 
-    var cost, balance, rawCost, rawBalance;
-    if (isChargePerOrder) {
-      rawCost = sd.renderCost;
-      cost = '$' + rawCost;
-      balance = rawBalance = sd.creditRemaining;
-    } else {
-      rawCost = round(sd.minimumTemplateDuration);
-      rawBalance = round(sd.minutesRemainingInContract);
-      cost = minToTime(rawCost);
-      balance = minToTime(rawBalance);
-    }
+  // .NET normalize
+  var isChargePerOrder = sd.isChargePerOrder;
 
-    var balanceData = {
-      insufficient: (!this.props.isPreview && rawCost > rawBalance),
-      sufficient: (!this.props.isPreview && rawCost <= rawBalance)
-    }
+  var cost, balance, rawCost, rawBalance;
+  if (isChargePerOrder) {
+    rawCost = sd.renderCost;
+    cost = '$' + rawCost;
+    balance = rawBalance = sd.creditRemaining;
+  } else {
+    rawCost = round(sd.minimumTemplateDuration);
+    rawBalance = round(sd.minutesRemainingInContract);
+    cost = minToTime(rawCost);
+    balance = minToTime(rawBalance);
+  }
 
-    var costView = this.props.isPreview ? 'Free Preview' : cost;
-    var tCostClassName = cx('reactBasicTemplateEditor-AccountBalance-costAmount', {free: this.props.isPreview})
-    var tCost = <div className={ tCostClassName }>{ costView }</div>;
-    var costLabel = isChargePerOrder ? 'Template Cost' : 'Template Duration';
+  var balanceData = {
+    insufficient: (!props.isPreview && rawCost > rawBalance),
+    sufficient: (!props.isPreview && rawCost <= rawBalance)
+  }
 
-    var accountBalanceDisplay;
-    if (isChargePerOrder){
-      accountBalanceDisplay = [];
-    } else {
-      accountBalanceDisplay = (
-        <div className={cx('reactBasicTemplateEditor-AccountBalance-balance', balanceData)}>
-          <div className="reactBasicTemplateEditor-AccountBalance-balanceLabel">Account Balance</div>
-          <div className="reactBasicTemplateEditor-AccountBalance-balanceAmount">{ balance }</div>
-        </div>
-      );
-    }
-    return(
-      <div className={cx('reactBasicTemplateEditor-AccountBalance', {preview: this.props.isPreview, 'is-payg-user': isChargePerOrder})}>
-        <div className="reactBasicTemplateEditor-AccountBalance-cost">
-          <div className="reactBasicTemplateEditor-AccountBalance-costLabel">{ costLabel }</div>
-          { tCost }
-        </div>
-        { accountBalanceDisplay }
+  var costView = props.isPreview ? 'Free Preview' : cost;
+  var tCostClassName = cx('reactBasicTemplateEditor-AccountBalance-costAmount', {free: props.isPreview})
+  var tCost = <div className={ tCostClassName }>{ costView }</div>;
+  var costLabel = isChargePerOrder ? 'Template Cost' : 'Template Duration';
+
+  var accountBalanceDisplay;
+  if (isChargePerOrder){
+    accountBalanceDisplay = [];
+  } else {
+    accountBalanceDisplay = (
+      <div className={cx('reactBasicTemplateEditor-AccountBalance-balance', balanceData)}>
+        <div className="reactBasicTemplateEditor-AccountBalance-balanceLabel">Account Balance</div>
+        <div className="reactBasicTemplateEditor-AccountBalance-balanceAmount">{ balance }</div>
       </div>
     );
   }
-});
+  return(
+    <div className={cx('reactBasicTemplateEditor-AccountBalance', {preview: props.isPreview, 'is-payg-user': isChargePerOrder})}>
+      <div className="reactBasicTemplateEditor-AccountBalance-cost">
+        <div className="reactBasicTemplateEditor-AccountBalance-costLabel">{ costLabel }</div>
+        { tCost }
+      </div>
+      { accountBalanceDisplay }
+    </div>
+  );
+}
+
+export default AccountBalance;
