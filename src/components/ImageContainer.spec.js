@@ -278,9 +278,9 @@ describe('ImageContainer', () => {
       }
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find('input').get(0).placeholder).toEqual('Optional one');
-      expect(component.find('input').get(1).placeholder).toEqual('Optional two');
-      expect(component.find('input').get(2).placeholder).toEqual('Optional three');
+      expect(component.find('input').get(0).placeholder).toEqual('one');
+      expect(component.find('input').get(1).placeholder).toEqual('two');
+      expect(component.find('input').get(2).placeholder).toEqual('three');
     });
 
     it('will allow for an object with settings as the main captions directive', () => {
@@ -294,7 +294,7 @@ describe('ImageContainer', () => {
       }
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find('input').get(1).placeholder).toEqual('Optional two');
+      expect(component.find('input').get(1).placeholder).toEqual('two');
     });
 
     describe('filter options', () => {
