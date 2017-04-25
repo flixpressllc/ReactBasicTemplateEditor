@@ -102,6 +102,7 @@
     "js-beautify": "^1.6.4",
     "jxon": "github:happycollision/jxon#v2.0.0-beta.2",
     "normalize.css": "^4.2.0",
+    "prop-types": "^15.5.8",
     "react": "^15.5.1",
     "react-color": "^2.4.0",
     "react-dom": "^15.5.1",

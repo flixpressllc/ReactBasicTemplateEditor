@@ -1,6 +1,9 @@
 ### 2.2.5
 * updates build pipeline to Webpack 2
 * remove automatic addition of the word "Optional" to image captions
+* update to react 15.5
+  * update to es6 on all components
+  * remove deprecations regarding prop types
 
 ### 2.2.4
 * fixes issue where one custom audio wouldn't appear

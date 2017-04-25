@@ -1,5 +1,6 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
+import PT from 'prop-types';
 
 /// From https://github.com/jerryshew/react-component/blob/master/component/Radio.js
 class RadioButton extends React.Component {
@@ -27,11 +28,11 @@ class RadioButton extends React.Component {
 }
 
 RadioButton.propTypes = {
-  onChange: React.PropTypes.func,
-  checked: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  value: React.PropTypes.string,
-  className: React.PropTypes.string
+  onChange: PT.func,
+  checked: PT.bool,
+  disabled: PT.bool,
+  value: PT.string,
+  className: PT.string
 };
 
 RadioButton.defaultProps = {
@@ -109,12 +110,12 @@ class RadioGroup extends React.Component {
 }
 
 RadioGroup.propTypes = {
-  options: React.PropTypes.array,
-  value: React.PropTypes.string,
-  labelName: React.PropTypes.string,
-  valueName: React.PropTypes.string,
-  onChange: React.PropTypes.func,
-  defaultChecked: React.PropTypes.bool
+  options: PT.array,
+  value: PT.string,
+  labelName: PT.string,
+  valueName: PT.string,
+  onChange: PT.func,
+  defaultChecked: PT.bool
 }
 
 RadioGroup.defaultProps = {
