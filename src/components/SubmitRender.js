@@ -5,20 +5,24 @@ import AccountBalance from './AccountBalance';
 import { find } from '../utils/dom-queries';
 import './SubmitRender.scss';
 
-export default React.createClass({
-  displayName: 'SubmitRender',
-  componentWillMount: function () {
-    find('form').on('submit', e => this.handleSubmit(e) );
-  },
+export default class SubmitRender extends React.Component {
+  constructor (props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  handleSubmit: function (e) {
+  componentWillMount () {
+    find('form').on('submit', e => this.handleSubmit(e) );
+  }
+
+  handleSubmit (e) {
     if (this.props.allowSubmit !== true){
       e.preventDefault();
       this.confirmOrder();
     }
-  },
+  }
 
-  confirmOrder: function () {
+  confirmOrder () {
     var sd = this.props.userSettingsData;
     // .NET normalize
     var isChargePerOrder = (sd.isChargePerOrder === false || sd.isChargePerOrder === 'False') ? false : true;
@@ -54,9 +58,9 @@ export default React.createClass({
     } else {
       this.props.placeOrder();
     }
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <div className="reactBasicTemplateEditor-SubmitRender">
         <AccountBalance userSettingsData={this.props.userSettingsData} isPreview={false}/>
@@ -65,4 +69,4 @@ export default React.createClass({
       </div>
     )
   }
-});
+}

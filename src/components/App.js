@@ -21,42 +21,49 @@ import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 
 import './App.scss';
 
-var App = React.createClass({
-  getInitialState: function() {
-    return {
+class App extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
       allowSubmit: false,
       caughtErrors: []
     };
-  },
 
-  handlePlacePreviewOrder: function () {
+    this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
+    this.handlePlacePreviewOrder = this.handlePlacePreviewOrder.bind(this);
+    this.handleChooseSong = this.handleChooseSong.bind(this);
+    this.handlePreviewChange = this.handlePreviewChange.bind(this);
+    this.handleResolutionIdChange = this.handleResolutionIdChange.bind(this);
+  }
+
+  handlePlacePreviewOrder () {
     this.setState({isPreview: true}, function () {
       this.handlePlaceOrder();
     });
-  },
+  }
 
-  isImageTemplate: function () {
+  isImageTemplate () {
     return this.props.templateType === 'images';
-  },
+  }
 
-  mergeAllNodesInContainerWithPreviewData: function (container, dataTypeName, nameValuePairsObj) {
+  mergeAllNodesInContainerWithPreviewData (container, dataTypeName, nameValuePairsObj) {
     if (isEmpty(container)) {
       throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
     }
     return traverseObject(container, (formIdName, obj) => {
       return [formIdName, dc.getToDataObjectFunctionFor(dataTypeName)(nameValuePairsObj[formIdName], obj)];
     })
-  },
+  }
 
-  getCurrentContainerState: function () {
+  getCurrentContainerState () {
     return dc.getContainerNames().reduce((a, containerName) => {
       if(!this.state.hasOwnProperty(containerName)) return a;
       a[containerName] = clone(this.state[containerName]);
       return a;
     }, {});
-  },
+  }
 
-  populateContainersWithPreviewData: function (containersObj, nameValuePairsObj) {
+  populateContainersWithPreviewData (containersObj, nameValuePairsObj) {
     dc.getContainerNames().map((containerName) => {
       // do the new stuff
       let dataTypeName = dc.getDataTypeNameFor(containerName);
@@ -66,9 +73,9 @@ var App = React.createClass({
       }
     });
     return containersObj;
-  },
+  }
 
-  extractAndReplacePreviewRenderValues: function (emptyUiContainers, nameValuePairsObj, imageBank) {
+  extractAndReplacePreviewRenderValues (emptyUiContainers, nameValuePairsObj, imageBank) {
     let stateToMerge = clone(emptyUiContainers);
     if (isNotEmpty(nameValuePairsObj)) {
       let populatedContainers = this.populateContainersWithPreviewData(emptyUiContainers, nameValuePairsObj);
@@ -76,9 +83,9 @@ var App = React.createClass({
     }
     stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj, imageBank);
     return stateToMerge;
-  },
+  }
 
-  respectMaximumImageValue: function (imageChooser) {
+  respectMaximumImageValue (imageChooser) {
     if (isEmpty(imageChooser.maxImages)) return imageChooser;
     imageChooser = clone(imageChooser);
 
@@ -88,9 +95,9 @@ var App = React.createClass({
     }
 
     return imageChooser;
-  },
+  }
 
-  respectMinimumImageValue: function (imageChooser, imageBank) {
+  respectMinimumImageValue (imageChooser, imageBank) {
     if (isEmpty(imageChooser.minImages)) return imageChooser;
     imageChooser = clone(imageChooser);
 
@@ -104,16 +111,16 @@ var App = React.createClass({
     }
 
     return imageChooser;
-  },
+  }
 
-  assignIds: function (containedImages) {
+  assignIds (containedImages) {
     if (isEmpty(containedImages)) return containedImages;
     return containedImages.map((val, i) => {
       return Object.assign(val, {id: i});
     });
-  },
+  }
 
-  imagesAreSnowflakes: function (stateToMerge, nameValuePairsObj, imageBank) {
+  imagesAreSnowflakes (stateToMerge, nameValuePairsObj, imageBank) {
     if (!this.isImageTemplate()) return stateToMerge;
     let newStateToMerge = clone(stateToMerge);
 
@@ -147,9 +154,9 @@ var App = React.createClass({
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
     return newStateToMerge;
-  },
+  }
 
-  createBlankCaptionsIfNeeded: function (imageChooser) {
+  createBlankCaptionsIfNeeded (imageChooser) {
     if (isNotEmpty(imageChooser.captions)) {
       imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
         if (isEmpty(imageObj.captions)) {
@@ -159,9 +166,9 @@ var App = React.createClass({
       });
     }
     return imageChooser;
-  },
+  }
 
-  getStartingData: function (uiData) { return new Promise((resolve) => {
+  getStartingData (uiData) { return new Promise((resolve) => {
     let containerNames = dc.getContainerNames();
     let emptyContainers = traverseObject(uiData, (key, val) => {
       if (containerNames.indexOf(key) !== -1) {
@@ -176,11 +183,11 @@ var App = React.createClass({
     });
     ContainerActions.setInitialContainerValues(containers);
     this.setState(Object.assign({ui: uiData.ui}, highLevelData), resolve);
-  })},
+  })}
 
   // Returns true if it passes, or an array of strings describing
   // why it didn't pass.
-  checkResult: function (results) {
+  checkResult (results) {
     let messages = [];
     let templateId = this.props.templateId;
     // Template Id's match?
@@ -193,9 +200,9 @@ var App = React.createClass({
     } else {
       return messages;
     }
-  },
+  }
 
-  defineUi: function () { return new Promise( (resolve, reject) => {
+  defineUi () { return new Promise( (resolve, reject) => {
     this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
     .then( result => {
       var checkedResults = this.checkResult(result.data);
@@ -210,9 +217,9 @@ var App = React.createClass({
         this.setState({ caughtErrors: errors }, reject);
       }
     });
-  })},
+  })}
 
-  setupEditor: function () { return new Promise((resolve) => {
+  setupEditor () { return new Promise((resolve) => {
     let defineUi = this.defineUi();
     defineUi
       .then(uiData => this.getStartingData(uiData))
@@ -226,36 +233,36 @@ var App = React.createClass({
         caughtErrors: errors
       });
     });
-  })},
+  })}
 
-  componentDidMount: function () {
+  componentDidMount () {
     TemplateSpecActions.setSpecs({templateId: parseInt(this.props.templateId, 10)});
     this.setupEditor().then(() => this.editorSetupDidComplete());
-  },
+  }
 
   editorSetupDidComplete () {
     // This doesn't mean that the images and such have acutally loaded,
     // so the height of the editor is not yet determined, etc.
     setTimeout(() => adjustColorbox(), 500)
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount () {
     this.serverRequest.abort();
-  },
+  }
 
-  handleResolutionIdChange: function (id) {
+  handleResolutionIdChange (id) {
     this.setState({
       resolutionId: id
     })
-  },
+  }
 
-  handlePreviewChange: function (e) {
+  handlePreviewChange (e) {
     this.setState({
       isPreview: e.target.checked
     })
-  },
+  }
 
-  populateOrderUi: function () {
+  populateOrderUi () {
     let orderUi = clone(this.state.ui);
     let containers = RenderDataStore.getAll();
     // add values to order.ui
@@ -274,9 +281,9 @@ var App = React.createClass({
       return sectionObjContainerObj;
     });
     return orderUi;
-  },
+  }
 
-  handlePlaceOrder: function () {
+  handlePlaceOrder () {
     var order = {};
 
     // add necessaries
@@ -308,13 +315,13 @@ var App = React.createClass({
       c.log('Sent Object:',order);
       c.error('Order Failure: ' + failureReason);
     }
-  },
+  }
 
-  handleChooseSong: function (audioInfo) {
+  handleChooseSong (audioInfo) {
     this.setState({audioInfo: audioInfo})
-  },
+  }
 
-  render: function() {
+  render() {
     var resolutionPicker = (<span></span>);
     if (this.state.resolutionId !== undefined) {
       resolutionPicker = (
@@ -375,6 +382,6 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default App;

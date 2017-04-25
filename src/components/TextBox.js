@@ -11,29 +11,27 @@ const DATA_TYPE_NAME = 'textBox';
 
 registerDataType(DATA_TYPE_NAME, {containerName: 'textBoxes'});
 
-const TextBox = React.createClass({
-  displayName: 'TextBox',
+class TextBox extends React.Component {
+  constructor (props) {
+    super(props);
+    this.handleTextEdit = this.handleTextEdit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+  }
 
-  getDefaultProps: function () {
-    return {
-      value: ''
-    };
-  },
-
-  handleTextEdit: function (e) {
+  handleTextEdit (e) {
     let newValue = this.props.filterInput(e.target.value);
     ContainerActions.changeContainer(
       DATA_TYPE_NAME,
       this.props.fieldName,
       {value: newValue}
     );
-  },
+  }
 
-  handleFocus: function () {
+  handleFocus () {
     this.props.onTextBoxFocus(this.props.fieldName);
-  },
+  }
 
-  render: function(){
+  render () {
     return(
       <div className={cx(this.props.className,'reactBasicTemplateEditor-TextBox')}>
         <label htmlFor={this.props.fieldName}>
@@ -48,6 +46,8 @@ const TextBox = React.createClass({
       </div>
     )
   }
-});
+}
+
+TextBox.defaultProps = { value: '' };
 
 export default InputFilter(TextBox);

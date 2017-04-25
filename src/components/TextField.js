@@ -9,16 +9,14 @@ const DATA_TYPE_NAME = 'textField';
 
 registerDataType(DATA_TYPE_NAME);
 
-const TextField = React.createClass({
-  displayName: 'TextField',
+class TextField extends React.Component {
+  constructor (props) {
+    super(props);
+    this.handleTextEdit = this.handleTextEdit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+  }
 
-  getDefaultProps: function () {
-    return {
-      value: ''
-    };
-  },
-
-  handleTextEdit: function (e) {
+  handleTextEdit (e) {
     let newValue = this.props.filterInput(e.target.value);
     if (newValue !== this.props.value) {
       ContainerActions.changeContainer(
@@ -27,13 +25,13 @@ const TextField = React.createClass({
         {value: newValue}
       );
     }
-  },
+  }
 
-  handleFocus: function () {
+  handleFocus () {
     this.props.onTextFieldFocus(this.props.fieldName);
-  },
+  }
 
-  render: function(){
+  render () {
     return(
       <div className={cx(this.props.className,'reactBasicTemplateEditor-TextField')}>
         <label htmlFor={this.props.fieldName}>
@@ -49,6 +47,8 @@ const TextField = React.createClass({
       </div>
     )
   }
-});
+}
+
+TextField.defaultProps = { value: '' };
 
 export default InputFilter(TextField);
