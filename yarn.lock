@@ -5346,7 +5346,7 @@ react-addons-test-utils@^15.5.1:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-color@^2.4.0:
+react-color@^2.11.4:
   version "2.11.4"
   resolved "https://registry.yarnpkg.com/react-color/-/react-color-2.11.4.tgz#43f64630e5d47a243f6bd35300224c9c69c73921"
   dependencies:
@@ -5399,13 +5399,14 @@ react-proxy@^3.0.0-alpha.0:
   dependencies:
     lodash "^4.6.1"
 
-react-sortable-hoc@^0.4.7:
-  version "0.4.12"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-0.4.12.tgz#71ae7dbb3f2bdeb6c852d398851ca178620622ec"
+react-sortable-hoc@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-0.6.2.tgz#9f0b5aea0a496de1ecb9e1da97d8d2dbbed0905c"
   dependencies:
     babel-runtime "^6.11.6"
     invariant "^2.2.1"
     lodash "^4.12.0"
+    prop-types "^15.5.7"
 
 react-tabs@^0.8.3:
   version "0.8.3"
@@ -5423,9 +5424,11 @@ react-test-renderer@^15.5.4:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-textarea-autosize@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-4.0.5.tgz#55379f6a6fa575fc87d1b8de2756e57e3b6c995d"
+react-textarea-autosize@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-4.1.0.tgz#e3c3c29b3e0bd975065f5346a8681ec3640f4055"
+  dependencies:
+    prop-types "^15.5.8"
 
 react@^15.5.1:
   version "15.5.4"
