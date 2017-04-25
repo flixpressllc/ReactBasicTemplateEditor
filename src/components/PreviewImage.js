@@ -25,6 +25,7 @@ export default class PreviewImage extends React.Component {
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.checkWidth = this.checkWidth.bind(this);
   }
 
   isLargeSize () {
