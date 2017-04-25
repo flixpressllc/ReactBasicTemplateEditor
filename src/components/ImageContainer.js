@@ -77,7 +77,7 @@ const ListImage = SortableElement( React.createClass({
           settings={ capObj.settings }
           data-index={ i }
           value={ captionValues[i] }
-          placeholder={`Optional ${capObj.label}`}
+          placeholder={ capObj.label }
           onChange={ this.handleChange }
           />
       );
