@@ -241,7 +241,6 @@ function orderObjectToXml (object) {
 
   let xmlString = objectToXml(object);
   xmlString = xmlString.replace(FIND_ORDER_REQ_TAG, (match, capture) => {
-    debugger;
     return `<${capture} ${typeDeclaration}>`;
   })
   return firstString + xmlString;
