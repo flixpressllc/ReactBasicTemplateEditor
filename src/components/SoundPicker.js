@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './lib/Modal';
-import {Tabs, TabList, Tab, TabPanel} from './copied/react-tabs/lib/main';
+import {Tabs, TabList, Tab, TabPanel} from 'react-tabs';
 import LoadingSpinner from './LoadingSpinner';
 import cx from 'classnames';
 import getAudioOptions from '../utils/getAudioOptions';
