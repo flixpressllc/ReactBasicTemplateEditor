@@ -265,7 +265,6 @@ class SoundPicker extends React.Component {
           onClick={this.handleOpenModal}>{buttonText}</button>
         {removeAudio}
         <Modal
-          ref="modal"
           contentLabel="Sound Picker Modal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
