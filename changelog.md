@@ -1,3 +1,6 @@
+### 2.2.5
+* updates build pipeline to Webpack 2
+
 ### 2.2.4
 * fixes issue where one custom audio wouldn't appear
 
