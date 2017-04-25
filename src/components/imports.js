@@ -1,48 +1,6 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 
-/// From https://github.com/jerryshew/react-component/blob/master/component/CheckBox.js
-const CheckBox = React.createClass({
-    propTypes: {
-        onChange: React.PropTypes.func,
-        disabled: React.PropTypes.bool,
-        checked: React.PropTypes.bool,
-        className: React.PropTypes.string
-    },
-    getInitialState() {
-        return {
-            checked:this.props.checked
-        };
-    },
-
-    getDefaultProps() {
-        return {
-            className: ''
-        };
-    },
-
-    checkedChange(e){
-        const {onChange, value} = this.props;
-        this.setState({
-            checked: e.target.checked
-        });
-        if(onChange) onChange(e, value);
-    },
-
-    render() {
-        let {disabled, style, className, children} = this.props;
-        if (disabled) className = `${className} _disabled`;
-        const {checked} = this.props;
-        return (
-            <label style={style} className={`ui checkbox ${className}`}>
-                <input type="checkbox" disabled={disabled}
-                    checked={checked} onChange={this.checkedChange}/>
-                {children}
-            </label>
-        );
-    }
-});
-
 /// From https://github.com/jerryshew/react-component/blob/master/component/Radio.js
 const Radio = React.createClass({
     propTypes: {
@@ -78,7 +36,7 @@ const Radio = React.createClass({
 
 
 /// From https://github.com/jerryshew/react-component/blob/master/component/RadioGroup.js
-const RadioGroup = React.createClass({
+export const RadioGroup = React.createClass({
     propTypes: {
         options: React.PropTypes.array,
         value: React.PropTypes.string,
@@ -157,5 +115,3 @@ const RadioGroup = React.createClass({
         );
     }
 });
-
-export {RadioGroup, CheckBox};
