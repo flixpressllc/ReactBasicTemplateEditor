@@ -1,5 +1,5 @@
 import React from 'react';
-import {RadioGroup} from './imports';
+import RadioGroup from './lib/RadioGroup';
 import './ResolutionPicker.scss';
 
 export default React.createClass({
