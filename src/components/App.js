@@ -297,7 +297,7 @@ class App extends React.Component {
     try {
       renderDataAdapter.updateXmlForOrder(order);
       this.setState({allowSubmit: true}, function () {
-        setTimeout(function(){ find('form input[type="submit"]').eq(0).click(); }, 100);
+        setTimeout(function(){ find('form input[type="submit"]')[0].click(); }, 100);
       });
     } catch (failureReason) {
       var message = 'Order Failed.';

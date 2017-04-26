@@ -2,12 +2,16 @@ import '../cfg/polyfills';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
+import { find } from './utils/dom-queries';
 
 require('reset.css');
 
 // Hack to get around server side code for now...
-if($('head').find('meta[content="width=device-width, initial-scale=1.0"]').length < 1) {
-  $('head').append($('<meta name="viewport" content="width=device-width, initial-scale=1.0">'));
+if( find('head meta[content="width=device-width, initial-scale=1.0"]').length < 1 ) {
+  const meta = document.createElement('meta');
+  meta.name = 'viewport';
+  meta.content = 'width=device-width, initial-scale=1.0';
+  document.head.appendChild(meta);
 }
 // Ok. Onward...
 

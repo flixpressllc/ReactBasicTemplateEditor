@@ -1,5 +1,5 @@
 export function find(selector) {
-  return $(selector);
+  return $(selector).get();
 }
 
 export function getElementById (id) {
