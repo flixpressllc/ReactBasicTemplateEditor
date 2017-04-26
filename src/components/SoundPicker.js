@@ -73,9 +73,9 @@ class SoundPicker extends React.Component {
     // good place to start making server requests
     if (this.state.audioOptions === undefined) {
       //define it.
-      getAudioOptions(this.props.username).done(function(result){
+      getAudioOptions(this.props.username).then( result => {
         this.setState({audioOptions: result});
-      }.bind(this))
+      });
     }
   }
 

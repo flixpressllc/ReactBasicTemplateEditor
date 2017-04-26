@@ -78,17 +78,13 @@ export function _getCategoriesAndSongsForUser (username) {
   }).catch(err => {throw err});
 }
 
-export default function getAudioOptions (username) {
-  var everythingIsReady = $.Deferred();
-
+export default function getAudioOptions (username) { return new Promise( (resolve, reject) => {
   Promise.all([
     _getCategoriesAndSongsForUser(username),
     _getCustomSongsForUser(username)
   ])
   .then(([categories, customAudio]) => {
-    everythingIsReady.resolve({categories, customAudio});
+    resolve({categories, customAudio});
   })
-  .catch(err => everythingIsReady.reject(err));
-
-  return everythingIsReady;
-}
+  .catch(err => reject(err));
+})}
