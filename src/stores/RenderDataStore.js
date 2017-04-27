@@ -11,13 +11,13 @@ class RenderDataStore extends EventEmitter {
       receivedInitial: false
     }
   }
-  changeContainer(dataType, fieldName, newData) {
+  _changeContainer(dataType, fieldName, newData) {
     let containerName = Containers.getContainerNameFor(dataType);
     Object.assign(this.containers[containerName][fieldName], newData);
     this.emit('change', {containerName, dataType, fieldName});
   }
 
-  addMissingContainers() {
+  _addMissingContainers() {
     if (!isObject(this.containers)) {
       this.containers = {};
     }
@@ -29,14 +29,14 @@ class RenderDataStore extends EventEmitter {
   }
 
   getAllContainers() {
-    if ( ! this.state.receivedInitial) this.addMissingContainers();
+    if ( ! this.state.receivedInitial) this._addMissingContainers();
     return this.containers ? clone(this.containers) : {};
   }
 
-  handleActions(action) {
+  _handleActions(action) {
     switch(action.type) {
       case 'CHANGE_CONTAINER':
-        this.changeContainer(action.dataType, action.fieldName, action.newData);
+        this._changeContainer(action.dataType, action.fieldName, action.newData);
       break;
       case 'RECEIVE_INITIAL_CONTAINER_VALUES':
         this.state.receivedInitial = true;
@@ -48,6 +48,6 @@ class RenderDataStore extends EventEmitter {
 }
 
 const renderDataStore = new RenderDataStore;
-dispatcher.register(renderDataStore.handleActions.bind(renderDataStore))
+dispatcher.register(renderDataStore._handleActions.bind(renderDataStore))
 window.renderDataStore = renderDataStore;
 export default renderDataStore;
