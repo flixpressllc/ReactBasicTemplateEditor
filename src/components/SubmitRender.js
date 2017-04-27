@@ -12,12 +12,17 @@ export default class SubmitRender extends React.Component {
   }
 
   componentWillMount () {
-    find('form').on('submit', e => this.handleSubmit(e) );
+    const submitEl = find('form')[0];
+    submitEl.addEventListener('submit', e => this.handleSubmit(e));
+  }
+
+  preventFormSubmission (e) {
+    e.preventDefault();
   }
 
   handleSubmit (e) {
     if (this.props.allowSubmit !== true){
-      e.preventDefault();
+      this.preventFormSubmission(e);
       this.confirmOrder();
     }
   }

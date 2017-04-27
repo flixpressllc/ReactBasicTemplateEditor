@@ -1,5 +1,5 @@
 export function find(selector) {
-  return $(selector);
+  return document.querySelectorAll(selector);
 }
 
 export function getElementById (id) {

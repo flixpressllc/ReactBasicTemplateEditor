@@ -92,7 +92,6 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.0.0",
     "webpack-dev-server": "^2.0.0",
-    "whatwg-fetch": "1.0.0",
     "yargs": "^7.0.2"
   },
   "dependencies": {
@@ -110,7 +109,8 @@
     "react-test-renderer": "^15.5.4",
     "react-textarea-autosize": "^4.1.0",
     "reactcss": "^1.0.9",
-    "reset.css": "^2.0.2"
+    "reset.css": "^2.0.2",
+    "whatwg-fetch": "^2.0.3"
   },
   "jest": {
     "moduleNameMapper": {
