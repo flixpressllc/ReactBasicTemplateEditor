@@ -204,10 +204,10 @@ class App extends React.Component {
 
   defineUi () { return new Promise( (resolve, reject) => {
     this.serverRequest = getJSON(this.props.uiSettingsJsonUrl)
-    .then( result => {
-      var checkedResults = this.checkResult(result.data);
+    .then( json => {
+      var checkedResults = this.checkResult(json);
       if (checkedResults === true) {
-        resolve(result.data);
+        resolve(json);
       } else {
         // Post Errors
         var errors = [];
@@ -216,7 +216,7 @@ class App extends React.Component {
         }
         this.setState({ caughtErrors: errors }, reject);
       }
-    });
+    }, err => reject(err));
   })}
 
   setupEditor () { return new Promise((resolve) => {

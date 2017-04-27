@@ -11,7 +11,7 @@ ajax.getJSON = (path) => {
   return new Promise ((resolve, reject) => {
     require('jsonfile').readFile('./src' + path, (err, obj) => {
       if (err) reject(err);
-      resolve({data: obj});
+      resolve(obj);
     });
   });
 };

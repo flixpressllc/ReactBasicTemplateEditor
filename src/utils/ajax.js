@@ -1,4 +1,5 @@
 import Promise from 'promise/lib/es6-extensions';
+import 'whatwg-fetch'; // polyfill
 
 /**
  * reduced functionality ajax wrapper. Assumes jquery for now, but is easily switched
@@ -66,6 +67,17 @@ export function ajax(url, options) {
   return promise;
 }
 
+const fetch = window.fetch;
 export function getJSON(url) {
-  return ajax({url: url, dataType: 'json'});
+  return new Promise( (resolve, reject) => {
+    window.fetch(url).then(response => {
+      if (response.status === 200) {
+        response.json().then(json => resolve(json));
+      } else {
+        reject(new Error(`The request to ${url} failed.`));
+      }
+    }, error => reject(error) );
+  });
 }
+
+export { fetch };
