@@ -247,7 +247,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount () {
-    this.serverRequest.abort();
+
   }
 
   handleResolutionIdChange (id) {
