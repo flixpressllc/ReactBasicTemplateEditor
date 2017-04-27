@@ -199,6 +199,27 @@ class DataLayer {
     return orderUi;
   }
 
+  prepOrderForSubmit(neededSettingsObject) {
+    let order = clone(neededSettingsObject);
+    order.ui = this.populateOrderUi(order.ui);
+    order.imageBank = order.imageBank || [];
+    try {
+      renderDataAdapter.updateXmlForOrder(order);
+    } catch (failureReason) {
+      var message = 'Order Failed.';
+      if (failureReason !== undefined){
+        message += ` The given reason was "${failureReason}"`;
+      }
+      StateStore.setState({ caughtErrors: [ {message: message} ] });
+
+      // This method of calling console (essentially) tells the build
+      // script that this is an intentional call, meant for production
+      var c = console;
+      c.log('Sent Object:',order);
+      c.error('Order Failure: ' + failureReason);
+    }
+
+  }
 }
 
 export default new DataLayer();

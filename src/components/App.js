@@ -2,7 +2,6 @@ import React from 'react';
 import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 import * as StateActions from '../actions/StateActions';
 import { find } from '../utils/dom-queries';
-import * as renderDataAdapter from '../utils/renderDataAdapter';
 import { adjustColorbox } from '../utils/colorbox-manipulation';
 
 import Messages from './UserMessages';
@@ -97,36 +96,19 @@ class App extends React.Component {
   }
 
   handlePlaceOrder () {
-    var order = {};
+    const orderSettings = {
+      ui: this.state.ui,
+      isPreview: this.state.isPreview,
+      audioInfo: this.state.audioInfo,
+      resolutionId: this.state.resolutionId,
+      resolutionOptions: this.state.resolutions,
+      imageBank: this.state.imageBank
+    };
 
-    // add necessaries
-    order.ui = dl.populateOrderUi(this.state.ui);
-    order.isPreview = this.state.isPreview;
-    order.audioInfo = this.state.audioInfo;
-    order.resolutionId = this.state.resolutionId;
-    order.resolutionOptions = this.state.resolutions;
-    order.imageBank = this.state.imageBank || [];
-
-    try {
-      renderDataAdapter.updateXmlForOrder(order);
+    if (dl.prepOrderForSubmit(orderSettings)) {
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]')[0].click(); }, 100);
       });
-    } catch (failureReason) {
-      var message = 'Order Failed.';
-      if (failureReason !== undefined){
-        message += ` The given reason was "${failureReason}"`;
-      }
-      this.setState({
-        caughtErrors: [
-          {message: message}
-        ]
-      })
-      // This method of calling console (essentially) tells the build
-      // script that this is an intentional call, meant for production
-      var c = console;
-      c.log('Sent Object:',order);
-      c.error('Order Failure: ' + failureReason);
     }
   }
 
