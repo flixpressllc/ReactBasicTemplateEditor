@@ -11,6 +11,12 @@
     // This is just to simulate what the Flixpress server actually does with a url query.
     var tid = window.location.search.match(/tid=([0-9]+)/i);
     tid = tid && tid[1] ? tid[1] : 1000;
+
+    // obtain a portal token
+    var token;
+    fetch('http://192.168.2.116:7021/api/portals/0')
+    .then(function (r) { return r.text() })
+    .then(function (freshToken) { token = freshToken; });
   </script>
 </head>
 <body>
