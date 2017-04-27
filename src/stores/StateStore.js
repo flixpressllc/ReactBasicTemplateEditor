@@ -3,17 +3,17 @@ import dispatcher from '../actions/dispatcher';
 import { clone, traverseObject, toType } from 'happy-helpers';
 
 const ALLOWED_STATES = {
-  isUploading: 'boolean',
-  canUpload: 'boolean'
+  templateType: 'string',
+  templateId: 'number',
+  caughtErrors: 'array'
 }
 
 class StateStore extends EventEmitter {
   constructor () {
     super();
     this.state = {
-      isUploading: false,
-      canUpload: false
-    }
+      caughtErrors: []
+    };
   }
 
   getState (stringOrArrayOfKeys) {
