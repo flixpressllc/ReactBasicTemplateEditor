@@ -3,7 +3,6 @@ import { clone, mediaWidth, isEmpty } from 'happy-helpers';
 import Modal from './lib/Modal';
 import cx from 'classnames';
 import {m} from '../styles/styles';
-import { ajax } from '../utils/ajax';
 import './PreviewImage.scss';
 import RenderDataStore from '../stores/RenderDataStore';
 
@@ -40,15 +39,15 @@ export default class PreviewImage extends React.Component {
     }
   }
 
-  setMissingViaResponse (res) {
-    let isMissing = true;
-    let fileIsImage = res.getResponseHeader('Content-Type').indexOf('image') !== -1;
-    if (res.status === 200 && fileIsImage) {
-      isMissing = false;
+  setMissingViaImageError (url) {
+    const img = new Image();
+    img.onerror = () => {
+      this.setState({missing: true});
+    };
+    img.onload = () => {
+      this.setState({missing: false});
     }
-    this.setState({
-      missing: isMissing
-    });
+    img.src = url;
   }
 
   getPreviewImage (type, identifier) {
@@ -84,21 +83,15 @@ export default class PreviewImage extends React.Component {
 
   setImage (newImage) {
     if (newImage != this.state.image && newImage !== '') {
-      if (this.currentCheck) this.currentCheck.abort();
       var style = clone(this.state.style);
       style.backgroundImage = `url("${newImage}")`;
+
+      this.setMissingViaImageError(newImage);
       this.setState({
         style: style,
-        image: newImage,
-        missing: false
+        image: newImage
       });
 
-      this.currentCheck = ajax({
-        url: newImage,
-        type: 'HEAD'
-      })
-      .then( res => this.setMissingViaResponse(res) )
-      .catch( () => this.setState({isMissing: true}) );
     }
   }
 
