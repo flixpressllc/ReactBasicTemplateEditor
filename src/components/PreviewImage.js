@@ -51,7 +51,7 @@ export default class PreviewImage extends React.Component {
   }
 
   getPreviewImage (type, identifier) {
-    const containers = RenderDataStore.getAll();
+    const containers = RenderDataStore.getAllContainers();
     if (isEmpty(containers)) return '';
     if (type === 'TextField') {
       return URL_PARTIAL + containers.textFields[identifier].previewImage

@@ -180,7 +180,7 @@ class DataLayer {
 
   populateOrderUi (givenUi) {
     let orderUi = clone(givenUi);
-    let containers = RenderDataStore.getAll();
+    let containers = RenderDataStore.getAllContainers();
     // add values to order.ui
     orderUi = orderUi.map(sectionObjContainerObj =>{
       sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataObjectArray) => {

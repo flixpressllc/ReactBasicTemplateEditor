@@ -208,7 +208,7 @@ describe('App', () => {
         const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
-          let containedImages = RenderDataStore.getAll().userImageChoosers['Your Two Images'].containedImages;
+          let containedImages = RenderDataStore.getAllContainers().userImageChoosers['Your Two Images'].containedImages;
 
           let expected = [
             {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','','']},
@@ -244,7 +244,7 @@ describe('App', () => {
         const component = shallow(<App {...settings}/>);
 
         return component.instance().setupEditor().then(() => {
-          let containedImages = RenderDataStore.getAll().userImageChoosers['Your Two Images'].containedImages;
+          let containedImages = RenderDataStore.getAllContainers().userImageChoosers['Your Two Images'].containedImages;
           expect(containedImages).toMatchSnapshot();
         });
       });

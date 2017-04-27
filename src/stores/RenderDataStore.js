@@ -28,7 +28,7 @@ class RenderDataStore extends EventEmitter {
     })
   }
 
-  getAll() {
+  getAllContainers() {
     if ( ! this.state.receivedInitial) this.addMissingContainers();
     return this.containers ? clone(this.containers) : {};
   }
