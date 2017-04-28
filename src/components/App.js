@@ -105,7 +105,7 @@ class App extends React.Component {
   }
 
   render() {
-    var resolutionPicker = (<span></span>);
+    var resolutionPicker = null;
     if (this.state.editorSetupIsComplete) {
       resolutionPicker = (
         <ResolutionPicker
@@ -116,8 +116,8 @@ class App extends React.Component {
         />
       );
     }
-    var specFields = (<span></span>);
-    if (RenderDataStore.getUiDefinition() !== undefined) {
+    var specFields = null;
+    if (this.state.editorSetupIsComplete) {
       specFields = (
         <SpecFields
           templateType={ StateStore.getState('templateType')}
