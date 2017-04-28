@@ -89,14 +89,13 @@ class App extends React.Component {
   }
 
   handlePlaceOrder () {
-    let orderSettings = Object.assign({}, RenderDataStore.getTemplateOptions(), {ui: RenderDataStore.getUiDefinition()} );
 
-    if (dl.prepOrderForSubmit(orderSettings)) {
+    if (dl.prepOrderForSubmit()) {
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]')[0].click(); }, 100);
       });
     } else {
-      throw new Error(`Submission failed with these settings: ${orderSettings}`)
+      throw new Error('Submission failed.');
     }
   }
 

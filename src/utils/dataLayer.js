@@ -232,9 +232,11 @@ class DataLayer {
     return orderUi;
   }
 
-  prepOrderForSubmit(neededSettingsObject) {
+  prepOrderForSubmit() {
+    let orderSettings = Object.assign({}, RenderDataStore.getTemplateOptions(), {ui: RenderDataStore.getUiDefinition()} );
+
     let success = false;
-    let order = clone(neededSettingsObject);
+    let order = clone(orderSettings);
     order.ui = this.populateOrderUi(order.ui);
     order.imageBank = order.imageBank || [];
     try {
