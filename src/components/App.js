@@ -1,7 +1,6 @@
 import React from 'react';
 import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 import * as TemplateOptionsActions from '../actions/TemplateOptionsActions';
-import * as uiActions from '../actions/uiActions';
 import * as StateActions from '../actions/StateActions';
 import { find } from '../utils/dom-queries';
 import { adjustColorbox } from '../utils/colorbox-manipulation';
@@ -63,16 +62,8 @@ class App extends React.Component {
   setupEditor () { return new Promise((resolve) => {
     let getSettingsData = dl.getSettingsData(this.props.uiSettingsJsonUrl);
     getSettingsData
-      .then(uiData => dl.getStartingData(uiData))
-      .then(stateObject => {
-        TemplateOptionsActions.setTemplateOptions({resolutionOptions:stateObject.resolutions});
-        TemplateOptionsActions.setTemplateOptions({resolutionId:stateObject.resolutionId});
-        TemplateOptionsActions.setTemplateOptions({isPreview:stateObject.isPreview});
-        TemplateOptionsActions.setTemplateOptions({imageBank:stateObject.imageBank});
-        TemplateOptionsActions.setTemplateOptions({audioInfo:stateObject.audioInfo});
-        uiActions.setUiDefinition(stateObject.ui)
-        resolve();
-      });
+      .then(emptyUiData => dl.infuseStartingData(emptyUiData))
+      .then(resolve);
 
     getSettingsData.catch((possibleReason)=>{
       let errors = StateStore.getState('caughtErrors') || [];

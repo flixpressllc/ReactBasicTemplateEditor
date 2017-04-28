@@ -1,5 +1,7 @@
 import RenderDataStore from '../stores/RenderDataStore';
 import StateStore from '../stores/StateStore';
+import * as UiActions from '../actions/uiActions';
+import * as TemplateOptionsActions from '../actions/TemplateOptionsActions';
 import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
@@ -127,9 +129,9 @@ class DataLayer {
     return stateToMerge;
   }
 
-  getStartingData (uiData) { return new Promise((resolve) => {
+  infuseStartingData (emptyUiData) { return new Promise((resolve) => {
     let containerNames = dc.getContainerNames();
-    let emptyContainers = traverseObject(uiData, (key, val) => {
+    let emptyContainers = traverseObject(emptyUiData, (key, val) => {
       if (containerNames.indexOf(key) !== -1) {
         return [key, val];
       }
@@ -137,11 +139,19 @@ class DataLayer {
     let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
     let stateToMerge = this.extractAndReplacePreviewRenderValues(emptyContainers, specsNameValuePairs, highLevelData.imageBank);
 
-    let containers = traverseObject(Object.assign(uiData, stateToMerge), (key, val) => {
+    let containers = traverseObject(Object.assign(emptyUiData, stateToMerge), (key, val) => {
       if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
     });
     ContainerActions.setInitialContainerValues(containers);
-    resolve( Object.assign({ui: uiData.ui}, highLevelData) );
+
+    TemplateOptionsActions.setTemplateOptions({resolutionOptions:highLevelData.resolutions});
+    TemplateOptionsActions.setTemplateOptions({resolutionId:highLevelData.resolutionId});
+    TemplateOptionsActions.setTemplateOptions({isPreview:highLevelData.isPreview});
+    TemplateOptionsActions.setTemplateOptions({imageBank:highLevelData.imageBank});
+    TemplateOptionsActions.setTemplateOptions({audioInfo:highLevelData.audioInfo});
+    UiActions.setUiDefinition(emptyUiData.ui)
+
+    resolve();
   })}
 
   // Returns true if it passes, or an array of strings describing
