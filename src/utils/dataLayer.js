@@ -143,6 +143,10 @@ class DataLayer {
 
   }
 
+  _getCurrentErrors () {
+    return StateStore.getState('caughtErrors') || [];
+  }
+
   setupEditor (jsonUrl) {return new Promise((resolve) => {
     let getSettingsData = this.getSettingsData(jsonUrl);
     getSettingsData
@@ -150,7 +154,7 @@ class DataLayer {
       .then(resolve);
 
     getSettingsData.catch((possibleReason)=>{
-      let errors = StateStore.getState('caughtErrors') || [];
+      let errors = this._getCurrentErrors();
       errors.push({message: 'Could not load template data.'});
       if (possibleReason) { errors.push({message: possibleReason}); }
       StateActions.setState({
@@ -177,11 +181,15 @@ class DataLayer {
     resolve();
   })}
 
+  _getTemplateId () {
+    return StateStore.getState('templateId');
+  }
+
   // Returns true if it passes, or an array of strings describing
   // why it didn't pass.
   checkResult (results) {
     let messages = [];
-    let templateId = StateStore.getState('templateId');
+    let templateId = this._getTemplateId();
     // Template Id's match?
     if (results.templateId.toString() !== templateId.toString()) {
       messages.push(`Template IDs do not match. This page reports: ${templateId}, JSON file reports: ${results.templateId}`);
@@ -211,9 +219,13 @@ class DataLayer {
     }, err => reject(err));
   })}
 
+  _getAllContainers () {
+    return RenderDataStore.getAllContainers()
+  }
+
   populateOrderUi (givenUi) {
     let orderUi = clone(givenUi);
-    let containers = RenderDataStore.getAllContainers();
+    let containers = this._getAllContainers();
     // add values to order.ui
     orderUi = orderUi.map(sectionObjContainerObj =>{
       sectionObjContainerObj = traverseObject(sectionObjContainerObj, (sectionName, formDataObjectArray) => {
@@ -232,13 +244,20 @@ class DataLayer {
     return orderUi;
   }
 
-  prepOrderForSubmit() {
-    let orderSettings = Object.assign({}, RenderDataStore.getTemplateOptions(), {ui: RenderDataStore.getUiDefinition()} );
+  _getTemplateOptionsAndUi () {
+    return Object.assign({}, RenderDataStore.getTemplateOptions(), {ui: RenderDataStore.getUiDefinition()} );
+  }
 
-    let success = false;
-    let order = clone(orderSettings);
+  _getOrderSettings () {
+    let order = clone(this._getTemplateOptionsAndUi());
     order.ui = this.populateOrderUi(order.ui);
     order.imageBank = order.imageBank || [];
+    return order;
+  }
+
+  prepOrderForSubmit() {
+    let success = false;
+    const order = this._getOrderSettings();
     try {
       renderDataAdapter.updateXmlForOrder(order);
       success = true;
@@ -248,12 +267,12 @@ class DataLayer {
       if (failureReason !== undefined){
         message += ` The given reason was "${failureReason}"`;
       }
-      StateStore.setState({ caughtErrors: [ {message: message} ] });
+      StateActions.setState({ caughtErrors: [ {message: message} ] });
 
       // This method of calling console (essentially) tells the build
       // script that this is an intentional call, meant for production
       var c = console;
-      c.log('Sent Object:',order);
+      c.log('Sent Object:', order);
       c.error('Order Failure: ' + failureReason);
     }
 
