@@ -1,5 +1,7 @@
 import React from 'react';
 import * as TemplateSpecActions from '../actions/TemplateSpecActions';
+import * as TemplateOptionsActions from '../actions/TemplateOptionsActions';
+import * as uiActions from '../actions/uiActions';
 import * as StateActions from '../actions/StateActions';
 import { find } from '../utils/dom-queries';
 import { adjustColorbox } from '../utils/colorbox-manipulation';
@@ -13,6 +15,7 @@ import Modal from './lib/Modal';
 
 // This must be called after all the actual containers are called so they can
 // register themselves before RenderDataStore inside dataLayer tries to get them all...
+import RenderDataStore from '../stores/RenderDataStore';
 import dl from '../utils/dataLayer';
 
 import StateStore from '../stores/StateStore';
@@ -36,14 +39,21 @@ class App extends React.Component {
     this.handlePreviewChange = this.handlePreviewChange.bind(this);
     this.handleResolutionIdChange = this.handleResolutionIdChange.bind(this);
     this.handleUpdateCaughtErrors = this.handleUpdateCaughtErrors.bind(this);
+    this.handleUpdateTemplateOptions = this.handleUpdateTemplateOptions.bind(this);
+    this.editorSetupDidComplete = this.editorSetupDidComplete.bind(this);
 
     StateStore.on('STATE_UPDATED', this.handleUpdateCaughtErrors);
+
+    RenderDataStore.on('TEMPLATE_OPTIONS_CHANGED', this.handleUpdateTemplateOptions);
+  }
+
+  handleUpdateTemplateOptions () {
+    this.forceUpdate();
   }
 
   handlePlacePreviewOrder () {
-    this.setState({isPreview: true}, function () {
-      this.handlePlaceOrder();
-    });
+    TemplateOptionsActions.setTemplateOptions({isPreview: true});
+    this.handlePlaceOrder();
   }
 
   handleUpdateCaughtErrors () {
@@ -55,7 +65,13 @@ class App extends React.Component {
     getSettingsData
       .then(uiData => dl.getStartingData(uiData))
       .then(stateObject => {
-        this.setState(stateObject, resolve);
+        TemplateOptionsActions.setTemplateOptions({resolutionOptions:stateObject.resolutions});
+        TemplateOptionsActions.setTemplateOptions({resolutionId:stateObject.resolutionId});
+        TemplateOptionsActions.setTemplateOptions({isPreview:stateObject.isPreview});
+        TemplateOptionsActions.setTemplateOptions({imageBank:stateObject.imageBank});
+        TemplateOptionsActions.setTemplateOptions({audioInfo:stateObject.audioInfo});
+        uiActions.setUiDefinition(stateObject.ui)
+        resolve();
       });
 
     getSettingsData.catch((possibleReason)=>{
@@ -76,65 +92,58 @@ class App extends React.Component {
   editorSetupDidComplete () {
     // This doesn't mean that the images and such have acutally loaded,
     // so the height of the editor is not yet determined, etc.
+    this.setState( {editorSetupIsComplete: true} );
     setTimeout(() => adjustColorbox(), 500)
   }
 
   componentWillUnmount () {
     StateStore.removeEventListener('STATE_UPDATED', this.handleUpdateCaughtErrors);
+    RenderDataStore.removeEventListener('TEMPLATE_OPTIONS_CHANGED', this.handleUpdateTemplateOptions);
   }
 
   handleResolutionIdChange (id) {
-    this.setState({
-      resolutionId: id
-    })
+    TemplateOptionsActions.setTemplateOptions({resolutionId: id});
   }
 
   handlePreviewChange (e) {
-    this.setState({
-      isPreview: e.target.checked
-    })
+    TemplateOptionsActions.setTemplateOptions({isPreview: e.target.checked});
   }
 
   handlePlaceOrder () {
-    const orderSettings = {
-      ui: this.state.ui,
-      isPreview: this.state.isPreview,
-      audioInfo: this.state.audioInfo,
-      resolutionId: this.state.resolutionId,
-      resolutionOptions: this.state.resolutions,
-      imageBank: this.state.imageBank
-    };
+    let orderSettings = Object.assign({}, RenderDataStore.getTemplateOptions(), {ui: RenderDataStore.getUiDefinition()} );
 
     if (dl.prepOrderForSubmit(orderSettings)) {
       this.setState({allowSubmit: true}, function () {
         setTimeout(function(){ find('form input[type="submit"]')[0].click(); }, 100);
       });
+    } else {
+      throw new Error(`Submission failed with these settings: ${orderSettings}`)
     }
   }
 
   handleChooseSong (audioInfo) {
-    this.setState({audioInfo: audioInfo})
+    TemplateOptionsActions.setTemplateOptions({audioInfo});
   }
 
   render() {
     var resolutionPicker = (<span></span>);
-    if (this.state.resolutionId !== undefined) {
+    if (this.state.editorSetupIsComplete) {
       resolutionPicker = (
         <ResolutionPicker
-          resolutionOptions={this.state.resolutions}
+          resolutionOptions={RenderDataStore.getTemplateOptions('resolutionOptions')}
           resolutionIdChange={this.handleResolutionIdChange}
-          chosen={this.state.resolutionId}
-          disabled={this.state.isPreview}
+          chosen={RenderDataStore.getTemplateOptions('resolutionId')}
+          disabled={RenderDataStore.getTemplateOptions('isPreview')}
         />
       );
     }
     var specFields = (<span></span>);
-    if (this.state.ui !== undefined) {
+    if (RenderDataStore.getUiDefinition() !== undefined) {
       specFields = (
         <SpecFields
-          templateType={ this.props.templateType}
-          uiSections={this.state.ui}
-          imageBank={ this.state.imageBank }
+          templateType={ StateStore.getState('templateType')}
+          uiSections={RenderDataStore.getUiDefinition()}
+          imageBank={RenderDataStore.getTemplateOptions('imageBank')}
         />
       );
     }
@@ -151,13 +160,13 @@ class App extends React.Component {
           </div>
           <div className="reactBasicTemplateEditor-App-column">
             <SoundPicker
-              audioInfo={this.state.audioInfo}
+              audioInfo={RenderDataStore.getTemplateOptions('audioInfo')}
               username={this.props.userSettingsData.username}
               onChooseSong={this.handleChooseSong}
             />
             {resolutionPicker}
             <SubmitRender
-              isPreview={this.state.isPreview}
+              isPreview={RenderDataStore.getTemplateOptions('isPreview')}
               onChange={this.handlePreviewChange}
               placeOrder={this.handlePlaceOrder}
               allowSubmit={this.state.allowSubmit}

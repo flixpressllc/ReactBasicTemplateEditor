@@ -200,12 +200,15 @@ class DataLayer {
   }
 
   prepOrderForSubmit(neededSettingsObject) {
+    let success = false;
     let order = clone(neededSettingsObject);
     order.ui = this.populateOrderUi(order.ui);
     order.imageBank = order.imageBank || [];
     try {
       renderDataAdapter.updateXmlForOrder(order);
+      success = true;
     } catch (failureReason) {
+      success = false;
       var message = 'Order Failed.';
       if (failureReason !== undefined){
         message += ` The given reason was "${failureReason}"`;
@@ -218,6 +221,8 @@ class DataLayer {
       c.log('Sent Object:',order);
       c.error('Order Failure: ' + failureReason);
     }
+
+    return success;
 
   }
 }
