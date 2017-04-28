@@ -59,21 +59,9 @@ class App extends React.Component {
     this.setState(StateStore.getState(['caughtErrors']));
   }
 
-  setupEditor () { return new Promise((resolve) => {
-    let getSettingsData = dl.getSettingsData(this.props.uiSettingsJsonUrl);
-    getSettingsData
-      .then(emptyUiData => dl.infuseStartingData(emptyUiData))
-      .then(resolve);
-
-    getSettingsData.catch((possibleReason)=>{
-      let errors = StateStore.getState('caughtErrors') || [];
-      errors.push({message: 'Could not load template data.'});
-      if (possibleReason) { errors.push({message: possibleReason}); }
-      StateActions.setState({
-        caughtErrors: errors
-      });
-    });
-  })}
+  setupEditor () {
+    return dl.setupEditor(this.props.uiSettingsJsonUrl);
+  }
 
   componentDidMount () {
     TemplateSpecActions.setSpecs({templateId: parseInt(this.props.templateId, 10)});

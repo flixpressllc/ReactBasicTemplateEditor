@@ -143,6 +143,21 @@ class DataLayer {
 
   }
 
+  setupEditor (jsonUrl) {return new Promise((resolve) => {
+    let getSettingsData = this.getSettingsData(jsonUrl);
+    getSettingsData
+      .then(emptyUiData => this.infuseStartingData(emptyUiData))
+      .then(resolve);
+
+    getSettingsData.catch((possibleReason)=>{
+      let errors = StateStore.getState('caughtErrors') || [];
+      errors.push({message: 'Could not load template data.'});
+      if (possibleReason) { errors.push({message: possibleReason}); }
+      StateActions.setState({
+        caughtErrors: errors
+      });
+    });
+  })}
 
   infuseStartingData (emptyUiData) { return new Promise((resolve) => {
     let containerNames = dc.getContainerNames();
