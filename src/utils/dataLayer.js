@@ -129,6 +129,21 @@ class DataLayer {
     return stateToMerge;
   }
 
+  _setAllData (containers, highLevelData, uiDefinition) {
+    ContainerActions.setInitialContainerValues(containers);
+
+    TemplateOptionsActions.setTemplateOptions({resolutionOptions:highLevelData.resolutions});
+
+    TemplateOptionsActions.setTemplateOptions({resolutionId:highLevelData.resolutionId});
+    TemplateOptionsActions.setTemplateOptions({isPreview:highLevelData.isPreview});
+    TemplateOptionsActions.setTemplateOptions({imageBank:highLevelData.imageBank});
+    TemplateOptionsActions.setTemplateOptions({audioInfo:highLevelData.audioInfo});
+
+    UiActions.setUiDefinition(uiDefinition);
+
+  }
+
+
   infuseStartingData (emptyUiData) { return new Promise((resolve) => {
     let containerNames = dc.getContainerNames();
     let emptyContainers = traverseObject(emptyUiData, (key, val) => {
@@ -142,15 +157,8 @@ class DataLayer {
     let containers = traverseObject(Object.assign(emptyUiData, stateToMerge), (key, val) => {
       if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
     });
-    ContainerActions.setInitialContainerValues(containers);
 
-    TemplateOptionsActions.setTemplateOptions({resolutionOptions:highLevelData.resolutions});
-    TemplateOptionsActions.setTemplateOptions({resolutionId:highLevelData.resolutionId});
-    TemplateOptionsActions.setTemplateOptions({isPreview:highLevelData.isPreview});
-    TemplateOptionsActions.setTemplateOptions({imageBank:highLevelData.imageBank});
-    TemplateOptionsActions.setTemplateOptions({audioInfo:highLevelData.audioInfo});
-    UiActions.setUiDefinition(emptyUiData.ui)
-
+    this._setAllData(containers, highLevelData, emptyUiData.ui)
     resolve();
   })}
 
