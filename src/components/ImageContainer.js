@@ -5,7 +5,7 @@ import Modal from './lib/Modal';
 import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
-import { clone, toType } from 'happy-helpers';
+import { clone, toType, forceArray, traverseObject } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
@@ -14,24 +14,54 @@ import './ImageContainer.scss';
 
 const DATA_TYPE_NAME = 'userImageChooser';
 
-function toRenderString (imageChooserObj) {
-  // This won't really be a string. That's okay, though.
-  let renderValue = clone(imageChooserObj.containedImages).map((imgObj) => {
-    if (imgObj.captions === undefined) {
-      imgObj.captions = [];
+function prepCaptions(imageObject, captionDefinitions) {
+  // the following line has been commented out because, though
+  // is it unlikely, it does change current behavior and may break
+  // the renderer:
+  // if (captionDefinitions === undefined) return imageObject;
+
+  captionDefinitions = forceArray(captionDefinitions);
+  imageObject.captions = forceArray(imageObject.captions);
+
+  imageObject.captions = captionDefinitions.map((capLabelOrObj, i) => {
+    let label = capLabelOrObj;
+    if (toType(capLabelOrObj) === 'object') {
+      label = capLabelOrObj.label;
     }
-    if (imageChooserObj.captions === undefined) imageChooserObj.captions = [];
-    imgObj.captions = imageChooserObj.captions.map((capLabelOrObj, i) => {
-      let label = capLabelOrObj;
-      if (toType(capLabelOrObj) === 'object') {
-        label = capLabelOrObj.label;
-      }
-      return {
-        label: label,
-        value: imgObj.captions[i] || ''
-      };
-    })
-    return imgObj;
+    return {
+      label: label,
+      value: imageObject.captions[i] || ''
+    };
+  })
+  return imageObject;
+}
+
+function prepDropDowns(imageObject, dropDownDefinitions) {
+  if (dropDownDefinitions === undefined) return imageObject;
+  let dropDownLabels = [];
+  traverseObject(dropDownDefinitions, (key) => {
+    dropDownLabels.push(key);
+  })
+
+  imageObject.dropDowns = forceArray(imageObject.dropDowns);
+
+  imageObject.dropDowns = dropDownLabels.map((label, i) => {
+    return {
+      label: label,
+      value: imageObject.dropDowns[i] || ''
+    };
+  })
+  return imageObject;
+}
+
+// This won't really be a string. That's okay, though.
+export function toRenderString (imageChooserObj) {
+  const captionDefinitions = imageChooserObj.captions;
+  const dropDownDefinitions = imageChooserObj.dropDowns;
+  let renderValue = clone(imageChooserObj.containedImages).map(imgObj => {
+    let newImageObj = prepCaptions(imgObj, captionDefinitions);
+    newImageObj = prepDropDowns(imgObj, dropDownDefinitions);
+    return newImageObj;
   });
   return renderValue;
 }

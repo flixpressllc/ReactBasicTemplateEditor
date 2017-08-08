@@ -4,6 +4,83 @@ exports[`ImageContainer captions: filter options maxCharacters allows only first
 
 exports[`ImageContainer captions: filter options maxCharacters allows only last character typed if set to 1 1`] = `[Function]`;
 
+exports[`ImageContainer the toRenderString function behaves consistently when there are captions and drop downs 1`] = `
+Array [
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "something familair",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "somet",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "value": "1",
+      },
+    ],
+    "file": "DonDentonAdmin_money.jpg",
+    "id": 0,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "value": "2",
+      },
+    ],
+    "file": "DonDentonAdmin_hammer.jpg",
+    "id": 1,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "value": "",
+      },
+    ],
+    "file": "DonDentonAdmin_tree.jpg",
+    "id": 2,
+  },
+]
+`;
+
 exports[`ImageContainer the toRenderString function behaves consistently when there are captions without dropDowns 1`] = `
 Array [
   Object {
