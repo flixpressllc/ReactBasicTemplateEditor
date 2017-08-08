@@ -2,15 +2,20 @@ import React from 'react';
 import { mount, render, shallow } from 'enzyme';
 import ImageDropDown from './ImageDropDown';
 
+function getProps(props = {}) {
+  return Object.assign({index: 0}, props);
+}
+
 describe('ImageDropDown', () => {
   it('renders without crashing', () => {
     expect(() => mount(
-      <ImageDropDown />
+      <ImageDropDown {...getProps()} />
     )).not.toThrow();
   });
 
   it('displays its name in the label', () => {
-    const component = render(<ImageDropDown fieldName='mario'/>)
+    const props = getProps({fieldName: 'mario'});
+    const component = render(<ImageDropDown {...props} />)
 
     expect(component.find('label').text()).toEqual('mario');
   });
@@ -20,7 +25,8 @@ describe('ImageDropDown', () => {
       {name: 'Mario', value: 'mario'},
       {name: 'Luigi', value: 'luigi'}
     ];
-    const component = mount(<ImageDropDown fieldName='mario' options={ options }/>)
+    const props = getProps({fieldName: 'mario', options});
+    const component = mount(<ImageDropDown {...props}/>)
 
     expect(component.find('option').length).toEqual(2);
     expect(component.find('option').get(0).value).toEqual('mario');
@@ -29,9 +35,8 @@ describe('ImageDropDown', () => {
 
   it('calls the onDropDownFocus function when the input field is focused', () => {
     const fakeFn = jest.fn(() => {});
-    const component = shallow(<ImageDropDown
-      fieldName='Name of this field'
-      onDropDownFocus={ fakeFn } />);
+    const props = getProps({fieldName: 'Name of this field', onDropDownFocus: fakeFn});
+    const component = shallow(<ImageDropDown {...props} />);
 
     component.find('select').simulate('focus');
 

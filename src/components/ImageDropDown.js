@@ -1,5 +1,6 @@
 import DropDown from './DropDown';
 import './ImageDropDown.scss';
+import PT from 'prop-types';
 
 class ImageDropDown extends DropDown {
   constructor (props) {
@@ -19,7 +20,14 @@ ImageDropDown.defaultProps = {
   fieldName: '',
   onDropDownFocus: () => {
     // Do nothing. This is not a main component.
+    // Just overriding here from the base class.
   }
 };
+
+ImageDropDown.propTypes = {
+  options: PT.array,
+  fieldName: PT.string,
+  index: PT.number.isRequired
+}
 
 export default ImageDropDown;
