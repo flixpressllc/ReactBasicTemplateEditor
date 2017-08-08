@@ -1,14 +1,21 @@
 @import "../styles/_common-components";
 
-.reactBasicTemplateEditor-DropDown {
+.reactBasicTemplateEditor-ImageDropDown {
   @extend %input-component;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  max-width: 100%;
 
   > label {
     @extend %label;
+    color: black;
+    flex-basis: 2em;
+    flex-grow: 1;
   }
 
   > select {
     @extend %input;
+    flex-grow: 1;
   }
 }
-

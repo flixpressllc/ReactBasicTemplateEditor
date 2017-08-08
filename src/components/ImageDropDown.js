@@ -5,6 +5,7 @@ import PT from 'prop-types';
 class ImageDropDown extends DropDown {
   constructor (props) {
     super(props);
+    this.className = 'reactBasicTemplateEditor-ImageDropDown';
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
   }
 
