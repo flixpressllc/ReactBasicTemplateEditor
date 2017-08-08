@@ -336,4 +336,48 @@ describe('ImageContainer', () => {
     });
   });
 
+  describe('drop-downs:', () => {
+    it('will show the correct number of drop-down fields', () => {
+      let settings = {
+        images: [ {file: 'lockers.jpg', dropDowns:['','']}, {file: 'prom.jpg', dropDowns:['','']} ],
+        dropDowns: [
+          {
+            fieldName: 'Which Girl?',
+            options: [
+              {name: 'toffee', value: '1'},
+              {name: 'candy', value: '2'},
+              {name: 'ginger', value: '3'},
+              {name: 'coco', value: '4'}
+            ]
+          },
+          {
+            fieldName: 'Which Boy?',
+            options: [
+              {name: 'jonny', value: '1'},
+              {name: 'jake', value: '2'},
+              {name: 'josh', value: '3'},
+              {name: 'joey', value: '4'}
+            ]
+          }
+        ]
+      }
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find('select').length).toEqual(4);
+    });
+
+    it('will label the drop-down fields properly', () => {
+      let settings = {
+        images: [ {file: 'toast.jpg', captions:['','','']}, {file: 'coffee.jpg', captions:['','','']} ],
+        captions: [ 'one','two','three' ]
+      }
+      const component = mount(<ImageContainer {...getSettings(settings)}/>);
+
+      expect(component.find('input').get(0).placeholder).toEqual('one');
+      expect(component.find('input').get(1).placeholder).toEqual('two');
+      expect(component.find('input').get(2).placeholder).toEqual('three');
+    });
+
+  });
+
 });

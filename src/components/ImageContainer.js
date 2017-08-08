@@ -2,6 +2,7 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import CaptionInput from './CaptionInput';
 import Modal from './lib/Modal';
+import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
 import { clone, toType } from 'happy-helpers';
@@ -129,9 +130,19 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
     }
   }
 
+  renderDropDowns() {
+    if (!this.props.dropDowns) return null;
+    return this.props.dropDowns.map((dropDown, i) => {
+      return <ImageDropDown key={ i }
+        fieldName={ dropDown.fieldName }
+        options={ dropDown.options }/>
+    })
+  }
+
   render () {
     const captions = this.renderCaptions();
     const buttons = this.renderButtons();
+    const dropDowns = this.renderDropDowns();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <div className='reactBasicTemplateEditor-ImageContainer-imageListItemData'>
@@ -139,6 +150,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
           <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
             { buttons }
             { captions }
+            { dropDowns }
           </div>
         </div>
         <DragHandle />
@@ -154,6 +166,9 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
         <SortableUserImage
           key={`item-${index}`}
           captionsSettings={ props.captionsSettings }
+          dropDowns={ props.dropDowns }
+          dropDownValues={ props.dropDownValues }
+          onDropDownChange={ props.onDropDownChange }
           onCaptionChange={ props.onCaptionChange }
           index={index}
           onChangeImage={ props.onChangeImage }
@@ -316,6 +331,7 @@ class ImageContainer extends React.Component {
         items={ images }
         onSortEnd={ this.handleSortEnd }
         captionsSettings={ captionsSettings }
+        dropDowns={ this.props.dropDowns }
         onCaptionChange={ this.handleCaptionChange }
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }
