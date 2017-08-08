@@ -9,9 +9,7 @@ class ImageDropDown extends DropDown {
   }
 
   handleDropDownChange (e) {
-    // console.log(e);
-    // ContainerActions.changeContainer(DATA_TYPE_NAME, this.props.fieldName, {value: e.target.value});
-    // setTimeout(() => this.props.onDropDownFocus(this.props.fieldName), 100); // TODO: fix this hack
+    this.props.onChange(this.props.index, this.props.fieldName,  e.target.value);
   }
 }
 

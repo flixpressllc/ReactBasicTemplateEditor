@@ -53,16 +53,25 @@ const DragHandle = SortableHandle(() => {
 const SortableUserImage = SortableElement( class UserImage extends React.Component {
   constructor (props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleCaptionChange = this.handleCaptionChange.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.handleChangeImage = this.handleChangeImage.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
   }
-  handleChange (val, index) {
+  handleCaptionChange (val, index) {
     this.props.onCaptionChange({
       imageId: this.props.item.id,
       captionIndex: index,
       newValue: val
     });
+  }
+
+  handleDropDownChange (index, name, value) {
+    this.props.onDropDownChange({
+      imageId: this.props.item.id,
+      dropDownIndex: index,
+      newValue: value
+    })
   }
 
   handleChangeImage () {
@@ -88,7 +97,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
           data-index={ i }
           value={ captionValues[i] }
           placeholder={ capObj.label }
-          onChange={ this.handleChange }
+          onChange={ this.handleCaptionChange }
           />
       );
     });
@@ -134,8 +143,10 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
     if (!this.props.dropDowns) return null;
     return this.props.dropDowns.map((dropDown, i) => {
       return <ImageDropDown key={ i }
+        index={ i }
         fieldName={ dropDown.fieldName }
         value={ this.props.item.dropDowns[i] }
+        onChange={ this.handleDropDownChange }
         options={ dropDown.options }/>
     })
   }
@@ -201,6 +212,7 @@ class ImageContainer extends React.Component {
     this.handleSortEnd = this.handleSortEnd.bind(this);
     this.handleSortStart = this.handleSortStart.bind(this);
     this.handleCaptionChange = this.handleCaptionChange.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleChangeImage = this.handleChangeImage.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
@@ -240,6 +252,20 @@ class ImageContainer extends React.Component {
       }
       if (image.id === newCaptionObject.imageId) {
         image.captions[newCaptionObject.captionIndex] = newCaptionObject.newValue;
+      }
+      return image;
+    });
+    this.updateImages(newArray);
+  }
+
+  handleDropDownChange (newDropDownObject) {
+    let newArray = this.props.images.map(image => {
+      if (image.dropDowns === undefined) {
+        // be sure there is an array
+        image.dropDowns = [];
+      }
+      if (image.id === newDropDownObject.imageId) {
+        image.dropDowns[newDropDownObject.dropDownIndex] = newDropDownObject.newValue;
       }
       return image;
     });
@@ -334,6 +360,7 @@ class ImageContainer extends React.Component {
         captionsSettings={ captionsSettings }
         dropDowns={ this.props.dropDowns }
         onCaptionChange={ this.handleCaptionChange }
+        onDropDownChange={ this.handleDropDownChange }
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }
         onRemoveImage={ removeImageFunc }

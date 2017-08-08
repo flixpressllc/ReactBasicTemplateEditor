@@ -337,65 +337,55 @@ describe('ImageContainer', () => {
   });
 
   describe('drop-downs:', () => {
+    let ddSettings = () => {return {
+      images: [ {file: 'lockers.jpg', dropDowns:['1','1']}, {file: 'prom.jpg', dropDowns:['2','4']} ],
+      dropDowns: [
+        {
+          fieldName: 'Which Girl?',
+          options: [
+            {name: 'toffee', value: '1'},
+            {name: 'candy', value: '2'},
+            {name: 'ginger', value: '3'},
+            {name: 'coco', value: '4'}
+          ]
+        },
+        {
+          fieldName: 'Which Boy?',
+          options: [
+            {name: 'jonny', value: '1'},
+            {name: 'jake', value: '2'},
+            {name: 'josh', value: '3'},
+            {name: 'joey', value: '4'}
+          ]
+        }
+      ]
+    }}
     it('will show the correct number of drop-down fields', () => {
-      let settings = {
-        images: [ {file: 'lockers.jpg', dropDowns:['','']}, {file: 'prom.jpg', dropDowns:['','']} ],
-        dropDowns: [
-          {
-            fieldName: 'Which Girl?',
-            options: [
-              {name: 'toffee', value: '1'},
-              {name: 'candy', value: '2'},
-              {name: 'ginger', value: '3'},
-              {name: 'coco', value: '4'}
-            ]
-          },
-          {
-            fieldName: 'Which Boy?',
-            options: [
-              {name: 'jonny', value: '1'},
-              {name: 'jake', value: '2'},
-              {name: 'josh', value: '3'},
-              {name: 'joey', value: '4'}
-            ]
-          }
-        ]
-      }
-      const component = mount(<ImageContainer {...getSettings(settings)}/>);
-
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
       expect(component.find('select').length).toEqual(4);
     });
 
     it('will choose the proper option', () => {
-      let settings = {
-        images: [ {file: 'lockers.jpg', dropDowns:['1','1']}, {file: 'prom.jpg', dropDowns:['2','4']} ],
-        dropDowns: [
-          {
-            fieldName: 'Which Girl?',
-            options: [
-              {name: 'toffee', value: '1'},
-              {name: 'candy', value: '2'},
-              {name: 'ginger', value: '3'},
-              {name: 'coco', value: '4'}
-            ]
-          },
-          {
-            fieldName: 'Which Boy?',
-            options: [
-              {name: 'jonny', value: '1'},
-              {name: 'jake', value: '2'},
-              {name: 'josh', value: '3'},
-              {name: 'joey', value: '4'}
-            ]
-          }
-        ]
-      }
-      const component = mount(<ImageContainer {...getSettings(settings)}/>);
-
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
       expect(component.find('select').get(0).value).toEqual('1');
       expect(component.find('select').get(1).value).toEqual('1');
       expect(component.find('select').get(2).value).toEqual('2');
       expect(component.find('select').get(3).value).toEqual('4');
+    });
+
+    it('will send option changes up the stack', () => {
+      const fakeChange = {target: {value: '2'}};
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
+      let expected = ddSettings();
+      expected.images[0].dropDowns[0] = '2';
+      expected.images = expected.images.map((image, i) => {
+        image.id = i; // add id to images because that happens somewhere
+        return image;
+      })
+
+      component.find('select').at(0).simulate('change', fakeChange);
+
+      expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': expected.images});
     });
 
   });
