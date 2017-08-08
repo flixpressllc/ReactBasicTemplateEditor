@@ -135,6 +135,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
     return this.props.dropDowns.map((dropDown, i) => {
       return <ImageDropDown key={ i }
         fieldName={ dropDown.fieldName }
+        value={ this.props.item.dropDowns[i] }
         options={ dropDown.options }/>
     })
   }

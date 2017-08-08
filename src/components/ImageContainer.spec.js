@@ -366,16 +366,36 @@ describe('ImageContainer', () => {
       expect(component.find('select').length).toEqual(4);
     });
 
-    it('will label the drop-down fields properly', () => {
+    it('will choose the proper option', () => {
       let settings = {
-        images: [ {file: 'toast.jpg', captions:['','','']}, {file: 'coffee.jpg', captions:['','','']} ],
-        captions: [ 'one','two','three' ]
+        images: [ {file: 'lockers.jpg', dropDowns:['1','1']}, {file: 'prom.jpg', dropDowns:['2','4']} ],
+        dropDowns: [
+          {
+            fieldName: 'Which Girl?',
+            options: [
+              {name: 'toffee', value: '1'},
+              {name: 'candy', value: '2'},
+              {name: 'ginger', value: '3'},
+              {name: 'coco', value: '4'}
+            ]
+          },
+          {
+            fieldName: 'Which Boy?',
+            options: [
+              {name: 'jonny', value: '1'},
+              {name: 'jake', value: '2'},
+              {name: 'josh', value: '3'},
+              {name: 'joey', value: '4'}
+            ]
+          }
+        ]
       }
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find('input').get(0).placeholder).toEqual('one');
-      expect(component.find('input').get(1).placeholder).toEqual('two');
-      expect(component.find('input').get(2).placeholder).toEqual('three');
+      expect(component.find('select').get(0).value).toEqual('1');
+      expect(component.find('select').get(1).value).toEqual('1');
+      expect(component.find('select').get(2).value).toEqual('2');
+      expect(component.find('select').get(3).value).toEqual('4');
     });
 
   });
