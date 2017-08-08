@@ -5,7 +5,7 @@ import Modal from './lib/Modal';
 import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
-import { clone, toType, forceArray, traverseObject } from 'happy-helpers';
+import { clone, toType, forceArray } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
