@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import dispatcher from './dispatcher';
+import dispatcher from '../actions/dispatcher';
 import { clone, traverseObject, toType } from 'happy-helpers';
 
 const ALLOWED_SPECS = {

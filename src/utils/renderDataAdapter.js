@@ -115,7 +115,7 @@ var convertSpecsToReactData = function (givenXmlObj) {
 
 function getStartingResolutionsObject (obj) {
   if (!nestedPropertyTest(obj, 'ResolutionOptions.ListItemViewModel', isNotEmpty)) {
-    throw new Error('No resolutions available');
+    throw new Error('No resolution options available');
   }
 
   let givenResolutions = forceArray(clone(obj.ResolutionOptions.ListItemViewModel));
@@ -126,7 +126,7 @@ function getStartingResolutionsObject (obj) {
     resolutions.push(convertPropKeysForJs(givenResolutions[i]));
   }
 
-  return {resolutions: resolutions, resolutionId: resolutions[0].id};
+  return {resolutions, resolutionId: resolutions[0].id};
 }
 
 function getStartingAudioObject (obj) {

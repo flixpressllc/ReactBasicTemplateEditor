@@ -152,7 +152,7 @@ class SpecFields extends React.Component {
 
   createSection (sectionName, inputArray) {
     var components = [];
-    let containers = RenderDataStore.getAll();
+    let containers = RenderDataStore.getAllContainers();
     for (var i = 0; i < inputArray.length; i++) {
       var fieldName = inputArray[i].name;
       var type = inputArray[i].type;

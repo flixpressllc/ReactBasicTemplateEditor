@@ -152,12 +152,11 @@ class YouTubeLink extends React.Component {
     var checkLink = `https://www.googleapis.com/youtube/v3/videos?part=id,snippet&id=${ videoId }&key=${ YOU_TUBE_API_KEY }`;
 
     getJSON(checkLink)
-      .then( returnObject => {
-        let data = returnObject.data;
-        if (data.pageInfo.totalResults === 0) {
+      .then( json => {
+        if (json.pageInfo.totalResults === 0) {
           resolve(false);
-        } else if (data.pageInfo.totalResults === 1) {
-          this.setValid(videoId,data.items[0].snippet.title);
+        } else if (json.pageInfo.totalResults === 1) {
+          this.setValid(videoId,json.items[0].snippet.title);
         } else {
           this.setValidWithError(new Error('YouTube returned an unexpected result on an id check'), videoId);
         }

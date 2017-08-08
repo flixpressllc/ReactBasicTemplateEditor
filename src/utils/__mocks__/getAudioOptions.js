@@ -2,11 +2,8 @@
 
 
 let thenable = Promise.resolve(fakeAudioObject);
-let doneable = {done: function (cb) {
-  thenable.then(cb)
-}};
 
-const getAudioOptions = jest.fn(() => doneable );
+const getAudioOptions = jest.fn(() => thenable );
 
 const fakeAudioObject = {
     categories: {

@@ -151,7 +151,11 @@ Array [
       "length": 3,
       "name": "Bunny Garden",
     },
-    "imageBank": Array [],
+    "imageBank": Array [
+      "DonDentonAdmin_1-23-2017_94956756.png",
+      "DonDentonAdmin_1-23-2017_9502787.jpg",
+      "DonDentonAdmin_1-23-2017_9505506.png",
+    ],
     "isPreview": true,
     "resolutionId": 5,
     "resolutionOptions": Array [

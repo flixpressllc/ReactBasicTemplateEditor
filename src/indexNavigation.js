@@ -9,12 +9,12 @@ let headerContent=`
     padding: 3px;
     z-index: 9999;
   }
-  
+
   #debugging-navigation.hidden {
     bottom: -122px;
     right: -213px;
   }
-  
+
   #debugging-navigation li {
     display: block;
     margin: 8px;
@@ -48,6 +48,8 @@ let headerContent=`
     <a href="/indexImagesFresh.html?tid=96">No Cap Images</a>
     <a href="/indexImagesNoCapsPreview.html?tid=96">Preview Data</a>
   </li>
+  <li>
+    <a href="/indexFlixMulti.html">FlixMulti</a>
   </ul>
 </div>
 `
