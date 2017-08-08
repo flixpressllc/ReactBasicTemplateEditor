@@ -3,3 +3,82 @@
 exports[`ImageContainer captions: filter options maxCharacters allows only first n characters when set to n > 1 1`] = `[Function]`;
 
 exports[`ImageContainer captions: filter options maxCharacters allows only last character typed if set to 1 1`] = `[Function]`;
+
+exports[`ImageContainer the toRenderString function behaves consistently when there are captions without dropDowns 1`] = `
+Array [
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "something familair",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "somet",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "file": "DonDentonAdmin_money.jpg",
+    "id": 0,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "file": "DonDentonAdmin_hammer.jpg",
+    "id": 1,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "value": "",
+      },
+    ],
+    "file": "DonDentonAdmin_tree.jpg",
+    "id": 2,
+  },
+]
+`;
+
+exports[`ImageContainer the toRenderString function behaves consistently when there are no captions or dropDowns 1`] = `
+Array [
+  Object {
+    "captions": Array [],
+    "file": "DonDentonAdmin_money.jpg",
+    "id": 0,
+  },
+  Object {
+    "captions": Array [],
+    "file": "DonDentonAdmin_hammer.jpg",
+    "id": 1,
+  },
+  Object {
+    "captions": Array [],
+    "file": "DonDentonAdmin_tree.jpg",
+    "id": 2,
+  },
+]
+`;

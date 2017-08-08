@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ImageContainer from './ImageContainer';
+import ImageContainer, { toRenderString } from './ImageContainer';
 import { isObject } from 'happy-helpers';
 
 jest.mock('../actions/ContainerActions');
@@ -388,6 +388,21 @@ describe('ImageContainer', () => {
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': expected.images});
     });
 
+  });
+
+  describe('the toRenderString function behaves consistently', () => {
+    it('when there are captions without dropDowns', () => {
+      let imageChooserObj = '{"maxImages":8,"minImages":3,"captions":["Top Text",{"label":"Middle Text","settings":{"maxCharacters":5}},"Bottom Text"],"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0,"captions":["something familair","somet",""]},{"file":"DonDentonAdmin_hammer.jpg","id":1,"captions":["","",""]},{"file":"DonDentonAdmin_tree.jpg","id":2,"captions":["","",""]}]}';
+      imageChooserObj = JSON.parse(imageChooserObj);
+
+      expect(toRenderString(imageChooserObj)).toMatchSnapshot();
+    });
+    it('when there are no captions or dropDowns', () => {
+      let imageChooserObj = '{"maxImages":8,"minImages":3,"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0},{"file":"DonDentonAdmin_hammer.jpg","id":1},{"file":"DonDentonAdmin_tree.jpg","id":2}]}';
+      imageChooserObj = JSON.parse(imageChooserObj);
+
+      expect(toRenderString(imageChooserObj)).toMatchSnapshot();
+    });
   });
 
 });
