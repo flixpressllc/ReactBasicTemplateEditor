@@ -23,9 +23,17 @@ function shouldNotWatch() {
   return isOnCI() || askedForNoWatch();
 }
 
+function removeMyAddedNoWatch() {
+  let index = argv.indexOf('--noWatch');
+  if (index > -1) {
+    argv.splice(index, 1);
+  }
+}
+
 if (! shouldNotWatch() ) {
   argv.push('--watch');
 }
 
+removeMyAddedNoWatch();
 
 jest.run(argv);
