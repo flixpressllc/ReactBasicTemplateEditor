@@ -211,9 +211,9 @@ describe('App', () => {
           let containedImages = RenderDataStore.getAllContainers().userImageChoosers['Your Two Images'].containedImages;
 
           let expected = [
-            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','','']},
-            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: ['','','']},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','','']}
+            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','',''], dropDowns:['toffee']},
+            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: ['','',''], dropDowns:['toffee']},
+            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','',''], dropDowns:['toffee']}
           ];
 
           expect(containedImages).toEqual(expected);

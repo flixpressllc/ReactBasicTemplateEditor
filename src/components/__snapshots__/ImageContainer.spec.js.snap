@@ -23,7 +23,7 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": "Which Kid?",
+        "label": undefined,
         "value": "1",
       },
     ],
@@ -47,7 +47,7 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": "Which Kid?",
+        "label": undefined,
         "value": "2",
       },
     ],
@@ -71,7 +71,7 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": "Which Kid?",
+        "label": undefined,
         "value": "",
       },
     ],

@@ -38,16 +38,12 @@ function prepCaptions(imageObject, captionDefinitions) {
 
 function prepDropDowns(imageObject, dropDownDefinitions) {
   if (dropDownDefinitions === undefined) return imageObject;
-  let dropDownLabels = [];
-  traverseObject(dropDownDefinitions, (key) => {
-    dropDownLabels.push(key);
-  })
-
+  dropDownDefinitions = forceArray(dropDownDefinitions);
   imageObject.dropDowns = forceArray(imageObject.dropDowns);
 
-  imageObject.dropDowns = dropDownLabels.map((label, i) => {
+  imageObject.dropDowns = dropDownDefinitions.map((definition, i) => {
     return {
-      label: label,
+      label: definition.label,
       value: imageObject.dropDowns[i] || ''
     };
   })
@@ -170,11 +166,11 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
   }
 
   renderDropDowns() {
-    if (!this.props.dropDowns) return null;
-    return this.props.dropDowns.map((dropDown, i) => {
+    if (!this.props.dropDownsSettings) return null;
+    return this.props.dropDownsSettings.map((dropDown, i) => {
       return <ImageDropDown key={ i }
         index={ i }
-        fieldName={ dropDown.fieldName }
+        fieldName={ dropDown.label }
         value={ this.props.item.dropDowns[i] }
         onChange={ this.handleDropDownChange }
         options={ dropDown.options }/>
@@ -208,8 +204,7 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
         <SortableUserImage
           key={`item-${index}`}
           captionsSettings={ props.captionsSettings }
-          dropDowns={ props.dropDowns }
-          dropDownValues={ props.dropDownValues }
+          dropDownsSettings={ props.dropDownsSettings }
           onDropDownChange={ props.onDropDownChange }
           onCaptionChange={ props.onCaptionChange }
           index={index}
@@ -382,13 +377,14 @@ class ImageContainer extends React.Component {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
     const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
-    const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
+    const captionsSettings = this.deriveCaptionsSettings(this.props.captions);
+    const dropDownsSettings = this.props.dropDowns;
     return (
       <SortableListOfImages
         items={ images }
         onSortEnd={ this.handleSortEnd }
         captionsSettings={ captionsSettings }
-        dropDowns={ this.props.dropDowns }
+        dropDownsSettings={ dropDownsSettings }
         onCaptionChange={ this.handleCaptionChange }
         onDropDownChange={ this.handleDropDownChange }
         useDragHandle={ true }

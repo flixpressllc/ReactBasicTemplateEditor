@@ -24,6 +24,21 @@
         },
         "Bottom Text"
       ],
+      "dropDowns": {
+        "Which Kid?": {
+          "default": "toffee",
+          "options": [
+            {
+              "name": "Rebel without an H",
+              "value": "jonny"
+            },
+            {
+              "name": "Teenager in mourning",
+              "value": "toffee"
+            }
+          ]
+        }
+      },
       "value": ""
     }
   },

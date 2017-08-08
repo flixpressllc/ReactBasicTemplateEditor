@@ -7,7 +7,7 @@ import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from 'happy-helpers';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, forceArray } from 'happy-helpers';
 import { getJSON } from '../utils/ajax';
 
 class DataLayer {
@@ -112,11 +112,46 @@ class DataLayer {
       imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
       imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
+      imageChooser = this.setupImageDropDowns(imageChooser);
 
       return [key, imageChooser];
     });
     newStateToMerge.userImageChoosers = singlePopulatedChooser;
     return newStateToMerge;
+  }
+
+  turnHashedObjectIntoArrayOfObjectsWithLabelProperty(object, labelKey = 'label') {
+    let resultingArray = [];
+    traverseObject(object, (label, props) => {
+      if (props.hasOwnProperty(labelKey)) {
+        // eslint-disable-next-line no-console
+        console.error('object containing a label already:', props);
+        throw new Error(`The key ${labelKey} is already in use in the object that was passed in.`)
+      }
+
+      let labelObject = {};
+      labelObject[labelKey] = label;
+      resultingArray.push(Object.assign({}, labelObject, props));
+    });
+    return resultingArray;
+  }
+
+  setupImageDropDowns(imageChooser) {
+    if (imageChooser.dropDowns === undefined) return imageChooser;
+    let newImageChooser = clone(imageChooser);
+
+    newImageChooser.dropDowns = this.turnHashedObjectIntoArrayOfObjectsWithLabelProperty(newImageChooser.dropDowns);
+    const definitions = newImageChooser.dropDowns;
+
+    newImageChooser.containedImages.map(imageObj => {
+      imageObj.dropDowns = forceArray(imageObj.dropDowns);
+      definitions.map((definition, i) => {
+        if (imageObj.dropDowns[i]) return;
+        imageObj.dropDowns[i] = definition.default;
+      })
+      return imageObj;
+    })
+    return newImageChooser;
   }
 
   extractAndReplacePreviewRenderValues (emptyUiContainers, nameValuePairsObj, imageBank) {
