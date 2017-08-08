@@ -165,7 +165,7 @@ describe('ImageContainer', () => {
       });
     });
 
-    it('is not displayed if enough many images', () => {
+    it('is not displayed if enough images are present', () => {
       let settings = {
         images: [
           {file: 'toast.jpg'},
