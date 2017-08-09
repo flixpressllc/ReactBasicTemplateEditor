@@ -261,8 +261,8 @@ describe('ImageContainer', () => {
 
 
   describe('captions:', () => {
-    it('will show the correct number of caption fields', () => {
-      let settings = {
+    let capSettings = () => {
+      return {
         images: [
           {file: 'toast.jpg', captions:[
             {label: 'one', value: ''},
@@ -275,17 +275,17 @@ describe('ImageContainer', () => {
             {label: 'three', value: ''}
           ]}
         ]
-      }
+      };
+    }
+    it('will show the correct number of caption fields', () => {
+      let settings = capSettings();
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
       expect(component.find('input').length).toEqual(6);
     });
 
     it('will label the caption fields properly', () => {
-      let settings = {
-        images: [ {file: 'toast.jpg', captions:['','','']}, {file: 'coffee.jpg', captions:['','','']} ],
-        captions: [ 'one','two','three' ]
-      }
+      let settings = capSettings();
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
       expect(component.find('input').get(0).placeholder).toEqual('one');
@@ -402,13 +402,67 @@ describe('ImageContainer', () => {
 
   describe('the toRenderString function behaves consistently', () => {
     it('when there are captions and drop downs', () => {
-      let imageChooserObj = '{"maxImages":8,"minImages":3,"captions":["Top Text",{"label":"Middle Text","settings":{"maxCharacters":5}},"Bottom Text"],"dropDowns":{"Which Kid?":{"default":"toffee","options":[{"name":"Rebel without an H","value":"jonny"},{"name":"Teenager in mourning","value":"toffee"}]}},"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0,"captions":["something familair","somet",""],"dropDowns":["1","1"]},{"file":"DonDentonAdmin_hammer.jpg","id":1,"captions":["","",""],"dropDowns":["2","4"]},{"file":"DonDentonAdmin_tree.jpg","id":2,"captions":["","",""]}]}';
+      let imageChooserObj = `{"maxImages":8,"minImages":3,
+        "dropDowns":{"Which Kid?":{"default":"toffee","options":[{"name":"Rebel without an H","value":"jonny"},{"name":"Teenager in mourning","value":"toffee"}]}},"value":"",
+        "containedImages":[
+          {"file":"DonDentonAdmin_money.jpg","id":0,
+            "captions":[
+              {"label":"Top Text", "value": "something familair"},
+              {"label":"Middle Text", "value": "somet", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ],"dropDowns":[
+              "1","1"
+            ]
+          },{"file":"DonDentonAdmin_hammer.jpg","id":1,
+            "captions":[
+              {"label":"Top Text", "value": ""},
+              {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ],
+            "dropDowns":["2","4"]
+          },{"file":"DonDentonAdmin_tree.jpg","id":2,
+            "captions":[
+              {"label":"Top Text", "value": ""},
+              {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ]
+          }
+        ]
+      }`;
       imageChooserObj = JSON.parse(imageChooserObj);
 
       expect(toRenderString(imageChooserObj)).toMatchSnapshot();
     });
     it('when there are captions without dropDowns', () => {
-      let imageChooserObj = '{"maxImages":8,"minImages":3,"captions":["Top Text",{"label":"Middle Text","settings":{"maxCharacters":5}},"Bottom Text"],"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0,"captions":["something familair","somet",""]},{"file":"DonDentonAdmin_hammer.jpg","id":1,"captions":["","",""]},{"file":"DonDentonAdmin_tree.jpg","id":2,"captions":["","",""]}]}';
+      let imageChooserObj = `{
+        "maxImages":8,
+        "minImages":3,
+        "value":"",
+        "containedImages":[
+          {
+            "file":"DonDentonAdmin_money.jpg","id":0,
+            "captions":[
+              {"label":"Top Text", "value": "something familair"},
+              {"label":"Middle Text", "value": "somet", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ]
+          },{
+            "file":"DonDentonAdmin_hammer.jpg","id":1,
+            "captions":[
+              {"label":"Top Text", "value": ""},
+              {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ]
+          },{
+            "file":"DonDentonAdmin_tree.jpg","id":2,
+            "captions":[
+              {"label":"Top Text", "value": ""},
+              {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
+              {"label":"Bottom Text", "value": ""}
+            ]
+          }
+        ]
+      }`;
       imageChooserObj = JSON.parse(imageChooserObj);
 
       expect(toRenderString(imageChooserObj)).toMatchSnapshot();

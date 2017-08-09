@@ -7,8 +7,18 @@ import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, forceArray } from 'happy-helpers';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, forceArray, toType } from 'happy-helpers';
 import { getJSON } from '../utils/ajax';
+
+export function createCaptionObject(label, overrides = {}) {
+  if (toType(label) !== 'string') throw new Error('must pass in string label to createValidCaptionObject');
+  let validCaptionObject = {
+    settings: {},
+    label: label,
+    value: ''
+  }
+  return Object.assign(validCaptionObject, overrides);
+}
 
 class DataLayer {
   respectMinimumImageValue (imageChooser, imageBank) {
@@ -55,12 +65,56 @@ class DataLayer {
     });
   }
 
-  createBlankCaptionsIfNeeded (imageChooser) {
+  getLabelFromCapDefinition(capDefinition) {
+    let label;
+    switch (toType(capDefinition)) {
+      case 'object':
+        label = capDefinition.label;
+        break;
+      case 'string':
+        label = capDefinition;
+        break;
+      default:
+        // eslint-disable-next-line no-console
+        console.error('imageChooser.captions', capDefinition);
+        throw new Error('imageChooser.captions must be strings or objects only.')
+    }
+    return label;
+  }
+
+  getSettingsFromCapDefinition(capDefinition) {
+    let settings;
+    switch (toType(capDefinition)) {
+      case 'object':
+        settings = capDefinition.settings;
+        break;
+      default:
+        settings = {};
+        break;
+    }
+    return settings;
+  }
+
+  getValueFromImageObjCaption(captions, index) {
+    if (!captions) return '';
+    if (!captions[index]) return ''
+    if (toType(captions[index]) === 'object') {
+      return captions[index].value;
+    } else {
+      return captions[index];
+    }
+  }
+
+  mergeCaptionsWithDefinitions (imageChooser) {
     if (isNotEmpty(imageChooser.captions)) {
       imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
-        if (isEmpty(imageObj.captions)) {
-          imageObj.captions = imageChooser.captions.map( () => '' );
-        }
+        imageObj.captions = imageChooser.captions.map( (capDefinition, i) => {
+          const label = this.getLabelFromCapDefinition(capDefinition);
+          const settings = this.getSettingsFromCapDefinition(capDefinition);
+          const value = this.getValueFromImageObjCaption(imageObj.captions, i);
+
+          return createCaptionObject(label, {settings: settings, value});
+        });
         return imageObj;
       });
     }
@@ -111,7 +165,7 @@ class DataLayer {
       imageChooser = this.respectMaximumImageValue(imageChooser);
       imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
-      imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
+      imageChooser = this.mergeCaptionsWithDefinitions(imageChooser);
       imageChooser = this.setupImageDropDowns(imageChooser);
 
       return [key, imageChooser];

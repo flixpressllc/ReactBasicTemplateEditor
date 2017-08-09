@@ -137,7 +137,23 @@ exports[`App when an images template and when starting from preview passes the i
 Array [
   Object {
     "captions": Array [
-      "marmet",
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "marmet",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
     ],
     "dropDowns": Array [
       "toffee",
@@ -147,7 +163,23 @@ Array [
   },
   Object {
     "captions": Array [
-      "",
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
     ],
     "dropDowns": Array [
       "toffee",
@@ -157,7 +189,23 @@ Array [
   },
   Object {
     "captions": Array [
-      "",
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
     ],
     "dropDowns": Array [
       "toffee",

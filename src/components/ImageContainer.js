@@ -14,23 +14,18 @@ import './ImageContainer.scss';
 
 const DATA_TYPE_NAME = 'userImageChooser';
 
-function prepCaptions(imageObject, captionDefinitions) {
+function prepCaptions(imageObject) {
   // the following line has been commented out because, though
   // is it unlikely, it does change current behavior and may break
   // the renderer:
   // if (captionDefinitions === undefined) return imageObject;
 
-  captionDefinitions = forceArray(captionDefinitions);
   imageObject.captions = forceArray(imageObject.captions);
 
-  imageObject.captions = captionDefinitions.map((capLabelOrObj, i) => {
-    let label = capLabelOrObj;
-    if (toType(capLabelOrObj) === 'object') {
-      label = capLabelOrObj.label;
-    }
+  imageObject.captions = imageObject.captions.map((caption) => {
     return {
-      label: label,
-      value: imageObject.captions[i] || ''
+      label: caption.label,
+      value: caption.value
     };
   })
   return imageObject;
@@ -55,7 +50,7 @@ export function toRenderString (imageChooserObj) {
   const captionDefinitions = imageChooserObj.captions;
   const dropDownDefinitions = imageChooserObj.dropDowns;
   let renderValue = clone(imageChooserObj.containedImages).map(imgObj => {
-    let newImageObj = prepCaptions(imgObj, captionDefinitions);
+    let newImageObj = prepCaptions(imgObj);
     newImageObj = prepDropDowns(imgObj, dropDownDefinitions);
     return newImageObj;
   });
@@ -109,19 +104,17 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
   }
 
   renderCaptions () {
-    if (this.props.captionsSettings === undefined || this.props.item.captions === undefined) {
+    if (this.props.item.captions === undefined) {
       return null;
     }
-    const captionValues = clone(this.props.item.captions);
-    const captions = this.props.captionsSettings.map((capObj, i) => {
-      captionValues[i] = captionValues[i] || '';
+    const captions = this.props.item.captions.map((capObj, i) => {
       return (
         <CaptionInput
           key={ i }
           type='text'
           settings={ capObj.settings }
           data-index={ i }
-          value={ captionValues[i] }
+          value={ capObj.value }
           label={ capObj.label }
           onChange={ this.handleCaptionChange }
           />
@@ -203,7 +196,6 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
       {props.items.map((value, index) =>
         <SortableUserImage
           key={`item-${index}`}
-          captionsSettings={ props.captionsSettings }
           dropDownsSettings={ props.dropDownsSettings }
           onDropDownChange={ props.onDropDownChange }
           onCaptionChange={ props.onCaptionChange }
@@ -276,7 +268,7 @@ class ImageContainer extends React.Component {
         image.captions = [];
       }
       if (image.id === newCaptionObject.imageId) {
-        image.captions[newCaptionObject.captionIndex] = newCaptionObject.newValue;
+        image.captions[newCaptionObject.captionIndex].value = newCaptionObject.newValue;
       }
       return image;
     });
