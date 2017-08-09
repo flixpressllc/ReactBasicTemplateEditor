@@ -69,12 +69,10 @@ describe('DataAdapter', () => {
     it('updates the container with the expected values for new Images', () => {
       let dom = require('./dom-queries');
       dom.__setMockElement(XML_CONTAINER_ID, {value: startingImagesXml});
+      let expected = pretty(getSubmissionXmlFor(2000));
 
-      DataAdapter.updateXmlForOrder(getMockOrderObject(92));
-
+      DataAdapter.updateXmlForOrder(getMockOrderObject(2000));
       let result = pretty(dom.getElementById(XML_CONTAINER_ID).value);
-
-      let expected = pretty(getSubmissionXmlFor(92));
 
       expect(result).toEqual(expected);
     });

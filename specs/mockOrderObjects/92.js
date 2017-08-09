@@ -76,7 +76,7 @@ export default {
             {
               file: 'DonDentonAdmin_1-30-2017_11520968.jpg',
               captions: [ {label: 'Caption', value:'' } ]
-            },
+            }
           ]
         }
       ]
@@ -93,7 +93,7 @@ export default {
   resolutionId: 5,
   resolutionOptions: [
     { id: 5, name: '720p' },
-    { id: 3, name: '1080p' },
+    { id: 3, name: '1080p' }
   ],
   imageBank: [
     'DonDentonAdmin_1-30-2017_115146348.jpg',

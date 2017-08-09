@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-16"?>
+<OrderRequestOfFSlidesRndTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<IsPreview>true</IsPreview>
+<RenderedData>
+    <Slides>
+        <FSlide>
+            <Captions/>
+            <Images>
+                <CaptionedImage>
+                    <Captions>
+                        <CaptionField>
+                            <Label>Top Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Middle Text</Label>
+                            <Value>MT 1</Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Bottom Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                    </Captions>
+                    <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
+                </CaptionedImage>
+                <CaptionedImage>
+                    <Captions>
+                        <CaptionField>
+                            <Label>Top Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Middle Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Bottom Text</Label>
+                            <Value>BT 2</Value>
+                        </CaptionField>
+                    </Captions>
+                    <Filename>DonDentonAdmin_1-23-2017_145944747.jpg</Filename>
+                </CaptionedImage>
+                <CaptionedImage>
+                    <Captions>
+                        <CaptionField>
+                            <Label>Top Text</Label>
+                            <Value>TT 3</Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Middle Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Bottom Text</Label>
+                            <Value></Value>
+                        </CaptionField>
+                    </Captions>
+                    <Filename>DonDentonAdmin_tree.jpg</Filename>
+                </CaptionedImage>
+            </Images>
+        </FSlide>
+    </Slides>
+    <UnusedImageUrls>
+        <String>DonDentonAdmin_1-23-2017_15345872.jpg</String>
+        <String>DonDentonAdmin_1-23-2017_145944747.jpg</String>
+        <String>DonDentonAdmin_paper.jpg</String>
+        <String>DonDentonAdmin_money.jpg</String>
+        <String>DonDentonAdmin_hammer.jpg</String>
+        <String>DonDentonAdmin_tree.jpg</String>
+    </UnusedImageUrls>
+    <Captions>
+        <CaptionField>
+            <Label>Text Left of Icon</Label>
+            <Value>Text for left</Value>
+        </CaptionField>
+        <CaptionField>
+            <Label>Text Right of Icon</Label>
+            <Value>Text for right</Value>
+        </CaptionField>
+    </Captions>
+    <LogoMode>Image</LogoMode>
+    <AudioInfo>
+        <AudioUrl>https://fpsound.s3.amazonaws.com/2.mp3</AudioUrl>
+        <Name>Anitra</Name>
+        <AudioType>StockAudio</AudioType>
+        <Length>2</Length>
+        <Id>2</Id>
+    </AudioInfo>
+    <LogoId>0</LogoId>
+    <LogoFilename/>
+    <Logo3DFilename/>
+</RenderedData>
+<ResolutionId>3</ResolutionId>
+<ResolutionOptions>
+    <ListItemViewModel>
+        <Id>3</Id>
+        <Name>1080p</Name>
+    </ListItemViewModel>
+    <ListItemViewModel>
+        <Id>4</Id>
+        <Name>4K</Name>
+    </ListItemViewModel>
+</ResolutionOptions>
+</OrderRequestOfFSlidesRndTemplate>
