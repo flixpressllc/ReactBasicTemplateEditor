@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ImageContainer from './ImageContainer';
+import ImageContainer, { toRenderString } from './ImageContainer';
 import { isObject } from 'happy-helpers';
 
 jest.mock('../actions/ContainerActions');
@@ -333,6 +333,81 @@ describe('ImageContainer', () => {
           expect(FakeContainerActions.changeContainer).toMatchSnapshot()
         });
       });
+    });
+  });
+
+  describe('drop-downs:', () => {
+    let ddSettings = () => {return {
+      images: [ {file: 'lockers.jpg', dropDowns:['1','1']}, {file: 'prom.jpg', dropDowns:['2','4']} ],
+      dropDowns: [
+        {
+          fieldName: 'Which Girl?',
+          options: [
+            {name: 'toffee', value: '1'},
+            {name: 'candy', value: '2'},
+            {name: 'ginger', value: '3'},
+            {name: 'coco', value: '4'}
+          ]
+        },
+        {
+          fieldName: 'Which Boy?',
+          options: [
+            {name: 'jonny', value: '1'},
+            {name: 'jake', value: '2'},
+            {name: 'josh', value: '3'},
+            {name: 'joey', value: '4'}
+          ]
+        }
+      ]
+    }}
+    it('will show the correct number of drop-down fields', () => {
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
+      expect(component.find('select').length).toEqual(4);
+    });
+
+    it('will choose the proper option', () => {
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
+      expect(component.find('select').get(0).value).toEqual('1');
+      expect(component.find('select').get(1).value).toEqual('1');
+      expect(component.find('select').get(2).value).toEqual('2');
+      expect(component.find('select').get(3).value).toEqual('4');
+    });
+
+    it('will send option changes up the stack', () => {
+      const fakeChange = {target: {value: '2'}};
+      const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
+      let expected = ddSettings();
+      expected.images[0].dropDowns[0] = '2';
+      expected.images = expected.images.map((image, i) => {
+        image.id = i; // add id to images because that happens somewhere
+        return image;
+      })
+
+      component.find('select').at(0).simulate('change', fakeChange);
+
+      expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': expected.images});
+    });
+
+  });
+
+  describe('the toRenderString function behaves consistently', () => {
+    it('when there are captions and drop downs', () => {
+      let imageChooserObj = '{"maxImages":8,"minImages":3,"captions":["Top Text",{"label":"Middle Text","settings":{"maxCharacters":5}},"Bottom Text"],"dropDowns":{"Which Kid?":{"default":"toffee","options":[{"name":"Rebel without an H","value":"jonny"},{"name":"Teenager in mourning","value":"toffee"}]}},"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0,"captions":["something familair","somet",""],"dropDowns":["1","1"]},{"file":"DonDentonAdmin_hammer.jpg","id":1,"captions":["","",""],"dropDowns":["2","4"]},{"file":"DonDentonAdmin_tree.jpg","id":2,"captions":["","",""]}]}';
+      imageChooserObj = JSON.parse(imageChooserObj);
+
+      expect(toRenderString(imageChooserObj)).toMatchSnapshot();
+    });
+    it('when there are captions without dropDowns', () => {
+      let imageChooserObj = '{"maxImages":8,"minImages":3,"captions":["Top Text",{"label":"Middle Text","settings":{"maxCharacters":5}},"Bottom Text"],"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0,"captions":["something familair","somet",""]},{"file":"DonDentonAdmin_hammer.jpg","id":1,"captions":["","",""]},{"file":"DonDentonAdmin_tree.jpg","id":2,"captions":["","",""]}]}';
+      imageChooserObj = JSON.parse(imageChooserObj);
+
+      expect(toRenderString(imageChooserObj)).toMatchSnapshot();
+    });
+    it('when there are no captions or dropDowns', () => {
+      let imageChooserObj = '{"maxImages":8,"minImages":3,"value":"","containedImages":[{"file":"DonDentonAdmin_money.jpg","id":0},{"file":"DonDentonAdmin_hammer.jpg","id":1},{"file":"DonDentonAdmin_tree.jpg","id":2}]}';
+      imageChooserObj = JSON.parse(imageChooserObj);
+
+      expect(toRenderString(imageChooserObj)).toMatchSnapshot();
     });
   });
 

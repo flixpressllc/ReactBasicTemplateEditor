@@ -12,6 +12,8 @@ class DropDown extends React.Component {
   constructor (props) {
     super(props);
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
+    // Allow override of classname when extended
+    this.className = 'reactBasicTemplateEditor-DropDown';
   }
 
   handleDropDownChange (e) {
@@ -37,7 +39,7 @@ class DropDown extends React.Component {
     }
 
     return (
-      <div className="reactBasicTemplateEditor-DropDown">
+      <div className={ this.className }>
         <label>{name}</label>
         <select
           onChange={ this.handleDropDownChange }

@@ -67,6 +67,12 @@ Array [
                     "value": "",
                   },
                 ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
               },
@@ -83,6 +89,12 @@ Array [
                   Object {
                     "label": "Bottom Text",
                     "value": "",
+                  },
+                ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
                   },
                 ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
@@ -103,6 +115,12 @@ Array [
                     "value": "",
                   },
                 ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",
                 "id": 2,
               },
@@ -121,6 +139,9 @@ Array [
     "captions": Array [
       "marmet",
     ],
+    "dropDowns": Array [
+      "toffee",
+    ],
     "file": "DonDentonAdmin_1-23-2017_94956756.png",
     "id": 0,
   },
@@ -128,12 +149,18 @@ Array [
     "captions": Array [
       "",
     ],
+    "dropDowns": Array [
+      "toffee",
+    ],
     "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
     "id": 1,
   },
   Object {
     "captions": Array [
       "",
+    ],
+    "dropDowns": Array [
+      "toffee",
     ],
     "file": "DonDentonAdmin_1-23-2017_9505506.png",
     "id": 2,
@@ -204,6 +231,12 @@ Array [
                     "value": "",
                   },
                 ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_94956756.png",
                 "id": 0,
               },
@@ -222,6 +255,12 @@ Array [
                     "value": "",
                   },
                 ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
+                  },
+                ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
                 "id": 1,
               },
@@ -238,6 +277,12 @@ Array [
                   Object {
                     "label": "Bottom Text",
                     "value": "",
+                  },
+                ],
+                "dropDowns": Array [
+                  Object {
+                    "label": "Which Kid?",
+                    "value": "toffee",
                   },
                 ],
                 "file": "DonDentonAdmin_1-23-2017_9505506.png",

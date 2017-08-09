@@ -21,6 +21,7 @@ const awsCredentials = {
 }
 
 if (!awsCredentials.key || !awsCredentials.secret) {
+  // eslint-disable-next-line no-console
   console.log( '\n\n\n\nAWS credentials were not present. Did you create a `.env` file that looks like `.env.example` in the root directory of this repo?\n\n');
   process.exit();
 }
@@ -111,4 +112,3 @@ gulp.task('pushMasterAndNewTag', (cb) => {
     });
   });
 });
-

@@ -2,9 +2,10 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import CaptionInput from './CaptionInput';
 import Modal from './lib/Modal';
+import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
-import { clone, toType } from 'happy-helpers';
+import { clone, toType, forceArray } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
@@ -13,24 +14,50 @@ import './ImageContainer.scss';
 
 const DATA_TYPE_NAME = 'userImageChooser';
 
-function toRenderString (imageChooserObj) {
-  // This won't really be a string. That's okay, though.
-  let renderValue = clone(imageChooserObj.containedImages).map((imgObj) => {
-    if (imgObj.captions === undefined) {
-      imgObj.captions = [];
+function prepCaptions(imageObject, captionDefinitions) {
+  // the following line has been commented out because, though
+  // is it unlikely, it does change current behavior and may break
+  // the renderer:
+  // if (captionDefinitions === undefined) return imageObject;
+
+  captionDefinitions = forceArray(captionDefinitions);
+  imageObject.captions = forceArray(imageObject.captions);
+
+  imageObject.captions = captionDefinitions.map((capLabelOrObj, i) => {
+    let label = capLabelOrObj;
+    if (toType(capLabelOrObj) === 'object') {
+      label = capLabelOrObj.label;
     }
-    if (imageChooserObj.captions === undefined) imageChooserObj.captions = [];
-    imgObj.captions = imageChooserObj.captions.map((capLabelOrObj, i) => {
-      let label = capLabelOrObj;
-      if (toType(capLabelOrObj) === 'object') {
-        label = capLabelOrObj.label;
-      }
-      return {
-        label: label,
-        value: imgObj.captions[i] || ''
-      };
-    })
-    return imgObj;
+    return {
+      label: label,
+      value: imageObject.captions[i] || ''
+    };
+  })
+  return imageObject;
+}
+
+function prepDropDowns(imageObject, dropDownDefinitions) {
+  if (dropDownDefinitions === undefined) return imageObject;
+  dropDownDefinitions = forceArray(dropDownDefinitions);
+  imageObject.dropDowns = forceArray(imageObject.dropDowns);
+
+  imageObject.dropDowns = dropDownDefinitions.map((definition, i) => {
+    return {
+      label: definition.label,
+      value: imageObject.dropDowns[i] || ''
+    };
+  })
+  return imageObject;
+}
+
+// This won't really be a string. That's okay, though.
+export function toRenderString (imageChooserObj) {
+  const captionDefinitions = imageChooserObj.captions;
+  const dropDownDefinitions = imageChooserObj.dropDowns;
+  let renderValue = clone(imageChooserObj.containedImages).map(imgObj => {
+    let newImageObj = prepCaptions(imgObj, captionDefinitions);
+    newImageObj = prepDropDowns(imgObj, dropDownDefinitions);
+    return newImageObj;
   });
   return renderValue;
 }
@@ -52,16 +79,25 @@ const DragHandle = SortableHandle(() => {
 const SortableUserImage = SortableElement( class UserImage extends React.Component {
   constructor (props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleCaptionChange = this.handleCaptionChange.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.handleChangeImage = this.handleChangeImage.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
   }
-  handleChange (val, index) {
+  handleCaptionChange (val, index) {
     this.props.onCaptionChange({
       imageId: this.props.item.id,
       captionIndex: index,
       newValue: val
     });
+  }
+
+  handleDropDownChange (index, name, value) {
+    this.props.onDropDownChange({
+      imageId: this.props.item.id,
+      dropDownIndex: index,
+      newValue: value
+    })
   }
 
   handleChangeImage () {
@@ -87,7 +123,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
           data-index={ i }
           value={ captionValues[i] }
           placeholder={ capObj.label }
-          onChange={ this.handleChange }
+          onChange={ this.handleCaptionChange }
           />
       );
     });
@@ -129,9 +165,22 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
     }
   }
 
+  renderDropDowns() {
+    if (!this.props.dropDownsSettings) return null;
+    return this.props.dropDownsSettings.map((dropDown, i) => {
+      return <ImageDropDown key={ i }
+        index={ i }
+        fieldName={ dropDown.label }
+        value={ this.props.item.dropDowns[i] }
+        onChange={ this.handleDropDownChange }
+        options={ dropDown.options }/>
+    })
+  }
+
   render () {
     const captions = this.renderCaptions();
     const buttons = this.renderButtons();
+    const dropDowns = this.renderDropDowns();
     return (
       <div className='reactBasicTemplateEditor-ImageContainer-imageListItem'>
         <div className='reactBasicTemplateEditor-ImageContainer-imageListItemData'>
@@ -139,6 +188,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
           <div className='reactBasicTemplateEditor-ImageContainer-imageListItemDataChangers'>
             { buttons }
             { captions }
+            { dropDowns }
           </div>
         </div>
         <DragHandle />
@@ -154,6 +204,8 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
         <SortableUserImage
           key={`item-${index}`}
           captionsSettings={ props.captionsSettings }
+          dropDownsSettings={ props.dropDownsSettings }
+          onDropDownChange={ props.onDropDownChange }
           onCaptionChange={ props.onCaptionChange }
           index={index}
           onChangeImage={ props.onChangeImage }
@@ -185,6 +237,7 @@ class ImageContainer extends React.Component {
     this.handleSortEnd = this.handleSortEnd.bind(this);
     this.handleSortStart = this.handleSortStart.bind(this);
     this.handleCaptionChange = this.handleCaptionChange.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleChangeImage = this.handleChangeImage.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
@@ -224,6 +277,20 @@ class ImageContainer extends React.Component {
       }
       if (image.id === newCaptionObject.imageId) {
         image.captions[newCaptionObject.captionIndex] = newCaptionObject.newValue;
+      }
+      return image;
+    });
+    this.updateImages(newArray);
+  }
+
+  handleDropDownChange (newDropDownObject) {
+    let newArray = this.props.images.map(image => {
+      if (image.dropDowns === undefined) {
+        // be sure there is an array
+        image.dropDowns = [];
+      }
+      if (image.id === newDropDownObject.imageId) {
+        image.dropDowns[newDropDownObject.dropDownIndex] = newDropDownObject.newValue;
       }
       return image;
     });
@@ -310,13 +377,16 @@ class ImageContainer extends React.Component {
     const images = this.state.images;
     const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
     const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
-    const captionsSettings = this.deriveCaptionsSettings(this.props.captions)
+    const captionsSettings = this.deriveCaptionsSettings(this.props.captions);
+    const dropDownsSettings = this.props.dropDowns;
     return (
       <SortableListOfImages
         items={ images }
         onSortEnd={ this.handleSortEnd }
         captionsSettings={ captionsSettings }
+        dropDownsSettings={ dropDownsSettings }
         onCaptionChange={ this.handleCaptionChange }
+        onDropDownChange={ this.handleDropDownChange }
         useDragHandle={ true }
         onChangeImage={ changeImageFunc }
         onRemoveImage={ removeImageFunc }
