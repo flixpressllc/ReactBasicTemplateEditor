@@ -122,7 +122,7 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
           settings={ capObj.settings }
           data-index={ i }
           value={ captionValues[i] }
-          placeholder={ capObj.label }
+          label={ capObj.label }
           onChange={ this.handleCaptionChange }
           />
       );

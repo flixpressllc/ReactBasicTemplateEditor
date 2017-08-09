@@ -10,7 +10,7 @@ function CaptionInput (props) {
       type='text'
       data-index={ props['data-index'] }
       value={ props.value }
-      placeholder={ props.placeholder }
+      placeholder={ props.label }
       onChange={ handleChange }
       />
   )
