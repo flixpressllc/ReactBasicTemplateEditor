@@ -141,14 +141,17 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
     ImageContainer: [ // This name will be wrong if we ever assume more than one
       {
         captions: [ 'marmet' ],
+        dropDowns: ['toffee'],
         file: 'DonDentonAdmin_1-23-2017_94956756.png'
       },
       {
         captions: [''],
+        dropDowns: ['jonny'],
         file: 'DonDentonAdmin_1-23-2017_9502787.jpg'
       },
       {
         captions: [''],
+        dropDowns: ['toffee'],
         file: 'DonDentonAdmin_1-23-2017_9505506.png'
       }
     ]
@@ -210,31 +213,7 @@ describe('App', () => {
         return component.instance().setupEditor().then(() => {
           let containedImages = RenderDataStore.getAllContainers().userImageChoosers['Your Two Images'].containedImages;
 
-          let expected = [
-            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: [
-              {label: 'Top Text', value: '', settings: {}},
-              {label: 'Middle Text', value: '', settings: {
-                maxCharacters: 5
-              }},
-              {label: 'Bottom Text', value: '', settings: {}}
-            ], dropDowns:['toffee']},
-            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: [
-              {label: 'Top Text', value: '', settings: {}},
-              {label: 'Middle Text', value: '', settings: {
-                maxCharacters: 5
-              }},
-              {label: 'Bottom Text', value: '', settings: {}}
-            ], dropDowns:['toffee']},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: [
-              {label: 'Top Text', value: '', settings: {}},
-              {label: 'Middle Text', value: '', settings: {
-                maxCharacters: 5
-              }},
-              {label: 'Bottom Text', value: '', settings: {}}
-            ], dropDowns:['toffee']}
-          ];
-
-          expect(containedImages).toEqual(expected);
+          expect(containedImages).toMatchSnapshot();
         });
       });
       it('prepares the data for order as expected', () => {

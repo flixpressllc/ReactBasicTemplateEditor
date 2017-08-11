@@ -1,5 +1,127 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`App when an images template and when starting fresh passes the info into the correct containers 1`] = `
+Array [
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "toffee",
+      },
+    ],
+    "file": "DonDentonAdmin_1-23-2017_94956756.png",
+    "id": 0,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "toffee",
+      },
+    ],
+    "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
+    "id": 1,
+  },
+  Object {
+    "captions": Array [
+      Object {
+        "label": "Top Text",
+        "settings": Object {},
+        "value": "",
+      },
+      Object {
+        "label": "Middle Text",
+        "settings": Object {
+          "maxCharacters": 5,
+        },
+        "value": "",
+      },
+      Object {
+        "label": "Bottom Text",
+        "settings": Object {},
+        "value": "",
+      },
+    ],
+    "dropDowns": Array [
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "toffee",
+      },
+    ],
+    "file": "DonDentonAdmin_1-23-2017_9505506.png",
+    "id": 2,
+  },
+]
+`;
+
 exports[`App when an images template and when starting fresh prepares the data for order as expected 1`] = `
 Array [
   Object {
@@ -156,7 +278,20 @@ Array [
       },
     ],
     "dropDowns": Array [
-      "toffee",
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "toffee",
+      },
     ],
     "file": "DonDentonAdmin_1-23-2017_94956756.png",
     "id": 0,
@@ -182,7 +317,20 @@ Array [
       },
     ],
     "dropDowns": Array [
-      "toffee",
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "jonny",
+      },
     ],
     "file": "DonDentonAdmin_1-23-2017_9502787.jpg",
     "id": 1,
@@ -208,7 +356,20 @@ Array [
       },
     ],
     "dropDowns": Array [
-      "toffee",
+      Object {
+        "label": "Which Kid?",
+        "options": Array [
+          Object {
+            "name": "Rebel without an H",
+            "value": "jonny",
+          },
+          Object {
+            "name": "Teenager in mourning",
+            "value": "toffee",
+          },
+        ],
+        "value": "toffee",
+      },
     ],
     "file": "DonDentonAdmin_1-23-2017_9505506.png",
     "id": 2,
@@ -306,7 +467,7 @@ Array [
                 "dropDowns": Array [
                   Object {
                     "label": "Which Kid?",
-                    "value": "toffee",
+                    "value": "jonny",
                   },
                 ],
                 "file": "DonDentonAdmin_1-23-2017_9502787.jpg",

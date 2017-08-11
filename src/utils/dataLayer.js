@@ -200,8 +200,13 @@ class DataLayer {
     newImageChooser.containedImages.map(imageObj => {
       imageObj.dropDowns = forceArray(imageObj.dropDowns);
       definitions.map((definition, i) => {
-        if (imageObj.dropDowns[i]) return;
-        imageObj.dropDowns[i] = definition.default;
+        if (imageObj.dropDowns[i] === undefined) {
+          imageObj.dropDowns[i] = {value: definition.default};
+        } else if (toType(imageObj.dropDowns[i]) === 'string') {
+          imageObj.dropDowns[i] = {value: imageObj.dropDowns[i]};
+        }
+        imageObj.dropDowns[i].label = definition.label;
+        imageObj.dropDowns[i].options = definition.options;
       })
       return imageObj;
     })
