@@ -20,6 +20,10 @@
                             <Label>Bottom Text</Label>
                             <Value></Value>
                         </CaptionField>
+                        <CaptionField>
+                            <Label>Which Kid?</Label>
+                            <Value>toffee</Value>
+                        </CaptionField>
                     </Captions>
                     <Filename>DonDentonAdmin_1-23-2017_15345872.jpg</Filename>
                 </CaptionedImage>
@@ -37,6 +41,10 @@
                             <Label>Bottom Text</Label>
                             <Value>BT 2</Value>
                         </CaptionField>
+                        <CaptionField>
+                            <Label>Which Kid?</Label>
+                            <Value>jonny</Value>
+                        </CaptionField>
                     </Captions>
                     <Filename>DonDentonAdmin_1-23-2017_145944747.jpg</Filename>
                 </CaptionedImage>
@@ -53,6 +61,10 @@
                         <CaptionField>
                             <Label>Bottom Text</Label>
                             <Value></Value>
+                        </CaptionField>
+                        <CaptionField>
+                            <Label>Which Kid?</Label>
+                            <Value>toffee</Value>
                         </CaptionField>
                     </Captions>
                     <Filename>DonDentonAdmin_tree.jpg</Filename>

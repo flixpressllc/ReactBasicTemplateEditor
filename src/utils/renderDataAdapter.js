@@ -374,9 +374,10 @@ function addImageRenderDataToOrderObject (orderObject, reactObj) {
           } else {
             let chooser = reactObj.ui[i][key][j];
             chooser.value.map(imgObj => {
+              const capsAndDropDowns = imgObj.captions.concat(imgObj.dropDowns);
               Images.CaptionedImage.push({
                 Captions: { CaptionField:
-                  imgObj.captions.map((cap) => {
+                  capsAndDropDowns.map((cap) => {
                     return {
                       Label: cap.label,
                       Value: cap.value
