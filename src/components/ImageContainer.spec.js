@@ -348,26 +348,50 @@ describe('ImageContainer', () => {
 
   describe('drop-downs:', () => {
     let ddSettings = () => {return {
-      images: [ {file: 'lockers.jpg', dropDowns:['1','1']}, {file: 'prom.jpg', dropDowns:['2','4']} ],
-      dropDowns: [
-        {
-          fieldName: 'Which Girl?',
-          options: [
-            {name: 'toffee', value: '1'},
-            {name: 'candy', value: '2'},
-            {name: 'ginger', value: '3'},
-            {name: 'coco', value: '4'}
-          ]
-        },
-        {
-          fieldName: 'Which Boy?',
-          options: [
-            {name: 'jonny', value: '1'},
-            {name: 'jake', value: '2'},
-            {name: 'josh', value: '3'},
-            {name: 'joey', value: '4'}
-          ]
-        }
+      images: [
+        {file: 'lockers.jpg', dropDowns:[
+          {
+            label: 'Which Girl?',
+            options: [
+              {name: 'toffee', value: '1'},
+              {name: 'candy', value: '2'},
+              {name: 'ginger', value: '3'},
+              {name: 'coco', value: '4'}
+            ],
+            value: '1'
+          },
+          {
+            label: 'Which Boy?',
+            options: [
+              {name: 'jonny', value: '1'},
+              {name: 'jake', value: '2'},
+              {name: 'josh', value: '3'},
+              {name: 'joey', value: '4'}
+            ],
+            value: '1'
+          }
+        ]}, {file: 'prom.jpg', dropDowns:[
+          {
+            label: 'Which Girl?',
+            options: [
+              {name: 'toffee', value: '1'},
+              {name: 'candy', value: '2'},
+              {name: 'ginger', value: '3'},
+              {name: 'coco', value: '4'}
+            ],
+            value: '2'
+          },
+          {
+            label: 'Which Boy?',
+            options: [
+              {name: 'jonny', value: '1'},
+              {name: 'jake', value: '2'},
+              {name: 'josh', value: '3'},
+              {name: 'joey', value: '4'}
+            ],
+            value: '4'
+          }
+        ]}
       ]
     }}
     it('will show the correct number of drop-down fields', () => {
@@ -387,7 +411,7 @@ describe('ImageContainer', () => {
       const fakeChange = {target: {value: '2'}};
       const component = mount(<ImageContainer {...getSettings(ddSettings())}/>);
       let expected = ddSettings();
-      expected.images[0].dropDowns[0] = '2';
+      expected.images[0].dropDowns[0].value = '2';
       expected.images = expected.images.map((image, i) => {
         image.id = i; // add id to images because that happens somewhere
         return image;
@@ -403,7 +427,8 @@ describe('ImageContainer', () => {
   describe('the toRenderString function behaves consistently', () => {
     it('when there are captions and drop downs', () => {
       let imageChooserObj = `{"maxImages":8,"minImages":3,
-        "dropDowns":{"Which Kid?":{"default":"toffee","options":[{"name":"Rebel without an H","value":"jonny"},{"name":"Teenager in mourning","value":"toffee"}]}},"value":"",
+        "dropDowns":{"Which Kid?":{"default":"toffee","options":[{"name":"Rebel without an H","value":"jonny"},{"name":"Teenager in mourning","value":"toffee"}]}},
+        "value":"",
         "containedImages":[
           {"file":"DonDentonAdmin_money.jpg","id":0,
             "captions":[
@@ -411,7 +436,14 @@ describe('ImageContainer', () => {
               {"label":"Middle Text", "value": "somet", "settings": {"maxCharacters": 5}},
               {"label":"Bottom Text", "value": ""}
             ],"dropDowns":[
-              "1","1"
+              {
+                "label": "Which Kid?",
+                "value": "1",
+                "options": [
+                  {"name":"Rebel without an H","value":"jonny"},
+                  {"name":"Teenager in mourning","value":"toffee"}
+                ]
+              }
             ]
           },{"file":"DonDentonAdmin_hammer.jpg","id":1,
             "captions":[
@@ -419,12 +451,31 @@ describe('ImageContainer', () => {
               {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
               {"label":"Bottom Text", "value": ""}
             ],
-            "dropDowns":["2","4"]
+            "dropDowns":[
+              {
+                "label": "Which Kid?",
+                "value": "2",
+                "options": [
+                  {"name":"Rebel without an H","value":"jonny"},
+                  {"name":"Teenager in mourning","value":"toffee"}
+                ]
+              }
+            ]
           },{"file":"DonDentonAdmin_tree.jpg","id":2,
             "captions":[
               {"label":"Top Text", "value": ""},
               {"label":"Middle Text", "value": "", "settings": {"maxCharacters": 5}},
               {"label":"Bottom Text", "value": ""}
+            ],
+            "dropDowns":[
+              {
+                "label": "Which Kid?",
+                "value": "1",
+                "options": [
+                  {"name":"Rebel without an H","value":"jonny"},
+                  {"name":"Teenager in mourning","value":"toffee"}
+                ]
+              }
             ]
           }
         ]

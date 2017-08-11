@@ -23,7 +23,7 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": undefined,
+        "label": "Which Kid?",
         "value": "1",
       },
     ],
@@ -47,7 +47,7 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": undefined,
+        "label": "Which Kid?",
         "value": "2",
       },
     ],
@@ -71,8 +71,8 @@ Array [
     ],
     "dropDowns": Array [
       Object {
-        "label": undefined,
-        "value": "",
+        "label": "Which Kid?",
+        "value": "1",
       },
     ],
     "file": "DonDentonAdmin_tree.jpg",

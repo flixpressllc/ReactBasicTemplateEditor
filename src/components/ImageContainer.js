@@ -15,12 +15,11 @@ import './ImageContainer.scss';
 const DATA_TYPE_NAME = 'userImageChooser';
 
 function prepCaptions(imageObject) {
+  imageObject.captions = forceArray(imageObject.captions);
   // the following line has been commented out because, though
   // is it unlikely, it does change current behavior and may break
   // the renderer:
-  // if (captionDefinitions === undefined) return imageObject;
-
-  imageObject.captions = forceArray(imageObject.captions);
+  // if (imageObject.captions.length < 1) return imageObject;
 
   imageObject.captions = imageObject.captions.map((caption) => {
     return {
@@ -31,15 +30,17 @@ function prepCaptions(imageObject) {
   return imageObject;
 }
 
-function prepDropDowns(imageObject, dropDownDefinitions) {
-  if (dropDownDefinitions === undefined) return imageObject;
-  dropDownDefinitions = forceArray(dropDownDefinitions);
+function prepDropDowns(imageObject) {
   imageObject.dropDowns = forceArray(imageObject.dropDowns);
+  if (imageObject.dropDowns.length < 1) {
+    delete imageObject.dropDowns;
+    return imageObject;
+  }
 
-  imageObject.dropDowns = dropDownDefinitions.map((definition, i) => {
+  imageObject.dropDowns = imageObject.dropDowns.map((dropDown) => {
     return {
-      label: definition.label,
-      value: imageObject.dropDowns[i] || ''
+      label: dropDown.label,
+      value: dropDown.value
     };
   })
   return imageObject;
@@ -47,11 +48,9 @@ function prepDropDowns(imageObject, dropDownDefinitions) {
 
 // This won't really be a string. That's okay, though.
 export function toRenderString (imageChooserObj) {
-  const captionDefinitions = imageChooserObj.captions;
-  const dropDownDefinitions = imageChooserObj.dropDowns;
   let renderValue = clone(imageChooserObj.containedImages).map(imgObj => {
     let newImageObj = prepCaptions(imgObj);
-    newImageObj = prepDropDowns(imgObj, dropDownDefinitions);
+    newImageObj = prepDropDowns(imgObj);
     return newImageObj;
   });
   return renderValue;
@@ -159,12 +158,12 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
   }
 
   renderDropDowns() {
-    if (!this.props.dropDownsSettings) return null;
-    return this.props.dropDownsSettings.map((dropDown, i) => {
+    if (forceArray(this.props.item.dropDowns).length < 1) return null;
+    return this.props.item.dropDowns.map((dropDown, i) => {
       return <ImageDropDown key={ i }
         index={ i }
         fieldName={ dropDown.label }
-        value={ this.props.item.dropDowns[i] }
+        value={ dropDown.value }
         onChange={ this.handleDropDownChange }
         options={ dropDown.options }/>
     })
@@ -282,7 +281,7 @@ class ImageContainer extends React.Component {
         image.dropDowns = [];
       }
       if (image.id === newDropDownObject.imageId) {
-        image.dropDowns[newDropDownObject.dropDownIndex] = newDropDownObject.newValue;
+        image.dropDowns[newDropDownObject.dropDownIndex].value = newDropDownObject.newValue;
       }
       return image;
     });
