@@ -55,9 +55,9 @@ gulp.task('release', () => {
 
   git.pull((err) => {
     if (err) throw err;
+    rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushMasterAndNewTag')
   });
 
-  rs('bumpToRelease', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushMasterAndNewTag')
 });
 
 gulp.task('bumpToRelease', () => {
