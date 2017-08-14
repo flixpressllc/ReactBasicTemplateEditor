@@ -24,9 +24,9 @@ jest.mock('../stores/TemplateSpecificationsStore', () => {
 });
 const FakeTStore = require('../stores/TemplateSpecificationsStore');
 
-const swapButtonSelector = '.reactBasicTemplateEditor-ImageContainer-swapImageButton';
-const removeButtonSelector = '.reactBasicTemplateEditor-ImageContainer-removeImageButton';
-const addButtonSelector = '.reactBasicTemplateEditor-ImageContainer-addImageButton';
+const SWAP_BUTTON_SELECTOR = '.reactBasicTemplateEditor-ImageContainer-swapImageButton';
+const REMOVE_BUTTON_SELECTOR = '.reactBasicTemplateEditor-ImageContainer-removeImageButton';
+const ADD_BUTTON_SELECTOR = '.reactBasicTemplateEditor-ImageContainer-addImageButton';
 
 // <ImageContainer
 //   images={ [ arrayOfImages ] }
@@ -89,7 +89,7 @@ describe('ImageContainer', () => {
       };
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      component.find(removeButtonSelector).at(0).simulate('click');
+      component.find(REMOVE_BUTTON_SELECTOR).at(0).simulate('click');
 
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'coffee.jpg', 'id': 1}]});
     });
@@ -105,7 +105,7 @@ describe('ImageContainer', () => {
 
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find(removeButtonSelector).length).toEqual(0);
+      expect(component.find(REMOVE_BUTTON_SELECTOR).length).toEqual(0);
     });
 
     it('is displayed if enough images', () => {
@@ -118,7 +118,7 @@ describe('ImageContainer', () => {
 
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find(removeButtonSelector).length).toEqual(2);
+      expect(component.find(REMOVE_BUTTON_SELECTOR).length).toEqual(2);
     });
   });
 
@@ -137,7 +137,7 @@ describe('ImageContainer', () => {
       };
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      component.find(addButtonSelector).at(0).simulate('click');
+      component.find(ADD_BUTTON_SELECTOR).at(0).simulate('click');
 
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'toast.jpg', 'id': 0},{'file': 'coffee.jpg', 'id': 1},{'file': 'toast.jpg', 'id': 0}]});
     });
@@ -152,7 +152,7 @@ describe('ImageContainer', () => {
       }
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      component.find(addButtonSelector).at(0).simulate('click');
+      component.find(ADD_BUTTON_SELECTOR).at(0).simulate('click');
 
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith(
         'userImageChooser',
@@ -176,7 +176,7 @@ describe('ImageContainer', () => {
 
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find(addButtonSelector).length).toEqual(0);
+      expect(component.find(ADD_BUTTON_SELECTOR).length).toEqual(0);
     });
 
     it('is displayed if few enough images', () => {
@@ -189,7 +189,7 @@ describe('ImageContainer', () => {
 
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      expect(component.find(addButtonSelector).length).toEqual(1);
+      expect(component.find(ADD_BUTTON_SELECTOR).length).toEqual(1);
     });
   });
 
@@ -210,7 +210,7 @@ describe('ImageContainer', () => {
       };
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      component.find(swapButtonSelector).at(0).simulate('click');
+      component.find(SWAP_BUTTON_SELECTOR).at(0).simulate('click');
       let renderedImages = component.render().find('img');
 
       expect(renderedImages.length).toEqual(4);
@@ -235,7 +235,7 @@ describe('ImageContainer', () => {
       };
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-      component.find(swapButtonSelector).at(0).simulate('click');
+      component.find(SWAP_BUTTON_SELECTOR).at(0).simulate('click');
       component.find('img').at(2).simulate('click');
 
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myField', {'containedImages': [{'file': 'eggs.jpg', 'id': 0}]});
@@ -253,7 +253,7 @@ describe('ImageContainer', () => {
         };
         const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
-        expect(component.find(swapButtonSelector).length).toEqual(0);
+        expect(component.find(SWAP_BUTTON_SELECTOR).length).toEqual(0);
       });
     });
 
