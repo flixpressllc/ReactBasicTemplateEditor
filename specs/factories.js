@@ -1,37 +1,97 @@
 const factories = {
   caption: () => {
     return {
-      label: `Fake Caption ${getNewId()}`,
+      label: `Fake Caption ${getNewId('cap')}`,
       settings: {},
       value: ''
     };
   },
   image: () => {
     return {
-      file: `filename${getNewId()}.jpg`
+      file: `filename${getNewId('img')}.jpg`
       // dropDowns: []
       // captions: []
     }
   },
   imageContainerProps: () => {
     return {
-      fieldName: `myImageContainer${getNewId()}`
+      fieldName: `myImageContainer${getNewId('imgCon')}`
       // images: []
       // imageBank: []
     }
+  },
+  dropDown: () => {
+    return {
+      label: `Drop Down List ${getNewId('dd')}`,
+      options: create_list('dropDownOption', 4),
+      value: '1'
+    }
+  },
+  dropDownOption: () => {
+    const names = ['Toffee', 'Jonny', 'Candy', 'Jake', 'Ginger', 'Josh', 'Coco', 'Joey'];
+    let currentInc = getNewId('ddo' + getIdFor('dd'));
+    let name = names[(currentInc - 1) % 6] + (Math.floor(currentInc/6) + currentInc % 6)
+    return {name, value: currentInc};
   }
 };
 
-let incrementor;
+class IncrementorStore {
+  constructor() {
+    this.generalInc = 0;
+    this.store = {};
+  }
+
+  _incrementGeneral() {
+    return ++this.generalInc
+  }
+
+  _confirmId(idString) {
+    if (!this.store[idString]) {
+      this.store[idString] = 0;
+    }
+  }
+
+  _incrementId(idString) {
+    this._confirmId(idString);
+    return ++this.store[idString];
+  }
+
+  increment(optionalIdString) {
+    if (optionalIdString) {
+      return this._incrementId(optionalIdString.toString());
+    } else {
+      return this._incrementGeneral();
+    }
+  }
+
+  _getCurrentId(idString) {
+    this._confirmId(idString)
+    return this.store[idString];
+  }
+
+  getCurrentValue(optionalIdString) {
+    if (optionalIdString) {
+      return this._getCurrentId(optionalIdString.toString());
+    } else {
+      return this.generalInc;
+    }
+  }
+}
+
+let incrementor = new IncrementorStore();
 
 export function resetFactories() {
-  incrementor = 1;
+  incrementor = new IncrementorStore();
 }
 
 resetFactories();
 
-function getNewId () {
-  return incrementor++;
+function getNewId (optionalId) {
+  return incrementor.increment(optionalId);
+}
+
+function getIdFor (optionalId) {
+  return incrementor.getCurrentValue(optionalId);
 }
 
 function getFactory (factory) {
