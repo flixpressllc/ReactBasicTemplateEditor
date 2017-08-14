@@ -85,7 +85,6 @@ class SpecFields extends React.Component {
       <ImageContainer
         fieldName={ name }
         images={ object.containedImages }
-        dropDowns={ object.dropDowns }
         imageBank={ this.props.imageBank }
         key={`text-field-${safeName}`}
       />
