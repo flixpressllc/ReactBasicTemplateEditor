@@ -8,16 +8,16 @@ const factories = {
   },
   image: () => {
     return {
-      file: `filename${getNewId()}.jpg`,
-      dropDowns: undefined,
-      captions: undefined
+      file: `filename${getNewId()}.jpg`
+      // dropDowns: []
+      // captions: []
     }
   },
   imageContainerProps: () => {
     return {
-      fieldName: `myImageContainer${getNewId()}`,
-      images: undefined,
-      imageBank: undefined
+      fieldName: `myImageContainer${getNewId()}`
+      // images: []
+      // imageBank: []
     }
   }
 };
