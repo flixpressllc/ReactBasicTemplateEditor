@@ -319,7 +319,10 @@ class ImageContainer extends React.Component {
 
   wipeCaptions (imageObj) {
     if (imageObj.captions) {
-      imageObj.captions = imageObj.captions.map(()=>'');
+      imageObj.captions = imageObj.captions.map(caption => {
+        caption.value = '';
+        return caption;
+      });
     }
     return imageObj;
   }

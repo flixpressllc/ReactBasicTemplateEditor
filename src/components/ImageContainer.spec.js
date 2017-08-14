@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import ImageContainer, { toRenderString } from './ImageContainer';
 import { isObject } from 'happy-helpers';
+import { create, resetFactories } from '../../specs/spec-helpers';
 
 jest.mock('../actions/ContainerActions');
 const FakeContainerActions = require('../actions/ContainerActions');
@@ -44,6 +45,8 @@ function getSettings ( overrides ) {
 }
 
 describe('ImageContainer', () => {
+  beforeEach(() => resetFactories());
+
   it('renders without crashing', () => {
     expect(() => {
       mount(<ImageContainer {...getSettings()}/>);
@@ -143,12 +146,14 @@ describe('ImageContainer', () => {
     });
 
     it('adds a new image without any captions', () => {
+      let caption1 = create('caption', {value: 'something'});
+      let caption2 = create('caption', caption1, {value: 'something else'});
+      let blankCaption = create('caption', caption1, {value: ''});
       let settings = {
         images: [
-          {file: 'toast.jpg', captions:['cap','','']},
-          {file: 'coffee.jpg', captions:['','','cap']}
-        ],
-        captions: [ 'one','two','three' ]
+          {file: 'toast.jpg', captions:[ caption1 ]},
+          {file: 'coffee.jpg', captions:[ caption2 ]}
+        ]
       }
       const component = mount(<ImageContainer {...getSettings(settings)}/>);
 
@@ -158,9 +163,9 @@ describe('ImageContainer', () => {
         'userImageChooser',
         'myImageContainer',
         {'containedImages': [
-          {'file': 'toast.jpg', 'id': 0, captions:['cap','','']},
-          {'file': 'coffee.jpg', 'id': 1, captions:['','','cap']},
-          {'file': 'toast.jpg', 'id': 0, captions:['','','']}
+          {'file': 'toast.jpg', 'id': 0, captions:[caption1]},
+          {'file': 'coffee.jpg', 'id': 1, captions:[caption2]},
+          {'file': 'toast.jpg', 'id': 0, captions:[blankCaption]}
         ]
       });
     });
