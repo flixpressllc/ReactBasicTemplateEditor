@@ -140,18 +140,24 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
     'Text Right of Icon': 'Right',
     ImageContainer: [ // This name will be wrong if we ever assume more than one
       {
-        captions: [ 'marmet' ],
-        dropDowns: ['toffee'],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: 'marmet'},
+           {label: 'Which Kid?', value: 'toffee'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_94956756.png'
       },
       {
-        captions: [''],
-        dropDowns: ['jonny'],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: ''},
+           {label: 'Which Kid?', value: 'jonny'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_9502787.jpg'
       },
       {
-        captions: [''],
-        dropDowns: ['toffee'],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: ''},
+           {label: 'Which Kid?', value: 'toffee'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_9505506.png'
       }
     ]

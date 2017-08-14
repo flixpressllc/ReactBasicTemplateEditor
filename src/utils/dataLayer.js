@@ -95,29 +95,40 @@ class DataLayer {
     return settings;
   }
 
-  getValueFromImageObjCaption(captions, index) {
-    if (!captions) return '';
-    if (!captions[index]) return ''
-    if (toType(captions[index]) === 'object') {
-      return captions[index].value;
+  getFinalCaptionObject(capDefinition, imageObj) {
+    const label = this.getLabelFromCapDefinition(capDefinition);
+    let caption;
+    if (imageObj.captionsAndDropDowns) {
+      caption = imageObj.captionsAndDropDowns.find(cap => {
+        return cap.label === label;
+      })
+      caption = caption ? caption : createCaptionObject(label);
     } else {
-      return captions[index];
+      let value = capDefinition.defaultValue || '';
+      caption = createCaptionObject(label, {value})
     }
+    caption.settings = this.getSettingsFromCapDefinition(capDefinition);
+
+    return caption;
   }
 
   mergeCaptionsWithDefinitions (imageChooser) {
     if (isNotEmpty(imageChooser.captions)) {
       imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
-        imageObj.captions = imageChooser.captions.map( (capDefinition, i) => {
-          const label = this.getLabelFromCapDefinition(capDefinition);
-          const settings = this.getSettingsFromCapDefinition(capDefinition);
-          const value = this.getValueFromImageObjCaption(imageObj.captions, i);
-
-          return createCaptionObject(label, {settings: settings, value});
+        imageObj.captions = imageChooser.captions.map( capDefinition => {
+          return this.getFinalCaptionObject(capDefinition, imageObj);
         });
         return imageObj;
       });
     }
+    return imageChooser;
+  }
+
+  cleanupImageChooser(imageChooser) {
+    imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
+      delete imageObj.captionsAndDropDowns;
+      return imageObj;
+    })
     return imageChooser;
   }
 
@@ -167,6 +178,7 @@ class DataLayer {
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
       imageChooser = this.mergeCaptionsWithDefinitions(imageChooser);
       imageChooser = this.setupImageDropDowns(imageChooser);
+      imageChooser = this.cleanupImageChooser(imageChooser);
 
       return [key, imageChooser];
     });
@@ -190,6 +202,10 @@ class DataLayer {
     return resultingArray;
   }
 
+  getDropDownObjectFromDefinitionOrSelf(ddDefinition, imageObj) {
+
+  }
+
   setupImageDropDowns(imageChooser) {
     if (imageChooser.dropDowns === undefined) return imageChooser;
     let newImageChooser = clone(imageChooser);
@@ -198,15 +214,20 @@ class DataLayer {
     const definitions = newImageChooser.dropDowns;
 
     newImageChooser.containedImages.map(imageObj => {
-      imageObj.dropDowns = forceArray(imageObj.dropDowns);
-      definitions.map((definition, i) => {
-        if (imageObj.dropDowns[i] === undefined) {
-          imageObj.dropDowns[i] = {value: definition.default};
-        } else if (toType(imageObj.dropDowns[i]) === 'string') {
-          imageObj.dropDowns[i] = {value: imageObj.dropDowns[i]};
+      imageObj.dropDowns = definitions.map(definition => {
+        const label = definition.label;
+        let dropDown;
+        if (imageObj.captionsAndDropDowns) {
+          dropDown = imageObj.captionsAndDropDowns.find(ddOrCap => {
+            return ddOrCap.label === label;
+          })
+          dropDown.options = definition.options;
+        } else {
+          dropDown = clone(definition);
+          dropDown.value = dropDown.default;
+          delete dropDown.default;
         }
-        imageObj.dropDowns[i].label = definition.label;
-        imageObj.dropDowns[i].options = definition.options;
+        return dropDown;
       })
       return imageObj;
     })

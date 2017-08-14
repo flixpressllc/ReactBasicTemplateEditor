@@ -189,8 +189,8 @@ function returnNameValuePairForSingleImageContainer (givenXmlObj) {
       if (isEmpty(capFields)) {
         mainImageData.push({id: i, file: capImage.Filename});
       } else {
-        mainImageData.push({id: i, file: capImage.Filename, captions: capFields.map(field => {
-            return field.Value;
+        mainImageData.push({id: i, file: capImage.Filename, captionsAndDropDowns: capFields.map(field => {
+            return {value: field.Value, label: field.Label};
           })
         });
       }
