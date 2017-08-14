@@ -48,7 +48,7 @@ export function create (factory, ...overrides) {
 }
 
 export function create_list (factory, count, ...overrides) {
-  return new Array(count).fill(create(factory, ...overrides));
+  return new Array(count).fill(null).map(() => create(factory, ...overrides));
 }
 
 export default create;
