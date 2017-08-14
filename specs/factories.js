@@ -5,6 +5,20 @@ const factories = {
       settings: {},
       value: ''
     };
+  },
+  image: () => {
+    return {
+      file: `filename${getNewId()}.jpg`,
+      dropDowns: undefined,
+      captions: undefined
+    }
+  },
+  imageContainerProps: () => {
+    return {
+      fieldName: `myImageContainer${getNewId()}`,
+      images: undefined,
+      imageBank: undefined
+    }
   }
 };
 
@@ -21,6 +35,9 @@ function getNewId () {
 }
 
 function getFactory (factory) {
+  if (factories[factory] === undefined) {
+    throw new Error(`Factory "${factory}" is not recognized.`);
+  }
   return factories[factory]();
 }
 
@@ -28,6 +45,10 @@ export function create (factory, ...overrides) {
   let obj = getFactory(factory);
   overrides = overrides || {};
   return Object.assign({}, obj, ...overrides);
+}
+
+export function create_list (factory, count, ...overrides) {
+  return new Array(count).fill(create(factory, ...overrides));
 }
 
 export default create;
