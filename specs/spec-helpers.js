@@ -1,5 +1,8 @@
 import { isNotEmpty } from 'happy-helpers';
 import fs from 'fs';
+import { create, resetFactories } from './factories.js';
+
+export { create, resetFactories }
 
 export function classes (classesString) {
   let classes = classesString || '';
