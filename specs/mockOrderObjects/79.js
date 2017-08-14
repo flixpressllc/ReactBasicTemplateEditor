@@ -69,6 +69,6 @@ export default {
   resolutionId: 3,
   resolutionOptions: [
     { 'id': 5, 'name': '720p' },
-    { 'id': 3, 'name': '1080p' },
+    { 'id': 3, 'name': '1080p' }
   ]
 }

@@ -7,8 +7,18 @@ import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, forceArray } from 'happy-helpers';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, toType } from 'happy-helpers';
 import { getJSON } from '../utils/ajax';
+
+export function createCaptionObject(label, overrides = {}) {
+  if (toType(label) !== 'string') throw new Error('must pass in string label to createValidCaptionObject');
+  let validCaptionObject = {
+    settings: {},
+    label: label,
+    value: ''
+  }
+  return Object.assign(validCaptionObject, overrides);
+}
 
 class DataLayer {
   respectMinimumImageValue (imageChooser, imageBank) {
@@ -55,15 +65,70 @@ class DataLayer {
     });
   }
 
-  createBlankCaptionsIfNeeded (imageChooser) {
+  getLabelFromCapDefinition(capDefinition) {
+    let label;
+    switch (toType(capDefinition)) {
+      case 'object':
+        label = capDefinition.label;
+        break;
+      case 'string':
+        label = capDefinition;
+        break;
+      default:
+        // eslint-disable-next-line no-console
+        console.error('imageChooser.captions', capDefinition);
+        throw new Error('imageChooser.captions must be strings or objects only.')
+    }
+    return label;
+  }
+
+  getSettingsFromCapDefinition(capDefinition) {
+    let settings;
+    switch (toType(capDefinition)) {
+      case 'object':
+        settings = capDefinition.settings;
+        break;
+      default:
+        settings = {};
+        break;
+    }
+    return settings;
+  }
+
+  getFinalCaptionObject(capDefinition, imageObj) {
+    const label = this.getLabelFromCapDefinition(capDefinition);
+    let caption;
+    if (imageObj.captionsAndDropDowns) {
+      caption = imageObj.captionsAndDropDowns.find(cap => {
+        return cap.label === label;
+      })
+      caption = caption ? caption : createCaptionObject(label);
+    } else {
+      let value = capDefinition.defaultValue || '';
+      caption = createCaptionObject(label, {value})
+    }
+    caption.settings = this.getSettingsFromCapDefinition(capDefinition);
+
+    return caption;
+  }
+
+  mergeCaptionsWithDefinitions (imageChooser) {
     if (isNotEmpty(imageChooser.captions)) {
       imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
-        if (isEmpty(imageObj.captions)) {
-          imageObj.captions = imageChooser.captions.map( () => '' );
-        }
+        imageObj.captions = imageChooser.captions.map( capDefinition => {
+          return this.getFinalCaptionObject(capDefinition, imageObj);
+        });
         return imageObj;
       });
     }
+    return imageChooser;
+  }
+
+  cleanupImageChooser(imageChooser) {
+    imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
+      delete imageObj.captionsAndDropDowns;
+      return imageObj;
+    })
     return imageChooser;
   }
 
@@ -111,8 +176,9 @@ class DataLayer {
       imageChooser = this.respectMaximumImageValue(imageChooser);
       imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
       imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
-      imageChooser = this.createBlankCaptionsIfNeeded(imageChooser);
+      imageChooser = this.mergeCaptionsWithDefinitions(imageChooser);
       imageChooser = this.setupImageDropDowns(imageChooser);
+      imageChooser = this.cleanupImageChooser(imageChooser);
 
       return [key, imageChooser];
     });
@@ -144,10 +210,20 @@ class DataLayer {
     const definitions = newImageChooser.dropDowns;
 
     newImageChooser.containedImages.map(imageObj => {
-      imageObj.dropDowns = forceArray(imageObj.dropDowns);
-      definitions.map((definition, i) => {
-        if (imageObj.dropDowns[i]) return;
-        imageObj.dropDowns[i] = definition.default;
+      imageObj.dropDowns = definitions.map(definition => {
+        const label = definition.label;
+        let dropDown;
+        if (imageObj.captionsAndDropDowns) {
+          dropDown = imageObj.captionsAndDropDowns.find(ddOrCap => {
+            return ddOrCap.label === label;
+          })
+          dropDown.options = definition.options;
+        } else {
+          dropDown = clone(definition);
+          dropDown.value = dropDown.default;
+          delete dropDown.default;
+        }
+        return dropDown;
       })
       return imageObj;
     })

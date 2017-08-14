@@ -9,42 +9,39 @@ import { clone, toType, forceArray } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
+import PT from 'prop-types';
 
 import './ImageContainer.scss';
 
 const DATA_TYPE_NAME = 'userImageChooser';
 
-function prepCaptions(imageObject, captionDefinitions) {
+function prepCaptions(imageObject) {
+  imageObject.captions = forceArray(imageObject.captions);
   // the following line has been commented out because, though
   // is it unlikely, it does change current behavior and may break
   // the renderer:
-  // if (captionDefinitions === undefined) return imageObject;
+  // if (imageObject.captions.length < 1) return imageObject;
 
-  captionDefinitions = forceArray(captionDefinitions);
-  imageObject.captions = forceArray(imageObject.captions);
-
-  imageObject.captions = captionDefinitions.map((capLabelOrObj, i) => {
-    let label = capLabelOrObj;
-    if (toType(capLabelOrObj) === 'object') {
-      label = capLabelOrObj.label;
-    }
+  imageObject.captions = imageObject.captions.map((caption) => {
     return {
-      label: label,
-      value: imageObject.captions[i] || ''
+      label: caption.label,
+      value: caption.value
     };
   })
   return imageObject;
 }
 
-function prepDropDowns(imageObject, dropDownDefinitions) {
-  if (dropDownDefinitions === undefined) return imageObject;
-  dropDownDefinitions = forceArray(dropDownDefinitions);
+function prepDropDowns(imageObject) {
   imageObject.dropDowns = forceArray(imageObject.dropDowns);
+  if (imageObject.dropDowns.length < 1) {
+    delete imageObject.dropDowns;
+    return imageObject;
+  }
 
-  imageObject.dropDowns = dropDownDefinitions.map((definition, i) => {
+  imageObject.dropDowns = imageObject.dropDowns.map((dropDown) => {
     return {
-      label: definition.label,
-      value: imageObject.dropDowns[i] || ''
+      label: dropDown.label,
+      value: dropDown.value
     };
   })
   return imageObject;
@@ -52,11 +49,9 @@ function prepDropDowns(imageObject, dropDownDefinitions) {
 
 // This won't really be a string. That's okay, though.
 export function toRenderString (imageChooserObj) {
-  const captionDefinitions = imageChooserObj.captions;
-  const dropDownDefinitions = imageChooserObj.dropDowns;
   let renderValue = clone(imageChooserObj.containedImages).map(imgObj => {
-    let newImageObj = prepCaptions(imgObj, captionDefinitions);
-    newImageObj = prepDropDowns(imgObj, dropDownDefinitions);
+    let newImageObj = prepCaptions(imgObj);
+    newImageObj = prepDropDowns(imgObj);
     return newImageObj;
   });
   return renderValue;
@@ -109,20 +104,18 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
   }
 
   renderCaptions () {
-    if (this.props.captionsSettings === undefined || this.props.item.captions === undefined) {
+    if (this.props.item.captions === undefined) {
       return null;
     }
-    const captionValues = clone(this.props.item.captions);
-    const captions = this.props.captionsSettings.map((capObj, i) => {
-      captionValues[i] = captionValues[i] || '';
+    const captions = this.props.item.captions.map((capObj, i) => {
       return (
         <CaptionInput
           key={ i }
           type='text'
           settings={ capObj.settings }
           data-index={ i }
-          value={ captionValues[i] }
-          placeholder={ capObj.label }
+          value={ capObj.value }
+          label={ capObj.label }
           onChange={ this.handleCaptionChange }
           />
       );
@@ -166,12 +159,12 @@ const SortableUserImage = SortableElement( class UserImage extends React.Compone
   }
 
   renderDropDowns() {
-    if (!this.props.dropDownsSettings) return null;
-    return this.props.dropDownsSettings.map((dropDown, i) => {
+    if (forceArray(this.props.item.dropDowns).length < 1) return null;
+    return this.props.item.dropDowns.map((dropDown, i) => {
       return <ImageDropDown key={ i }
         index={ i }
         fieldName={ dropDown.label }
-        value={ this.props.item.dropDowns[i] }
+        value={ dropDown.value }
         onChange={ this.handleDropDownChange }
         options={ dropDown.options }/>
     })
@@ -203,7 +196,6 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
       {props.items.map((value, index) =>
         <SortableUserImage
           key={`item-${index}`}
-          captionsSettings={ props.captionsSettings }
           dropDownsSettings={ props.dropDownsSettings }
           onDropDownChange={ props.onDropDownChange }
           onCaptionChange={ props.onCaptionChange }
@@ -276,7 +268,7 @@ class ImageContainer extends React.Component {
         image.captions = [];
       }
       if (image.id === newCaptionObject.imageId) {
-        image.captions[newCaptionObject.captionIndex] = newCaptionObject.newValue;
+        image.captions[newCaptionObject.captionIndex].value = newCaptionObject.newValue;
       }
       return image;
     });
@@ -290,7 +282,7 @@ class ImageContainer extends React.Component {
         image.dropDowns = [];
       }
       if (image.id === newDropDownObject.imageId) {
-        image.dropDowns[newDropDownObject.dropDownIndex] = newDropDownObject.newValue;
+        image.dropDowns[newDropDownObject.dropDownIndex].value = newDropDownObject.newValue;
       }
       return image;
     });
@@ -328,7 +320,10 @@ class ImageContainer extends React.Component {
 
   wipeCaptions (imageObj) {
     if (imageObj.captions) {
-      imageObj.captions = imageObj.captions.map(()=>'');
+      imageObj.captions = imageObj.captions.map(caption => {
+        caption.value = '';
+        return caption;
+      });
     }
     return imageObj;
   }
@@ -428,6 +423,17 @@ class ImageContainer extends React.Component {
     );
   }
 
+}
+
+ImageContainer.propTypes = {
+  images: PT.array,
+  imageBank: PT.array,
+  fieldName: PT.string.isRequired
+}
+
+ImageContainer.defaultProps = {
+  images: [],
+  imageBank: []
 }
 
 export default ImageContainer;

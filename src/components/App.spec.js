@@ -140,15 +140,24 @@ function imagesMockReturnForGetStartingDataOffPreview () { return [
     'Text Right of Icon': 'Right',
     ImageContainer: [ // This name will be wrong if we ever assume more than one
       {
-        captions: [ 'marmet' ],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: 'marmet'},
+           {label: 'Which Kid?', value: 'toffee'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_94956756.png'
       },
       {
-        captions: [''],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: ''},
+           {label: 'Which Kid?', value: 'jonny'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_9502787.jpg'
       },
       {
-        captions: [''],
+        captionsAndDropDowns: [
+           {label: 'Top Text', value: ''},
+           {label: 'Which Kid?', value: 'toffee'}
+        ],
         file: 'DonDentonAdmin_1-23-2017_9505506.png'
       }
     ]
@@ -210,13 +219,7 @@ describe('App', () => {
         return component.instance().setupEditor().then(() => {
           let containedImages = RenderDataStore.getAllContainers().userImageChoosers['Your Two Images'].containedImages;
 
-          let expected = [
-            {id: 0, file: 'DonDentonAdmin_1-23-2017_94956756.png', captions: ['','',''], dropDowns:['toffee']},
-            {id: 1, file: 'DonDentonAdmin_1-23-2017_9502787.jpg', captions: ['','',''], dropDowns:['toffee']},
-            {id: 2, file: 'DonDentonAdmin_1-23-2017_9505506.png', captions: ['','',''], dropDowns:['toffee']}
-          ];
-
-          expect(containedImages).toEqual(expected);
+          expect(containedImages).toMatchSnapshot();
         });
       });
       it('prepares the data for order as expected', () => {
