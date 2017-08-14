@@ -9,6 +9,7 @@ import { clone, toType, forceArray } from 'happy-helpers';
 import TemplateSpecificationsStore from '../stores/TemplateSpecificationsStore';
 import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody } from '../utils/browser-specific-hacks';
 import * as ContainerActions from '../actions/ContainerActions';
+import PT from 'prop-types';
 
 import './ImageContainer.scss';
 
@@ -422,6 +423,17 @@ class ImageContainer extends React.Component {
     );
   }
 
+}
+
+ImageContainer.propTypes = {
+  images: PT.array,
+  imageBank: PT.array,
+  fieldName: PT.string.isRequired
+}
+
+ImageContainer.defaultProps = {
+  images: [],
+  imageBank: []
 }
 
 export default ImageContainer;
