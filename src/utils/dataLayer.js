@@ -7,7 +7,7 @@ import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, forceArray, toType } from 'happy-helpers';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, toType } from 'happy-helpers';
 import { getJSON } from '../utils/ajax';
 
 export function createCaptionObject(label, overrides = {}) {
@@ -200,10 +200,6 @@ class DataLayer {
       resultingArray.push(Object.assign({}, labelObject, props));
     });
     return resultingArray;
-  }
-
-  getDropDownObjectFromDefinitionOrSelf(ddDefinition, imageObj) {
-
   }
 
   setupImageDropDowns(imageChooser) {
