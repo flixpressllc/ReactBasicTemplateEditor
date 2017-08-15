@@ -11,11 +11,21 @@ import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody }
 import * as ContainerActions from '../actions/ContainerActions';
 import PT from 'prop-types';
 
-import imageContainerToDataObject from './ImageContainerToDataObject';
-
+import imageContainerToDataObjectFunction from './ImageContainerToDataObject';
 import './ImageContainer.scss';
 
+
 const DATA_TYPE_NAME = 'userImageChooser';
+const ImageContainerPropTypes = {
+  images: PT.array,
+  imageBank: PT.array,
+  fieldName: PT.string.isRequired
+}
+const ImageContainerDefaultProps = {
+  images: [],
+  imageBank: []
+}
+
 
 function prepCaptions(imageObject) {
   imageObject.captions = forceArray(imageObject.captions);
@@ -52,7 +62,7 @@ export function toRenderString (imageChooserObj) {
 }
 
 function toDataObject (valueObject, object) {
-  return imageContainerToDataObject(valueObject, object);
+  return imageContainerToDataObjectFunction(valueObject, object);
 }
 
 registerDataType(DATA_TYPE_NAME, {toRenderString, toDataObject});
@@ -418,15 +428,7 @@ class ImageContainer extends React.Component {
 
 }
 
-ImageContainer.propTypes = {
-  images: PT.array,
-  imageBank: PT.array,
-  fieldName: PT.string.isRequired
-}
-
-ImageContainer.defaultProps = {
-  images: [],
-  imageBank: []
-}
+ImageContainer.propTypes = ImageContainerPropTypes;
+ImageContainer.defaultProps = ImageContainerDefaultProps;
 
 export default ImageContainer;
