@@ -2,6 +2,7 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import CaptionInput from './CaptionInput';
 import Modal from './lib/Modal';
+import ImageChooser from './ImageChooser';
 import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
@@ -211,18 +212,6 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
   );
 }, {transitionDuration: 0} );
 
-const ImageSelection = (props) => {
-  let imageList = props.imageBank.map((image, i) => {
-    return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { props.onChooseImage(image) }}/>;
-  });
-  return (
-    <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
-      <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">Select a new image</p>
-      { imageList }
-    </div>
-  );
-};
-
 class ImageContainer extends React.Component {
   constructor (props) {
     super(props);
@@ -416,7 +405,7 @@ class ImageContainer extends React.Component {
           onRequestClose={this.handleCloseModal}
           contentLabel="Choose a replacement image">
 
-          <ImageSelection onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+          <ImageChooser onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
           <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
             onClick={ this.handleCloseModal } type="button">
             Cancel
