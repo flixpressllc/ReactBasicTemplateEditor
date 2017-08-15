@@ -3,7 +3,7 @@ import dispatcher from '../actions/dispatcher';
 import GenericStateStore from './GenericStateStore';
 import * as Containers from '../utils/globalContainerConcerns';
 
-import { clone, isObject } from 'happy-helpers';
+import { clone, isObject, traverseObject } from 'happy-helpers';
 
 const ALLOWED_TEMPLATE_OPTIONS = {
   'isPreview': 'boolean',
@@ -70,6 +70,22 @@ class RenderDataStore extends EventEmitter {
     return this.uiDefinition ? clone(this.uiDefinition) : undefined;
   }
 
+  getImageContainerNames () {
+    let names = [];
+    const def = this.getUiDefinition();
+    if (!def) return undefined;
+    def.map(section => {
+      traverseObject(section, (k, dataHolders) => {
+        dataHolders.map(dataHolder => {
+          if (dataHolder.type === 'UserImageChooser') {
+            names.push(dataHolder.name);
+          }
+        })
+      });
+    })
+    return names;
+  }
+
   getAllContainers () {
     if ( ! this.state.receivedInitial) this._addMissingContainers();
     return this.containers ? clone(this.containers) : {};
@@ -84,6 +100,7 @@ class RenderDataStore extends EventEmitter {
         this.state.receivedInitial = true;
         this.containers = action.containers;
         this.emit('change');
+        this.emit('INITIAL_CONTAINER_VALUES_SET');
       break;
       case 'SET_OPTIONS':
         this._setTemplateOptions(action.templateOptions);

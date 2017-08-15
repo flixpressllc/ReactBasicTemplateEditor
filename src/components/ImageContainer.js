@@ -11,6 +11,8 @@ import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody }
 import * as ContainerActions from '../actions/ContainerActions';
 import PT from 'prop-types';
 
+import imageContainerToDataObject from './ImageContainerToDataObject';
+
 import './ImageContainer.scss';
 
 const DATA_TYPE_NAME = 'userImageChooser';
@@ -50,8 +52,7 @@ export function toRenderString (imageChooserObj) {
 }
 
 function toDataObject (valueObject, object) {
-  // For now, this is a special case taken care of in the App
-  return object;
+  return imageContainerToDataObject(valueObject, object);
 }
 
 registerDataType(DATA_TYPE_NAME, {toRenderString, toDataObject});

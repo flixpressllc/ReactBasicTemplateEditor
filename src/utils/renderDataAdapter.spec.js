@@ -4,6 +4,17 @@ import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID } from '../stores/app-settings';
 import { getSubmissionXmlFor, getMockOrderObject } from '../../specs/spec-helpers';
 
 jest.mock('./dom-queries');
+jest.mock('../stores/RenderDataStore', () => {
+  let returnVal;
+  const reset = () => { returnVal = ['ImageContainer'] }
+  reset();
+  return {
+    getImageContainerNames: () => returnVal.concat([]),
+    __setReturnVal: (value) => {returnVal = value;},
+    __reset: () => reset()
+  }
+});
+require('../stores/RenderDataStore');
 
 // make it pretty and make self-terminating tags consistent ( <This /> versus <This/> )
 let pretty = (obj) => jsb.html(obj).replace(/(\S)\/>/g, '$1 />');

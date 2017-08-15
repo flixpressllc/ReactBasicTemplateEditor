@@ -25,7 +25,9 @@ Array [
       },
     ],
   },
-  Object {},
+  Object {
+    "ImageContainer": Object {},
+  },
 ]
 `;
 
