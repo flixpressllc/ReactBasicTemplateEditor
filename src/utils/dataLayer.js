@@ -2,41 +2,14 @@ import RenderDataStore from '../stores/RenderDataStore';
 import StateStore from '../stores/StateStore';
 import * as UiActions from '../actions/uiActions';
 import * as TemplateOptionsActions from '../actions/TemplateOptionsActions';
-import * as TemplateSpecActions from '../actions/TemplateSpecActions';
 import * as ContainerActions from '../actions/ContainerActions';
 import * as StateActions from '../actions/StateActions';
 import * as renderDataAdapter from '../utils/renderDataAdapter';
 import * as dc from '../utils/globalContainerConcerns';
-import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty, toType } from 'happy-helpers';
+import { traverseObject, firstCharToLower, clone, isEmpty, isNotEmpty } from 'happy-helpers';
 import { getJSON } from '../utils/ajax';
 
-export function createCaptionObject(label, overrides = {}) {
-  if (toType(label) !== 'string') throw new Error('must pass in string label to createValidCaptionObject');
-  let validCaptionObject = {
-    settings: {},
-    label: label,
-    value: ''
-  }
-  return Object.assign(validCaptionObject, overrides);
-}
-
 class DataLayer {
-  respectMinimumImageValue (imageChooser, imageBank) {
-    if (isEmpty(imageChooser.minImages)) return imageChooser;
-    imageChooser = clone(imageChooser);
-
-    if (imageChooser.containedImages.length < imageChooser.minImages && isNotEmpty(imageBank)) {
-      let difference = imageChooser.minImages - imageChooser.containedImages.length;
-      for (let i = 0; i < difference; i++) {
-        // Just push the first image over and over for now.
-        // We aren't trying to magically build the template for them.
-        imageChooser.containedImages.push({file: imageBank[0]});
-      }
-    }
-
-    return imageChooser;
-  }
-
   mergeAllNodesInContainerWithPreviewData (container, dataTypeName, nameValuePairsObj) {
     if (isEmpty(container)) {
       throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
@@ -58,200 +31,33 @@ class DataLayer {
     return containersObj;
   }
 
-  assignIds (containedImages) {
-    if (isEmpty(containedImages)) return containedImages;
-    return containedImages.map((val, i) => {
-      return Object.assign(val, {id: i});
-    });
-  }
-
-  getLabelFromCapDefinition(capDefinition) {
-    let label;
-    switch (toType(capDefinition)) {
-      case 'object':
-        label = capDefinition.label;
-        break;
-      case 'string':
-        label = capDefinition;
-        break;
-      default:
-        // eslint-disable-next-line no-console
-        console.error('imageChooser.captions', capDefinition);
-        throw new Error('imageChooser.captions must be strings or objects only.')
-    }
-    return label;
-  }
-
-  getSettingsFromCapDefinition(capDefinition) {
-    let settings;
-    switch (toType(capDefinition)) {
-      case 'object':
-        settings = capDefinition.settings;
-        break;
-      default:
-        settings = {};
-        break;
-    }
-    return settings;
-  }
-
-  getFinalCaptionObject(capDefinition, imageObj) {
-    const label = this.getLabelFromCapDefinition(capDefinition);
-    let caption;
-    if (imageObj.captionsAndDropDowns) {
-      caption = imageObj.captionsAndDropDowns.find(cap => {
-        return cap.label === label;
-      })
-      caption = caption ? caption : createCaptionObject(label);
-    } else {
-      let value = capDefinition.defaultValue || '';
-      caption = createCaptionObject(label, {value})
-    }
-    caption.settings = this.getSettingsFromCapDefinition(capDefinition);
-
-    return caption;
-  }
-
-  mergeCaptionsWithDefinitions (imageChooser) {
-    if (isNotEmpty(imageChooser.captions)) {
-      imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
-        imageObj.captions = imageChooser.captions.map( capDefinition => {
-          return this.getFinalCaptionObject(capDefinition, imageObj);
-        });
-        return imageObj;
-      });
-    }
-    return imageChooser;
-  }
-
-  cleanupImageChooser(imageChooser) {
-    imageChooser.containedImages = imageChooser.containedImages.map(imageObj => {
-      delete imageObj.captionsAndDropDowns;
-      return imageObj;
-    })
-    return imageChooser;
-  }
-
-  respectMaximumImageValue (imageChooser) {
-    if (isEmpty(imageChooser.maxImages)) return imageChooser;
-    imageChooser = clone(imageChooser);
-
-    // drain extra images
-    if (imageChooser.containedImages.length > imageChooser.maxImages) {
-      imageChooser.containedImages = imageChooser.containedImages.slice(0, imageChooser.maxImages);
-    }
-
-    return imageChooser;
-  }
-
   isImageTemplate () {
     return StateStore.getState('templateType') === 'images';
   }
 
-  imagesAreSnowflakes (stateToMerge, nameValuePairsObj, imageBank) {
-    if (!this.isImageTemplate()) return stateToMerge;
-    let newStateToMerge = clone(stateToMerge);
-
-    let singlePopulatedChooser = traverseObject(newStateToMerge.userImageChoosers, (key, imageChooser) => {
-      if (isNotEmpty(nameValuePairsObj['ImageContainer'])) {
-        // imageChooser.containedImages = nameValuePairsObj[key];
-        // This is a workaround for now. We always will have only one image container
-        // This is in place of an actual name for the field
-        imageChooser.containedImages = nameValuePairsObj['ImageContainer'];
-      } else {
-        // just use all available images...
-        imageChooser.containedImages = imageBank.map(val => {
-          return {file: val};
-        });
-      }
-
-      if (imageChooser.maxImages) {
-        TemplateSpecActions.setSpecs({maxImages: imageChooser.maxImages});
-      }
-
-      if (imageChooser.minImages) {
-        TemplateSpecActions.setSpecs({minImages: imageChooser.minImages});
-      }
-
-      imageChooser = this.respectMaximumImageValue(imageChooser);
-      imageChooser = this.respectMinimumImageValue(imageChooser, imageBank);
-      imageChooser.containedImages = this.assignIds(imageChooser.containedImages);
-      imageChooser = this.mergeCaptionsWithDefinitions(imageChooser);
-      imageChooser = this.setupImageDropDowns(imageChooser);
-      imageChooser = this.cleanupImageChooser(imageChooser);
-
-      return [key, imageChooser];
-    });
-    newStateToMerge.userImageChoosers = singlePopulatedChooser;
-    return newStateToMerge;
-  }
-
-  turnHashedObjectIntoArrayOfObjectsWithLabelProperty(object, labelKey = 'label') {
-    let resultingArray = [];
-    traverseObject(object, (label, props) => {
-      if (props.hasOwnProperty(labelKey)) {
-        // eslint-disable-next-line no-console
-        console.error('object containing a label already:', props);
-        throw new Error(`The key ${labelKey} is already in use in the object that was passed in.`)
-      }
-
-      let labelObject = {};
-      labelObject[labelKey] = label;
-      resultingArray.push(Object.assign({}, labelObject, props));
-    });
-    return resultingArray;
-  }
-
-  setupImageDropDowns(imageChooser) {
-    if (imageChooser.dropDowns === undefined) return imageChooser;
-    let newImageChooser = clone(imageChooser);
-
-    newImageChooser.dropDowns = this.turnHashedObjectIntoArrayOfObjectsWithLabelProperty(newImageChooser.dropDowns);
-    const definitions = newImageChooser.dropDowns;
-
-    newImageChooser.containedImages.map(imageObj => {
-      imageObj.dropDowns = definitions.map(definition => {
-        const label = definition.label;
-        let dropDown;
-        if (imageObj.captionsAndDropDowns) {
-          dropDown = imageObj.captionsAndDropDowns.find(ddOrCap => {
-            return ddOrCap.label === label;
-          })
-          dropDown.options = definition.options;
-        } else {
-          dropDown = clone(definition);
-          dropDown.value = dropDown.default;
-          delete dropDown.default;
-        }
-        return dropDown;
-      })
-      return imageObj;
-    })
-    return newImageChooser;
-  }
-
-  extractAndReplacePreviewRenderValues (emptyUiContainers, nameValuePairsObj, imageBank) {
+  extractAndReplacePreviewRenderValues (emptyUiContainers, nameValuePairsObj) {
     let stateToMerge = clone(emptyUiContainers);
     if (isNotEmpty(nameValuePairsObj)) {
       let populatedContainers = this.populateContainersWithPreviewData(emptyUiContainers, nameValuePairsObj);
       stateToMerge = Object.assign({}, emptyUiContainers, populatedContainers);
     }
-    stateToMerge = this.imagesAreSnowflakes(stateToMerge, nameValuePairsObj, imageBank);
     return stateToMerge;
   }
 
-  _setAllData (containers, highLevelData, uiDefinition) {
-    ContainerActions.setInitialContainerValues(containers);
-
+  _setHighLevelData(highLevelData) {
     TemplateOptionsActions.setTemplateOptions({resolutionOptions:highLevelData.resolutions});
-
     TemplateOptionsActions.setTemplateOptions({resolutionId:highLevelData.resolutionId});
     TemplateOptionsActions.setTemplateOptions({isPreview:highLevelData.isPreview});
     TemplateOptionsActions.setTemplateOptions({imageBank:highLevelData.imageBank});
     TemplateOptionsActions.setTemplateOptions({audioInfo:highLevelData.audioInfo});
 
-    UiActions.setUiDefinition(uiDefinition);
+  }
 
+  _setFilledContainerData (containers) {
+    return new Promise(resolve => {
+      RenderDataStore.once('INITIAL_CONTAINER_VALUES_SET', resolve);
+      ContainerActions.setInitialContainerValues(containers);
+    })
   }
 
   _getCurrentErrors () {
@@ -275,21 +81,25 @@ class DataLayer {
   })}
 
   infuseStartingData (emptyUiData) { return new Promise((resolve) => {
+    UiActions.setUiDefinition(emptyUiData.ui);
+
     let containerNames = dc.getContainerNames();
     let emptyContainers = traverseObject(emptyUiData, (key, val) => {
       if (containerNames.indexOf(key) !== -1) {
         return [key, val];
       }
     })
+
     let [highLevelData, specsNameValuePairs] = renderDataAdapter.getReactStartingData();
-    let stateToMerge = this.extractAndReplacePreviewRenderValues(emptyContainers, specsNameValuePairs, highLevelData.imageBank);
+    this._setHighLevelData(highLevelData);
+
+    let stateToMerge = this.extractAndReplacePreviewRenderValues(emptyContainers, specsNameValuePairs);
 
     let containers = traverseObject(Object.assign(emptyUiData, stateToMerge), (key, val) => {
       if (dc.getContainerNames().indexOf(key) !== -1) return [key, val];
     });
 
-    this._setAllData(containers, highLevelData, emptyUiData.ui)
-    resolve();
+    this._setFilledContainerData(containers).then(resolve)
   })}
 
   _getTemplateId () {

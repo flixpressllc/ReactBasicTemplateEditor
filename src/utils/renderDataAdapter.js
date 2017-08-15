@@ -1,6 +1,7 @@
 import {xmlStringToObject, objectToXml} from './xmlAdapter';
 import { XML_CONTAINER_ID, IMAGES_CONTAINER_ID,
   TOP_LEVEL_NAME_IMAGES, TOP_LEVEL_NAME_TEXT_ONLY} from '../stores/app-settings';
+import RenderDataStore from '../stores/RenderDataStore';
 import { getElementById } from './dom-queries';
 import { clone, convertPropKeysForJs, convertPropKeysForAsp,
   nestedPropertyTest, isObject, isNotEmpty, isEmpty,
@@ -180,9 +181,9 @@ function getNameValuePairsForMainCaptionFields (givenXmlObj) {
   return nameValuePairs;
 }
 
-function returnNameValuePairForSingleImageContainer (givenXmlObj) {
-  if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide.Images.CaptionedImage', isNotEmpty)) {
-    let captionedImages = forceArray(givenXmlObj.RenderedData.Slides.FSlide.Images.CaptionedImage);
+function returnNameValuePairForSingleImageContainer (fSlide) {
+  if (nestedPropertyTest(fSlide,'Images.CaptionedImage', isNotEmpty)) {
+    let captionedImages = forceArray(fSlide.Images.CaptionedImage);
     let mainImageData = [];
     captionedImages.map( (capImage, i) => {
       let capFields = forceArray(capImage.Captions.CaptionField);
@@ -195,16 +196,48 @@ function returnNameValuePairForSingleImageContainer (givenXmlObj) {
         });
       }
     });
-    return {ImageContainer: mainImageData};
+    return mainImageData;
   }
-  return {};
 }
 
-function convertCaptionsToReactData (givenXmlObj) {
-  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
-  let imageContainerPair = returnNameValuePairForSingleImageContainer(givenXmlObj);
+function extractAllImageContainers (givenXmlObj) {
+  let names = RenderDataStore.getImageContainerNames();
+  if (nestedPropertyTest(givenXmlObj,'RenderedData.Slides.FSlide', isNotEmpty)) {
+    const imageContainers = forceArray(givenXmlObj.RenderedData.Slides.FSlide);
+    const nameValuePairsArr = imageContainers.reduce((a, fSlide) => {
+      let name = names.pop();
+      if (name === undefined) {
+        throw new Error('ran out of container names while assigning image containers');
+      }
+      let nameValuePairObj = {};
+      const imageData = returnNameValuePairForSingleImageContainer(fSlide);
 
-  if (isNotEmpty(imageContainerPair)) nameValuePairs.push(imageContainerPair);
+      if (imageData) {
+        nameValuePairObj[name] = imageData;
+        a.push(nameValuePairObj);
+      }
+
+      return a;
+    },[])
+    return nameValuePairsArr;
+  } else {
+    return names.map(name => {
+      let obj = {};
+      obj[name] = {};
+      return obj;
+    })
+  }
+}
+
+function convertImageTemplatePartsToReactData (givenXmlObj) {
+  let nameValuePairs = getNameValuePairsForMainCaptionFields(givenXmlObj);
+  let imageContainerArray = extractAllImageContainers(givenXmlObj);
+
+  if (isNotEmpty(imageContainerArray)) {
+    imageContainerArray.map(imageContainerObj => {
+      nameValuePairs.push(imageContainerObj);
+    })
+  }
 
   if (isEmpty(nameValuePairs)) {
     return [];
@@ -214,7 +247,7 @@ function convertCaptionsToReactData (givenXmlObj) {
 }
 
 function getNameValuePairsObj(givenXmlObj) {
-  let nameValuePairsArr = isImageTemplate() ? convertCaptionsToReactData(givenXmlObj) : convertSpecsToReactData(givenXmlObj);
+  let nameValuePairsArr = isImageTemplate() ? convertImageTemplatePartsToReactData(givenXmlObj) : convertSpecsToReactData(givenXmlObj);
 
   return Object.assign({}, ...nameValuePairsArr);
 }

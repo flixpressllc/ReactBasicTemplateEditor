@@ -2,6 +2,7 @@ import React from 'react';
 import {SortableContainer, SortableElement, SortableHandle, arrayMove} from 'react-sortable-hoc';
 import CaptionInput from './CaptionInput';
 import Modal from './lib/Modal';
+import ImageChooser from './ImageChooser';
 import ImageDropDown from './ImageDropDown';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import { registerDataType } from '../utils/globalContainerConcerns';
@@ -11,9 +12,21 @@ import { disableTextSelectionOnTheWholeBody, enableTextSelectionOnTheWholeBody }
 import * as ContainerActions from '../actions/ContainerActions';
 import PT from 'prop-types';
 
+import imageContainerToDataObjectFunction from './ImageContainerToDataObject';
 import './ImageContainer.scss';
 
+
 const DATA_TYPE_NAME = 'userImageChooser';
+const ImageContainerPropTypes = {
+  images: PT.array,
+  imageBank: PT.array,
+  fieldName: PT.string.isRequired
+}
+const ImageContainerDefaultProps = {
+  images: [],
+  imageBank: []
+}
+
 
 function prepCaptions(imageObject) {
   imageObject.captions = forceArray(imageObject.captions);
@@ -50,8 +63,7 @@ export function toRenderString (imageChooserObj) {
 }
 
 function toDataObject (valueObject, object) {
-  // For now, this is a special case taken care of in the App
-  return object;
+  return imageContainerToDataObjectFunction(valueObject, object);
 }
 
 registerDataType(DATA_TYPE_NAME, {toRenderString, toDataObject});
@@ -199,18 +211,6 @@ const SortableListOfImages = SortableContainer( function ListOfImages (props) {
     </div>
   );
 }, {transitionDuration: 0} );
-
-const ImageSelection = (props) => {
-  let imageList = props.imageBank.map((image, i) => {
-    return <img src={ THUMBNAIL_URL_PREFIX + image } key={ i } onClick={ () => { props.onChooseImage(image) }}/>;
-  });
-  return (
-    <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
-      <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">Select a new image</p>
-      { imageList }
-    </div>
-  );
-};
 
 class ImageContainer extends React.Component {
   constructor (props) {
@@ -405,7 +405,7 @@ class ImageContainer extends React.Component {
           onRequestClose={this.handleCloseModal}
           contentLabel="Choose a replacement image">
 
-          <ImageSelection onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+          <ImageChooser onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
           <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
             onClick={ this.handleCloseModal } type="button">
             Cancel
@@ -417,15 +417,7 @@ class ImageContainer extends React.Component {
 
 }
 
-ImageContainer.propTypes = {
-  images: PT.array,
-  imageBank: PT.array,
-  fieldName: PT.string.isRequired
-}
-
-ImageContainer.defaultProps = {
-  images: [],
-  imageBank: []
-}
+ImageContainer.propTypes = ImageContainerPropTypes;
+ImageContainer.defaultProps = ImageContainerDefaultProps;
 
 export default ImageContainer;
