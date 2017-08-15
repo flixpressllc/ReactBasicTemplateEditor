@@ -9,7 +9,7 @@ const ImageChooser = (props) => {
   return (
     <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
       <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">
-        Select a new image
+        <button>Upload a new image</button> or select from below:
       </p>
       { imageList }
     </div>
