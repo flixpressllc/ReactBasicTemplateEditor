@@ -4,6 +4,12 @@ const srcPath = path.join(__dirname, '/../../src');
 function getDefaultModules() {
   return {rules: [
     {
+      test: /\.(ts|tsx)$/,
+      include: srcPath,
+      enforce: 'pre',
+      loader: 'ts-loader'
+    },
+    {
       test: /\.(js|jsx)$/,
       include: srcPath,
       enforce: 'pre',
