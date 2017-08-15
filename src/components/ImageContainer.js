@@ -17,10 +17,6 @@ const DATA_TYPE_NAME = 'userImageChooser';
 
 function prepCaptions(imageObject) {
   imageObject.captions = forceArray(imageObject.captions);
-  // the following line has been commented out because, though
-  // is it unlikely, it does change current behavior and may break
-  // the renderer:
-  // if (imageObject.captions.length < 1) return imageObject;
 
   imageObject.captions = imageObject.captions.map((caption) => {
     return {
@@ -33,10 +29,6 @@ function prepCaptions(imageObject) {
 
 function prepDropDowns(imageObject) {
   imageObject.dropDowns = forceArray(imageObject.dropDowns);
-  if (imageObject.dropDowns.length < 1) {
-    delete imageObject.dropDowns;
-    return imageObject;
-  }
 
   imageObject.dropDowns = imageObject.dropDowns.map((dropDown) => {
     return {
