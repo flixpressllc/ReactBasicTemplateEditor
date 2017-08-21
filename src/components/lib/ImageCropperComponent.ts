@@ -1,6 +1,15 @@
 import CroppingImplementation from './wrappers/CroppingImplementation';
 import { blobToDataURL, DATA_URL_MIME_MATCHER } from './fileManipulation';
 
+type CroppedFileData = {
+  cropData?: object,
+  thumbnailDataUrl?: string,
+  thumbnailBlob?: Blob,
+  thumbnailFile?: File,
+  croppedFile?: File,
+  cancelled: boolean
+}
+
 function temporarilyAddStylesUntilCssFilesExist () {
   const styleId = 'temporaryImageCropperStyles';
   if (document.querySelector(`#${styleId}`)) return;
@@ -102,7 +111,7 @@ class ImageCropper {
 
   elements: any;
   croppingImplementation: CroppingImplementation;
-  _resolvePromise: Function;
+  _resolvePromise: (data: CroppedFileData) => Promise<CroppedFileData>;
   _rejectPromise: Function;
   previousCropData: object;
   baseElement: HTMLElement;
@@ -137,16 +146,16 @@ class ImageCropper {
     const thumbnailBlob = this.croppingImplementation.getCroppedBlob({width: 300});
     const thumbnailFile = this.croppingImplementation.getCroppedFile({width: 300});
     const croppedFile = this.croppingImplementation.getCroppedFile();
-    this._resolvePromise({cropData, thumbnailDataUrl, thumbnailBlob, thumbnailFile, croppedFile});
+    this._resolvePromise({cropData, thumbnailDataUrl, thumbnailBlob, thumbnailFile, croppedFile, cancelled: false});
   }
 
   _resolvePromiseWithCancelled () {
-    this._resolvePromise(null);
+    this._resolvePromise({cancelled: true});
   }
 
   _resolvePromiseWithOriginalData () {
     const cropData = this.previousCropData;
-    this._resolvePromise({cropData});
+    this._resolvePromise({cropData, cancelled: false});
   }
 
   _removeCropperFromDocument () {
@@ -250,14 +259,14 @@ class ImageCropper {
     return this.originalBlob;
   }
 
-  cropBlob(originalBlob: Blob, previousCropData?: object) {
+  cropBlob(originalBlob: Blob, previousCropData?: object): Promise<CroppedFileData> {
     const promise = this._createCropperPromise();
     this._setIncomingImageBlob(originalBlob);
     this._createAndDisplayUI(previousCropData);
     return promise;
   }
 
-  cropImage(imageElement: HTMLImageElement, previousCropData?: object) {
+  cropImage(imageElement: HTMLImageElement, previousCropData?: object): Promise<CroppedFileData> {
     const promise = this._createCropperPromise();
     this._setIncomingImageElement(imageElement);
     this._createAndDisplayUI(previousCropData);
@@ -272,7 +281,7 @@ class ImageCropper {
 
   _createCropperPromise (): Promise<any> {
     return new Promise((resolve, reject) => {
-      this._resolvePromise = resolve;
+      this._resolvePromise = resolve as ImageCropper['_resolvePromise'];
       this._rejectPromise = reject;
     })
   }
