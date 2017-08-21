@@ -20,3 +20,6 @@ interface EmittedEvent {
   data: any;
   type: string;
 }
+
+// Declared modules
+declare module 'happy-helpers';

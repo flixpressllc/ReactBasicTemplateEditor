@@ -1,18 +1,24 @@
-import Cropper from 'cropperjs';
+import * as Cropper from 'cropperjs';
 import { dataURLtoBlob, dataURLtoFile, getMimeTypeFromDataUrl, getExtensionForMimeType, mimeTypeForExtension } from '../fileManipulation';
 import { traverseObject } from 'happy-helpers';
 
 const PRECISION = 5;
 
-function truncateNumberAtProperPrecision (number) {
+type CropData = {
+  x: number
+  y: number
+  zoom: number
+}
+
+function truncateNumberAtProperPrecision (number: number) {
   return parseFloat(number.toFixed(PRECISION));
 }
 
-function findPercentFromMagnitudes (magA, magB, magOffOrigin) {
+function findPercentFromMagnitudes (magA: number, magB: number, magOffOrigin: number) {
   return (magOffOrigin - ((magA - magB) / 2)) * (100 / magA);
 }
 
-function findMagnitudeOffOrigin (magA, magB, percentFromCenter) {
+function findMagnitudeOffOrigin (magA: number, magB: number, percentFromCenter: number) {
   return ((magA - magB) / 2) + ((magA / 100) * percentFromCenter);
 }
 
@@ -34,7 +40,7 @@ export default class CroppingImplementation {
   imageMimeType: string;
   imageElement: HTMLImageElement;
 
-  constructor (imageElement: HTMLImageElement, options?) {
+  constructor (imageElement: HTMLImageElement, options?: any) {
     this.whenReady = createDeferred();
     this.imageElement = imageElement;
     const {
@@ -64,7 +70,7 @@ export default class CroppingImplementation {
       zoomable: true,
       zoomOnWheel: false,
       zoomOnTouch: false,
-      crop: e => this.getCropData(),
+      crop: (e: any) => this.getCropData(),
       ready: () => this.whenReady.resolve()
     }
 
@@ -73,7 +79,7 @@ export default class CroppingImplementation {
     // window.cropper = this.croppingTool;
   }
 
-  getCropData () {
+  getCropData (): CropData {
     const data = this._calculateCropdata();
 
     let finalObject = {
@@ -82,7 +88,7 @@ export default class CroppingImplementation {
       zoom: data.zoomPercent
     }
 
-    return traverseObject(finalObject, (k,v) => {
+    return traverseObject(finalObject, (k: string, v: number) => {
       return [k, truncateNumberAtProperPrecision(v)]
     })
   }
@@ -91,22 +97,24 @@ export default class CroppingImplementation {
     const cropper = this.croppingTool;
     cropper.zoomTo(0); // smallest posssible zoom.
     const containerWidth = cropper.getContainerData().width;
-    const canvasWidth = cropper.getCanvasData().width;
+    const canvasData = cropper.getCanvasData();
+    const canvasWidth = canvasData.width;
     const newLeftOffset = (containerWidth - canvasWidth) / 2;
-    cropper.setCanvasData({left: newLeftOffset});
+    const newData = Object.assign({}, canvasData, {left: newLeftOffset})
+    cropper.setCanvasData(newData);
   }
 
-  getCroppedBlob (options?) {
+  getCroppedBlob (options?: any) {
     return dataURLtoBlob(this.getCroppedDataUrl(options));
   }
 
-  getCroppedFile (options?) {
+  getCroppedFile (options?: any) {
     const ext = this._getImageExtension();
     let file = dataURLtoFile(this.getCroppedDataUrl(options), `unnamed.${ext}`);
     return file;
   }
 
-  getCroppedDataUrl (options?) {
+  getCroppedDataUrl (options?: any) {
     // options are width, or height. See https://github.com/fengyuanchen/cropperjs#getcroppedcanvasoptions
     const mime = this._getImageMimeType();
     return this.croppingTool.getCroppedCanvas(options).toDataURL(mime, 0.7);
@@ -126,7 +134,7 @@ export default class CroppingImplementation {
     return mime;
   }
 
-  _getMimeTypeFromExtension (fileName) {
+  _getMimeTypeFromExtension (fileName: string) {
     const ext = fileName.slice(fileName.lastIndexOf('.'));
     return mimeTypeForExtension(ext);
   }

@@ -16,7 +16,7 @@ function temporarilyAddStylesUntilCssFilesExist () {
   const styles = document.createElement('style');
   styles.setAttribute('id', styleId);
   styles.innerHTML = `
-    .frixxerAdminClient-ImageCropper {
+    .reactBasicTemplateEditor-ImageCropper {
       position: fixed;
       top: 0;
       left: 0;
@@ -24,9 +24,10 @@ function temporarilyAddStylesUntilCssFilesExist () {
       bottom: 0;
       background-color: white;
       overflow: auto;
+      z-index: 1000;
     }
 
-    .frixxerAdminClient-ImageCropper img {
+    .reactBasicTemplateEditor-ImageCropper img {
       max-width: 100%;
     }
 
@@ -166,7 +167,7 @@ class ImageCropper {
   _createModal () {
     if (this.baseElement) return;
     const div = document.createElement('div') as HTMLDivElement;
-    div.setAttribute('class', 'frixxerAdminClient-ImageCropper');
+    div.setAttribute('class', 'reactBasicTemplateEditor-ImageCropper');
 
     return this.elements.baseElement = this.baseElement = div;
   }

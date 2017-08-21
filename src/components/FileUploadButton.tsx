@@ -8,7 +8,12 @@ class UploadFileService {
   }
 }
 
-type BeforeUploadHandler = (file: File) => Promise<File>;
+
+export type BeforeUploadHandlerReturn = Promise<
+  {file: File, cancelled?: false } | {file?: File, cancelled: true}
+>;
+
+export type BeforeUploadHandler = (file: File) => BeforeUploadHandlerReturn;
 
 export interface FileUploadProps {
   accept?: string,
@@ -24,7 +29,7 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
   uploadFileService = new UploadFileService();
 
   public static defaultProps: Partial<FileUploadProps> = {
-    beforeUpload: (file: File) => Promise.resolve(file)
+    beforeUpload: (file: File) => Promise.resolve({file})
   }
 
   constructor(props: FileUploadProps) {
@@ -67,12 +72,12 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
     this.setRequestPending();
     const chosenFile = changeEvent.target.files[0];
     const uploadPromise = this.props.beforeUpload!(chosenFile)
-    .then(file => {
+    .then(beforeUploadReturn => {
       this.setRequestComplete();
-      if (file) {
-        this.uploadFile(file).then(this.handleUploadResponse.bind(this))
-      } else {
+      if (beforeUploadReturn.cancelled) {
         // this.uploadComplete.emit({type: 'upload cancelled', data: null})
+      } else {
+        this.uploadFile(beforeUploadReturn.file).then(this.handleUploadResponse.bind(this))
       }
     });
   }
