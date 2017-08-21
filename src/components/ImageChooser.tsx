@@ -1,14 +1,11 @@
 import * as React from 'react';
+import ImageUploadButton from './ImageUploadButton';
 import { THUMBNAIL_URL_PREFIX } from '../stores/app-settings';
 import './ImageChooser.scss';
 
 interface P {
   onChooseImage(imageUrl: string): void,
   imageBank: Array<string>
-}
-
-function invokeImageUploader() {
-  // nothing for now.
 }
 
 const ImageChooser = (props: P) => {
@@ -18,7 +15,7 @@ const ImageChooser = (props: P) => {
   return (
     <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
       <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">
-        <button onClick={invokeImageUploader}>Upload a new image</button> or select from below:
+        <ImageUploadButton>Upload a new image</ImageUploadButton> or select from below:
       </p>
       { imageList }
     </div>
