@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "jsx": "react",
-    "target": "es5",
-    "sourceMap": true
+    "target": "es6",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "allowJs": true
   },
-  "files": [
-    "typings/tsd.d.ts"
+  "include": [
+    "./src/",
+    "./types/**.*"
   ]
 }
