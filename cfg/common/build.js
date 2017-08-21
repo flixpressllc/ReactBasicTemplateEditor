@@ -22,6 +22,7 @@ config.module.rules.push({
 });
 
 config.output.path = pathFinder(config.output.path, process.cwd());
+// eslint-disable-next-line no-console
 console.log('Building into ' + config.output.path);
 
 module.exports = config;
