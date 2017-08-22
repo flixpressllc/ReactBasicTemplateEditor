@@ -35,6 +35,8 @@ export type OnCroppingBeginHandler = (promise: Promise<CroppedFileData>) => void
 interface P {
   imageToCrop?: HTMLImageElement
   blobToCrop?: Blob
+  cancelText?: string
+  cropText?: string
   onCroppingBegin?: OnCroppingBeginHandler
   onCroppingComplete?: (data: CroppedFileData) => void
 }
@@ -49,6 +51,11 @@ interface S {
 class ImageCropper extends React.Component<P, S> {
   cropDeferred: Deferred<CroppedFileData>
   croppingImplementation: CroppingImplementation
+
+  public static defaultProps: Partial<P> = {
+    cancelText: 'Cancel',
+    cropText: 'Crop'
+  }
 
   constructor(props: P) {
     super(props);
@@ -148,8 +155,8 @@ class ImageCropper extends React.Component<P, S> {
           <div className="reactBasicTemplateEditor-ImageCropper-cropperContainer">
             <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
           </div>
-          <button onClick={this.handleCancel} type="button">Cancel</button>
-          <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">Crop</button>
+          <button onClick={this.handleCancel} type="button">{ this.props.cancelText }</button>
+          <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">{ this.props.cropText }</button>
         </div>
       </Modal>
     );

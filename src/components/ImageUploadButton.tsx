@@ -66,6 +66,7 @@ class ImageUploadButton extends React.Component<P, S> {
       imageCropper = (
         <ImageCropper
           onCroppingBegin={ this.handleCroppingBegin }
+          cancelText="Cancel Upload"
           blobToCrop={ this.state.fileToCrop }/>
       );
     }
