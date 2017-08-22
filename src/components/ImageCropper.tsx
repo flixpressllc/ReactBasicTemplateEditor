@@ -1,5 +1,6 @@
 import * as React from 'react';
 import CroppingImplementation from './lib/wrappers/CroppingImplementation';
+import Deferred from './lib/deferred';
 import Modal from './lib/Modal';
 import { blobToDataURL, DATA_URL_MIME_MATCHER } from './lib/fileManipulation';
 
@@ -37,33 +38,51 @@ function temporarilyAddStylesUntilCssFilesExist () {
   document.head.appendChild(linkToCropperCss);
 }
 
-type CroppedFileData = {
+export type CroppedFileData = {
   cropData?: object,
   thumbnailDataUrl?: string,
   thumbnailBlob?: Blob,
   thumbnailFile?: File,
   croppedFile?: File,
-  cancelled: boolean
+  cancelled: true
+} | {
+  cropData?: object,
+  thumbnailDataUrl?: string,
+  thumbnailBlob?: Blob,
+  thumbnailFile?: File,
+  croppedFile: File,
+  cancelled?: false
 }
+
+export type OnCroppingBeginHandler = (promise: Promise<CroppedFileData>) => void
 
 interface P {
   imageToCrop?: HTMLImageElement
   blobToCrop?: Blob
-  onCroppingComplete: (data: CroppedFileData) => void
+  onCroppingBegin?: OnCroppingBeginHandler
+  onCroppingComplete?: (data: CroppedFileData) => void
 }
 
 interface S {
   imageUri: string,
-  imageReady: boolean
+  imageReady: boolean,
+  croppingComplete: boolean
 }
 
 class ImageCropper extends React.Component<P, S> {
+  cropDeferred: Deferred<CroppedFileData>
+  croppingImplementation: CroppingImplementation
+
   constructor(props: P) {
     super(props);
     this.state = {
       imageUri: '',
-      imageReady: false
+      imageReady: false,
+      croppingComplete: false
     }
+
+    this.handleCrop = this.handleCrop.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   private hasImageToCrop() {
@@ -71,7 +90,7 @@ class ImageCropper extends React.Component<P, S> {
   }
 
   private modalIsOpen() {
-    return this.hasImageToCrop() && this.state.imageReady;
+    return this.hasImageToCrop() && this.state.imageReady && !this.state.croppingComplete;
   }
 
   private setSrc() {
@@ -97,12 +116,45 @@ class ImageCropper extends React.Component<P, S> {
   private initCropper(el: HTMLImageElement | null) {
     if (el === null) return;
     el.onload = () => {
-      new CroppingImplementation(el, {aspectRatio: 16/9});
+      this.cropDeferred = new Deferred();
+      this.croppingImplementation = new CroppingImplementation(el, {aspectRatio: 16/9});
+      if (this.props.onCroppingBegin) {
+        this.props.onCroppingBegin(this.cropDeferred.getPromise());
+      }
     }
   }
 
+  closeModal() {
+    this.setState({croppingComplete: true});
+  }
+
+  handleCancel() {
+    const cancelled = {cancelled: true as true};
+    if (this.cropDeferred) {
+      // cropDeferred was defined
+      //and onCroppingBegin was already called if it exists
+      this.cropDeferred.resolve(cancelled);
+    } else if (this.props.onCroppingBegin) {
+      // onCroppingbegin was not already called, but it exists
+      this.props.onCroppingBegin(Promise.resolve(cancelled))
+    }
+    this.closeModal();
+  }
+
+  getCropData(): CroppedFileData {
+    return {
+      cancelled: false,
+      croppedFile: this.croppingImplementation.getCroppedFile()
+    }
+  }
+
+  handleCrop() {
+    this.cropDeferred.resolve(this.getCropData())
+    this.closeModal();
+  }
+
   render() {
-    if (this.hasImageToCrop()) {
+    if (!this.hasImageToCrop()) {
       return null;
     }
     if (!this.state.imageReady) {
@@ -115,6 +167,8 @@ class ImageCropper extends React.Component<P, S> {
         <div className="reactBasicTemplateEditor-ImageCropper-cropperContainer">
           <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
         </div>
+        <button onClick={this.handleCancel} type="button">Cancel</button>
+        <button onClick={this.handleCrop} type="button">Crop</button>
       </Modal>
     );
   }
