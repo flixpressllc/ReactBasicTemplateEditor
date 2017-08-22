@@ -94,8 +94,8 @@ class ImageCropper extends React.Component<P, S> {
   }
 
   private setSrc() {
-    this.getSrc().then(() => {
-      this.setState({imageReady: true})
+    this.getSrc().then((uri: string) => {
+      this.setState({imageReady: true, imageUri: uri})
     })
   }
 
@@ -169,7 +169,7 @@ class ImageCropper extends React.Component<P, S> {
           <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
         </div>
         <button onClick={this.handleCancel} type="button">Cancel</button>
-        <button onClick={this.handleCrop} type="button">Crop</button>
+        <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">Crop</button>
       </Modal>
     );
   }
