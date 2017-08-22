@@ -47,7 +47,12 @@ class ImageUploadButton extends React.Component<P, S> {
   optionallyCropImage(file: File): BeforeUploadHandlerReturn {
     if (!this.props.cropImage) return Promise.resolve({file});
     return this.cropImageFile(file)
-      .then(file => {console.log('file made it'); return file;});
+      .then(cropData => {
+        if (cropData.cancelled) {
+          this.setState({fileToCrop: false})
+        }
+        return cropData;
+      });
   }
 
   handleBeforeUpload(file: File): BeforeUploadHandlerReturn {
