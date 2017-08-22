@@ -143,13 +143,14 @@ class ImageCropper extends React.Component<P, S> {
 
   getCropData(): CroppedFileData {
     return {
-      cancelled: false,
       croppedFile: this.croppingImplementation.getCroppedFile()
     }
   }
 
   handleCrop() {
-    this.cropDeferred.resolve(this.getCropData())
+    let cropData = this.getCropData();
+    Object.assign(cropData, {cancelled: false});
+    this.cropDeferred.resolve(cropData);
     this.closeModal();
   }
 
