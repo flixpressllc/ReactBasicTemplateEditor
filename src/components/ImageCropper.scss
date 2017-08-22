@@ -1,0 +1,135 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-ImageCropper {
+  & {
+    background-color: white;
+    overflow: auto;
+  }
+
+  &-cropperContainer {
+    max-width: 100%;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+}
+
+
+
+
+.reactBasicTemplateEditor-SoundPicker {
+  text-align: center;
+  background-color: #bbb;
+  margin: 30px auto 10px;
+  padding: 5px;
+}
+
+.reactBasicTemplateEditor-SoundPicker-stockCategoryTabList {
+  margin-top: $bigPad;
+  margin-bottom: $bigPad;
+}
+
+.reactBasicTemplateEditor-SoundPicker-librarySwitch {
+  border: 1px solid $flixpress-blue;
+  display: inline-block;
+  border-radius: $fluid-radius;
+  overflow: hidden;
+  margin-bottom: $medPad;
+
+  > li {
+    @extend %tab;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-song {
+  padding: $tinyPad;
+  margin: $tinyPad auto;
+  overflow: hidden;
+  background-color: #333;
+  color: white;
+  font-size: $base-font-size * 0.875;
+
+  @include breakpoint($sm) {
+    width: 49%;
+    margin: $tinyPad 0.5%;
+    float: left;
+    text-align: center;
+    padding: $medPad;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-songName {
+  margin-left: 1em;
+  display: block;
+  float: left;
+  @include breakpoint($sm) {
+    float: none;
+    margin: $medPad 0 0 0;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-stockCategoryTab {
+  @extend %tab;
+}
+
+.reactBasicTemplateEditor-SoundPicker-audioTypeTitle {
+  // This style is on an h2, which is affected by outside styles
+  @include fw-bars;
+}
+
+
+// Buttons
+
+.reactBasicTemplateEditor-SoundPicker-addAudioButton,
+.reactBasicTemplateEditor-SoundPicker-removeAudio,
+.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
+.reactBasicTemplateEditor-SoundPicker-songSelect,
+.reactBasicTemplateEditor-SoundPicker-modalCancel {
+  @extend %button;
+}
+
+.reactBasicTemplateEditor-SoundPicker-addAudioButton {
+  padding:8px 20px;
+}
+
+.reactBasicTemplateEditor-SoundPicker-modalCancel {
+  float: right;
+  padding: $button-padding;
+}
+
+.playing > .reactBasicTemplateEditor-SoundPicker-songPlayToggle {
+  background-color: $flixpress-red;
+}
+
+.reactBasicTemplateEditor-SoundPicker-songPlayToggle,
+.reactBasicTemplateEditor-SoundPicker-songSelect {
+  font-size: $base-font-size * 0.875;
+  padding: $button-padding;
+  margin: 0 $tinyPad 0 0;
+  width: 5.6em;
+  float: left;
+  @include breakpoint($sm) {
+    float: none;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-playerWrapper {
+  padding: $medPad;
+  width: calc(100% - #{$medPad * 2});
+  margin: auto;
+  background: #555;
+
+  > audio {
+    width: 100%;
+  }
+}
+
+.reactBasicTemplateEditor-SoundPicker-chosenAudioTitle {
+  color: white;
+  padding: $tinyPad;
+}

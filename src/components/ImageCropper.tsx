@@ -3,35 +3,11 @@ import CroppingImplementation from './lib/wrappers/CroppingImplementation';
 import Deferred from './lib/deferred';
 import Modal from './lib/Modal';
 import { blobToDataURL, DATA_URL_MIME_MATCHER } from './lib/fileManipulation';
+import './ImageCropper.scss';
 
 function temporarilyAddStylesUntilCssFilesExist () {
   const styleId = 'temporaryImageCropperStyles';
   if (document.querySelector(`#${styleId}`)) return;
-  const styles = document.createElement('style');
-  styles.setAttribute('id', styleId);
-  styles.innerHTML = `
-    .reactBasicTemplateEditor-ImageCropper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: white;
-      overflow: auto;
-      z-index: 1000;
-    }
-
-    .reactBasicTemplateEditor-ImageCropper img {
-      max-width: 100%;
-    }
-
-    #cropperContainer {
-      max-width: 100%;
-    }
-
-  `;
-
-  document.body.appendChild(styles);
   const linkToCropperCss = document.createElement('link');
   linkToCropperCss.setAttribute('rel', 'stylesheet');
   linkToCropperCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.css');
@@ -80,7 +56,7 @@ class ImageCropper extends React.Component<P, S> {
       imageReady: false,
       croppingComplete: false
     }
-
+    temporarilyAddStylesUntilCssFilesExist();
     this.handleCrop = this.handleCrop.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
@@ -165,11 +141,13 @@ class ImageCropper extends React.Component<P, S> {
       <Modal
         isOpen={this.modalIsOpen()}
         contentLabel="Crop your image">
-        <div className="reactBasicTemplateEditor-ImageCropper-cropperContainer">
-          <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
+        <div className="reactBasicTemplateEditor-ImageCropper">
+          <div className="reactBasicTemplateEditor-ImageCropper-cropperContainer">
+            <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
+          </div>
+          <button onClick={this.handleCancel} type="button">Cancel</button>
+          <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">Crop</button>
         </div>
-        <button onClick={this.handleCancel} type="button">Cancel</button>
-        <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">Crop</button>
       </Modal>
     );
   }
