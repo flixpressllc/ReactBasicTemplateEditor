@@ -30,7 +30,7 @@ export const fetch = window.fetch;
 
 type ServerResponse = string; // Pipe delineated string
 
-export function uploadFileToServer(file: File): Promise<Array<string>> {
+export function uploadFileToServer(file: File): Promise<FileUploadData> {
   return new Promise((resolve, reject) => {
     let userFiles = new FormData();
     userFiles.append(file.name, file);

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import FileUploadButton, {FileUploadProps, BeforeUploadHandlerReturn} from './FileUploadButton';
 import ImageCropper, { CroppedFileData, OnCroppingBeginHandler } from './ImageCropper';
+import { uploadImageToServer } from '../utils/ajax';
+import * as ImageBankActions from '../actions/ImageBankActions';
 
 interface P extends FileUploadProps {
   cropImage?: boolean
@@ -14,6 +16,7 @@ class ImageUploadButton extends React.Component<P, S> {
   public static defaultProps: Partial<P> = {
     beforeUpload: file => Promise.resolve({file}),
     accept: 'image/jpeg,image/png',
+    uploadFunction: uploadImageToServer,
     cropImage: true
   }
 
@@ -60,6 +63,14 @@ class ImageUploadButton extends React.Component<P, S> {
         .then(this.props.beforeUpload!.bind(this));
   }
 
+  handleUpload(file: File): Promise<FileUploadResponse> {
+    return uploadImageToServer(file)
+      .then(response => {
+        ImageBankActions.addImagesToBank(response)
+        return response;
+      })
+  }
+
   renderImageCropper() {
     let imageCropper = null;
     if (this.state.fileToCrop) {
@@ -79,6 +90,7 @@ class ImageUploadButton extends React.Component<P, S> {
       <FileUploadButton
         accept="image/jpeg,image/png"
         {...this.props}
+        uploadFunction={ this.handleUpload }
         beforeUpload={ this.handleBeforeUpload }>
 
         { this.props.children }

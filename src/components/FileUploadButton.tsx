@@ -1,22 +1,16 @@
 import * as React from 'react';
-
-class UploadFileService {
-  uploadFile(file: File): Promise<FileUploadResponse> {
-    return new Promise(resolve => {
-      setTimeout(() => resolve('[{"things": "were uploaded"}]'),2000);
-    })
-  }
-}
-
+import { uploadFileToServer } from '../utils/ajax';
 
 export type BeforeUploadHandlerReturn = Promise<
   {file: File, cancelled?: false } | {file?: File, cancelled: true}
 >;
 
 export type BeforeUploadHandler = (file: File) => BeforeUploadHandlerReturn;
+export type UploadHandler = (file: File) => Promise<FileUploadData>;
 
 export interface FileUploadProps {
   accept?: string,
+  uploadFunction?: UploadHandler
   beforeUpload?: BeforeUploadHandler
 }
 
@@ -26,10 +20,10 @@ interface S {
 }
 
 class FileUploadButtonComponent extends React.Component<FileUploadProps, S> implements React.Component {
-  uploadFileService = new UploadFileService();
 
   public static defaultProps: Partial<FileUploadProps> = {
-    beforeUpload: (file: File) => Promise.resolve({file})
+    beforeUpload: (file: File) => Promise.resolve({file}),
+    uploadFunction: uploadFileToServer
   }
 
   constructor(props: FileUploadProps) {
@@ -72,12 +66,12 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
     this.setRequestPending();
     const chosenFile = changeEvent.target.files[0];
     const uploadPromise = this.props.beforeUpload!(chosenFile)
-    .then(beforeUploadReturn => {
+    .then(cropData => {
       this.setRequestComplete();
-      if (beforeUploadReturn.cancelled) {
+      if (cropData.cancelled) {
         // this.uploadComplete.emit({type: 'upload cancelled', data: null})
       } else {
-        this.uploadFile(beforeUploadReturn.file).then(this.handleUploadResponse.bind(this))
+        this.uploadFile(cropData.file).then(this.handleUploadResponse.bind(this))
       }
     });
   }
@@ -91,7 +85,7 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
   }
 
   uploadFile(file: File) {
-    return this.uploadFileService.uploadFile(file);
+    return this.props.uploadFunction!(file);
   }
 
   handleUploadResponse(fileUploadResolved: FileUploadData|Error): void {
