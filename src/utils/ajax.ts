@@ -27,3 +27,30 @@ export function fetchWithParams (url: string, params: object) {
 }
 
 export const fetch = window.fetch;
+
+type ServerResponse = string; // Pipe delineated string
+
+export function uploadFileToServer(file: File): Promise<Array<string>> {
+  return new Promise((resolve, reject) => {
+    let userFiles = new FormData();
+    userFiles.append(file.name, file);
+
+    fetch('Upload.aspx', {
+      method: 'POST',
+      body: userFiles
+    }).then(response => {
+      if (response.status === 200) {
+        response.text().then((text: ServerResponse) => resolve(text.split('|')));
+      } else {
+        reject(response);
+      }
+    }, error => {
+      console.error(error);
+      reject(error);
+    })
+  })
+}
+
+export function uploadImageToServer(img: File) {
+  return uploadFileToServer(img);
+}
