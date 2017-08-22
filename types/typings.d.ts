@@ -23,3 +23,4 @@ interface EmittedEvent {
 
 // Declared modules
 declare module 'happy-helpers';
+declare module 'promise/lib/es6-extensions';

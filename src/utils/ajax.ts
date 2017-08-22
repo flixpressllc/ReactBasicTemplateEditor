@@ -1,7 +1,6 @@
-import Promise from 'promise/lib/es6-extensions';
 import 'whatwg-fetch'; // polyfill
 
-export function getJSON(url) {
+export function getJSON(url: string) {
   return new Promise( (resolve, reject) => {
     window.fetch(url).then(response => {
       if (response.status === 200) {
@@ -13,17 +12,17 @@ export function getJSON(url) {
   });
 }
 
-function toQueryString (obj) {
+function toQueryString (obj: object) {
   var parts = [];
   for (var i in obj) {
     if (obj.hasOwnProperty(i)) {
-      parts.push(encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]));
+      parts.push(encodeURIComponent(i) + '=' + encodeURIComponent((<any>obj)[i]));
     }
   }
   return parts.join('&');
 }
 
-export function fetchWithParams (url, params) {
+export function fetchWithParams (url: string, params: object) {
   return window.fetch(url + '?' + toQueryString(params));
 }
 
