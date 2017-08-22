@@ -26,8 +26,6 @@ export function fetchWithParams (url: string, params: object) {
   return window.fetch(url + '?' + toQueryString(params));
 }
 
-export const fetch = window.fetch;
-
 type ServerResponse = string; // Pipe delineated string
 
 export function uploadFileToServer(file: File): Promise<FileUploadData> {
@@ -35,7 +33,7 @@ export function uploadFileToServer(file: File): Promise<FileUploadData> {
     let userFiles = new FormData();
     userFiles.append(file.name, file);
 
-    fetch('Upload.aspx', {
+    window.fetch('Upload.aspx', {
       method: 'POST',
       body: userFiles
     }).then(response => {
@@ -54,3 +52,5 @@ export function uploadFileToServer(file: File): Promise<FileUploadData> {
 export function uploadImageToServer(img: File) {
   return uploadFileToServer(img);
 }
+
+export const fetch = window.fetch;
