@@ -42,7 +42,8 @@ interface P {
 interface S {
   imageUri: string,
   imageReady: boolean,
-  croppingComplete: boolean
+  croppingComplete: boolean,
+  cropperInitialized: boolean
 }
 
 class ImageCropper extends React.Component<P, S> {
@@ -54,7 +55,8 @@ class ImageCropper extends React.Component<P, S> {
     this.state = {
       imageUri: '',
       imageReady: false,
-      croppingComplete: false
+      croppingComplete: false,
+      cropperInitialized: false
     }
     temporarilyAddStylesUntilCssFilesExist();
     this.handleCrop = this.handleCrop.bind(this);
@@ -97,6 +99,7 @@ class ImageCropper extends React.Component<P, S> {
       if (this.props.onCroppingBegin) {
         this.props.onCroppingBegin(this.cropDeferred.getPromise());
       }
+      this.setState({cropperInitialized: true})
     }
   }
 
@@ -106,7 +109,7 @@ class ImageCropper extends React.Component<P, S> {
 
   handleCancel() {
     const cancelled = {cancelled: true as true};
-    if (this.cropDeferred) {
+    if (this.state.cropperInitialized) {
       // cropDeferred was defined
       //and onCroppingBegin was already called if it exists
       this.cropDeferred.resolve(cancelled);
