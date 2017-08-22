@@ -156,7 +156,7 @@ class ImageCropper extends React.Component<P, S> {
             <img ref={(el) => this.initCropper(el)} src={this.state.imageUri} />
           </div>
           <button onClick={this.handleCancel} type="button">{ this.props.cancelText }</button>
-          <button disabled={ this.cropDeferred ? false : true } onClick={this.handleCrop} type="button">{ this.props.cropText }</button>
+          <button disabled={ !this.state.cropperInitialized } onClick={this.handleCrop} type="button">{ this.props.cropText }</button>
         </div>
       </Modal>
     );
