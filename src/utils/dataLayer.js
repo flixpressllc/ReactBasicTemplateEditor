@@ -14,8 +14,13 @@ class DataLayer {
     if (isEmpty(container)) {
       throw new Error(`The passed in container was empty for passed in datatype of ${dataTypeName}`);
     }
-    return traverseObject(container, (formIdName, obj) => {
-      return [formIdName, dc.getToDataObjectFunctionFor(dataTypeName)(nameValuePairsObj[formIdName], obj)];
+    return traverseObject(container, (formIdName, defaultContainer) => {
+      const previewDataValue = nameValuePairsObj[formIdName];
+      if (previewDataValue === undefined) return [formIdName, defaultContainer]
+
+      const conversionFunction = dc.getToDataObjectFunctionFor(dataTypeName);
+      const infusedContainer = conversionFunction(previewDataValue, defaultContainer);
+      return [formIdName, infusedContainer];
     })
   }
 
