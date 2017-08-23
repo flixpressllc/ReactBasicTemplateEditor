@@ -1,5 +1,5 @@
 import * as React from 'react';
-import FileUploadButton, {FileUploadProps, BeforeUploadHandlerReturn} from './FileUploadButton';
+import FileUploadButton, {FileUploadProps, BeforeUploadObject} from './FileUploadButton';
 import ImageCropper, { CroppedFileData, OnCroppingBeginHandler } from './ImageCropper';
 import { uploadImageToServer } from '../utils/ajax';
 import * as ImageBankActions from '../actions/ImageBankActions';
@@ -14,7 +14,7 @@ interface S {
 
 class ImageUploadButton extends React.Component<P, S> {
   public static defaultProps: Partial<P> = {
-    beforeUpload: file => Promise.resolve({file}),
+    beforeUpload: beforeUploadObject => Promise.resolve(beforeUploadObject),
     accept: 'image/jpeg,image/png',
     uploadFunction: uploadImageToServer,
     cropImage: true
@@ -30,7 +30,7 @@ class ImageUploadButton extends React.Component<P, S> {
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this);
   }
 
-  cropImageFile(file: File): BeforeUploadHandlerReturn {
+  cropImageFile(file: File): Promise<BeforeUploadObject> {
     return new Promise((resolve, reject) => {
       this.handleCroppingBegin = (promise: Promise<CroppedFileData>) => {
         promise.then(croppedData => {
@@ -47,7 +47,7 @@ class ImageUploadButton extends React.Component<P, S> {
     })
   }
 
-  optionallyCropImage(file: File): BeforeUploadHandlerReturn {
+  optionallyCropImage(file: File): Promise<BeforeUploadObject> {
     if (!this.props.cropImage) return Promise.resolve({file});
     return this.cropImageFile(file)
       .then(cropData => {
@@ -58,9 +58,13 @@ class ImageUploadButton extends React.Component<P, S> {
       });
   }
 
-  handleBeforeUpload(file: File): BeforeUploadHandlerReturn {
-      return this.optionallyCropImage(file)
-        .then(this.props.beforeUpload!.bind(this));
+  handleBeforeUpload(buObject: BeforeUploadObject): Promise<BeforeUploadObject> {
+      if (!buObject.cancelled) {
+        return this.optionallyCropImage(buObject.file)
+          .then(this.props.beforeUpload!.bind(this));
+      } else {
+        return Promise.resolve(buObject);
+      }
   }
 
   handleUpload(file: File): Promise<FileUploadResponse> {

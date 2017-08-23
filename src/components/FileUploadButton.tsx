@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { uploadFileToServer } from '../utils/ajax';
 
-export type BeforeUploadHandlerReturn = Promise<
-  {file: File, cancelled?: false } | {file?: File, cancelled: true}
->;
+export type BeforeUploadObject = {file: File, cancelled?: false }
+  | {file?: File, cancelled: true};
 
-export type BeforeUploadHandler = (file: File) => BeforeUploadHandlerReturn;
+export type BeforeUploadHandler = (beforeUploadObject: BeforeUploadObject) => Promise<BeforeUploadObject>;
+
 export type UploadHandler = (file: File) => Promise<FileUploadData>;
 
 export interface FileUploadProps {
@@ -22,7 +22,7 @@ interface S {
 class FileUploadButtonComponent extends React.Component<FileUploadProps, S> implements React.Component {
 
   public static defaultProps: Partial<FileUploadProps> = {
-    beforeUpload: (file: File) => Promise.resolve({file}),
+    beforeUpload: (beforeUploadObject: BeforeUploadObject) => Promise.resolve(beforeUploadObject),
     uploadFunction: uploadFileToServer
   }
 
@@ -64,8 +64,8 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
 
   handleChosenFileChange(changeEvent: FileChangeEvent) {
     this.setRequestPending();
-    const chosenFile = changeEvent.target.files[0];
-    const uploadPromise = this.props.beforeUpload!(chosenFile)
+    const file = changeEvent.target.files[0];
+    const uploadPromise = this.props.beforeUpload!({file})
     .then(cropData => {
       this.setRequestComplete();
       if (cropData.cancelled) {
