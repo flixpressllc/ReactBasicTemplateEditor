@@ -10,6 +10,11 @@
       "previewImage": "79_letter.jpg"
     }
   },
+  "colorPickers": {
+    "Title Color": {
+      "value": "40.115.170"
+    }
+  },
   "userImageChoosers": {
     "Your Two Images": {
       "maxImages": 8,
@@ -52,6 +57,10 @@
         {
           "type": "TextField",
           "name": "Text Right of Icon"
+        },
+        {
+          "type": "ColorPicker",
+          "name": "Title Color"
         }
       ]
     },
