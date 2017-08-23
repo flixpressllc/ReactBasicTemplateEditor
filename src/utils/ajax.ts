@@ -26,7 +26,7 @@ export function fetchWithParams (url: string, params: object) {
   return window.fetch(url + '?' + toQueryString(params));
 }
 
-type ServerResponse = Array<
+type ImagesUploadServerResponse = Array<
   {
     fullSizeUrl: string
     newFileName: string
@@ -35,7 +35,7 @@ type ServerResponse = Array<
   }
 >; // Pipe delineated string
 
-export function uploadFilesToServer(files: File[], formFieldNames?: string[]): Promise<ServerResponse> {
+export function uploadImagesToServer(files: File[], formFieldNames?: string[]): Promise<ImagesUploadServerResponse> {
   return new Promise((resolve, reject) => {
     let userFiles = new FormData();
 
@@ -60,18 +60,14 @@ export function uploadFilesToServer(files: File[], formFieldNames?: string[]): P
   })
 }
 
-export function uploadFileToServer(file: File, fieldName?: string): Promise<ServerResponse> {
-  let fieldNames = fieldName ? [fieldName] : undefined;
-  return uploadFilesToServer([file], fieldNames);
+export function uploadImageToServer(img: File): Promise<ImagesUploadServerResponse> {
+  return uploadImagesToServer([img], ['originalImage'])
+
 }
 
-export function uploadImagesToServer(images: File[], fieldNames?: string[]): Promise<ImageUploadData> {
-  return uploadFilesToServer(images, fieldNames)
-    .then(filesArray => filesArray.map(file => file.newFileName));
-}
-
-export function uploadImageToServer(img: File): Promise<ImageUploadData> {
-  return uploadImagesToServer([img], ['originalImage']);
+export function uploadImageToServerAndGetNewName(img: File): Promise<string> {
+  return uploadImageToServer(img)
+    .then(filesArray => filesArray.map(f => f.newFileName)[0]);
 }
 
 export const fetch = window.fetch;

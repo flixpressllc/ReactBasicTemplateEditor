@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { uploadFileToServer } from '../utils/ajax';
 
 export type BeforeUploadObject = {file: File, cancelled?: false }
   | {file?: File, cancelled: true};
@@ -8,10 +7,13 @@ export type BeforeUploadHandler = (beforeUploadObject: BeforeUploadObject) => Pr
 
 export type UploadHandler = (file: File) => Promise<FileUploadData>;
 
-export interface FileUploadProps {
+export interface FileUploadBaseProps {
   accept?: string,
-  uploadFunction?: UploadHandler
   beforeUpload?: BeforeUploadHandler
+}
+
+export interface FileUploadProps extends FileUploadBaseProps {
+  uploadFunction: UploadHandler
 }
 
 interface S {
@@ -23,7 +25,6 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
 
   public static defaultProps: Partial<FileUploadProps> = {
     beforeUpload: (beforeUploadObject: BeforeUploadObject) => Promise.resolve(beforeUploadObject),
-    uploadFunction: uploadFileToServer
   }
 
   constructor(props: FileUploadProps) {

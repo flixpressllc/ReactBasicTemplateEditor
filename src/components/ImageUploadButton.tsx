@@ -1,11 +1,12 @@
 import * as React from 'react';
-import FileUploadButton, {FileUploadProps, BeforeUploadObject} from './FileUploadButton';
+import FileUploadButton, {FileUploadBaseProps, BeforeUploadObject, UploadHandler} from './FileUploadButton';
 import ImageCropper, { CroppedFileData, OnCroppingBeginHandler } from './ImageCropper';
-import { uploadImageToServer } from '../utils/ajax';
+import { uploadImageToServerAndGetNewName } from '../utils/ajax';
 import * as ImageBankActions from '../actions/ImageBankActions';
 
-interface P extends FileUploadProps {
+interface P extends FileUploadBaseProps {
   cropImage?: boolean
+  uploadFunction?: UploadHandler
 }
 
 interface S {
@@ -16,7 +17,7 @@ class ImageUploadButton extends React.Component<P, S> {
   public static defaultProps: Partial<P> = {
     beforeUpload: beforeUploadObject => Promise.resolve(beforeUploadObject),
     accept: 'image/jpeg,image/png',
-    uploadFunction: uploadImageToServer,
+    uploadFunction: uploadImageToServerAndGetNewName,
     cropImage: true
   }
 
@@ -67,11 +68,10 @@ class ImageUploadButton extends React.Component<P, S> {
       }
   }
 
-  handleUpload(file: File): Promise<FileUploadResponse> {
-    return uploadImageToServer(file)
+  handleUpload(file: File) {
+    return uploadImageToServerAndGetNewName(file)
       .then(response => {
-        ImageBankActions.addImagesToBank(response)
-        return response;
+        ImageBankActions.addImagesToBank([response])
       })
   }
 
