@@ -27,6 +27,11 @@ module.exports = {
         context: ['/Scripts/flixpress-js/*'],
         target: 'https://s3.amazonaws.com/FlixSamples/development_files',
         changeOrigin: true
+      },
+      {
+        context: ['/templates/Upload.aspx'],
+        target: 'https://flixpress.com',
+        changeOrigin: true
       }
     ]
   },

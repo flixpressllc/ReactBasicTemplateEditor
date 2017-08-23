@@ -33,7 +33,7 @@ export function uploadFileToServer(file: File): Promise<FileUploadData> {
     let userFiles = new FormData();
     userFiles.append(file.name, file);
 
-    window.fetch('Upload.aspx', {
+    window.fetch('/templates/Upload.aspx', {
       method: 'POST',
       body: userFiles
     }).then(response => {
