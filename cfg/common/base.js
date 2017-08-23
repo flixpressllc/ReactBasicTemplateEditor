@@ -29,8 +29,8 @@ module.exports = {
         changeOrigin: true
       },
       {
-        context: ['/templates/Upload.aspx'],
-        target: 'https://flixpress.com',
+        context: ['/api/v0.1/UploadImage.aspx'],
+        target: 'http://don.digital-edge.biz',
         changeOrigin: true
       }
     ]

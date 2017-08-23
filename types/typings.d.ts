@@ -1,4 +1,5 @@
-type FileUploadData = Array<string>;
+type FileUploadData = any;
+type ImageUploadData = Array<string>;
 type FileUploadResponse = any;
 
 interface FileChangeEvent extends Event {
