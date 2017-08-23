@@ -38,7 +38,9 @@ export function uploadFileToServer(file: File): Promise<FileUploadData> {
       body: userFiles
     }).then(response => {
       if (response.status === 200) {
-        response.text().then((text: ServerResponse) => resolve(text.split('|')));
+        response.text().then((text: ServerResponse) => {
+          resolve(text.split('|').filter(x => x.length > 0))
+        });
       } else {
         reject(response);
       }
