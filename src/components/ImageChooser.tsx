@@ -24,9 +24,7 @@ const ImageChooser = (props: P) => {
   return (
     <div className="reactBasicTemplateEditor-ImageContainer-imageBank">
       <p className="reactBasicTemplateEditor-ImageContainer-imageBankInstructions">
-        <ImageUploadButton
-          uploadFunction={ uploadFunction }
-          >
+        <ImageUploadButton uploadFunction={ uploadFunction }>
           Upload a new image
         </ImageUploadButton> or select from below:
       </p>
