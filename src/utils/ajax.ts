@@ -26,7 +26,7 @@ export function fetchWithParams (url: string, params: object) {
   return window.fetch(url + '?' + toQueryString(params));
 }
 
-type ImagesUploadServerResponse = Array<
+export type ImagesUploadServerResponse = Array<
   {
     fullSizeUrl: string
     newFileName: string

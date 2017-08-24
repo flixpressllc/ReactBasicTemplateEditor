@@ -1,12 +1,14 @@
 import * as React from 'react';
 import FileUploadButton, {FileUploadBaseProps, BeforeUploadObject, UploadHandler} from './FileUploadButton';
 import ImageCropper, { CroppedFileData, OnCroppingBeginHandler } from './ImageCropper';
-import { uploadImageToServerAndGetNewName } from '../utils/ajax';
+import { uploadImageToServer, ImagesUploadServerResponse } from '../utils/ajax';
 import * as ImageBankActions from '../actions/ImageBankActions';
 
 interface P extends FileUploadBaseProps {
   cropImage?: boolean
   uploadFunction?: UploadHandler
+  onCancel?: () => any
+  onUpload?: (response: ImagesUploadServerResponse | any) => any
 }
 
 interface S {
@@ -17,7 +19,7 @@ class ImageUploadButton extends React.Component<P, S> {
   public static defaultProps: Partial<P> = {
     beforeUpload: beforeUploadObject => Promise.resolve(beforeUploadObject),
     accept: 'image/jpeg,image/png',
-    uploadFunction: uploadImageToServerAndGetNewName,
+    uploadFunction: uploadImageToServer,
     cropImage: true
   }
 
@@ -29,6 +31,7 @@ class ImageUploadButton extends React.Component<P, S> {
       fileToCrop: false
     }
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   cropImageFile(file: File): Promise<BeforeUploadObject> {
@@ -52,6 +55,9 @@ class ImageUploadButton extends React.Component<P, S> {
     if (!this.props.cropImage) return Promise.resolve({file});
     return this.cropImageFile(file)
       .then(cropData => {
+        if (cropData.cancelled) {
+          if (this.props.onCancel) this.props.onCancel();
+        }
         this.setState({fileToCrop: false});
         return cropData;
       });
@@ -67,10 +73,17 @@ class ImageUploadButton extends React.Component<P, S> {
   }
 
   handleUpload(file: File) {
-    return uploadImageToServerAndGetNewName(file)
-      .then(response => {
-        ImageBankActions.addImagesToBank([response])
-      })
+    // the if below is only because Typescript can't do defaultProps
+    if (this.props.uploadFunction) {
+      const serverResponsePromise = this.props.uploadFunction(file);
+      serverResponsePromise.then(response => {
+        if (this.props.onUpload) this.props.onUpload(response);
+      });
+      return serverResponsePromise;
+    }
+    // this will never be called. It is already taken care of,
+    // but must be defined to make Typescript happy.
+    return uploadImageToServer(file);
   }
 
   renderImageCropper() {
