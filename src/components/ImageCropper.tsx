@@ -101,12 +101,16 @@ class ImageCropper extends React.Component<P, S> {
   private initCropper(el: HTMLImageElement | null) {
     if (el === null) return;
     el.onload = () => {
-      this.cropDeferred = new Deferred();
-      this.croppingImplementation = new CroppingImplementation(el, {aspectRatio: 16/9});
-      if (this.props.onCroppingBegin) {
-        this.props.onCroppingBegin(this.cropDeferred.getPromise());
-      }
-      this.setState({cropperInitialized: true})
+      // setTimeout to ensure that the cropper doesn't overfill
+      // the container it is in.
+      setTimeout(() => {
+        this.cropDeferred = new Deferred();
+        this.croppingImplementation = new CroppingImplementation(el, {aspectRatio: 16/9});
+        if (this.props.onCroppingBegin) {
+          this.props.onCroppingBegin(this.cropDeferred.getPromise());
+        }
+        this.setState({cropperInitialized: true})
+      },10)
     }
   }
 
