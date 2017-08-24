@@ -7,8 +7,12 @@ export const TOP_LEVEL_NAME_IMAGES = 'OrderRequestOfFSlidesRndTemplate';
 const LOCAL_DEV_THUMBNAIL_PATH = '/images/';
 const PRODUCTION_THUMBNAIL_PATH = '/templates/TB/';
 
+export function isDevelopment () {
+  return window.location.hostname === 'localhost';
+}
+
 function thumbnailPath () {
-  if (window.location.hostname === 'localhost') return LOCAL_DEV_THUMBNAIL_PATH;
+  if (isDevelopment()) return LOCAL_DEV_THUMBNAIL_PATH;
   return PRODUCTION_THUMBNAIL_PATH;
 }
 
