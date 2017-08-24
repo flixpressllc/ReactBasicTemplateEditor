@@ -52,9 +52,7 @@ class ImageUploadButton extends React.Component<P, S> {
     if (!this.props.cropImage) return Promise.resolve({file});
     return this.cropImageFile(file)
       .then(cropData => {
-        if (cropData.cancelled) {
-          this.setState({fileToCrop: false})
-        }
+        this.setState({fileToCrop: false});
         return cropData;
       });
   }
