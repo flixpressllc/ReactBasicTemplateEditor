@@ -1,11 +1,13 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../actions/dispatcher';
 import { clone, traverseObject, toType } from 'happy-helpers';
+import { isDevelopment } from './app-settings';
 
 const ALLOWED_STATES = {
   templateType: 'string',
   templateId: 'number',
-  caughtErrors: 'array'
+  caughtErrors: 'array',
+  username: 'string'
 }
 
 class StateStore extends EventEmitter {
@@ -103,5 +105,9 @@ class StateStore extends EventEmitter {
 
 const stateStore = new StateStore();
 dispatcher.register(stateStore.handleActions.bind(stateStore))
+
+if (isDevelopment()) {
+  window.StateStore = stateStore;
+}
 
 export default stateStore;
