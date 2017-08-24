@@ -219,42 +219,7 @@ describe('ImageContainer', () => {
       expect(FakeContainerActions.changeContainer).toHaveBeenLastCalledWith('userImageChooser', 'myImageContainer', {'containedImages': [{'file': 'eggs.jpg', 'id': 0}]});
     });
 
-    describe('when the image bank has 1 image', () => {
-      describe('and the bank image and chosen images are the same', () => {
-        it('will not display the Change Image button', () => {
-          let settings = {
-            images: [
-              create('image', {file: 'toast.jpg'})
-            ],
-            imageBank: [
-              'toast.jpg'
-            ]
-          };
-          const component = mount(<ImageContainer {...getProps(settings)}/>);
-
-          expect(component.find(SWAP_BUTTON_SELECTOR).length).toEqual(0);
-        });
-      });
-      describe('and the bank image and chosen images are different', () => {
-        it('will still display the Change Image button', () => {
-          pending();
-          let settings = {
-            images: [
-              create('image', {file: 'toast.jpg'})
-            ],
-            imageBank: [
-              'eggs.jpg'
-            ]
-          };
-          const component = mount(<ImageContainer {...getProps(settings)}/>);
-
-          expect(component.find(SWAP_BUTTON_SELECTOR).length).toEqual(1);
-        });
-      });
-    });
-
   });
-
 
   describe('captions:', () => {
     let capSettings = () => {
