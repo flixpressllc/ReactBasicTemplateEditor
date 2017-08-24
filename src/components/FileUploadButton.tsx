@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './FileUploadButton.scss';
 
 export type BeforeUploadObject = {file: File, cancelled?: false }
   | {file?: File, cancelled: true};
@@ -98,7 +99,8 @@ class FileUploadButtonComponent extends React.Component<FileUploadProps, S> impl
   }
 
   render() {
-    return <button type="button" onClick={this.createAndInvokeFileSelector}>{ this.props.children }</button>;
+    return <button className="reactBasicTemplateEditor-FileUploadButton"
+      type="button" onClick={this.createAndInvokeFileSelector}>{ this.props.children }</button>;
   }
 
 }
