@@ -7,7 +7,8 @@ const ALLOWED_STATES = {
   templateType: 'string',
   templateId: 'number',
   caughtErrors: 'array',
-  username: 'string'
+  username: 'string',
+  usernames: 'string'
 }
 
 class StateStore extends EventEmitter {

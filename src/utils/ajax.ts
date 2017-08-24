@@ -1,3 +1,4 @@
+import StateStore from '../stores/StateStore';
 import 'whatwg-fetch'; // polyfill
 
 export function getJSON(url: string) {
@@ -38,10 +39,11 @@ export type ImagesUploadServerResponse = Array<
 export function uploadImagesToServer(files: File[], formFieldNames?: string[]): Promise<ImagesUploadServerResponse> {
   return new Promise((resolve, reject) => {
     let userFiles = new FormData();
+    let username = StateStore.getState('usernames') || 'no_username';
 
     files.map((file, i) => {
       const formFieldName = formFieldNames && formFieldNames[i] ? formFieldNames[i] : file.name;
-      userFiles.append(formFieldName, file);
+      userFiles.append(formFieldName, file, `${username}_${i}`);
     })
 
     window.fetch('/api/v0.1/UploadImage.aspx', {
