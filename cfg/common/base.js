@@ -27,11 +27,16 @@ module.exports = {
         context: ['/Scripts/flixpress-js/*'],
         target: 'https://s3.amazonaws.com/FlixSamples/development_files',
         changeOrigin: true
+      },
+      {
+        context: ['/api/v0.1/UploadImage.aspx'],
+        target: 'http://don.digital-edge.biz',
+        changeOrigin: true
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       actions: `${defaultSettings.srcPath}/actions/`,
       components: `${defaultSettings.srcPath}/components/`,

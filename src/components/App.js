@@ -29,8 +29,13 @@ class App extends React.Component {
       caughtErrors: []
     };
 
-    StateActions.setState({templateType: props.templateType})
-    StateActions.setState({templateId: parseInt(props.templateId, 10)})
+
+
+    StateActions.setState({
+      templateType: props.templateType,
+      templateId: parseInt(props.templateId, 10),
+      username: props.userSettingsData.username
+    });
 
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
     this.handlePlacePreviewOrder = this.handlePlacePreviewOrder.bind(this);

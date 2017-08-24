@@ -298,7 +298,7 @@ class ImageContainer extends React.Component {
   }
 
   handleChangeImage (oldImageId) {
-    this.setState({imageIdToReplace: oldImageId}, this.openModal)
+    this.setState({imageIdToReplace: oldImageId}, this.openModal);
   }
 
   handleRemoveImage (removeImageId) {
@@ -362,7 +362,6 @@ class ImageContainer extends React.Component {
 
   renderImageList () {
     const images = this.state.images;
-    const changeImageFunc = (this.props.imageBank.length > 1) ? this.handleChangeImage : null;
     const removeImageFunc = (this.shouldAllowRemove()) ? this.handleRemoveImage : null;
     const captionsSettings = this.deriveCaptionsSettings(this.props.captions);
     const dropDownsSettings = this.props.dropDowns;
@@ -375,7 +374,7 @@ class ImageContainer extends React.Component {
         onCaptionChange={ this.handleCaptionChange }
         onDropDownChange={ this.handleDropDownChange }
         useDragHandle={ true }
-        onChangeImage={ changeImageFunc }
+        onChangeImage={ this.handleChangeImage }
         onRemoveImage={ removeImageFunc }
         onSortStart={ this.handleSortStart }
       />

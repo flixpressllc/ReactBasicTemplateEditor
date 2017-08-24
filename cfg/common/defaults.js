@@ -4,10 +4,20 @@ const srcPath = path.join(__dirname, '/../../src');
 function getDefaultModules() {
   return {rules: [
     {
-      test: /\.(js|jsx)$/,
+      test: /\.tsx?$/,
       include: srcPath,
       enforce: 'pre',
-      loader: 'eslint-loader'
+      use: [
+        'ts-loader'
+      ]
+    },
+    {
+      test: /\.jsx?$/,
+      include: srcPath,
+      enforce: 'pre',
+      use: [
+        'eslint-loader'
+      ]
     },
     {
       test: /\.(png|jpg|gif|woff|woff2)$/,

@@ -1,0 +1,21 @@
+@import "../styles/base-includes";
+
+.reactBasicTemplateEditor-ImageCropper {
+  & {
+    background-color: white;
+    overflow: auto;
+    text-align: center;
+  }
+
+  &-cropperContainer {
+    max-width: 100%;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  > button {
+    @extend %button;
+  }
+}

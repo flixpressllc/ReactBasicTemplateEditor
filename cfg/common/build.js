@@ -16,12 +16,13 @@ let config = Object.assign({}, baseConfig, {
 
 // Add needed loaders to the defaults here
 config.module.rules.push({
-  test: /\.(js|jsx)$/,
+  test: /\.(t|j)sx?$/,
   loader: 'babel-loader',
   include: path.join(__dirname, '/../../src')
 });
 
 config.output.path = pathFinder(config.output.path, process.cwd());
+// eslint-disable-next-line no-console
 console.log('Building into ' + config.output.path);
 
 module.exports = config;

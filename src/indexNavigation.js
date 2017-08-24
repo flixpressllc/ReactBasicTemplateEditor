@@ -49,6 +49,9 @@ let headerContent=`
     <a href="/indexImagesNoCapsPreview.html?tid=96">Preview Data</a>
   </li>
   <li>
+    <a href="/indexSingleImageFresh.html?tid=59">One Image</a>
+  </li>
+  <li>
     <a href="/indexFlixMulti.html">FlixMulti</a>
   </ul>
 </div>
