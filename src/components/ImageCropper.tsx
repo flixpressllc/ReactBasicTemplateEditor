@@ -37,6 +37,7 @@ interface P {
   blobToCrop?: Blob
   cancelText?: string
   cropText?: string
+  aspectRatio?: number // Ex: the value of the expression 16/9
   onCroppingBegin?: OnCroppingBeginHandler
   onCroppingComplete?: (data: CroppedFileData) => void
 }
@@ -99,13 +100,14 @@ class ImageCropper extends React.Component<P, S> {
   }
 
   private initCropper(el: HTMLImageElement | null) {
+    const aspectRatio = this.props.aspectRatio || 16/9;
     if (el === null) return;
     el.onload = () => {
       // setTimeout to ensure that the cropper doesn't overfill
       // the container it is in.
       setTimeout(() => {
         this.cropDeferred = new Deferred();
-        this.croppingImplementation = new CroppingImplementation(el, {aspectRatio: 16/9});
+        this.croppingImplementation = new CroppingImplementation(el, {aspectRatio});
         if (this.props.onCroppingBegin) {
           this.props.onCroppingBegin(this.cropDeferred.getPromise());
         }

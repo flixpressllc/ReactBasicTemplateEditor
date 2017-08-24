@@ -29,12 +29,11 @@ class App extends React.Component {
       caughtErrors: []
     };
 
-
-
     StateActions.setState({
       templateType: props.templateType,
       templateId: parseInt(props.templateId, 10),
-      username: props.userSettingsData.username
+      username: props.userSettingsData.username,
+      imageAspectRatio: props.imageAspectRatio
     });
 
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this);

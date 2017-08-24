@@ -32,6 +32,7 @@ function initializeTemplateEditor (options) {
     templateType: options.templateType,
     templateId: options.templateId,
     uiSettingsJsonUrl: options.uiSettingsJsonUrl,
+    imageAspectRatio: options.imageAspectRatio,
     userSettingsData: options.userSettingsData
   };
   reactPromise.then(function () {

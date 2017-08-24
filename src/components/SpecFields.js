@@ -7,6 +7,7 @@ import YouTubeLink from './YouTubeLink';
 import ImageContainer from './ImageContainer';
 import DropDown from './DropDown';
 import RenderDataStore from '../stores/RenderDataStore';
+import StateStore from '../stores/StateStore';
 
 import { getContainerNameFor } from '../utils/globalContainerConcerns';
 import { firstCharToLower, isEmpty } from 'happy-helpers';
@@ -81,9 +82,11 @@ class SpecFields extends React.Component {
   createUserImageChooser (name, object) {
     var safeName = name.replace(' ','-');
     if (isEmpty(object.containedImages)) return null;
+    const aspectRatio = StateStore.getState('imageAspectRatio') || 16/9;
     return (
       <ImageContainer
         fieldName={ name }
+        aspectRatio={ aspectRatio }
         images={ object.containedImages }
         imageBank={ this.props.imageBank }
         key={`text-field-${safeName}`}

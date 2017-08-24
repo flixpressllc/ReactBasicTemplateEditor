@@ -8,7 +8,7 @@ const ALLOWED_STATES = {
   templateId: 'number',
   caughtErrors: 'array',
   username: 'string',
-  usernames: 'string'
+  imageAspectRatio: 'number' // like the value of the expression 16/9
 }
 
 class StateStore extends EventEmitter {

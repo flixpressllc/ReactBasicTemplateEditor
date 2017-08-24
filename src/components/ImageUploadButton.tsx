@@ -6,6 +6,7 @@ import * as ImageBankActions from '../actions/ImageBankActions';
 
 interface P extends FileUploadBaseProps {
   cropImage?: boolean
+  aspectRatio?: number // Ex: the value of the expression 16/9
   uploadFunction?: UploadHandler
   onCancel?: () => any
   onUpload?: (response: ImagesUploadServerResponse | any) => any
@@ -19,6 +20,7 @@ class ImageUploadButton extends React.Component<P, S> {
   public static defaultProps: Partial<P> = {
     beforeUpload: beforeUploadObject => Promise.resolve(beforeUploadObject),
     accept: 'image/jpeg,image/png',
+    aspectRatio: 16/9,
     uploadFunction: uploadImageToServer,
     cropImage: true
   }
@@ -93,6 +95,7 @@ class ImageUploadButton extends React.Component<P, S> {
         <ImageCropper
           onCroppingBegin={ this.handleCroppingBegin }
           cancelText="Cancel Upload"
+          aspectRatio={ this.props.aspectRatio }
           blobToCrop={ this.state.fileToCrop }/>
       );
     }

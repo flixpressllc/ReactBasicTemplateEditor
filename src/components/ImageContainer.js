@@ -404,7 +404,7 @@ class ImageContainer extends React.Component {
           onRequestClose={this.handleCloseModal}
           contentLabel="Choose a replacement image">
 
-          <ImageChooser onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } />
+          <ImageChooser onChooseImage={ this.handleReplaceImage } imageBank={ this.props.imageBank } aspectRatio={ this.props.aspectRatio } />
           <button className="reactBasicTemplateEditor-ImageContainer-modalCancel"
             onClick={ this.handleCloseModal } type="button">
             Cancel
