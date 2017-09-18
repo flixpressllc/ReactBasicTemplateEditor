@@ -58,6 +58,10 @@ export function dataURLtoFile(dataurl: string, name: string) {
     return new File([bytes], name, {type}); // Broken in IE <= 11  // TODO: fix this
 }
 
+export function getExtensionFromFileName(name: string) {
+  return name.split('.').pop();
+}
+
 export function getExtensionForMimeType (mime: string) {
   const ext = EXTENSIONS_BY_MIME_TYPE[mime];
   if (!ext) throw new Error(`no file extension found for mime type "${mime}"`);

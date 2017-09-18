@@ -1,4 +1,5 @@
 import StateStore from '../stores/StateStore';
+import { getExtensionFromFileName } from '../components/lib/fileManipulation';
 import 'whatwg-fetch'; // polyfill
 
 export function getJSON(url: string) {
@@ -43,7 +44,8 @@ export function uploadImagesToServer(files: File[], formFieldNames?: string[]): 
 
     files.map((file, i) => {
       const formFieldName = formFieldNames && formFieldNames[i] ? formFieldNames[i] : file.name;
-      userFiles.append(formFieldName, file, `${username}_${i}`);
+      const ext = getExtensionFromFileName(file.name);
+      userFiles.append(formFieldName, file, `${username}_${i}.${ext}`);
     })
 
     window.fetch('/api/v0.1/UploadImage.aspx', {
