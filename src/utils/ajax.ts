@@ -39,7 +39,7 @@ export type ImagesUploadServerResponse = Array<
 export function uploadImagesToServer(files: File[], formFieldNames?: string[]): Promise<ImagesUploadServerResponse> {
   return new Promise((resolve, reject) => {
     let userFiles = new FormData();
-    let username = StateStore.getState('usernames') || 'no_username';
+    let username = StateStore.getState('username') || 'no_username';
 
     files.map((file, i) => {
       const formFieldName = formFieldNames && formFieldNames[i] ? formFieldNames[i] : file.name;
