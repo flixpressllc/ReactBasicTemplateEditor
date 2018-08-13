@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import {shallow } from 'enzyme';
 import DropDown from './DropDown';
 
 jest.mock('../actions/ContainerActions');
@@ -7,13 +7,12 @@ const FakeContainerActions = require('../actions/ContainerActions');
 
 describe('DropDown', () => {
   it('renders without crashing', () => {
-    expect(() => mount(
-      <DropDown />
-    )).not.toThrow();
+    const component = shallow(<DropDown/>)
+    expect(component.exists()).toBe(true)
   });
 
   it('displays its name in the label', () => {
-    const component = render(<DropDown fieldName='mario'/>)
+    const component = shallow(<DropDown fieldName='mario'/>)
 
     expect(component.find('label').text()).toEqual('mario');
   });
@@ -23,16 +22,16 @@ describe('DropDown', () => {
       {name: 'Mario', value: 'mario'},
       {name: 'Luigi', value: 'luigi'}
     ];
-    const component = mount(<DropDown fieldName='mario' options={ options }/>)
 
+    const component = shallow(<DropDown fieldName='mario' options={ options }/>)
     expect(component.find('option').length).toEqual(2);
-    expect(component.find('option').get(0).value).toEqual('mario');
-    expect(component.find('option').get(1).value).toEqual('luigi');
-  });
+    expect(component.find('option').first().props().value).toEqual('mario');
+    expect(component.find('option').get(1).props.value).toEqual('luigi');
+  }); 
 
   it('calls the onDropDownChange function when a change is made', () => {
     const fakeChange = {target: {value: 'stuff'}};
-    const component = mount(<DropDown fieldName='myName' />)
+    const component = shallow(<DropDown fieldName='myName' />)
 
     component.find('select').simulate('change', fakeChange);
 

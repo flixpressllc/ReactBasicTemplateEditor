@@ -18,7 +18,7 @@ class DropDown extends React.Component {
 
   handleDropDownChange (e) {
     ContainerActions.changeContainer(DATA_TYPE_NAME, this.props.fieldName, {value: e.target.value});
-    setTimeout(() => this.props.onDropDownFocus(this.props.fieldName), 100); // TODO: fix this hack
+    //setTimeout(() => this.props.onDropDownFocus(this.props.fieldName), 100); // TODO: fix this hack
   }
 
   render () {

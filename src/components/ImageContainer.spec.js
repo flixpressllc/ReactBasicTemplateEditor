@@ -242,9 +242,9 @@ describe('ImageContainer', () => {
       let settings = capSettings();
       const component = mount(<ImageContainer {...getProps(settings)}/>);
 
-      expect(component.find('input').get(0).placeholder).toEqual('one');
-      expect(component.find('input').get(1).placeholder).toEqual('two');
-      expect(component.find('input').get(2).placeholder).toEqual('three');
+      expect(component.find('input').get(0).props.placeholder).toEqual('one');
+      expect(component.find('input').get(1).props.placeholder).toEqual('two');
+      expect(component.find('input').get(2).props.placeholder).toEqual('three');
     });
 
     describe('filter options', () => {
@@ -311,10 +311,10 @@ describe('ImageContainer', () => {
 
       const component = mount(<ImageContainer {...getProps({images})}/>);
 
-      expect(component.find('select').get(0).value).toEqual('1');
-      expect(component.find('select').get(1).value).toEqual('1');
-      expect(component.find('select').get(2).value).toEqual('2');
-      expect(component.find('select').get(3).value).toEqual('4');
+      expect(component.find('select').get(0).props.value).toEqual('1');
+      expect(component.find('select').get(1).props.value).toEqual('1');
+      expect(component.find('select').get(2).props.value).toEqual('2');
+      expect(component.find('select').get(3).props.value).toEqual('4');
     });
 
     it('will send option changes up the stack', () => {
