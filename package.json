@@ -58,7 +58,8 @@
     "copyfiles": "^1.0.0",
     "css-loader": "^0.25.0",
     "dotenv": "2.0.0",
-    "enzyme": "^2.8.2",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-15": "^1.0.6",
     "eslint": "^3.4.0",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-compat": "^1.0.2",
@@ -137,6 +138,7 @@
       "<rootDir>/cfg/polyfills.js",
       "<rootDir>/cfg/bluebirdPromiseRejection.js"
     ],
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
     "testPathIgnorePatterns": [
       "<rootDir>/(build|docs|node_modules)/",
       ".test.js"

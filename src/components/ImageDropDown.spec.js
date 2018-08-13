@@ -29,8 +29,8 @@ describe('ImageDropDown', () => {
     const component = mount(<ImageDropDown {...props}/>)
 
     expect(component.find('option').length).toEqual(2);
-    expect(component.find('option').get(0).value).toEqual('mario');
-    expect(component.find('option').get(1).value).toEqual('luigi');
+    expect(component.find('option').get(0).props.value).toEqual('mario');
+    expect(component.find('option').get(1).props.value).toEqual('luigi');
   });
 
   it('calls the onDropDownFocus function when the input field is focused', () => {
