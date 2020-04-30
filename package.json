@@ -29,7 +29,9 @@
     "start": "node server.js --env=dev",
     "chrome": "node server.js --env=dev --openWith='google chrome'",
     "test": "node scripts/test.js --env=jsdom",
-    "automated-test": "node scripts/test.js --env=jsdom --noWatch"
+    "automated-test": "node scripts/test.js --env=jsdom --noWatch",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "repository": "https://github.com/flixpressllc/ReactBasicTemplateEditor",
   "awsTesting": {
@@ -117,7 +119,8 @@
     "react-textarea-autosize": "^4.1.0",
     "reactcss": "^1.0.9",
     "reset.css": "^2.0.2",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "snyk": "^1.316.1"
   },
   "jest": {
     "moduleNameMapper": {
@@ -142,5 +145,6 @@
       ".test.js"
     ],
     "testEnvironment": "jsdom"
-  }
+  },
+  "snyk": true
 }
