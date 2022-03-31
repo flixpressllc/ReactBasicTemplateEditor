@@ -105,7 +105,7 @@
     "cropperjs": "^1.0.0-rc.3",
     "flux": "^3.1.2",
     "happy-helpers": "^1.0.1",
-    "js-beautify": "^1.6.4",
+    "js-beautify": "^1.14.1",
     "jxon": "github:happycollision/jxon#v2.0.0-beta.2",
     "normalize.css": "^4.2.0",
     "prop-types": "^15.5.8",
